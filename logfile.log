@@ -1,0 +1,12 @@
+2019-07-17 19:13:21.272  INFO 17540 --- [main] c.l.LinkstobartairApplicationTests       : Starting LinkstobartairApplicationTests on NORLTMDR with PID 17540 (started by Jai.Wardhan in C:\Users\jai.wardhan\SPRING_PROJECTS\linkstobartair)
+2019-07-17 19:13:21.272  INFO 17540 --- [main] c.l.LinkstobartairApplicationTests       : No active profile set, falling back to default profiles: default
+2019-07-17 19:13:23.917  INFO 17540 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-07-17 19:13:24.142  INFO 17540 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2019-07-17 19:13:24.314  INFO 17540 --- [main] c.l.LinkstobartairApplicationTests       : Started LinkstobartairApplicationTests in 3.673 seconds (JVM running for 6.498)
+2019-07-17 19:13:24.708  INFO 17540 --- [Thread-2] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2019-07-17 19:14:22.535  INFO 1884 --- [main] c.l.LinkstobartairApplicationTests       : Starting LinkstobartairApplicationTests on NORLTMDR with PID 1884 (started by Jai.Wardhan in C:\Users\jai.wardhan\SPRING_PROJECTS\linkstobartair)
+2019-07-17 19:14:22.551  INFO 1884 --- [main] c.l.LinkstobartairApplicationTests       : No active profile set, falling back to default profiles: default
+2019-07-17 19:14:25.283  INFO 1884 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-07-17 19:14:25.596  INFO 1884 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2019-07-17 19:14:25.891  INFO 1884 --- [main] c.l.LinkstobartairApplicationTests       : Started LinkstobartairApplicationTests in 3.887 seconds (JVM running for 5.695)
+2019-07-17 19:14:26.316  INFO 1884 --- [Thread-2] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'

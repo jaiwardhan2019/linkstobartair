@@ -1,0 +1,244 @@
+@media screen {
+	div.clear {
+		clear:both;
+	}
+	
+	.flightReportBox {
+		margin-top:25px;
+		width:100%;
+		min-width:900px;
+	}
+	
+	
+	#report-wrapper {
+		
+		margin: 0; 
+		padding: 0; 
+		float: none !important; 
+	}
+	
+	/* END OF STANDARD PRINT STYLE SETTINGS */
+	
+	.print-only {
+		display:none !important;
+	}
+	
+	.print-only td {
+		display:none !important;
+	}
+	
+	/*
+	.screen-only {
+		display:none !important;
+	}
+	*/
+	
+	.flightReportDescriptor {
+		
+	}
+	
+	.descriptorHeader {
+		background-color:#0070BA;
+		color: #fff;
+		font-weight:bold;
+		width:120px;
+		padding:2px;
+	}
+	
+	.descriptorValue {
+		
+	}
+	
+	#flightReportHeader {
+		width:100%;
+		display:none;
+	}
+	
+	#flightReportBody {
+		width:100%;
+		white-space:nowrap;
+	}
+	
+	#flightReportBody table {
+		border:0px;
+	}
+	
+	
+	.subSection {
+		font-size: 10pt;
+		font-weight: normal;
+	}
+	
+	.subSection td, .subSection th{
+		padding-left:1px;
+		padding-right:1px;
+	}
+	
+	.subSection th {
+		text-align:center;
+		color: #FFFFFF;
+		background-color:#0070BA;
+	}
+	
+	
+	.subSection caption {
+		background-color:#fff;
+		font-size: 8pt;	
+		border:1px solid black;
+		text-align:center;
+	}
+	
+	.subSection .columnData {
+		height:15px;
+		border:1px solid #fff;
+	
+	}
+	
+	.subSection tr.odd {
+		background-color:#eec;
+	}
+	
+	.subSection tr.even {
+		background-color:#ccb;
+	}
+	
+	
+	.subSection th.sectorId,
+	.subSection td.sectorId {
+		display:none;
+	}
+	
+	.subSection td.sectorId {
+		text-align:center;
+	}
+	
+	
+	#section1 {
+		padding-top:5pt;
+		float:left;
+		border-color: #fff !important;
+	}
+	
+	#section1 table caption {
+		display:none;
+	}
+	
+	
+	#flightData td {
+		text-align: center;
+	}
+	
+	#flightData .sectorId {
+		display:table-cell;
+		padding-left:5px;
+		padding-right:5px;
+	}
+	
+	#flightData .flightDate {
+		padding-left:5px;
+		padding-right:5px;
+	}
+	
+	#flightData .regNo {
+		padding-left:5px;
+		padding-right:5px;
+	}
+	
+	#flightData td.fltNo {
+		padding-left:5px;
+		padding-right:5px;
+		text-align:right;
+	}
+	
+	
+	#sectorData {
+	
+	}
+	
+	#sectorData .destFrom,
+	#sectorData .destTo {
+		padding-left:5px;
+		padding-right:5px;
+		text-align:center;
+	}
+	
+	
+	#scheduleData .std,
+	#scheduleData .sta,
+	#scheduleData .onBlock{
+		padding-left:5px;
+		padding-right:5px;
+		text-align:center;
+	}
+	
+	#sectorComments .sectorComments{
+		padding-left:5px;
+		padding-right:5px;
+		text-align:left;
+	}
+	
+	
+	
+	#timeData-wrapper {
+		display:none;
+	}
+	
+	#paxData-wrapper {
+		display:none;
+	}
+	
+	#sectorComments-wrapper{
+		
+	}
+	
+	#section2{
+		padding-top:2pt;
+		display:none;
+	}
+	
+	
+	#section3 {
+		padding-top: 5pt;
+		float:right;
+	}
+	
+	#crewData .crewName {
+		width:250px;
+		padding-left:5px;
+		padding-right:5px;
+		text-align:left;
+	}
+	
+	#crewData .sectorsOperated {
+		display: none;
+	}
+	
+	#crewData .dutyTimes {
+		display: none;
+	}
+	
+	#crewData .onDuty,
+	#crewData .offDuty{
+		display:none;
+	}
+	
+	#catiiReasonData-wrapper{
+		display:none;
+	}
+	
+	
+	
+	#section4 {
+		display:none;
+		
+	}
+	
+	#miscData .sectorId {
+		display: table-cell;
+	}
+	
+	
+	#signatureAndFooterData {
+		display:none;
+	}
+}

@@ -1,0 +1,282 @@
+
+
+/* --------VIRTICAL MENU------------- */
+	.vertical-menu {
+	  width: 200px; /* Set a width if you like */
+	}
+
+	.vertical-menu a {
+	  background-color: #eee; /* Grey background color */
+	  color: black; /* Black text color */
+	  display: block; /* Make the links appear below each other */
+	  padding: 12px; /* Add some padding */
+	  text-decoration: none; /* Remove underline from links */
+	}
+
+	.vertical-menu a:hover {
+	  background-color: #ccc; /* Dark grey background on mouse-over */
+	}
+
+	.vertical-menu a.active {
+	  background-color: #4CAF50; /* Add a green color to the "active/current" link */
+	  color: white;
+	}
+	
+/* --------PANEL & BODY------------- */
+	.tooltip-inner {
+		background-color: #0071BA;
+		color: #fff;
+	}
+	.tooltip.top .tooltip-arrow {
+		border-top-color: #0071BA;
+	}
+	.tooltip.right .tooltip-arrow {
+		border-right-color: #0071BA;
+	}
+
+	.tooltip.bottom .tooltip-arrow {
+		border-bottom-color: #0071BA;
+	}
+
+	.tooltip.left .tooltip-arrow {
+		border-left-color: #0071BA;
+	}	
+	
+	.panel-shadow{
+		-webkit-box-shadow: 3px 3px 10px 0px rgba(50, 50, 50, 0.23);
+		-moz-box-shadow:    3px 3px 10px 0px rgba(50, 50, 50, 0.23);
+		box-shadow:         3px 3px 10px 0px rgba(50, 50, 50, 0.23);
+	}
+	
+	.dropdown-submenu {
+		position: relative;
+	}
+
+	.dropdown-submenu .dropdown-menu {
+		top: 0;
+		left: 100%;
+		margin-top: -1px;
+	}
+	
+	<!----First--->
+	#wrap_stafftravel {
+	  width: 80%;
+	  margin: 1em auto;
+	  position: relative;
+	}
+
+	.inner {
+	  position: relative;
+	  z-index: 2;
+	}
+
+	#wrap_stafftravel:after {
+	  content: "\f2c3"; 
+	  font-family: FontAwesome;
+	  font-style: normal;
+	  font-weight: normal;
+	  text-decoration: inherit;
+	  position: absolute;
+	  font-size: 400px;
+	  color: lightblue;
+	  top: 50%;
+	  left: 50%;
+	  
+	  z-index: 1;
+	}
+		
+	body{
+		margin:0px;
+		padding:0px;
+		font-family: 'Open Sans', sans-serif;
+		font-weight:200;
+		font-size:14px;
+		color:#333;
+	}
+	.container{
+		width:88%;		
+		margin:0 auto;
+	}
+	.my_row{
+		float:left;
+		width:100%;
+		padding:10px 0px;
+	}
+	.l_news{
+		float:left;
+		color:#333;
+		font-size:18px;
+	}
+	.see_all{
+		color:#333;
+		text-decoration:underline;
+		font-size:16px;
+		float:right;
+		margin-top:15px;
+	}
+	.quick_link{
+		color:#333;
+		text-decoration:underline;
+		font-size:16px;
+		float:left;
+		margin-top:15px;
+	}
+	.post_col{
+		float:left;
+		width: 22.9%;
+		margin-right: 2.04%;
+		background:#f5f5f5;
+		padding:25px 15px;
+		box-sizing:border-box;
+	}
+	.post_col:last-child{
+		margin-right: 0%;
+	}
+	.post_img_outer{
+		margin:-25px -15px 10px -15px;
+	}
+	.read_more{
+		color:#fff;
+		background:#005da7;
+		padding:8px 15px;
+		text-decoration:none;
+		font-size:16px;
+		margin-top:8px;
+		margin-bottom:15px;
+		float:left;
+	}
+	@media (max-width:767px){
+		.post_col{
+			width: 100%;
+			margin-right: 0%;
+			margin-bottom:20px;
+		}
+	}
+	
+/* --------CUSTOM NAV BAR------------- */
+.navbar-default {
+  background-color: #0071ba;
+  border-color: #0071ba;
+}
+.navbar-default .navbar-brand {
+  color: #ecf0f1;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #ffffff;
+}
+.navbar-default .navbar-text {
+  color: #ecf0f1;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ecf0f1;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu {
+  background-color: #fff;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a {
+  color: #000;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
+  color: #ffffff;
+  background-color: #0071ba;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li.divider {
+  background-color: #3a8bbf;
+}
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+  color: #ffffff;
+  background-color: #0071ba;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #3a8bbf;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #ffffff;
+  background-color: #3a8bbf;
+}
+.navbar-default .navbar-toggle {
+  border-color: #3a8bbf;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #3a8bbf;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ecf0f1;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #ecf0f1;
+}
+.navbar-default .navbar-link {
+  color: #ecf0f1;
+}
+.navbar-default .navbar-link:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #ecf0f1;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ffffff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ffffff;
+    background-color: #3a8bbf;
+  }
+}
+
+
+/* --------NAV PILLS MENU------------- */
+.nav-pills>li {
+	background-color:#f9f9f9;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #fff;
+    background-color: #0071BA;
+}
+
+/*
+.nav-pills>li>a:hover {
+	background-color: #f9f9f9;
+}
+.nav-pills .open>a, .nav-pills .open>a:active, .nav-pills .open>a:focus{
+	background-color: #0071BA;
+}
+*/
+
+
+/* --------PRIMARY BUTTON COLOR ADJUSTMENT------------- */
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #0071BA !important;
+}
+
+
+/* --------LEFT SIDE COLLAPSE LIST BUTTON COLOR ADJUSTMENT------------- */
+.leftlist {
+	color: #000;
+}
+
+.leftlist:hover, .leftlist:active {
+    color: #fff !important;
+    background-color: #0071BA !important;
+}
