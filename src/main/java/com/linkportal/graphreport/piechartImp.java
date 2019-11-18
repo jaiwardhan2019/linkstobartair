@@ -253,7 +253,7 @@ public class piechartImp implements piechart{
 		  		"	   sum(VER.scr_seats) as Total_Available_Seat from LEGS , ACTYPE_VERSIONS_MISC VER \r\n" + 
 		  		"	   where legs.ACTYP = VER.actype and LEGS.VERSION = VER.version "+andstring;
 			 
-		   //System.out.println(sqlstrkpi);	  
+		
 		   Connection connection = dataSourcesqlserver.getConnection();
 		   Statement stac = connection.createStatement();
 		   ResultSet rsc = stac.executeQuery(sqlstrkpi);		   
@@ -293,10 +293,10 @@ public class piechartImp implements piechart{
 		   			    
 		   			    map1 = new HashMap<Object,Object>(); 
 		   			    map1.put("label", "Cancelled"); 
-		   			    map1.put("y", NumCancelled); 
+		   			    map1.put("y",NumCancelled); 
 		   			    list.add(map1);
 
-		   			    
+		   			    //System.out.println("Cancelled Count:"+NumCancelled); 
 		   			    
 		   			    
 		   			    map1 = new HashMap<Object,Object>(); 
@@ -337,7 +337,7 @@ public class piechartImp implements piechart{
 	   	   rsc.close();	
 	   	   stac.close();   
 	   	   connection.close();
-	   	   
+	   	  
 		return graphstring;
 	}
 

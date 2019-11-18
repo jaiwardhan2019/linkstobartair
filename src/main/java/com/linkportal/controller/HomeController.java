@@ -148,7 +148,7 @@ public class HomeController {
 		
 		   if(ldp.Validate_User_With_Ldap(req.getParameter("emailid"),req.getParameter("password"),ldapurl)){			   
 			  model.addAttribute("emailid",req.getParameter("emailid"));
-			  model.addAttribute("pass",req.getParameter("password"));			  
+			  model.addAttribute("password",req.getParameter("password"));			  
 			  dbusr.updateUser_detail_LastLoginDateTime(req.getParameter("emailid")); //<<---This Function Will Update DB for new user and their count
 			  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
 			  logger.info("User id:"+req.getParameter("emailid")+" Verified With AD");
@@ -181,15 +181,30 @@ public class HomeController {
 	public String HomePage(HttpServletRequest req,ModelMap model,UserSecurityLdap ldp) throws Exception{
 	
 			  model.addAttribute("emailid",req.getParameter("emailid"));
-			  model.addAttribute("pass",req.getParameter("pass"));			  
+			  model.addAttribute("password",req.getParameter("password"));			
 			  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
-			   String dataPoints = null;	
-			   dataPoints = chart.createBarchartForHomePage();
-			   model.addAttribute("dataPoints",dataPoints); 
+			  String dataPoints = null;	
+			  dataPoints = chart.createBarchartForHomePage();
+			  model.addAttribute("dataPoints",dataPoints); 
 			  return "linkhome";
 	}//----------- End of Function 
 
 
+	
+	
+	
+	//-------THis is Connect Air Controller ----------------- 
+	@RequestMapping(value = "/connectairupdate" , method = {RequestMethod.POST,RequestMethod.GET})
+	public String Login_connectairupdate(HttpServletRequest req, ModelMap model) {
+		model.addAttribute("emailid",req.getParameter("emailid"));
+		model.addAttribute("password",req.getParameter("password"));
+  	    model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
+
+		return "connectair/connectairupdate";
+	}
+	
+	
+	
 	
 	
 	
@@ -295,6 +310,7 @@ public class HomeController {
 		     model.addAttribute("content",bac.Show_Content(Integer.parseInt(req.getParameter("cat"))));
 		   }
 		   
+		   model.addAttribute("password",req.getParameter("password"));
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
 
@@ -308,21 +324,10 @@ public class HomeController {
 	
 	
 	//-------THis is Connect Air Controller ----------------- 
-	@RequestMapping(value = "/connectairupdate" , method = {RequestMethod.POST,RequestMethod.GET})
-	public String Login_connectairupdate(HttpServletRequest req, ModelMap model) {
-		model.addAttribute("emailid",req.getParameter("emailid"));
-  	    model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
-
-		return "connectair/connectairupdate";
-	}
-	
-	
-	
-	
-	//-------THis is Connect Air Controller ----------------- 
 	@RequestMapping(value = "/employeediscount" ,method = {RequestMethod.POST,RequestMethod.GET})
 	public String show_employee_discount_page(HttpServletRequest req, ModelMap model) {	 
 		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
 		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 		   return "empdiscount/employee_discount";
 	}
@@ -333,7 +338,7 @@ public class HomeController {
 	//-------THis is livewell Page Controller ----------------- 
 	@RequestMapping(value = "/livewell" ,method = {RequestMethod.POST,RequestMethod.GET})
 	public String show_livewell_page(HttpServletRequest req, ModelMap model) {	
-
+		   model.addAttribute("password",req.getParameter("password"));  
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
 
@@ -406,6 +411,7 @@ public class HomeController {
 		model.addAttribute("airlinecode",req.getParameter("airlineCode").toLowerCase());		
 		model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
 		model.addAttribute("emailid",req.getParameter("emailid"));
+		model.addAttribute("password",req.getParameter("password"));
 		model.put("datop",req.getParameter("datop"));
 		
 		logger.info("User id:"+req.getParameter("emailid")+" Login to MayFly Report");
@@ -421,6 +427,7 @@ public class HomeController {
 		model.put("airlinelist",flt.Populate_Operational_Airline(("ALL")));		
 		model.put("airportlist",flt.Populate_Operational_Airport("ALL"));
 		model.addAttribute("emailid",req.getParameter("emailid"));
+		model.addAttribute("password",req.getParameter("password"));
 		
 		model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
 		
@@ -476,6 +483,7 @@ public class HomeController {
 		   
 		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
 		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
 		   logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Report");
 		   return "flightreports/reliabilityReport";
 	}//--------------- End Of Function -------------
@@ -495,6 +503,7 @@ public class HomeController {
 		
 		
 		  model.addAttribute("emailid",req.getParameter("emailid"));
+		  model.addAttribute("password",req.getParameter("password"));
 		  logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Action");
 		  return "flightreports/reliabilityAction";
 	}//--------------- End Of Function -------------
@@ -525,6 +534,7 @@ public class HomeController {
 	
 		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
 		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
 		   logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Report");
 		   return "flightreports/reliabilityActionReport";
 		   
@@ -568,6 +578,7 @@ public class HomeController {
 		   
 		   model.addAttribute("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode")));		  
 		   model.addAttribute("emailid",req.getParameter("emailid"));	
+		   model.addAttribute("password",req.getParameter("password"));
 		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
 		   
 		   Date today = new Date();               
@@ -626,6 +637,7 @@ public class HomeController {
 		   
 		   
 		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
 		   model.addAttribute("airlinecode",req.getParameter("airlineCode").toLowerCase());
 		   model.addAttribute("Operation",req.getParameter("airlineOperationCode"));
 		   model.addAttribute("dateofoperation",req.getParameter("flightDate"));

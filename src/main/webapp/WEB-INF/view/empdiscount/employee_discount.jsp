@@ -1,12 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="userEmail" value='${userEmail}' scope="session" />
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/header.jsp">
+    <jsp:param name="emailid" value="${emailid}" />
+    <jsp:param name="password" value="${password}" />
+</jsp:include>
 
 <head>
+    <meta charset="utf-8">
+    <title> Employee Discount  | Update </title>    
+</head>
+
+
+
 <link href="../include/css/businessarea.css" rel="stylesheet">
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 
-</head>
+
 
 
 

@@ -1,8 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="userEmail" value='${userEmail}' scope="session" />
-<jsp:include page="../include/header.jsp" />
-<head>
+<jsp:include page="../include/header.jsp">
+    <jsp:param name="emailid" value="${emailid}" />
+    <jsp:param name="password" value="${password}" />
+</jsp:include>
 
+<head>
+    <meta charset="utf-8">
+    <title> Connect Air  | Update </title>    
 </head>
 
 <script type="text/javascript">

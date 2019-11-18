@@ -1,9 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="userEmail" value='${userEmail}' scope="session" />
 <jsp:include page="../include/header.jsp" />
 
 <head>
-
+    <meta charset="utf-8">
+    <title> Live Well  | Update </title>    
 </head>
 
 

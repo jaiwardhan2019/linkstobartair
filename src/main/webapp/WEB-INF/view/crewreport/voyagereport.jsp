@@ -74,6 +74,7 @@ function showOtherdDateCaption(){
  <form name="voygerReport" id="voygerReport">  
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
+      <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
           <table class="table table-striped table-bordered" border="1" style="width: 30%;" align="center">	    
     			<tbody>				     
 				     <tr align="center">

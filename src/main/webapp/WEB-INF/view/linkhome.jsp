@@ -1,15 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="include/header.jsp" >
     <jsp:param name="emailid" value="${emailid}" />
-    <jsp:param name="pass" value="${pass}" />
-
+    <jsp:param name="password" value="${password}" />
 </jsp:include>
 
 <% 
 //----------- Reading Data From Previous Controller Page-----------------
 
 String fullemail            = request.getAttribute("emailid").toString();
-String user_password        = request.getAttribute("pass").toString();
+String user_password        = request.getAttribute("password").toString();
 String[] FirstName_LastName = fullemail.split("@");
 String user_login_id        = FirstName_LastName[0];
 %>
@@ -202,7 +201,7 @@ function CalAlfresco(){
 function calBusinessUpdate(){
 	document.businessupdate.method="POST";
 	document.businessupdate.action="businessupdates";
-	document.businessupdate.target="_blank"
+	//document.businessupdate.target="_blank"
     document.businessupdate.submit();
 	return true;
 }
@@ -210,7 +209,7 @@ function calBusinessUpdate(){
 
 function calConnectAir(){
 	document.connectair.action="connectairupdate";
-	document.connectair.target="_blank"
+	//document.connectair.target="_blank"
     document.connectair.submit();
 	return true;
 }
@@ -218,7 +217,7 @@ function calConnectAir(){
 
 function calEmployee_discount(){
 	document.employee_discount.action="employeediscount";
-	document.employee_discount.target="_blank"
+	//document.employee_discount.target="_blank"
     document.employee_discount.submit();
 	return true;
 }
@@ -226,8 +225,18 @@ function calEmployee_discount(){
 
 function callive_well(){
 	document.callive_well1.action="livewell";
-	document.callive_well1.target="_blank"
+	//document.callive_well1.target="_blank"
     document.callive_well1.submit();
+	return true;
+}
+
+
+
+
+function cal_refis(){
+	document.refis.action="refisHomePage";
+	//document.callive_well1.target="_blank"
+    document.refis.submit();
 	return true;
 }
 
@@ -448,6 +457,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 	 
 	 <input  type="hidden" name="loginid_a" value="<%=FirstName_LastName[0]%>">
      <input  type="hidden"  name="pass_a" value="<%=user_password%>">  
+     
      	
 	<a title="Document Managment System." onClick="CalAlfresco();">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
@@ -464,6 +474,7 @@ setTimeout(function(){window.location.href="index"},60000000);
        <input  type="hidden" name="user" value="<%=FirstName_LastName[0]%>">
        <input  type="hidden" name="cat" value="00">
        <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
+       <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
        
    <a title="View Org Charts and Department Information." onClick="calBusinessUpdate();">
    	<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
@@ -478,6 +489,7 @@ setTimeout(function(){window.location.href="index"},60000000);
  
  <form name="connectair" method="POST">
      <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
+     <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
    <a title="View Org Charts and Department Information."  onClick="calConnectAir();">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
@@ -502,7 +514,8 @@ setTimeout(function(){window.location.href="index"},60000000);
 	-->	
 		
  <form name="employee_discount" method="POST">  
-        <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >		
+        <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >	
+         <input  type="hidden" name="password" id="password" value="<%=user_password%>" >	
 		<a title="Employee Benifit Programme."  onClick="calEmployee_discount();">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
@@ -516,6 +529,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 
  <form name="callive_well1" method="POST">  	
        <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
+        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
        <a title="Employee Assistance Programme." onClick="callive_well();">
         <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
@@ -528,11 +542,25 @@ setTimeout(function(){window.location.href="index"},60000000);
 </form>	
 
 
+ <form name="refis" method="POST">  	
+       <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
+        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
+       <a title="New Ground Operation." onClick="cal_refis();">
+        <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+			<div class="panel panel-info btn-default panel-shadow">
+				<div class="panel-body" style="color:#0071BA;">
+				 	<i class="fa fa-road fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">REFIS NEW</span> 
+				</div>
+			</div>
+	    </div>	
+         </a>
+</form>	
 
-     <a title="Employee Assistance Programme."  href="ajaxtest" target="_new">  
+
+	<!--
 	
-	
-	<!-- <a title="Employee Assistance Programme."  href="test" target="_new">  -->
+     <a title="Employee Assistance Programme."  href="ajaxtest" target="_new"> 
+     <a title="Employee Assistance Programme."  href="test" target="_new">  
 	
 	
         <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
@@ -545,7 +573,7 @@ setTimeout(function(){window.location.href="index"},60000000);
          </a>
 
 
-<!--  	      
+      
 
  
 	<a title="Employee Assistance Programme." href="BENIFITS/idea_at_work.jsp" target="_new">
@@ -596,12 +624,12 @@ setTimeout(function(){window.location.href="index"},60000000);
 		</div>
 		
 		
-		
+		<!-- 
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="margin-left:10px;">
 		       <h6 class="post_title" ><b>Today Flight Status</b></h6>
 		       <p id="top_x_div"> </p>
 	    </div>
-	  
+	   -->
 	  
 	  
 	  

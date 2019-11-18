@@ -117,28 +117,6 @@ function calFlightReport(reportname){
 		  
 					  
 		</li>
-
-	
-	
-	   <!-- 	
-		
-		 <li class="dropdown">
-	 
-		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;AIRLINE FORMS&nbsp;<span class="caret"></span></a>
-		  
-			   <ul class="dropdown-menu">
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Aer Lingus</a></li>
-		
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;FlyBe</a></li>
-		
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Stobart Air</a></li>
-		       </ul>
-					  
-		</li>
- 
-       -->
-	
-		
          <!-- FIRST MENU -->		
 	     <li class="dropdown">
 		 
@@ -161,21 +139,55 @@ function calFlightReport(reportname){
 					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_daily_summary_report_form?airlineCode=ALL');"   style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Daily Summary Report</a></li>
 					     </c:if> 
 					     
+					     <!-- 
 					 
 					     <c:if test="${profilelist.Voyager  == 'Y'}">  
 					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('voyagerReport?airlineCode=ALL');" style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Voyager Report</a></li>
 				         </c:if> 
-				         
-					     <c:if test="${profilelist.Flybe_Today  == 'Y'}">  
-							  <li style="margin-top:3px;margin-bottom:3px;"><a href="http://www.stobartair.com/flight-status/" target="_new"  style="font-size:09pt;"><i class="fa fa-database" ></i> &nbsp;Flybe Today Flight Status &nbsp;&nbsp;</a></li>
-			    		 </c:if> 
-						 
-			   		  
+					      -->
 			     </ul>	 
-			     
-			     
 			      
 		</li>
+	
+
+	 <li class="dropdown">
+	 
+		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;DOCUMENTATION&nbsp;<span class="caret"></span></a>
+		  
+			   <ul class="dropdown-menu">
+		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Catering </a></li>
+		
+		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Cleaning </a></li>
+		
+		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Compliance</a></li>
+		       </ul>
+					  
+		</li>
+		
+		<li class="dropdown">
+	 
+		  <a href="" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;AIRCRAFT WEIGHT STATEMENT&nbsp;</a>
+		  
+					  
+		</li>
+  		
+		 <li class="dropdown">
+	 
+		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;FORMS&nbsp;<span class="caret"></span></a>
+		  
+			   <ul class="dropdown-menu">
+		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Aer Lingus</a></li>
+		
+		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;FlyBe</a></li>
+		
+		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Stobart Air</a></li>
+		       </ul>
+					  
+		</li>
+ 
+
+
+	
 		
 		
 	  <c:set var="userid" value="<%=user_login_id %>"/>

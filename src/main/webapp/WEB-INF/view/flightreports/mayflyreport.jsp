@@ -6,11 +6,12 @@
 
 <jsp:include page="../include/header.jsp" >
   <jsp:param name="emailid" value='<%=request.getParameter("emailid")%>' />
+  <jsp:param name="password" value='<%=request.getParameter("password")%>' />
 </jsp:include>
 
 
 <head>
-    <title> Dashboard | Flight Report </title>    
+    <title> Dashboard | Flight Report | May Fly</title>    
 </head>
 
 
@@ -101,6 +102,7 @@ tr:nth-child(even) {
  <form name="mayFlightReport" id="mayFlightReport">  
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
+      <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
           <table class="table table-striped table-bordered" border="1" style="width: 35%;" align="left">	    
     			<tbody>				     
 				     <tr align="center">

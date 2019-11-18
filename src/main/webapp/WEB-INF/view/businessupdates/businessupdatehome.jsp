@@ -1,11 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <jsp:include page="../include/header.jsp" />
 
 <head>
+    <meta charset="utf-8">
+    <title> Business Area  | Update </title>    
+</head>
 
 <link href="<c:url value="css/businessarea.css"/>" rel="stylesheet">
-</head>
 
 
 <script type="text/javascript">
@@ -33,6 +34,7 @@ function calBusinessCategory(category){
 
 <input type="hidden" id="cat" name="cat" value="">
 <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
+<input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
 
 <br>
    <div class="container-fluid" style="margin-top:60px;">	

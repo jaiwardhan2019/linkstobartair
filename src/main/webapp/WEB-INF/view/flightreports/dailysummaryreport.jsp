@@ -147,11 +147,21 @@ tr:nth-child(even) {
 		                 </td></tr>
 		                 
 		                 <c:if test = "${airlinecode == 'ei'}">      
-					              
-				                 <tr><td> 
+					        
+					                 <tr>
+				                 <td> 
+				                  
+				                 </td>
+				                 </tr>
+				             
+					             <!--  
+				                 <tr>
+				                 <td> 
 				                      <a href="javascript:void();" onClick="printThisPage_WORD();" ><img src="images/page_word.png">&nbsp;&nbsp;Print .Doc Report</a>
-				                 </td></tr>
-				        
+				                 </td>
+				                 </tr>
+				                  -->
+				                  
 				                 <tr><td> 
 				                      <i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;&nbsp;<a href="https://online2pdf.com/pdf2word" target="blank" title="Download pdf file using above link  Then Use this tool to convert to word" >PDF to Word Conversion tool </a>
 				                 </td></tr>

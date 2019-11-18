@@ -95,12 +95,7 @@ public class crewReportsControler {
 				 
 				 System.out.println("Crew Date;"+req.getParameter("flightdate"));
 				 System.out.println("Crew Code;"+req.getParameter("crewcode"));
-				 
-				 
-				 
-				 
-				 
-				 
+					 
 			 }
 			 
 			 
@@ -110,6 +105,7 @@ public class crewReportsControler {
 			 
 			 model.put("profilelist", usrprof.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
 			 model.addAttribute("emailid",req.getParameter("emailid")); 
+			 model.addAttribute("password",req.getParameter("password"));
 		   
 		 return "crewreport/voyagereport";
 	}

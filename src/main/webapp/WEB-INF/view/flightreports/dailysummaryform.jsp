@@ -92,6 +92,7 @@ function showReport(){
  <form name="dailySummaryForm" id="dailySummaryForm">  
  
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getAttribute("emailid")%>">  
+      <input type="hidden" name="password" id="password" value="<%=request.getAttribute("password")%>">  
     	
 	 <table class="table table-striped table-bordered" border="1" style="width: 30%;" align="left">	 
 	 			
