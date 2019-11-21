@@ -99,7 +99,6 @@ function calFlightReport(reportname){
          
 		<a href="javascript:void();" onClick="calHomePage();"  class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Link Home Page" style="margin-left:3px;margin-top:04px;padding:0px;" >
 			<img src="images/logo-menu-new.png" alt="Link Home Page" class="img-responsive" style="margin-top:-px;" />
-			
 		</a>	
     </div>
   
@@ -192,33 +191,33 @@ function calFlightReport(reportname){
 		
 	  <c:set var="userid" value="<%=user_login_id %>"/>
 			
-	    <!-- SECOND  MENU -->	
+
+		
+				 <li class="dropdown">
+				 
+					  <a href="refisadmin" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;ADMIN <span class="caret"></span></a>
+					  
+						  <ul class="dropdown-menu">
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> REFIS User</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
+					    
+					      </ul>
+								  
+					</li>
+
 			<li class="dropdown">
 					  <a href="#" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;${fn:toUpperCase(userid)}&nbsp;<span class="caret"></span></a>
 					  <ul class="dropdown-menu">
-					  
-					   <c:if test="${profilelist.ADMIN  == 'Y'}">   
-		                       <li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome?emailid=<%=fullemail%>" target="_new"  style="font-size:09pt;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp;Admin</a></li>
-                        </c:if> 
-			                 
-						  <li style="margin-top:3px;margin-bottom:3px;"><a href="logout" style="font-size:09pt;"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;Logout</a></li>
+					      <li style="margin-top:0px;margin-bottom:0px;"><a href="logout" style="font-size:09pt;"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;Logout</a></li>
 					  
 					  </ul>
 			 </li>	
 			 
-			 <!-- THIRD MENU ----------
-		
-				 <li class="dropdown">
 				 
-					  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;Administration <span class="caret"></span></a>
-					  
-						  <ul class="dropdown-menu">
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
-					       </ul>
-								  
-					</li>
-			 
-	         -->
+
 			
 		</ul>
     </div>

@@ -4,7 +4,7 @@ package com.linkportal;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.linkportal.batchjob.*;
+
 
 
 

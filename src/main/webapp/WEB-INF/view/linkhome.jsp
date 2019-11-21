@@ -542,6 +542,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 </form>	
 
 
+	
  <form name="refis" method="POST">  	
        <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
         <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
@@ -556,9 +557,8 @@ setTimeout(function(){window.location.href="index"},60000000);
          </a>
 </form>	
 
-
 	<!--
-	
+
      <a title="Employee Assistance Programme."  href="ajaxtest" target="_new"> 
      <a title="Employee Assistance Programme."  href="test" target="_new">  
 	

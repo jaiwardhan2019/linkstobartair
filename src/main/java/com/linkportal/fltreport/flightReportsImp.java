@@ -255,10 +255,10 @@ public class flightReportsImp implements flightReports{
 		  		"	   SUM(DUR1) as TotalDur1,  SUM(DUR2) as TotalDur2,  SUM(DUR3) as TotalDur3,  SUM(DUR4) as TotalDur4,\r\n" + 
 		  		"	   sum(case when status = 'ATA' then pax else 0 end) as Passenger_Carried_PAX,	\r\n" + 
 		  		"	   sum(case when status = 'ATA' AND DUR1+DUR2+DUR3+DUR4 > 15 then pax else 0 end) as PAX_DELAY_MORETHEN_15MINUTES,\r\n" + 
-		  		"	   sum(case when status = 'CNL' then scr_seats else 0 end) as TOTAL_CANX_PASSENGER,	\r\n" + 
-		  		"	   sum(VER.scr_seats) as Total_Available_Seat  from LEGS , ACTYPE_VERSIONS_MISC VER	 " +
+		  		"	   sum(case when status = 'CNL' then CAST(pbi.booked AS int) else 0 end) as TOTAL_CANX_PASSENGER,	\r\n" + 
+		  		"	   sum(VER.scr_seats) as Total_Available_Seat  from PBI,LEGS , ACTYPE_VERSIONS_MISC VER	 " +
 		  		
-		  		"	   where legs.ACTYP = VER.actype and LEGS.VERSION = VER.version  and  DATOP = '"+dateofoperation+"'"+andstring;
+		  		"	   where legs.ACTYP = VER.actype and LEGS.VERSION = VER.version  and LEGS.FLTID=PBI.FLTID and PBI.DATOP=LEGS.DATOP and  LEGS.DATOP = '"+dateofoperation+"'"+andstring;
 		
 		  try{
 				
@@ -266,9 +266,9 @@ public class flightReportsImp implements flightReports{
 		   Connection connection;
 		   connection = dataSourcesqlserver.getConnection();
 		   Statement stac = connection.createStatement();
-		   ResultSet rsc = stac.executeQuery(sqlstrkpi);		   
-           //System.out.println(sqlstrkpi);
-	   	      if(rsc.next()){
+		   ResultSet rsc = stac.executeQuery(sqlstrkpi);
+		   
+           if(rsc.next()){
 				
 		   		   if(rsc.getString("totalflights") != null) {
 					
@@ -279,7 +279,7 @@ public class flightReportsImp implements flightReports{
 			   			PXTotalPax                    = Integer.parseInt(rsc.getString("Passenger_Carried_PAX")); 
 			   			PXtotalloadfactor             = (Integer.parseInt(rsc.getString("Passenger_Carried_PAX")) * 100)/Integer.parseInt(rsc.getString("Total_Available_Seat"));
 			   			PXNoPaxDelayed15Mins          = Integer.parseInt(rsc.getString("PAX_DELAY_MORETHEN_15MINUTES")); 
-			   			PXCanx                        = Integer.parseInt(rsc.getString("TOTAL_CANX_PASSENGER")); 
+			   			PXCanx                        = rsc.getInt("TOTAL_CANX_PASSENGER"); 
 			   			
                          try {
                         	 
@@ -1149,13 +1149,17 @@ public class flightReportsImp implements flightReports{
 		   if(Operation.equals("Franchise")) {
 			   sqlforflightlist="select REPLACE(FLTID, ' ', '') as FLTID FROM legs where FLTID like '"+Airline+" 6%' and DATOP='"+dateofoperation+"'"; 
 		   }
-		   else
-		   {
-			   sqlforflightlist="select REPLACE(FLTID, ' ', '') as FLTID from legs where FLTID like '"+Airline+" 0%' and DATOP='"+dateofoperation+"'"; 
+		   if(Operation.equals("CPA")) {
+			   sqlforflightlist="select REPLACE(FLTID, ' ', '') as FLTID FROM legs where FLTID like '"+Airline+" 0%' and DATOP='"+dateofoperation+"'"; 
+		   }		   
+		   
+		   if(Operation.equals("All Operation")) { 
+		   
+			   sqlforflightlist="select REPLACE(FLTID, ' ', '') as FLTID from legs where FLTID like '"+Airline+"%' and DATOP='"+dateofoperation+"'"; 
 		   }
 		   
 		
-		   
+		 
 		   List<String> flightList = jdbcTemplateSqlServer.query(sqlforflightlist, new RowMapper<String>() {
 			      public String mapRow(ResultSet resultSet, int i) throws SQLException {
 			        return resultSet.getString("FLTID");

@@ -113,36 +113,18 @@ function calFlightReport(reportname){
 			
 		 <li class="dropdown">
 	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;HOME</a>
+	  	    <a  href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Link Home Page"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Link Home </a>
 		  
 					  
 		</li>
 
 	
 	
-	   <!-- 	
-		
-		 <li class="dropdown">
-	 
-		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;AIRLINE FORMS&nbsp;<span class="caret"></span></a>
-		  
-			   <ul class="dropdown-menu">
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Aer Lingus</a></li>
-		
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;FlyBe</a></li>
-		
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Stobart Air</a></li>
-		       </ul>
-					  
-		</li>
- 
-       -->
-	
 		
          <!-- FIRST MENU -->		
 	     <li class="dropdown">
 		 
-			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;REPORTS <span class="caret"></span></a>
+			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;Reports <span class="caret"></span></a>
 			  
 				  <ul class="dropdown-menu">
 				        
@@ -178,11 +160,10 @@ function calFlightReport(reportname){
 		</li>
 		
 		
-	  <c:set var="userid" value="<%=user_login_id %>"/>
-			
+	 		
 	    <!-- SECOND  MENU -->	
 			<li class="dropdown">
-					  <a href="#" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;${fn:toUpperCase(userid)}&nbsp;<span class="caret"></span></a>
+					  <a href="#" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;<%=user_login_id %>&nbsp;<span class="caret"></span></a>
 					  <ul class="dropdown-menu">
 					  
 					   <c:if test="${profilelist.ADMIN  == 'Y'}">   
@@ -194,20 +175,7 @@ function calFlightReport(reportname){
 					  </ul>
 			 </li>	
 			 
-			 <!-- THIRD MENU ----------
-		
-				 <li class="dropdown">
-				 
-					  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;Administration <span class="caret"></span></a>
-					  
-						  <ul class="dropdown-menu">
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
-					       </ul>
-								  
-					</li>
-			 
-	         -->
-			
+				
 		</ul>
     </div>
 
