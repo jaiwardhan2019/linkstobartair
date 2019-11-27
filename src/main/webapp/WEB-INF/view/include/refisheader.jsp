@@ -112,30 +112,30 @@ function calFlightReport(reportname){
 			
 		 <li class="dropdown">
 	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;HOME</a>
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Link Home</a>
 		  
 					  
 		</li>
          <!-- FIRST MENU -->		
 	     <li class="dropdown">
 		 
-			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;REPORTS <span class="caret"></span></a>
+			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;Reports <span class="caret"></span></a>
 			  
 				  <ul class="dropdown-menu">
 				        
 				        <c:if test="${profilelist.Flight_Report  == 'Y'}">   
-				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_mayFly_report?airportcode=ALL&airlineCode=ALL');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Flight Report (MayFly)</a></li>
+				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_mayFly_report?airportcode=ALL&airlineCode=ALL');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Flight Report (MayFly)</a></li>
 					    </c:if>
 					    <c:if test="${profilelist.Reliablity  == 'Y'}"> 
-					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityReportForm');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Reliability Report</a></li>
+					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityReportForm');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Report</a></li>
 					    </c:if> 
 					    
 					    <c:if test="${profilelist.ReliablityAction  == 'Y'}"> 
-					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityAction');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Reliability Action</a></li>
+					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityAction');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Action</a></li>
 					    </c:if> 
 					    
 					     <c:if test="${profilelist.Daily_Summary  == 'Y'}"> 					     
-					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_daily_summary_report_form?airlineCode=ALL');"   style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Daily Summary Report</a></li>
+					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_daily_summary_report_form?airlineCode=ALL');"   style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Daily Summary Report</a></li>
 					     </c:if> 
 					     
 					     <!-- 
@@ -151,36 +151,45 @@ function calFlightReport(reportname){
 
 	 <li class="dropdown">
 	 
-		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;DOCUMENTATION&nbsp;<span class="caret"></span></a>
+		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Documentation&nbsp;<span class="caret"></span></a>
 		  
 			   <ul class="dropdown-menu">
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Catering </a></li>
-		
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Cleaning </a></li>
-		
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Compliance</a></li>
+
+ 		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Cleaning </a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Compliance Monitoring</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;De-Icing Manuals</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
+ 		    	
+
 		       </ul>
 					  
 		</li>
 		
 		<li class="dropdown">
 	 
-		  <a href="" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;AIRCRAFT WEIGHT STATEMENT&nbsp;</a>
+		  <a href="" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Aircraft Weight Statement&nbsp;</a>
 		  
 					  
 		</li>
   		
 		 <li class="dropdown">
 	 
-		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;FORMS&nbsp;<span class="caret"></span></a>
+		  <a href="forms" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Forms&nbsp;<span class="caret"></span></a>
 		  
 			   <ul class="dropdown-menu">
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Aer Lingus</a></li>
-		
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;FlyBe</a></li>
-		
-		       		 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:alert('Under Construction');" target="_new"  style="font-size:9pt;"><i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;&nbsp;Stobart Air</a></li>
-		       </ul>
+			    
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Aer Lingus</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;FlyBe</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Stobart Air</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Disruption Notices</a></li>
+			    
+			    </ul>
 					  
 		</li>
  
@@ -195,21 +204,20 @@ function calFlightReport(reportname){
 		
 				 <li class="dropdown">
 				 
-					  <a href="refisadmin" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;ADMIN <span class="caret"></span></a>
+					  <a href="refisadmin" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-md" aria-hidden="true"></i>&nbsp;&nbsp;Admin <span class="caret"></span></a>
 					  
 						  <ul class="dropdown-menu">
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> REFIS User</a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome" target="_new"  style="font-size:9pt;"> <i class="fa fa-tachometer" aria-hidden="true"></i> Home</a></li>
-					    
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;REFIS User</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;SMS Contacts Manager</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Airline Data Manager</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Briefing Manager </a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Flight Reports</a></li>
 					      </ul>
 								  
 					</li>
 
 			<li class="dropdown">
-					  <a href="#" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;${fn:toUpperCase(userid)}&nbsp;<span class="caret"></span></a>
+					  <a href="#" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;${userid}&nbsp;<span class="caret"></span></a>
 					  <ul class="dropdown-menu">
 					      <li style="margin-top:0px;margin-bottom:0px;"><a href="logout" style="font-size:09pt;"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;Logout</a></li>
 					  
@@ -222,10 +230,12 @@ function calFlightReport(reportname){
 		</ul>
     </div>
 
-
 </div>	<!-- /.container-fluid -->
+
+
 	
 </nav>
+
 
 
 <!-- End of  Menu  --->	 

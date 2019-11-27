@@ -34,14 +34,12 @@ public class refisController {
 	//------- This Part Will be Called from the Login Page index.jsp 
 	@RequestMapping(value = "/refisHomePage",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String HomePage(HttpServletRequest req,ModelMap model,UserSecurityLdap ldp) throws Exception{
-	
+	       
+		  if(req.getParameter("emailid") == null) {return "index";}
 		  model.addAttribute("emailid",req.getParameter("emailid"));
 		  model.addAttribute("password",req.getParameter("password"));			
 		  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
-		  //String dataPoints = null;	
-		  //dataPoints = chart.createBarchartForHomePage();
-		  //model.addAttribute("dataPoints",dataPoints); 
-	
+		  
 		  return "groundoperation/refishome";
 		  
 	}//----------- End of Function 

@@ -92,10 +92,13 @@ public class HomeController {
 	ReportMaster excel;
 	
 	
-	
+	//-------------- reading application.properties file -----------------
 	@Value("${spring.ldap.urls}") String ldapurl;	
 	@Value("${spring.operations.excel.reportsfileurl}") String filepath;
+	@Value("${application.homepage.link}") String homepagelink;
 
+	
+	
 	
 
 	
@@ -145,6 +148,7 @@ public class HomeController {
 	@RequestMapping(value = "/verifyuser", method = RequestMethod.POST)
 	public String Verify_Save_User(HttpServletRequest req,ModelMap model,UserSecurityLdap ldp) throws Exception{
 	
+		
 		
 		   if(ldp.Validate_User_With_Ldap(req.getParameter("emailid"),req.getParameter("password"),ldapurl)){			   
 			  model.addAttribute("emailid",req.getParameter("emailid"));
@@ -218,19 +222,19 @@ public class HomeController {
 	//------------ This Part will be used for the Crew Connex SSO----------------	
 	@RequestMapping(value="/logincrewconnex",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String login_crewconnex(ModelMap model,HttpServletRequest req) {
-		    
+
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
+		 
 		   if(crewuser.getCrewUserInitialPassword(req.getParameter("emailid")).length() > 2) {
 		
 			   model.addAttribute("userinitial",crewuser.getCrewUserInitial());			   
 			   model.addAttribute("userpassword",crewuser.getCrewUserWebpasswor());
-			   model.addAttribute("emailid",req.getParameter("emailid"));			  
 			   logger.info("User id:"+req.getParameter("emailid")+" Login Crew Connex.");
 			   return "security/logincrewconnex";
 		   }
 		   else
 		   {
-			     model.addAttribute("emailid",req.getParameter("emailid"));
-				 model.put("userstatus",req.getParameter("emailid"));
 				 logger.info("User id:"+req.getParameter("emailid")+" Unable to Login Crew Connex.");
 				 return "security/crewconnexerror";  
 		   }

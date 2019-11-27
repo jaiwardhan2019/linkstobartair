@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @PropertySources({ @PropertySource("classpath:application.properties"),
 	               @PropertySource("classpath:email.properties"),
+	               @PropertySource("classpath:message.properties"),
 	               @PropertySource("classpath:log4j.properties"),
 	               @PropertySource("classpath:delaycodegroup.properties"),	             
 		           @PropertySource("classpath:database.properties") })
@@ -40,7 +41,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@EnableTransactionManagement
+//@EnableTransactionManagement
 public class InfrastructureConfig{
       
 	

@@ -81,8 +81,8 @@ function Logout_Admin(){
 
  <div class="navbar-header" >
 
-		<a class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Stobart Air" style="margin-left:3px;margin-top:04px;padding:0px;" href="adminhome" >
-			<img src="<c:url value="images/logo-menu-new.png"/>" alt="StobartAir" class="img-responsive" style="margin-top:-px;" />
+		<a class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Stobart Air" style="margin-left:3px;margin-top:04px;padding:0px;" href="adminhome?emailid=<%=fullemail%>" >
+			<img src="<c:url value="images/logo-menu-new.png"/>" alt="Admin Home" class="img-responsive" style="margin-top:-px;" />
 		</a>	
     </div>
   

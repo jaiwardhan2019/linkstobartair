@@ -108,6 +108,7 @@ public class LinkUsersImp implements linkUsers{
 	            
 	            while(rs.next()){
 	            	
+	            	if(rs.getString("MAIN_PROFILE").equals("Reports")) {map.put("Reports","Y");} 
 	            	if(rs.getString("SUB_PROFILE").equals("Flight_Report")) {map.put("Flight_Report", rs.getString("ACTIVE_STATUS"));} 
 	            	if(rs.getString("SUB_PROFILE").equals("Reliablity")) {map.put("Reliablity", rs.getString("ACTIVE_STATUS"));}
 	            	if(rs.getString("SUB_PROFILE").equals("ReliablityAction")) {map.put("ReliablityAction", rs.getString("ACTIVE_STATUS"));}
@@ -115,6 +116,7 @@ public class LinkUsersImp implements linkUsers{
 	            	if(rs.getString("SUB_PROFILE").equals("Flybe_Today")) {map.put("Flybe_Today", rs.getString("ACTIVE_STATUS"));}
 	            	if(rs.getString("SUB_PROFILE").equals("Voyager")) {map.put("Voyager", rs.getString("ACTIVE_STATUS"));}
 	            	if(rs.getString("SUB_PROFILE").equals("Cascade")) {map.put("Cascade", rs.getString("ACTIVE_STATUS"));}
+	            	if(rs.getString("SUB_PROFILE").equals("StaffTravel")) {map.put("StaffTravel", rs.getString("ACTIVE_STATUS"));}
   
 	            }// ----------- END OF DO WHILE ------------ 
 	       
@@ -152,7 +154,7 @@ public class LinkUsersImp implements linkUsers{
 		
 		String sqlstr="";
 		
-		System.out.println(sqlstr);
+		
 		 
 		   if(usersname == null) {
 			   
@@ -165,8 +167,10 @@ public class LinkUsersImp implements linkUsers{
 				sqlstr="SELECT * FROM CORPORATE_PORTAL.LINK_USER_MASTER where FIRST_NAME like '"+usersname.trim()+"%'  or  LAST_NAME like '"+usersname.trim()+"%' order by FIRST_NAME";
 				
 		   }
+		   
 		   List  linkusers = jdbcTemplateMysql.query(sqlstr,new UsersRowmapper());
-		return linkusers;
+	
+		   return linkusers;
 		
 	}
 

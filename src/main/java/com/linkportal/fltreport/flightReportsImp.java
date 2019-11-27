@@ -94,8 +94,8 @@ public class flightReportsImp implements flightReports{
 		   DateFormat dateFormat = new SimpleDateFormat("yyyy");
 		   Date date = new Date();
 		   String curent_year=dateFormat.format(date);		   
-		   String sql="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from LEGS where DATOP like '"+curent_year+"%') order by NAME";
-	       Connection connection = dataSourcesqlserver.getConnection();
+		   String sql="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from LEGS where DATOP like '"+curent_year+"%') order by STN";	       
+		   Connection connection = dataSourcesqlserver.getConnection();
 		   Statement sta = connection.createStatement();
 		   ResultSet rs = sta.executeQuery(sql);		   
 		   while(rs.next()){

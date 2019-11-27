@@ -322,6 +322,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 
 	<form name="crewconnex" id="crewconnex">
 	   <input type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
+	    <input  type="hidden" name="password" id="password" value="<%=user_password%>">
 		<a onclick="CalCrewconexx()">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
@@ -550,12 +551,31 @@ setTimeout(function(){window.location.href="index"},60000000);
         <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
 				<div class="panel-body" style="color:#0071BA;">
-				 	<i class="fa fa-road fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">REFIS NEW</span> 
+				 	<i class="fa fa-road fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">New Ground Ops.</span> 
 				</div>
 			</div>
 	    </div>	
          </a>
 </form>	
+
+
+
+ <form name="contract" method="POST">  	
+       <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
+        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
+       <a title="Manage Contract." onClick="cal_manage_contract();">
+        <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+			<div class="panel panel-info btn-default panel-shadow">
+				<div class="panel-body" style="color:#0071BA;">
+				 <i class="fa fa-suitcase fa-2x pull-left" aria-hidden="true"></i><span class="pull-right" style="font-size:11pt;font-weight:600;">Manage Contract.</span> 
+				</div>
+			</div>
+	    </div>	
+         </a>
+</form>	
+
+
+
 
 	<!--
 

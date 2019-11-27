@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="userEmail" value='${userEmail}' scope="session" />
 <jsp:include page="../include/adminheader.jsp" />
-
 <!DOCTYPE html>
 <html>
 <head>

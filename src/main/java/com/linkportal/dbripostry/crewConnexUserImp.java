@@ -30,7 +30,7 @@ public class crewConnexUserImp implements crewConnexUser{
 	public String getCrewUserInitialPassword(String emailid) {		   
 		 		
 		   String[] FirstName_LastName=emailid.split("[@._]"); 
-		   String sql ="select Initials,WebPassword  from CrewMember where  Namefirst like UPPER('"+FirstName_LastName[0].trim()+"%')  and Namelast like UPPER('%"+FirstName_LastName[1].trim()+"')";
+		   String sql ="select Initials,WebPassword  from CrewMember where  Namefirst like UPPER('"+FirstName_LastName[0]+"%')  and Namelast like UPPER('%"+FirstName_LastName[1]+"')";
 			   
 		   try {
 			   

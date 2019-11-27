@@ -74,6 +74,12 @@ function calFlightReport(reportname){
 }
 
 
+function calStaffTravelUsers(){
+	document.stobart_home_page.method="POST";
+	document.stobart_home_page.action="stafflist";
+    document.stobart_home_page.submit();
+	return true;
+}
 
 
 </script>
@@ -118,10 +124,24 @@ function calFlightReport(reportname){
 					  
 		</li>
 
-	
+	    
+	       <c:if test="${profilelist.StaffTravel  == 'Y'}">   
+
+				 <li class="dropdown">
+			 
+			  	    <a  href="javascript:void();" onClick="calStaffTravelUsers();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Staff Travel"><i class="fa fa-tripadvisor" aria-hidden="true"></i>&nbsp;&nbsp;Staff Travel </a>
+				  
+							  
+				</li>
+        
+            </c:if> 
+					
 	
 		
-         <!-- FIRST MENU -->		
+         <!-- REPORT  MENU -->
+         
+    <c:if test="${profilelist.Reports  == 'Y'}">   
+         		
 	     <li class="dropdown">
 		 
 			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;Reports <span class="caret"></span></a>
@@ -158,13 +178,19 @@ function calFlightReport(reportname){
 			     
 			      
 		</li>
-		
+  </c:if> 
+    <!-- END OF REPORT MENU -->	 
+  
+  
+  		
 		
 	 		
 	    <!-- SECOND  MENU -->	
 			<li class="dropdown">
 					  <a href="#" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;<%=user_login_id %>&nbsp;<span class="caret"></span></a>
 					  <ul class="dropdown-menu">
+					  					  
+					  
 					  
 					   <c:if test="${profilelist.ADMIN  == 'Y'}">   
 		                       <li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome?emailid=<%=fullemail%>" target="_new"  style="font-size:09pt;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp;Admin</a></li>

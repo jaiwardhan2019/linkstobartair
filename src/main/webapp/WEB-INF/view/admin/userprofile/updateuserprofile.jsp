@@ -16,35 +16,6 @@
 
 function updateUser(){
 
-	 /*
-	  var checkboxes = document.getElementsByName("linkprofile");  
-	  var numberOfCheckedItems = 0;  
-	  for(var i = 0; i < checkboxes.length; i++)  
-	  {  
-	        if(checkboxes[i].checked){ numberOfCheckedItems++;}  
-	  } 
-
-	  if(numberOfCheckedItems == 0){
-    	  alert("You Havent Select Any Profile User!");  
-	      document.getElementById("linkprofile").focus();
-	      return false;
-	  }
-      else
-      {
-
-    	  document.linkuser.method="POST"
-		  document.linkuser.action="updatelinkuserprofileToDataBase?emailid=${emailid}";
-	      document.linkuser.submit();
-		  return true;
-
-       }
-          
-       */
-
-       
-
-       
-
         if(confirm("Are you sure about this Profile Changes.?!")){
       	      document.linkuser.method="POST"
     		  document.linkuser.action="updatelinkuserprofileToDataBase?emailid=${emailid}";
