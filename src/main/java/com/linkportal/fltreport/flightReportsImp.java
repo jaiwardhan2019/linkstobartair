@@ -551,9 +551,9 @@ public class flightReportsImp implements flightReports{
 		 try{
 			
 
-		   connection = dataSourcesqlserver.getConnection();
+		   connection     = dataSourcesqlserver.getConnection();
 		   Statement stac = connection.createStatement();
-		   ResultSet rsc = stac.executeQuery(sqlstr);		   
+		   ResultSet rsc  = stac.executeQuery(sqlstr);		   
 
 		   
 		   
@@ -604,16 +604,16 @@ public class flightReportsImp implements flightReports{
     	   //--------------- THIS PART IS FOR ALL ARRIVALE -----------------------------------------
     	   
 		   String sqlstr1="select sum(case when status = 'ATA' then 1 else 0 end) as NumFlown,      \r\n" + 
-		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.ETA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) <= 0) then 1 else 0 end) as OnTimeArrival,\r\n" + 
-		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(Legs.ETA, '.', ':'), 120), convert(datetime, REPLACE(Legs.ATA, '.', ':'), 120)) <= 5) then 1 else 0 end)  as LessthenEqual5Minute,\r\n" + 
-		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(Legs.ETA, '.', ':'), 120), convert(datetime, REPLACE(Legs.ATA, '.', ':'), 120)) <= 15) then 1 else 0 end)  as LessthenEqual15Minute,\r\n" + 
-		   		"	   sum(case when status = 'ATA' and DUR1+DUR2+DUR3+DUR4 <= 30 then 1 else 0 end) as LessthenEqual30Minute\r\n" + 
+		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) <= 0) then 1 else 0 end) as OnTimeArrival,\r\n" + 
+		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(Legs.STA, '.', ':'), 120), convert(datetime, REPLACE(Legs.ATA, '.', ':'), 120)) <= 5) then 1 else 0 end)  as LessthenEqual5Minute,\r\n" + 
+		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(Legs.STA, '.', ':'), 120), convert(datetime, REPLACE(Legs.ATA, '.', ':'), 120)) <= 15) then 1 else 0 end)  as LessthenEqual15Minute,\r\n" + 
+		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(Legs.STA, '.', ':'), 120), convert(datetime, REPLACE(Legs.ATA, '.', ':'), 120)) <= 30) then 1 else 0 end) as LessthenEqual30Minute\r\n" + 
 		   		"	   from LEGS    where DATOP = '"+dateofoperation+"'"+andstring+
                 "       ";	
 
     	   
     	   
-		   
+		   //System.out.println(sqlstr1);
 		   
 		   rsc = stac.executeQuery(sqlstr1);		   
 		   if(rsc.next()){				
@@ -1149,8 +1149,9 @@ public class flightReportsImp implements flightReports{
 		   if(Operation.equals("Franchise")) {
 			   sqlforflightlist="select REPLACE(FLTID, ' ', '') as FLTID FROM legs where FLTID like '"+Airline+" 6%' and DATOP='"+dateofoperation+"'"; 
 		   }
+	
 		   if(Operation.equals("CPA")) {
-			   sqlforflightlist="select REPLACE(FLTID, ' ', '') as FLTID FROM legs where FLTID like '"+Airline+" 0%' and DATOP='"+dateofoperation+"'"; 
+			   sqlforflightlist="select REPLACE(FLTID, ' ', '') as FLTID FROM legs where FLTID like  'BE%' and fltid not like 'BE 6%' and DATOP='"+dateofoperation+"'"; 
 		   }		   
 		   
 		   if(Operation.equals("All Operation")) { 
@@ -1159,7 +1160,7 @@ public class flightReportsImp implements flightReports{
 		   }
 		   
 		
-		 
+		   //System.out.println(sqlforflightlist);
 		   List<String> flightList = jdbcTemplateSqlServer.query(sqlforflightlist, new RowMapper<String>() {
 			      public String mapRow(ResultSet resultSet, int i) throws SQLException {
 			        return resultSet.getString("FLTID");

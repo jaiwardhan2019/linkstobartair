@@ -241,6 +241,20 @@ function cal_refis(){
 }
 
 
+
+function cal_manage_contract(){
+	
+	document.contract.action="contractManager";
+	//document.callive_well1.target="_blank"
+    document.contract.submit();
+	return true;
+	
+}
+
+
+
+
+
 setTimeout(function(){window.location.href="index"},60000000);	
 
 
@@ -542,7 +556,7 @@ setTimeout(function(){window.location.href="index"},60000000);
          </a>
 </form>	
 
-
+<c:if test="${profilelist.Refis  == 'Y'}">  		
 	
  <form name="refis" method="POST">  	
        <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
@@ -558,23 +572,26 @@ setTimeout(function(){window.location.href="index"},60000000);
          </a>
 </form>	
 
-
-
- <form name="contract" method="POST">  	
-       <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
-        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
-       <a title="Manage Contract." onClick="cal_manage_contract();">
-        <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
-			<div class="panel panel-info btn-default panel-shadow">
-				<div class="panel-body" style="color:#0071BA;">
-				 <i class="fa fa-suitcase fa-2x pull-left" aria-hidden="true"></i><span class="pull-right" style="font-size:11pt;font-weight:600;">Manage Contract.</span> 
+</c:if>
+	
+<c:if test="${profilelist.Contract  == 'Y'}">  							
+				 
+		
+	 <form name="contract"  id="contract" method="POST">  	
+	       <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
+	        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
+	       <a title="Manage Contract." onClick="cal_manage_contract();">
+	        <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+				<div class="panel panel-info btn-default panel-shadow">
+					<div class="panel-body" style="color:#0071BA;">
+					 <i class="fa fa-suitcase fa-2x pull-left" aria-hidden="true"></i><span class="pull-right" style="font-size:11pt;font-weight:600;">Manage Contract.</span> 
+					</div>
 				</div>
-			</div>
-	    </div>	
-         </a>
-</form>	
+		    </div>	
+	         </a>
+	</form>	
 
-
+</c:if>
 
 
 	<!--

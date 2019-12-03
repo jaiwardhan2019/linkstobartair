@@ -117,6 +117,8 @@ public class LinkUsersImp implements linkUsers{
 	            	if(rs.getString("SUB_PROFILE").equals("Voyager")) {map.put("Voyager", rs.getString("ACTIVE_STATUS"));}
 	            	if(rs.getString("SUB_PROFILE").equals("Cascade")) {map.put("Cascade", rs.getString("ACTIVE_STATUS"));}
 	            	if(rs.getString("SUB_PROFILE").equals("StaffTravel")) {map.put("StaffTravel", rs.getString("ACTIVE_STATUS"));}
+	            	if(rs.getString("SUB_PROFILE").equals("Contract")) {map.put("Contract", rs.getString("ACTIVE_STATUS"));}
+	            	if(rs.getString("SUB_PROFILE").equals("Refis")) {map.put("Refis", rs.getString("ACTIVE_STATUS"));}
   
 	            }// ----------- END OF DO WHILE ------------ 
 	       

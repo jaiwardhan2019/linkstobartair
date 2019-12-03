@@ -66,7 +66,7 @@ function calHomePage(){
 
 
 
-function calFlightReport(reportname){
+function calRefisReport(reportname){
 	document.stobart_home_page.method="POST";
 	document.stobart_home_page.action=reportname;
     document.stobart_home_page.submit();
@@ -207,7 +207,7 @@ function calFlightReport(reportname){
 					  <a href="refisadmin" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-md" aria-hidden="true"></i>&nbsp;&nbsp;Admin <span class="caret"></span></a>
 					  
 						  <ul class="dropdown-menu">
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;REFIS User</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managerefisuser');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;REFIS User</a></li>
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;SMS Contacts Manager</a></li>
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Airline Data Manager</a></li>
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Briefing Manager </a></li>

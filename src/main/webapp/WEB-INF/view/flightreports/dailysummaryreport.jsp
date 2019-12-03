@@ -191,7 +191,7 @@ tr:nth-child(even) {
 			                          Operating Airline:	<b>British Air City Flyer</b>
 			                  </c:if>  
 			                  <c:if test = "${airlinecode == 'be'}">      
-			                          Operating Airline:	<b>Fly Be</b>
+			                          Operating Airline:	<b>FlyBe</b>
 			                  </c:if>                                    
 			                 <c:if test = "${airlinecode == 'kl'}">      
 			                          Operating Airline:	<b>KLM City Hopper</b>

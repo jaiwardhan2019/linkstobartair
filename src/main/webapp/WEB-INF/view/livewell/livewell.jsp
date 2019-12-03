@@ -75,7 +75,10 @@
    <br>
    <i class="fa fa-chevron-circle-right"></i>&nbsp;&nbsp;<a href="https://www.youtube.com/watch?v=IoMZrIug3Zc&feature=youtu.be"  target="_blank">&nbsp; <b>  Stobart Movement Championship Day 2.</b> 
    </a>&nbsp;<img  src="images/youtube.png">
-   
+     <br>
+   <i class="fa fa-chevron-circle-right"></i>&nbsp;&nbsp;<a href="https://www.youtube.com/watch?v=dkeXnN4PVHg&feature=youtu.be"  target="_blank">&nbsp; <b>  PepTalk Live at Stobart Air with Joanne O'Riordan</b> 
+   </a>&nbsp;<img  src="images/youtube.png">
+ 
 
 </div>
 

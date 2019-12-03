@@ -56,21 +56,13 @@ public class staffTravelControler {
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("account") != null){	
 				
-				try {
-					
+			   try{
 					
 						int delstatus=staffuser.removeStaff_FromDb(Integer.parseInt(req.getParameter("account")));
-						if(delstatus == 0){		
-							model.put("deletestatus","<span style='color:green;'> <b> User ID  : "+req.getParameter("account")+"  Removed !! </b></span>");					    	
-						    logger.info("User ID  : "+req.getParameter("account")+" Removed from Staff Travel Database by :"+req.getParameter("emailid")); 
-						}
-						else
-						{
-							model.put("deletestatus","<span style='color:red;'> <b> User ID  : "+req.getParameter("account")+" Not Removed !! please try again </b></span>");
-					    	
-						}
+						model.put("deletestatus","<span style='color:green;'> <b> User ID  : "+req.getParameter("account")+"  Removed !! </b></span>");					    	
+					    logger.info("User ID  : "+req.getParameter("account")+" Removed from Staff Travel Database by :"+req.getParameter("emailid")); 
 				
-				}catch(NumberFormatException ww) {logger.error(ww);}
+			   }catch(NumberFormatException ww) {logger.error(ww);}
 				
 			}//---------- End Of Account Removed Operation 
 			

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:include page="../include/header.jsp" />
 
 <!DOCTYPE html>
@@ -102,7 +103,11 @@ function remove_user_Profile(accountid){
 				
 					      </td>
 					      <td align="left">
-					         &nbsp;&nbsp;&nbsp;  <input type="button"   class="btn btn-primary" value="Search" id="buttonDemo1" onClick="searchUser();" />   
+					         &nbsp;&nbsp;&nbsp;
+					         
+					         
+					         <span onClick="searchUser();" id="buttonDemo1" class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search </span> 
+					 
 					           
 						
 				           
@@ -130,6 +135,15 @@ function remove_user_Profile(accountid){
   	 
 	<br><br>
  		 
+  <table >
+  <tr align="left"> 
+   <td align="left"> 
+      <button  class="btn btn-secondary btn-lg btn-block">${fn:length(staffAccountlist)} - Staff Found</button>
+   </td>
+  </tr>	
+  </table>
+  <br>
+   		 
   <table class="table table-striped table-bordered" border="1" style="width: 80%;" align="center">	
 		
 	     <tr align="center">
@@ -189,7 +203,7 @@ function remove_user_Profile(accountid){
 		           <td>  
 		             
 		                
-		                <span onClick="remove_user_Profile('${staffTravels.id}');" class="btn btn-danger"><i class="fa fa-trash-o fa-fw"></i>Remove</span>
+		                <span style="font-weight:bold;" onClick="remove_user_Profile('${staffTravels.id}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o  fa-lg"></i>&nbsp;Remove</span>
 		           </td>
 		          
 		          </tr>
@@ -229,11 +243,5 @@ function remove_user_Profile(accountid){
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
+<%@include file="../include/footer.jsp" %>

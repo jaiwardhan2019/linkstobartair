@@ -66,6 +66,14 @@ public class InfrastructureConfig{
 		     return DataSourceBuilder.create().build(); 
 	  }
 	 
+		 
+	  @Bean(name = "dataSourceopswebsys")	  
+	  @ConfigurationProperties(prefix = "opswebsys.datasource") 
+	  public DataSource dataSource_opswebsys() {
+		     return DataSourceBuilder.create().build(); 
+	  }
+
+	  
 	  
 	  @Bean(name = "dataSourceflightops")	  
 	  @ConfigurationProperties(prefix = "ops.datasource") 

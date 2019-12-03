@@ -93,25 +93,12 @@ function Logout_Admin(){
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     
 		<ul class="nav navbar-nav navbar-right">
-        
-               
-         <li class="dropdown">		 
-			  <a href="javascript:alert('Under Construction');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" aria-expanded="false"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;REFIS User Manager<span class="caret"></span></a>			  
-								  
-	       </li>
-        
-   
-        
-        
-         <li class="dropdown">		 
-			  <a href="javascript:alert('Under Construction');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" aria-expanded="false"><i class="fa fa-plane" aria-hidden="true"></i>&nbsp;Airline Data Manager<span class="caret"></span></a>			  
-								  
-	      </li>
+     
         
         
         
           <li class="dropdown">		 
-			  <a href="profilemanager?emailid=<%=fullemail%>" style="font-size:9pt;font-weight:600;color:#FDFEFE;" aria-expanded="false"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;People Profile<span class="caret"></span></a>			  
+			  <a href="profilemanager?emailid=<%=fullemail%>" style="font-size:9pt;font-weight:600;color:#FDFEFE;" aria-expanded="false"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Manage Link Users Profile<span class="caret"></span></a>			  
 								  
 	       </li>
         
