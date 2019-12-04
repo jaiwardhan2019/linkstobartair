@@ -3,6 +3,8 @@ package com.linkportal.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,19 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
- 
 
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.dbripostry.linkUsers;
 import com.linkportal.refis.manageRefisUser;
 
@@ -37,6 +47,14 @@ public class refisController {
 	
 	@Autowired
 	manageRefisUser refisuser;
+	
+	@Autowired
+	manageStobartContract contract;
+	
+	
+	@Value("${stobart.contract.folder}") String UPLOAD_DIRECTORY;
+	
+	
 	
 	
 	
@@ -111,82 +129,25 @@ public class refisController {
 	
 
 	
-	 // location to store file uploaded
-    private static final String UPLOAD_DIRECTORY = "c:/stobart_contract";
-  
-    
- 
-    // upload settings
-    private static final int MEMORY_THRESHOLD   = 1024 * 1024 * 3;  // 3MB
-    private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
-    private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
-    
-	
 	
 	
 	//-------THis Will be Called When Refis User Links is called from Ground Ops  
 	@RequestMapping(value = "/contractManager",method = {RequestMethod.POST,RequestMethod.GET})
-	public String ManageContract(HttpServletRequest req, HttpServletResponse res, ModelMap model) throws Exception {	
+	public String ManageContract(HttpServletRequest req, ModelMap model) throws Exception {	
 		
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));			
 			model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 			
-		   System.out.println("Write Add operation ;"+req.getParameter("cfile"));
+		  
 			
 			if(req.getParameter("event") != null){
 				
 				//--------- Add New Contract ------------
-				if(req.getParameter("event").equals("add")){
-					
-				 
+				if(req.getParameter("event").equals("addnew")){
 				   
-				   // checks if the request actually contains upload file
-			        if (!ServletFileUpload.isMultipartContent(req)) {
-			            // if not, we stop here
-			            PrintWriter writer = res.getWriter();
-			            writer.println("Error: Form must has enctype=multipart/form-data.");
-			            writer.flush();
-			            return null;			       
-			        }
-			        
-			        // creates the directory if it does not exist
-			        File uploadDir = new File(UPLOAD_DIRECTORY);
-			        if(!uploadDir.exists()) {
-			            uploadDir.mkdir();
-			            System.out.println("Creating Directory:"+UPLOAD_DIRECTORY);
-			        }
-			 			
-			        
-					List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(req);
-				 
-				    for(FileItem item : multiparts){
-				       if(!item.isFormField()){
-				           String name = new File(item.getName()).getName();
-				           item.write( new File(UPLOAD_DIRECTORY + File.separator + name));
-				       }
-				       
-				     }//-- End of for loop 
-				
-				
- 
-			        }//--------- End of  if(req.getParameter("event") != null){
-			    			        
-			        
-			        
-			        
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+		         }			        
+					
 				
 				
 				//--------- Show All Contract ------------
@@ -218,6 +179,73 @@ public class refisController {
 	
 	
 	
+	
+	
+	//************** WILL UPLOAD FILE AND ADD ENTRY TO THE THE DATABASE *********************************
+	@RequestMapping(value = "/addcontracttodatabase",method = {RequestMethod.POST,RequestMethod.GET})
+    public String singleFileUpload(@RequestParam("file") MultipartFile file,HttpServletRequest req,ModelMap model) {
+        
+		   
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));			
+		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+			
+		
+	      
+		
+	        // This Part of Code will Upload file to the folder
+	        File uploadDir = new File(UPLOAD_DIRECTORY+"stobart_contract/");
+	        if(!uploadDir.exists()) {
+	            uploadDir.mkdir();	            
+	        }
+		
+	        
+	        try {
+	
+		            // This Part will save file into the folder  
+		            byte[] bytes = file.getBytes();
+		            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+ file.getOriginalFilename());
+		            Files.write(path, bytes);
+		            System.out.println("File Uploaded:"+file.getOriginalFilename());
+		            logger.info("Contract File Uploaded to the folder by:"+req.getParameter("emailid"));
+		            model.put("fileuploadstatus","Contract File is Uploaded..");
+		            
+		            
+ 		            // This Part will Insert Data to the database 		            
+		            if(contract.addNewContract() == 1) {		            	
+			           logger.info("Contract Detail is added to the database by:"+req.getParameter("emailid"));
+			           model.put("fileuploadstatus","Contract File is Uploaded..");		            	
+		            }
+		            
+	        } catch (IOException e) {
+	        	logger.error(e);
+	        	model.put("fileuploadstatus","Contract File Not Uploaded !!!..");	        
+	        }
+	        
+	        return "contractmanager/contractmanager";
+    	
+	       
+    }
+	
+	
+	//Save Multiple File 
+	//https://www.mkyong.com/spring-mvc/spring-mvc-file-upload-example/
+    private void saveUploadedFiles(List<MultipartFile> files) throws IOException {
+
+        for (MultipartFile file : files) {
+
+            if (file.isEmpty()) {
+                continue; //next pls
+            }
+
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/" + file.getOriginalFilename());
+            Files.write(path, bytes);
+
+        }
+
+    }
+
 	
 	
 }

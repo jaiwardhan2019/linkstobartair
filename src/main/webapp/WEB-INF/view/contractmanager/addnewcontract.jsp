@@ -27,14 +27,24 @@ function contract_home(event){
 	
 }//---------- End Of Function  ------------------
 
-
+function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if(e.style.display == 'block')
+       e.style.display = 'none';
+    else
+       e.style.display = 'block';
+ }
 
 
 
 function manage_contract(event){    
 
-    document.addcontract.method="POST"
-	    document.addcontract.action="contractManager?event="+event;
+	 
+	   
+        //alert(event); 
+        document.addcontract.method="POST"
+	    //document.addcontract.action="contractManager?event="+event;
+        document.addcontract.action="addcontracttodatabase";
         document.addcontract.submit();
 	    return true;
 	
@@ -103,12 +113,16 @@ function manage_contract(event){
    
  <div class="container" align="center">
  
- <div class="col-md-12 col-sm-12 col-xs-12" align="center" id="printButton">
+ <div class="col-md-12 col-sm-12 col-xs-12" align="center">
  
- <form name="addcontract"  enctype="multipart/form-data">  
+ 
+ 
+ <form name="addcontract" method="post" enctype="multipart/form-data">
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
+      
+         
           <table class="table table-striped table-bordered" border="1" style="width: 35%;" align="center">	    
     			<tbody>				     
 				     <tr align="center">
@@ -195,11 +209,19 @@ function manage_contract(event){
 							<label> Attach File. </label>
 							<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
-									 <input type="file"  size="10" name="cfile"   class="form-control"/>
+									 <input type="file"   name="file"   class="form-control"/>
 							</div>
 				   </div>
 						
-
+			
+					<div class="form-group">
+						
+							<div class="input-group"> 
+								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
+									 <input type="file"   name="file"   class="form-control"/>
+							</div>
+				   </div>
+	
 				
 					
 						</td>
@@ -210,17 +232,35 @@ function manage_contract(event){
 				    <tr align="center"> 
 				     					
 						<td  bgcolor="white">			                   
-			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract &nbsp; <i class="fa fa-home" aria-hidden="true"></i>  </span>  
+			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Back&nbsp; <i class="fa fa-home" aria-hidden="true"></i>  </span>  
 			                   &nbsp;&nbsp;&nbsp;
-			                   <span onClick="manage_contract('add');" id="addnew" class="btn btn-primary" >&nbsp;Add Contract &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </span> 
+			                   <span onClick="toggle_visibility('uploadstatus');manage_contract('addnew');" id="addnew" class="btn btn-primary" >&nbsp;Add Contract &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </span>
+                               &nbsp;                                
+                              <span style="display:none" id="uploadstatus" class="btn btn-success btn-sm" > <i class="fa fa-spinner fa-pulse fa-2x"></i> &nbsp;Uploading  </span> 
+                          
+                                  
+			                   
 		 			     </td>
 				     </tr>
 				     
 							    
 				    </tbody>
 			</table>
+	
+	  
+	
+			
    </div>
-  </div>		
+
+
+ 
+
+  </div>
+
+
+
+
+  	
 </form>
  
 
