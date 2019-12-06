@@ -41,10 +41,9 @@ function manage_contract(event){
 
 	 
 	   
-        //alert(event); 
+    
         document.addcontract.method="POST"
-	    //document.addcontract.action="contractManager?event="+event;
-        document.addcontract.action="addcontracttodatabase";
+	    document.addcontract.action="addcontracttodatabase";
         document.addcontract.submit();
 	    return true;
 	
@@ -143,7 +142,8 @@ function manage_contract(event){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
 										<select id="department" name="department" class="form-control" onchange="showOtherdDateCaption()" >
-											<option value="ALL"> -  All - </option>	
+											<option value="ALL"> ------ ALL ------ </option>	
+											<option value="GEN"> General Contract - </option>	
 											<option value="ENG"> Engineering </option>
 											<option value="FIN"> Finance </option>												
 										</select>
@@ -157,19 +157,36 @@ function manage_contract(event){
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
 										<select  id="subdepartment" name="subdepartment" class="form-control" >
-											<option value="ALL"> -  All - </option>
+											<option value="GEN"> - General Contract - </option>	
 											<option value="ENG1"> Sub - Engineering </option>
 											
 										</select>
 							</div>
-						</div>
-						
+				    </div>
+				    
+				    
+				    <div class="form-group">
+							<label  >Contractor Company Detail.</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
+										<input type="text"   name="ccompany" id="ccompany" class="form-control" >										
+							</div>
+				    </div>
+				    
+				    <div class="form-group">
+							<label  >Contractor Contact Detail.</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control"></textarea>										
+							</div>
+				    </div>						
 					
 					<div class="form-group">
-							<label  >Ref No.</label>
+							<label  >Ref No.</label> &nbsp;&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i>&nbsp;<span style="font-weight:600;font-size:8pt;color:blue">
+							&nbsp;&nbsp;Sample:&nbsp;&nbsp;(ENG/ELE/SUPNAME/DD-MM-YYYY)</span> 
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
-										<input type="text"  maxlength="4" size="4" name="refno" id="refno" class="form-control"  readonly>										
+										<input type="text"   name="refno" id="refno" class="form-control" >										
 							</div>
 				    </div>
 	
@@ -179,7 +196,7 @@ function manage_contract(event){
 							<label for="startDate">Contract Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12" max="${todaydate}"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12"   placeholder="(DD/MM/YYYY)"/>
 							</div>	
 						</div>
 						
@@ -188,7 +205,7 @@ function manage_contract(event){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								
-								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" max="${todaydate}"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12"  placeholder="(DD/MM/YYYY)"/>
 								
 							</div>
 						</div>
@@ -198,7 +215,7 @@ function manage_contract(event){
 							<label> Contract Description.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-									<textarea rows="05" name="comment"  id="comment" class="form-control"></textarea>
+									<textarea rows="05" name="cdescription"  id="cdescription" class="form-control"></textarea>
 											
 							</div>
 				    </div>
@@ -213,15 +230,6 @@ function manage_contract(event){
 							</div>
 				   </div>
 						
-			
-					<div class="form-group">
-						
-							<div class="input-group"> 
-								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
-									 <input type="file"   name="file"   class="form-control"/>
-							</div>
-				   </div>
-	
 				
 					
 						</td>

@@ -15,18 +15,6 @@
 
 
 
-function showmyVoygerReport(){
-
-	   
-	  	  document.voygerReport.method="POST";
-		  document.voygerReport.action="voyagerReport";
-	      document.voygerReport.submit();
-		  return true;
-     
-		
-}//---------- End Of Function  ------------------
-
-
 function manage_contract(event){    
 	    document.contract.method="POST"
 	    document.contract.action="contractManager?event="+event;
@@ -36,13 +24,6 @@ function manage_contract(event){
 }//---------- End Of Function  ------------------
 
 
-
-
-function showOtherdDateCaption(){
-
-          
-
-}
 
 
 
@@ -91,11 +72,12 @@ function showOtherdDateCaption(){
 					 
 					
 				     <div class="form-group">
-							<label for="startDate">Department.</label>
+							<label for="department">Department.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
 										<select id="department" name="department" class="form-control" onchange="showOtherdDateCaption()" >
-											<option value="ALL"> -  All - </option>	
+											<option value="ALL"> -  All - </option>
+											<option value="ENG"> -  Engineering - </option>		
 										</select>
 							</div>	
 						</div>
@@ -106,8 +88,9 @@ function showOtherdDateCaption(){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
-										<select  id="crewcode" name="crewcode" class="form-control" >
+										<select  id="subdepartment" name="subdepartment" class="form-control" >
 											<option value="ALL"> -  All - </option>
+											<option value="ELE"> -  Electrical - </option>		
 											
 										</select>
 							</div>
@@ -129,7 +112,7 @@ function showOtherdDateCaption(){
 					
 					       
 					               
-					       <span onClick="searchUser();" id="buttonDemo1" class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search Contract </span> 
+					       <span onClick="manage_contract('search');"  class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search Contract </span> 
 					 
 					           
 					
@@ -159,8 +142,17 @@ function showOtherdDateCaption(){
 	 		 
   <table  style="width: 80%;" align="center">
 	  <tr>
-		  <td align="right"> 
-        		<span onClick="manage_contract('new');" id="addnew" class="btn btn-primary" ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New Contract  </span> 
+	  
+	     <td align="right">
+	       
+	       <span style="font-weight:600;font-size:12pt;color:${col}">  ${contractupdate}   </span>
+	      
+	       
+	     
+	     </td>
+		 
+		 <td align="right"> 
+        		<span onClick="manage_contract('addnew');" id="addnew" class="btn btn-primary" ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New Contract  </span> 
 		 
 		  </td>
 
@@ -168,6 +160,8 @@ function showOtherdDateCaption(){
 			
  </table>	
 <br>
+
+
 <div class="container" id="printButton">
 
  <table class="table table-striped table-bordered" border="1" style="width: 100%;" align="center">	
@@ -222,21 +216,29 @@ function showOtherdDateCaption(){
 		
 										 
           </tr>  
-       	
+          
+         <%
+		 
+         int srno=1;
+         
+	     %>
+          
+          
+        <c:forEach var="contract" items="${contractlist}">       	
 	     <tr align="center" bgcolor="#FEF9E7">
 				    
 				    <td>
 					    <b> 
-					       001. 
+					       <%=srno++%>
 					     </b>				 
 					 </td>
 					  
 				    <td>
-					      ENG-ELCE-10122019  
+					      ${contract.refrence_no} 
 					 		 
 					 </td>
 					<td>
-					      Electric Supply && Support to Stobart AirCraft
+					       ${contract.contract_description} 
 					 </td>
 					<td>
 					      Engineering 
@@ -256,87 +258,9 @@ function showOtherdDateCaption(){
 					 </td>
 							 
 	      </tr>     
-         
- 	     <tr align="center" bgcolor="#FEF9E7">
-				    
-				    <td>
-					    <b> 
-					       002. 
-					     </b>				 
-					 </td>
-					  
-				    <td>
-					      Fin-Fuel-10122019  
-					 		 
-					 </td>
-					<td>
-					      Fuel Supply Contract  to Stobart AirCraft
-					 </td>
-					<td>
-					      Finance 
-					 </td>
-					<td>
-					      26-Jan-2019  
-					 </td>
-					<td>
-					      26-Jan-2020  
-					 </td>
-					<td>
-					  
-					      Active  
-					    			 
-					 </td>
-					 <td>
-					    
-					    <a href=""><span style="font-weight:600;font-size:8pt;"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> 3 Files.</span></a>
-					    			 
-					 </td>
-					 
-					 
-					 
-							 
-	      </tr>     
-         	     <tr align="center" bgcolor="#FEF9E7">
-				    
-				    <td>
-					    <b> 
-					       003. 
-					     </b>				 
-					 </td>
-					  
-				    <td>
-					      FAC-ELCE-10122019  
-					 		 
-					 </td>
-					<td>
-					      Canteen Food Supply Contract to Stobart Air
-					 </td>
-					<td>
-					      Facility
-					 </td>
-					<td>
-					      26-Jan-2019  
-					 </td>
-					<td>
-					      26-Jan-2020  
-					 </td>
-					<td>
-					  
-					      Active  
-					    			 
-					 </td>
-				 <td>
-					    
-					    <a href=""><span style="font-weight:600;font-size:8pt;"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> 3 Files.</span></a>
-					    			 
-					 </td>
-					 
-					 
-					 
-							 
-	      </tr>     
-              
-            
+       
+       </c:forEach>
+               
  </table>           
 
 

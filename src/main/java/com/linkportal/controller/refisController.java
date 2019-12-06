@@ -145,33 +145,25 @@ public class refisController {
 				
 				//--------- Add New Contract ------------
 				if(req.getParameter("event").equals("addnew")){
+					
+					return "contractmanager/addnewcontract";
 				   
-		         }			        
+		         }		
+				
+				
+				//--------- Search  Contract And Display ------------
+				if(req.getParameter("event").equals("search")){					
 					
-				
-				
-				//--------- Show All Contract ------------
-				if(req.getParameter("event").equals("listcontract")){
-					
-				   System.out.println("Write Add operation"+req.getParameter("cfile"));
-					
-				}
-
-				
-				//--------- View One Contract ------------
-				if(req.getParameter("event").equals("viewcontract")){
-					
-				   System.out.println("Write Add operation"+req.getParameter("cfile"));
-					
-				}
-
-				
-				
-				return "contractmanager/addnewcontract";
-				
+					model.put("contractlist", contract.showAllContract(req.getParameter("department"),req.getParameter("subdepartment")));
+					return "contractmanager/contractmanager";
+				   
+		         }							
+			
 			}
 			
-		
+			
+			
+			model.put("contractlist", contract.showAllContract("ALL","ALL"));
 			return "contractmanager/contractmanager";
 			
 	}//------ End of Contract Manager controller 
@@ -180,6 +172,7 @@ public class refisController {
 	
 	
 	
+	//Save Multiple File 
 	
 	//************** WILL UPLOAD FILE AND ADD ENTRY TO THE THE DATABASE *********************************
 	@RequestMapping(value = "/addcontracttodatabase",method = {RequestMethod.POST,RequestMethod.GET})
@@ -191,41 +184,48 @@ public class refisController {
 		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 			
 		
-	      
-		
-	        // This Part of Code will Upload file to the folder
-	        File uploadDir = new File(UPLOAD_DIRECTORY+"stobart_contract/");
-	        if(!uploadDir.exists()) {
-	            uploadDir.mkdir();	            
-	        }
-		
-	        
+	       
 	        try {
-	
-		            // This Part will save file into the folder  
+			        // This Part of Code will Upload file to the folder
+			        File uploadDir = new File(UPLOAD_DIRECTORY+"stobart_contract/");
+			        if(!uploadDir.exists()) {
+			            uploadDir.mkdir();
+			            logger.info("Folder stobart_contract ");
+			        }
+	             
+			        
+	 	            // This Part will save file into the folder  
 		            byte[] bytes = file.getBytes();
 		            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+ file.getOriginalFilename());
-		            Files.write(path, bytes);
-		            System.out.println("File Uploaded:"+file.getOriginalFilename());
+		            Files.write(path, bytes);		    
 		            logger.info("Contract File Uploaded to the folder by:"+req.getParameter("emailid"));
-		            model.put("fileuploadstatus","Contract File is Uploaded..");
 		            
-		            
- 		            // This Part will Insert Data to the database 		            
-		            if(contract.addNewContract() == 1) {		            	
+ 		            // This Part will Insert Form Data to the database 		            
+		            if(contract.addNewContract(req) == 1) {		            	
 			           logger.info("Contract Detail is added to the database by:"+req.getParameter("emailid"));
 			           model.put("fileuploadstatus","Contract File is Uploaded..");		            	
 		            }
 		            
-	        } catch (IOException e) {
+	
+		            
+	        } catch (Exception e) {
 	        	logger.error(e);
-	        	model.put("fileuploadstatus","Contract File Not Uploaded !!!..");	        
+	        	model.put("contractupdate"," Contract Not Added Please Try Again !!!..");
+	        	model.put("col","red");
+	        	return "contractmanager/contractmanager";
 	        }
 	        
+	        
+	        model.put("contractupdate","Contract Successfully added..");
+	        model.put("col","green");
+	        model.put("contractlist", contract.showAllContract("ALL","ALL")); 
 	        return "contractmanager/contractmanager";
     	
 	       
     }
+
+	
+	
 	
 	
 	//Save Multiple File 
@@ -239,7 +239,7 @@ public class refisController {
             }
 
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/" + file.getOriginalFilename());
+            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/" + file.getOriginalFilename());            
             Files.write(path, bytes);
 
         }

@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:include page="../../include/adminheader.jsp" />
+
 
 <!DOCTYPE html>
 <html>
@@ -70,20 +72,23 @@ function searchUser(){
    
     <table  border="0" style="width: 50%;" align="center"> 
     			
-				<tbody>	
-		                       				     
+				<tbody>			                       				     
 
 		    		  
-		   		  <tr>
-		
+		   		  <tr>		
 				      <td align="right">
-									<input autofocus  type="text" name="user"  id="user"  class="form-control"    placeholder="Enter First Name or Last Name"/>
-								      
-				
-					      </td>
+						
+								<input autofocus  type="text" name="user"  id="user"  class="form-control"    placeholder="Enter First Name or Last Name"/>
+						  </td>
 					      <td align="left">
-					         &nbsp;&nbsp;&nbsp;  <input type="button"   class="btn btn-primary" value="Search" id="buttonDemo1" onClick="searchUser();" />   
+					         &nbsp;&nbsp;&nbsp; 
+					         
+					         
+					         			         
+					         <span onClick="searchUser();" id="buttonDemo1" class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search </span> 
+					 
 					           
+	  
 						
 				           
 					      </td>
@@ -102,6 +107,17 @@ function searchUser(){
  </form>
   	 
 	<br><br>
+ 		 
+  <table >
+  <tr align="left"> 
+   <td align="left"> 
+      <button  class="btn btn-secondary btn-lg btn-block">${fn:length(linkuserlist)} - Staff Found</button>
+   </td>
+  </tr>	
+  </table>
+  <br>
+   		 
+ 
  		 
   <table class="table table-striped table-bordered" border="1" style="width: 80%;" align="center">	
 		
@@ -131,13 +147,13 @@ function searchUser(){
 					
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					      Stobart / External 	
+					      Manage Link Profile 	
 					     </b></span>					 
 					 </td>
 				     
 				     <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					      Last Login Date and Time 	
+					      Stobart Contract 	
 					     </b></span>					 
 					 </td>
           </tr>
@@ -149,11 +165,27 @@ function searchUser(){
 		          
 		          <td><%=ctr%></td>
 		          
-		          <td><a href="updatelinkuserprofile?emailid=${emailid}&id=${linkusers.emailId}"> ${linkusers.firstName}&nbsp;${linkusers.lastName} </a></td>
+		          <td><i class="fa fa-user-circle-o" aria-hidden="true"></i> &nbsp; <a href="updatelinkuserprofile?emailid=${emailid}&id=${linkusers.emailId}"> ${linkusers.firstName}&nbsp;${linkusers.lastName} </a></td>
 		          <td><a href="updatelinkuserprofile?emailid=${emailid}&id=${linkusers.emailId}">${linkusers.emailId}</a></td>
-		          <td> ${linkusers.activeStatus} </td>
-		          <td> 
-	
+		          <td align="center"> 
+		          
+		             
+	            	    <c:if test="${linkusers.activeStatus == 'Active'}">
+		                     <i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <span style="color:green;font-weight:bold;"> Enable</span>
+		                </c:if>
+		          
+		          
+		            	<c:if test="${linkusers.activeStatus == 'Dactive'}">
+		                    <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;  <span style="color:red;font-weight:bold;"> Disable  </span>
+		                </c:if>
+		          
+		          
+		          </td>
+		          <td align="center"> 
+		          
+		           <span style="font-weight:bold;" onClick="update_user_Profile('${linkusers.emailId}');"  class="btn btn-light btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Update </span>
+		
+	               <!-- 
 					<c:choose>
 					    <c:when test="${linkusers.stobart_external_user == 'I'}">
 					             <span style="color:black;"> <c:out value = "Stobart User "/></span>
@@ -164,13 +196,16 @@ function searchUser(){
 					        <br />
 					    </c:otherwise>
 					</c:choose> 
-	                 
+	                 -->
 		          </td>
 		           
-		           <td>  
+		           <td align="center">  
 		             
-		                ${linkusers.lastLoginDateTime}
-		           
+		               
+		              
+		                       <span style="font-weight:bold;" onClick="remove_user_Profile('${refisAccount.username}');" class="btn btn-light btn-sm"><i class="fa fa-plus  fa-lg"></i>&nbsp;Add Access</span>
+		  
+		              
 		           </td>
 		          
 		          </tr>
@@ -209,12 +244,4 @@ function searchUser(){
 </html>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
+<%@include file="../../include/footer.jsp" %>

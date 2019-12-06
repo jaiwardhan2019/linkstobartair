@@ -302,16 +302,15 @@ public class LinkUsersImp implements linkUsers{
 			   for(int j = 0; j < Userprofile.size(); j++) {
 				   
 				   String sql = "DELETE  FROM CORPORATE_PORTAL.LINK_USER_PROFILE_LIST WHERE PROFILE_ID="+Userprofile.get(j)+" AND USER_EMAIL='"+emailid+"'";	
-				   int stats=jdbcTemplateMysql.update(sql);					  
-				   //System.out.println(sql);	
+				   int stats=jdbcTemplateMysql.update(sql);		
 			   
 			   }//----- End Of For Loop.
 			   
 			   
 		  
 		  }catch(Exception updateerror) {
-			  System.out.println(updateerror.toString());
-			  logger.error("While Updating  User Profile:"+updateerror.toString());
+			 
+			  logger.error("Error while Updating  User Profile:"+updateerror.toString());
 		  }
 
 		
