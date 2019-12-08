@@ -335,7 +335,7 @@ tr:nth-child(even) {
 				    
 				     <td bgcolor="#0070BA" width="7%">
 					   <span style="color:white;" > <b> 
-					    Flight Date	
+					    Flt. Date	
 					     </b></span>					 
 					 </td>
 					  

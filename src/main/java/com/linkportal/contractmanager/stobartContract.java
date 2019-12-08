@@ -1,5 +1,15 @@
 package com.linkportal.contractmanager;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.NotDirectoryException;
+import java.nio.file.Path;
+
+import org.springframework.beans.factory.annotation.Value;
+
 public class stobartContract {
 	
 	   private String department;
@@ -12,6 +22,8 @@ public class stobartContract {
 	   private String start_date; 
 	   private String end_date;
 	   private String entered_by_email;
+	   
+	   
 	   
 	   
 	
@@ -185,10 +197,19 @@ public class stobartContract {
 	}
 
 
-
+	//--------- THIS FUNCTION WILL SHOW THE NO OF FILE IN THE ONTRACT FOLDER -----------------------------
+	public int getFilesCount() throws IOException, NotDirectoryException {	    
+		   int fileCount=0;
+		   String rootdirectory = new java.io.File( "/" ).getCanonicalPath();
+		   File directory=new File(rootdirectory+"/data/stobart_contract/"+this.refrence_no);
+		   if(directory.isDirectory()) {
+		      fileCount=directory.list().length;
+		   }
+		   
+	       return fileCount;
+	}	   
 	   
-	   
-	   
+	
 	
 
 }

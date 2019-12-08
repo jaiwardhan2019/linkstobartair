@@ -40,18 +40,19 @@ public class manageStobartContractImp implements manageStobartContract{
     // -------------  THIS WILL SHOW THE LIST OF CONTRACT --------------- 
 	@Override
 	public List<stobartContract> showAllContract(String dept, String subdept) {		
-		   String sqlListContract="SELECT * FROM CORPORATE_PORTAL.CONTRACT_MASTER  order by department";
+		   String sqlListContract="SELECT * FROM CORPORATE_PORTAL.CONTRACT_MASTER order by entry_date_time desc";
 		   
+		   //************* BUILT SQL ON SEARCH PARAMETER ***************
 		   if(!dept.equals("ALL")){
-			   sqlListContract="SELECT * FROM CORPORATE_PORTAL.CONTRACT_MASTER  where department='"+dept+"' order by department";
+			   sqlListContract="SELECT * FROM CORPORATE_PORTAL.CONTRACT_MASTER  where department='"+dept+"' order by entry_date_time desc";
 			   if(!subdept.equals("ALL")){
-				   sqlListContract="SELECT * FROM CORPORATE_PORTAL.CONTRACT_MASTER  where department='"+dept+"' and sub_department='"+subdept+"'  order by department";
+				   sqlListContract="SELECT * FROM CORPORATE_PORTAL.CONTRACT_MASTER  where department='"+dept+"' and sub_department='"+subdept+"'  order by entry_date_time desc";
 				   
 			   }
 			   
 		   }
 		   
-		   System.out.println(sqlListContract);
+		   
 		   
 		   List  Contract = jdbcTemplateRefis.query(sqlListContract,new stobartContractRowmapper());
 		
@@ -76,12 +77,12 @@ public class manageStobartContractImp implements manageStobartContract{
 	
 		
 		   String insertQuery="INSERT INTO  CORPORATE_PORTAL.CONTRACT_MASTER (department ,sub_department , contractor_name, contractor_contact_detail,"
-		   		  + " refrence_no,description,status,start_date,end_date,entered_by_email)"
+		   		  + " refrence_no,description,status,start_date,end_date,entered_by_email,entry_date_time)"
 				  
 		   		  +"VALUES ('"+req.getParameter("department")+"','"+req.getParameter("subdepartment")+"','"+req.getParameter("ccompany")+"'"
 				  + ",'"+req.getParameter("ccontract")+"','"+req.getParameter("refno")+"','"+req.getParameter("cdescription")+"', "
 				  		+ "'Active','"+req.getParameter("startDate")+"','"+req.getParameter("endDate")+"'"
-				  				+ ",'"+req.getParameter("emailid")+"')";
+				  				+ ",'"+req.getParameter("emailid")+"','"+currentdateandtime+"')";
 		   
 		  
 		   int stats=jdbcTemplateRefis.update(insertQuery);		

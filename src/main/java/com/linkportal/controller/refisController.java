@@ -52,10 +52,7 @@ public class refisController {
 	manageStobartContract contract;
 	
 	
-	@Value("${stobart.contract.folder}") String UPLOAD_DIRECTORY;
-	
-	
-	
+
 	
 	
     //---------- Logger Initializer------------------------------- 
@@ -157,7 +154,28 @@ public class refisController {
 					model.put("contractlist", contract.showAllContract(req.getParameter("department"),req.getParameter("subdepartment")));
 					return "contractmanager/contractmanager";
 				   
-		         }							
+		         }	
+				
+				
+				//--------- Search  Contract And Display ------------
+				if(req.getParameter("event").equals("update")){					
+					
+					
+				   // Here you need to write Contract Update Code 
+					
+					System.out.println("Write Update Code ");
+					
+					
+				   model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract  Successfully Updated.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+				   model.put("contractlist", contract.showAllContract("ALL","ALL"));
+				   return "contractmanager/contractmanager";
+				   
+		         }	
+				
+				
+				
+				
+				
 			
 			}
 			
@@ -172,7 +190,9 @@ public class refisController {
 	
 	
 	
-	//Save Multiple File 
+	@Value("${stobart.contract.folder}") String UPLOAD_DIRECTORY;
+	
+	
 	
 	//************** WILL UPLOAD FILE AND ADD ENTRY TO THE THE DATABASE *********************************
 	@RequestMapping(value = "/addcontracttodatabase",method = {RequestMethod.POST,RequestMethod.GET})
@@ -186,17 +206,25 @@ public class refisController {
 		
 	       
 	        try {
-			        // This Part of Code will Upload file to the folder
+			        // This Part of Code Will Create Main Folder (stobart_contract) if not exist 
 			        File uploadDir = new File(UPLOAD_DIRECTORY+"stobart_contract/");
 			        if(!uploadDir.exists()) {
 			            uploadDir.mkdir();
-			            logger.info("Folder stobart_contract ");
+			            logger.info("Main Folder stobart_contract Created ");
+			            
 			        }
-	             
 			        
-	 	            // This Part will save file into the folder  
+			        File contractFolder = new File(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/");
+		            if(!contractFolder.exists()){
+		            	contractFolder.mkdir();
+		            	logger.info("Contract Refrence No Folder Created ");			            	
+		            }
+		            
+		          
+			        
+	 	            // This Part will Upload File to into the folder  
 		            byte[] bytes = file.getBytes();
-		            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+ file.getOriginalFilename());
+		            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename());
 		            Files.write(path, bytes);		    
 		            logger.info("Contract File Uploaded to the folder by:"+req.getParameter("emailid"));
 		            
@@ -210,15 +238,13 @@ public class refisController {
 		            
 	        } catch (Exception e) {
 	        	logger.error(e);
-	        	model.put("contractupdate"," Contract Not Added Please Try Again !!!..");
+	        	model.put("contractupdate"," <i class='fa fa-hand-o-down fa-2x' > </i> &nbsp; Contract Not Added Please Try Again !!!..");
 	        	model.put("col","red");
 	        	return "contractmanager/contractmanager";
 	        }
 	        
-	        
-	        model.put("contractupdate","Contract Successfully added..");
-	        model.put("col","green");
-	        model.put("contractlist", contract.showAllContract("ALL","ALL")); 
+			model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract  Successfully Added.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+			model.put("contractlist", contract.showAllContract("ALL","ALL")); 
 	        return "contractmanager/contractmanager";
     	
 	       

@@ -19,6 +19,9 @@
 
 
 
+
+
+
 function contract_home(event){    
 	    document.addcontract.method="POST"
 	    document.addcontract.action="contractManager";
@@ -85,12 +88,11 @@ function manage_contract(event){
 }//---------- End Of Function  ------------------
 
 
-
-
-
-
 	
 </script>
+
+
+
  
   <br>
  
@@ -141,11 +143,10 @@ function manage_contract(event){
 							<label >Department.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control" onchange="showOtherdDateCaption()" >
-											<option value="ALL"> ------ ALL ------ </option>	
+										<select id="department" name="department" class="form-control" onchange="showOtherdDateCaption()" >										
 											<option value="GEN"> General Contract - </option>	
-											<option value="ENG"> Engineering </option>
-											<option value="FIN"> Finance </option>												
+											<option value="ENG" > Engineering </option>
+											<option value="FIN" > Finance </option>												
 										</select>
 							</div>	
 						</div>
@@ -157,8 +158,8 @@ function manage_contract(event){
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
 										<select  id="subdepartment" name="subdepartment" class="form-control" >
-											<option value="GEN"> - General Contract - </option>	
-											<option value="ENG1"> Sub - Engineering </option>
+											<option value="ENG1"> - ENG One  - </option>	
+											<option value="ENG2"> - ENG Two -  </option>
 											
 										</select>
 							</div>
@@ -167,17 +168,18 @@ function manage_contract(event){
 				    
 				    <div class="form-group">
 							<label  >Contractor Company Detail.</label>
-							<div class="input-group">
+							<div class="input-group col-xs-12" >
 								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
-										<input type="text"   name="ccompany" id="ccompany" class="form-control" >										
+										<input type="text" size="5"  name="ccompany" id="ccompany" class="form-control" >										
 							</div>
 				    </div>
 				    
 				    <div class="form-group">
 							<label  >Contractor Contact Detail.</label>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
-										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control"></textarea>										
+								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
+								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
+										<textarea rows="02" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com"></textarea>										
 							</div>
 				    </div>						
 					
