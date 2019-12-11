@@ -128,7 +128,8 @@ public class refisController {
 	
 	
 	
-	//-------THis Will be Called When Refis User Links is called from Ground Ops  
+	//-------START CONTRACT MANAGER CONTROLLER--------------------------------------------------------
+	
 	@RequestMapping(value = "/contractManager",method = {RequestMethod.POST,RequestMethod.GET})
 	public String ManageContract(HttpServletRequest req, ModelMap model) throws Exception {	
 		
@@ -140,7 +141,9 @@ public class refisController {
 			
 			if(req.getParameter("event") != null){
 				
-				//--------- Add New Contract ------------
+				
+				
+				//--------- This Part will display Add  Contract View------------
 				if(req.getParameter("event").equals("addnew")){
 					
 					return "contractmanager/addnewcontract";
@@ -148,7 +151,9 @@ public class refisController {
 		         }		
 				
 				
-				//--------- Search  Contract And Display ------------
+				
+				
+				//---------  This Part will display Search Contract And Display  View----
 				if(req.getParameter("event").equals("search")){					
 					
 					model.put("contractlist", contract.showAllContract(req.getParameter("department"),req.getParameter("subdepartment")));
@@ -157,24 +162,76 @@ public class refisController {
 		         }	
 				
 				
-				//--------- Search  Contract And Display ------------
-				if(req.getParameter("event").equals("update")){					
+				
+				
+				//--------- This Part will display Update Contract View -----------
+				if(req.getParameter("event").equals("view")){		
 					
+					model.addAttribute("emailid",req.getParameter("emailid"));
+					model.addAttribute("password",req.getParameter("password"));			
+					model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+						
+			        //------ Select Contract from database
+					model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
+					//------ Select Contract from File System
+					model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
 					
-				   // Here you need to write Contract Update Code 
-					
-					System.out.println("Write Update Code ");
-					
-					
-				   model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract  Successfully Updated.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
-				   model.put("contractlist", contract.showAllContract("ALL","ALL"));
-				   return "contractmanager/contractmanager";
+				   return "contractmanager/updatecontract";
 				   
 		         }	
 				
 				
 				
 				
+				
+				
+				//--------- This Part will Remove Contract  -----------
+				if(req.getParameter("event").equals("remove")){		
+					
+					model.addAttribute("emailid",req.getParameter("emailid"));
+					model.addAttribute("password",req.getParameter("password"));			
+					model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+					
+					
+					
+					
+					//This part will remove Directory from the root and remove record from database.
+				    String rootdirectory = new java.io.File( "/" ).getCanonicalPath();
+				    File directory=new File(rootdirectory+"/data/stobart_contract/"+req.getParameter("refno").trim());				    
+				    if(deleteDirectory(directory)){				    	
+				       contract.removeContract(req.getParameter("refno").trim()); //<<-  Remove from database 
+				    }
+				    
+						
+					
+					model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+					model.put("contractlist", contract.showAllContract("ALL","ALL"));
+					return "contractmanager/contractmanager";
+						
+				}	
+				
+				
+
+				//--------- This Part will Remove Contract  -----------
+				if(req.getParameter("event").equals("removefilefromfolder")){		
+					
+					model.addAttribute("emailid",req.getParameter("emailid"));
+					model.addAttribute("password",req.getParameter("password"));			
+					model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+					
+					
+			        //------ Select Contract from database
+					model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
+					
+					//------ Remove File from the Contract Folder
+					//model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno"))); 
+					
+				   return "contractmanager/updatecontract";
+				
+					
+					
+				
+				}		
 				
 			
 			}
@@ -190,13 +247,16 @@ public class refisController {
 	
 	
 	
-	@Value("${stobart.contract.folder}") String UPLOAD_DIRECTORY;
 	
 	
+	
+	
+	
+	@Value("${stobart.contract.folder}") String UPLOAD_DIRECTORY;	
 	
 	//************** WILL UPLOAD FILE AND ADD ENTRY TO THE THE DATABASE *********************************
 	@RequestMapping(value = "/addcontracttodatabase",method = {RequestMethod.POST,RequestMethod.GET})
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,HttpServletRequest req,ModelMap model) {
+    public String singleFileUpload(@RequestParam("cfile") MultipartFile file,HttpServletRequest req,ModelMap model) {
         
 		   
 		   model.addAttribute("emailid",req.getParameter("emailid"));
@@ -237,11 +297,13 @@ public class refisController {
 	
 		            
 	        } catch (Exception e) {
-	        	logger.error(e);
-	        	model.put("contractupdate"," <i class='fa fa-hand-o-down fa-2x' > </i> &nbsp; Contract Not Added Please Try Again !!!..");
-	        	model.put("col","red");
+	        	logger.error(e);	        	
+	        	model.put("contractupdate","<span style='color:red;font-weight:bold;font-size:12pt;'> Contract  Not Added Please Try Again !!!..&nbsp;<i class='fa fa-frown-o fa-2x'> </i></span>");	
+	        	model.put("contractlist", contract.showAllContract("ALL","ALL")); 
 	        	return "contractmanager/contractmanager";
 	        }
+	        
+	        
 	        
 			model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract  Successfully Added.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
 			model.put("contractlist", contract.showAllContract("ALL","ALL")); 
@@ -252,26 +314,24 @@ public class refisController {
 
 	
 	
-	
-	
-	//Save Multiple File 
-	//https://www.mkyong.com/spring-mvc/spring-mvc-file-upload-example/
-    private void saveUploadedFiles(List<MultipartFile> files) throws IOException {
-
-        for (MultipartFile file : files) {
-
-            if (file.isEmpty()) {
-                continue; //next pls
-            }
-
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/" + file.getOriginalFilename());            
-            Files.write(path, bytes);
-
-        }
-
+    
+    
+    //-------- TAKE DIRECTORY AS INPUT AND REMOVE ALL FILE FROM THERE 
+    public static boolean deleteDirectory(File dir) { 
+    	 if (dir.isDirectory()) { 
+    		 File[] children = dir.listFiles(); 
+    		 for (int i = 0; i < children.length; i++) { 
+    			 boolean success = deleteDirectory(children[i]); 
+    			 if (!success) { return false; } 
+    			 }
+    		 } // either file or an empty directory 
+    	   
+    	    return dir.delete(); 
+    	    }
     }
 
 	
+	//-------END OF CONTRACT MANAGER CONTROLLER--------------------------------------------------------
+    
 	
-}
+

@@ -19,26 +19,19 @@
 
 
 
-function bulit_ref_no(){
-	     document.addcontract.refno.value=document.addcontract.department.value;
-	     document.addcontract.refno.value=document.addcontract.refno.value+"-"+document.addcontract.subdepartment.value;
-	     document.addcontract.refno.value=document.addcontract.refno.value+"-"+document.addcontract.ccompany.value.substring(0,4);
-	     document.addcontract.refno.value=document.addcontract.refno.value+"-"+document.addcontract.startDate.value;
-	     
-	   
-}
+
 
 
 function contract_home(event){    
-	    document.addcontract.method="POST"
-	    document.addcontract.action="contractManager";
-        document.addcontract.submit();
+	    document.updatecontract.method="POST"
+	    document.updatecontract.action="contractManager";
+        document.updatecontract.submit();
 	    return true;
 	
 }//---------- End Of Function  ------------------
 
-function toggle_visibility() {
-    var e = document.getElementById("uploadstatus");
+function toggle_visibility(id) {
+    var e = document.getElementById(id);
     if(e.style.display == 'block')
        e.style.display = 'none';
     else
@@ -47,55 +40,61 @@ function toggle_visibility() {
 
 
 
-function manage_contract(event){    
+function remove_contract(){
+
+	    if(confirm("Are you Sure about removing this Contract From Database..??\n Note: Once you confirm then these file and data will be removed from the System..")){
+	    	document.updatecontract.method="POST"
+     	    document.updatecontract.action="contractManager?event=remove";
+	        document.updatecontract.submit();
+	  	    return true;
+		}
 	  
-    if(document.addcontract.ccompany.value == ""){
-       alert("Please Enter Contractor Company Detail..");
-       document.addcontract.ccompany.focus();
-       return false;
-	}
-    
-   if(document.addcontract.ccontract.value == ""){
-       alert("Please Enter Contact Detail.. Email id / Phone no ..");
-       document.addcontract.ccontract.focus();
-       return false;
-	}
+        	    
+}
+
+
+function manage_contract(event){
+
+        document.updatecontract.method="POST"
+	    document.updatecontract.action="contractManager?event="+event;
+        document.updatecontract.submit();
+	    return true;
+	
+/*
 	  
-    if(document.addcontract.startDate.value == ""){
+    if(document.updatecontract.startDate.value == ""){
        alert("Please Select Contract Start Date");
-       document.addcontract.startDate.focus();
+       document.updatecontract.startDate.focus();
        return false;
 	}
     
-    if(document.addcontract.endDate.value == ""){
+    if(document.updatecontract.endDate.value == ""){
        alert("Please Select Contract End Date");
-       document.addcontract.endDate.focus();
+       document.updatecontract.endDate.focus();
        return false;
 	}
 	
-    if(document.addcontract.cdescription.value == ""){
-        alert("Please Enter Some detail abbout this Contract.");
-        document.addcontract.cdescription.focus();
+    if(document.updatecontract.comment.value == ""){
+        alert("Please Enter Some detail ");
+        document.updatecontract.comment.focus();
         return false;
  	}
  	
-    if(document.addcontract.cfile.value == ""){
+    if(document.updatecontract.cfile.value == ""){
         alert("Please Select File..");
-        document.addcontract.cfile.focus();
+        document.updatecontract.cfile.focus();
         return false;
  	}
  	
 	else
     {
-
-		toggle_visibility();
-        document.addcontract.method="POST"
-	    document.addcontract.action="addcontracttodatabase";
-        document.addcontract.submit();
+        document.updatecontract.method="POST"
+	    document.updatecontract.action="contractManager?event="+event;
+        document.updatecontract.submit();
 	    return true;
-		    
+	    
     }    
-	
+	*/
 }//---------- End Of Function  ------------------
 
 
@@ -129,7 +128,7 @@ function manage_contract(event){
  
  
  
- <form name="addcontract" method="post" enctype="multipart/form-data">
+ <form name="updatecontract" id="updatecontract" method="post" >
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
@@ -140,7 +139,7 @@ function manage_contract(event){
 				     <tr align="center">
 					 <td  bgcolor="#0070BA">
 					   <span style="color:white;"> <i class="fa fa-suitcase fa-lg" aria-hidden="true"></i> &nbsp;<b>
-					    New Contract  &nbsp;&nbsp;
+					    Update Contract  &nbsp;&nbsp;
 					   </b></span>					 
 					 </td>
 				     </tr>
@@ -154,7 +153,7 @@ function manage_contract(event){
 							<label >Department.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control" onchange="bulit_ref_no()" >										
+										<select id="department" name="department" class="form-control" onchange="showOtherdDateCaption()" >										
 											<option value="GEN"> General Contract - </option>	
 											<option value="ENG" > Engineering </option>
 											<option value="FIN" > Finance </option>												
@@ -168,7 +167,7 @@ function manage_contract(event){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
-										<select  id="subdepartment" name="subdepartment" class="form-control" onchange="bulit_ref_no()" >		
+										<select  id="subdepartment" name="subdepartment" class="form-control" >
 											<option value="ENG1"> - ENG One  - </option>	
 											<option value="ENG2"> - ENG Two -  </option>
 											
@@ -181,7 +180,7 @@ function manage_contract(event){
 							<label  >Contractor Company Detail.</label>
 							<div class="input-group col-xs-12" >
 								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
-										<input type="text" size="5"  name="ccompany" id="ccompany" class="form-control" onkeypress="bulit_ref_no()" >										
+										<input type="text" size="5"  name="ccompany" id="ccompany" class="form-control" value="${contractdetail.contractor_name}">										
 							</div>
 				    </div>
 				    
@@ -190,19 +189,16 @@ function manage_contract(event){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
 								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
-										<textarea rows="02" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com"></textarea>										
+										<textarea rows="02" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com"> ${contractdetail.contractor_contact_detail}</textarea>										
 							</div>
 				    </div>						
 					
 					<div class="form-group">
-							<label  >Ref No.</label> 
-							<!-- 
-							&nbsp;&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i>&nbsp;<span style="font-weight:600;font-size:8pt;color:blue">
-							&nbsp;&nbsp;Sample:&nbsp;&nbsp;(ENG/ELE/SUPNAME/DD-MM-YYYY)</span> 
-							 -->
+							<label  >Ref No.</label> <span style="font-weight:600;font-size:8pt;color:blue">
+							&nbsp;&nbsp;This cant be modified</span> 
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
-										<input type="text"   name="refno" id="refno" class="form-control" readonly >										
+										<input type="text"   name="refno" id="refno" class="form-control" readonly  value="${contractdetail.refrence_no}">										
 							</div>
 				    </div>
 	
@@ -212,7 +208,7 @@ function manage_contract(event){
 							<label for="startDate">Contract Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input  type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12"  onchange="bulit_ref_no()"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12"  value="${contractdetail.start_date}" />
 							</div>	
 						</div>
 						
@@ -221,7 +217,7 @@ function manage_contract(event){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								
-								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" value="${contractdetail.end_date}"/>
 								
 							</div>
 						</div>
@@ -231,18 +227,41 @@ function manage_contract(event){
 							<label> Contract Description.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-									<textarea rows="05" name="cdescription"  id="cdescription" class="form-control"></textarea>
+									<textarea rows="05" name="cdescription"  id="cdescription" class="form-control">${contractdetail.contract_description}</textarea>
 											
 							</div>
 				    </div>
-						
-
+				    
+					
+					<div class="form-group">
+							<label>Already attached File. </label>							
+							<span style="font-weight:400;font-size:9pt;">							
+							<table align="left"  class="table table-striped table-bordered">							
+							<% 							
+							int filecount=1;							
+							%>
+							 <c:forEach var="filelist" items="${filelist}">       
+							<tr> 
+								<td align="left" width="85%"><b><%=filecount++%></b>.&nbsp; <img  src="images/page_white_acrobat.png">&nbsp; ${filelist} </td>
+								<td align="left">
+								 <span style="font-weight:600;font-size:9pt;color:red">
+								   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="">&nbsp;Del</a>
+								 </span>  
+								 </td>
+							</tr>
+						  </c:forEach>
+							
+							</table>
+							</span>
+				   </div>
+				   <br>
+		
 				
 					<div class="form-group">
-							<label> Attach File. </label>
+							<label> Attach More File. </label>
 							<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
-									 <input type="file" id="cfile"  name="cfile"   class="form-control"/>
+									 <input type="file"   name="file"   class="form-control"/>
 							</div>
 				   </div>
 						
@@ -258,32 +277,15 @@ function manage_contract(event){
 						<td  bgcolor="white">			                   
 			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Back&nbsp; <i class="fa fa-home" aria-hidden="true"></i>  </span>  
 			                   &nbsp;&nbsp;&nbsp;
-			                   <span onClick="manage_contract('addnew');" id="addnew" class="btn btn-primary" >&nbsp;Add Contract &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </span>
-                               
-		 			     </td>
+			                   <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
+			                   &nbsp;&nbsp;&nbsp;
+			                   <span onClick="toggle_visibility('uploadstatus');manage_contract('update');" id="addnew" class="btn btn-success" >&nbsp;Update &nbsp; <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>
+ 		 			     </td>
 				     </tr>
-			
-			
-			
-				     <tr align="center"> 
-				     					
-						<td  bgcolor="white">			                   
-			
-			                <span style="display:none" id="uploadstatus" class="btn btn-success btn-sm" > <i class="fa fa-spinner fa-pulse fa-2x"></i> &nbsp; <b> Saving Contract.. </b> </span> 
-            
-            <!--       		                              
-							<div class="progress" style="display:none" id="uploadstatus">
-							
-							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							    <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-lg"></i>
-							  </div>
-							</div>
-                 -->             
-                    
-			        
-			            </td>
-			         
-			         </tr> 
+				     
+				     
+				     
+				     
 							    
 				    </tbody>
 			</table>

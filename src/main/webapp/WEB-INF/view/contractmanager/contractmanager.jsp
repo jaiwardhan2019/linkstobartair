@@ -25,10 +25,10 @@ function manage_contract(event){
 
 
 function update_contract(contractref){
-
-    
+            
+        document.contract.refno.value=contractref;
         document.contract.method="POST"
-	    document.contract.action="contractManager?event=update&refno"+contractref;
+	    document.contract.action="contractManager?event=view";
         document.contract.submit();
 	    return true;
 
@@ -65,8 +65,8 @@ tr:nth-child(even) {
  <br>
  <br>
 
- 
-   
+
+
  <div class="container" align="center">
  
  <div class="col-md-12 col-sm-12 col-xs-12" align="center" id="printButton">
@@ -75,6 +75,7 @@ tr:nth-child(even) {
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
+      <input type="hidden" name="refno" id="refno" value="">
           <table class="table table-striped table-bordered" border="1" style="width: 30%;" align="center">	    
     			<tbody>				     
 				     <tr align="center">
@@ -166,7 +167,6 @@ tr:nth-child(even) {
 
 
 
-
 <!--  START OF REPORT  PART   -->
 
 <br>
@@ -178,13 +178,17 @@ tr:nth-child(even) {
 	     
 
 	     <td align="left"> 
-	        <span  style="font-weight:300;font-size:12pt;">Total Contract # </span> <span  style="font-weight:400;font-size:16pt;"><b>${fn:length(contractlist)} </b></span>
+	        <span  style="font-weight:300;font-size:12pt;">Total Contract # </span> <span  style="font-weight:400;font-size:16pt;">
+	              <b>${fn:length(contractlist)} </b>
+	              
+	              <!-- <button type="button" class="btn btn-primary">Total Contract <span class="badge">${fn:length(contractlist)}</span></button> -->
+	              
+	              </span>
 	     </td>
 	    
 	    
 		 <td align="right"> 
-        		<span onClick="manage_contract('addnew');" id="addnew" class="btn btn-primary" ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New Contract  </span> 
-		 
+ 		        <button onClick="manage_contract('addnew');" id="addnew" type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp; <b> New Contract </b></button>
 		  </td>
 
 	   </tr>	
@@ -329,15 +333,13 @@ tr:nth-child(even) {
 					 </td>
 					<td align="center">					  
 					     <c:if test="${contract.status == 'Active'}">
-		                     <button class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <span style="color:green;font-weight:bold;font-size:10pt;"> Active</span> 
-		                     <!-- <button type="button" class="btn btn-success btn-sm"> Active. </button> -->
+		                     <button type="button" class="btn btn-success btn-sm"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <b> Active.</b> </button>
+		                     
 		                </c:if>
 		          
 		          
 		            	<c:if test="${contract.status == 'Dactive'}">
-		                      <!--  <button type="button" class="btn btn-danger btn-sm"> Expired. </button>-->
-		                     <button class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp; <span style="color:red;font-weight:bold;font-size:10pt;"> Expired</span> 
-		    
+			                        <button type="button" class="btn btn-danger btn-sm"> <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;  <b>Expired.</b> </button>
 		                </c:if>
 		          
  

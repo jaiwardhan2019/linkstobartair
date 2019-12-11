@@ -1,13 +1,16 @@
 package com.linkportal.contractmanager;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -61,7 +64,18 @@ public class manageStobartContractImp implements manageStobartContract{
 	
 	
 	
+
+
+	// -------------  THIS WILL SHOW ONE CONTRACT --------------- 
+	@Override
+	public stobartContract viewContract(String crefno) {
+		 String sql="SELECT * FROM CORPORATE_PORTAL.CONTRACT_MASTER where refrence_no=?";   		 
+		 return jdbcTemplateRefis.queryForObject(sql, new Object[]{crefno}, new stobartContractRowmapper());	    
 	
+	}
+
+
+
 	
 	
 	
@@ -98,18 +112,46 @@ public class manageStobartContractImp implements manageStobartContract{
 	
 	
 	@Override
-	public int updateNewContract() {
-		// TODO Auto-generated method stub
+	public int updateNewContract(String crefrno) {
+		   
+		   System.out.println("Write Sql Query for update ");
+		
 		return 0;
 	}
 
 	
 	
 	@Override
-	public int removeContract() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void removeContract(String refrenceno) {
+		// TODO Auto-generated method stub		
+		jdbcTemplateRefis.execute("delete from CORPORATE_PORTAL.CONTRACT_MASTER  where refrence_no='"+refrenceno+"'");
 	}
+
+
+
+
+    //----------- THIS FUNCTION WILL TAKE FOLDER NAME AS INPUT AND RETURN LIST STRING AS FILE NAME IN THERE  
+	@Value("${stobart.contract.folder}") String CONTRACT_DIRECTORY;
+	@Override
+	public List<String> showFilesFromFolder(String foname) {	
+		   List<String> CfileList = new ArrayList<String>();
+		   File foldername = new File(CONTRACT_DIRECTORY+"stobart_contract/"+foname+"/"); 
+		   if(foldername.isDirectory()) {
+			   String[] fileList = foldername.list();
+			   for (String filename : fileList) {
+				   CfileList.add(filename);
+			   }
+			   return CfileList;
+		   }
+		   else
+		   {
+			   return null; 
+		   }
+		   
+
+		
+	}//--------- END OF FUNCTION --------------
+
 
 
 
