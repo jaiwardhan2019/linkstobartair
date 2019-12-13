@@ -646,7 +646,7 @@ tr:nth-child(even) {
 		    <tr>
 		    
 		      <td colspan="17" align="center">
-	              <c:set var = "rowcount" scope = "session" value = "${fn:length(reportbody)}"/>
+	              <c:set var = "rowcount"  value = "${fn:length(reportbody)}"/>
 	              <c:if test = "${rowcount == 0}">
 		              <b> Sorry There is no flight found based on your search criteria..</b>
 		          </c:if>

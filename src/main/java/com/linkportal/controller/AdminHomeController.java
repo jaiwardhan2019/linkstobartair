@@ -256,6 +256,37 @@ public class AdminHomeController {
 		
 	
 		
+		
+		
+		//************** THIS PART FOR THE ACCESS PROFILE OF THE STOBART CONTRACT MANAGER
+		
+		
+        //---------- WILL SHOW USER DETAIL WITH PROFILE -----------------------------
+		@RequestMapping(value = "/showcontractaccessprofile",method = {RequestMethod.POST,RequestMethod.GET})
+		public String show_user_profile_for_contract_access(ModelMap model,HttpServletRequest req){
+			
+			   //model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
+			   
+			   
+			   
+			   model.put("emailid", req.getParameter("emailid"));
+			   return "admin/userprofile/viewcontractuserprofile";
+		}
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 				
 	
 	

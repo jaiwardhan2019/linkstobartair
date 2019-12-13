@@ -13,12 +13,13 @@ public interface manageStobartContract {
 	
 	public int addNewContract(HttpServletRequest req);       // Will add new  contract to the database     return 1 means success
 	
-	public int updateNewContract(String crefno);    // Will update new  contract to the database  return 1 means success
+	public int updateNewContract(HttpServletRequest req);    // Will update new  contract to the database  return 1 means success
 	
 	public void removeContract(String crefno);       // Will update new  contract to the database     return 1 means success  
 	
 	public List<String> showFilesFromFolder(String foldername);
 	
+	public boolean removeFolderWithallFile(File foldername);
 	
 	
 }

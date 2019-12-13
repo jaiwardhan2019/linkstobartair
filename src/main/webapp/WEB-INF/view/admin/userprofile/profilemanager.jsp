@@ -40,6 +40,18 @@ function searchUser(){
 }
 
 
+function show_contract_user_Profile(useremail){
+
+		  document.linkuser.method="POST"
+		  document.linkuser.action="showcontractaccessprofile?emailid="+useremail;
+		  document.linkuser.submit();
+		  return true;
+
+	
+}
+
+
+
 
 </script>
 
@@ -184,8 +196,8 @@ function searchUser(){
 		          <td align="center"> 
 		          
 		           <span style="font-weight:bold;" onClick="update_user_Profile('${linkusers.emailId}');"  class="btn btn-light btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Update </span>
-		
-	               <!-- 
+		            
+		            <!-- 
 					<c:choose>
 					    <c:when test="${linkusers.stobart_external_user == 'I'}">
 					             <span style="color:black;"> <c:out value = "Stobart User "/></span>
@@ -200,12 +212,9 @@ function searchUser(){
 		          </td>
 		           
 		           <td align="center">  
-		             
 		               
-		              
-		                       <span style="font-weight:bold;" onClick="remove_user_Profile('${refisAccount.username}');" class="btn btn-light btn-sm"><i class="fa fa-plus  fa-lg"></i>&nbsp;Add Access</span>
-		  
-		              
+		               <button type="button" onClick="show_contract_user_Profile('${linkusers.emailId}');" class="btn btn-success btn-sm"> <span style="font-weight:bold;"> Add Access</span>&nbsp;&nbsp;<i class="fa fa-plus  fa-lg" aria-hidden="true"></i></button> 
+		                       
 		           </td>
 		          
 		          </tr>

@@ -112,12 +112,18 @@ public class manageStobartContractImp implements manageStobartContract{
 	
 	
 	@Override
-	public int updateNewContract(String crefrno) {
-		   
-		   System.out.println("Write Sql Query for update ");
+	public int updateNewContract(HttpServletRequest req) {
 		
-		return 0;
+		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		   LocalDateTime currentdateandtime = LocalDateTime.now();
+			
+		   String updateSql = "UPDATE CORPORATE_PORTAL.CONTRACT_MASTER SET department ='"+req.getParameter("department")+"' , sub_department ='"+req.getParameter("subdepartment")+"',"
+		   		+ "contractor_name ='"+req.getParameter("ccompany")+"' ,contractor_contact_detail = '"+req.getParameter("ccontract").trim()+"',"
+		   		+ "description='"+req.getParameter("cdescription")+"' WHERE refrence_no ='"+req.getParameter("refno")+"'";
+		   int rows = jdbcTemplateRefis.update(updateSql);	
+		return rows;
 	}
+	
 
 	
 	
@@ -151,6 +157,25 @@ public class manageStobartContractImp implements manageStobartContract{
 
 		
 	}//--------- END OF FUNCTION --------------
+
+
+
+
+
+	 //-------- TAKE DIRECTORY AS INPUT AND REMOVE ALL FILE FROM THERE 
+	@Override
+	public boolean removeFolderWithallFile(File dir) {
+		   
+	   	 if (dir.isDirectory()) { 
+    		 File[] children = dir.listFiles(); 
+    		 for (int i = 0; i < children.length; i++) { 
+    			 boolean success = removeFolderWithallFile(children[i]); 
+    			 if (!success) { return false; } 
+    			 }
+    		 } // either file or an empty directory 
+    	   
+    	    return dir.delete();
+	}
 
 
 

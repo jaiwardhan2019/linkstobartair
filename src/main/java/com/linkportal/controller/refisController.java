@@ -136,7 +136,8 @@ public class refisController {
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));			
 			model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-			
+		    String rootdirectory = new java.io.File( "/" ).getCanonicalPath();
+
 		  
 			
 			if(req.getParameter("event") != null){
@@ -185,25 +186,16 @@ public class refisController {
 				
 				
 				
-				//--------- This Part will Remove Contract  -----------
+				//--------- This Part will Remove CONTRACT + FOLDER  -----------
 				if(req.getParameter("event").equals("remove")){		
-					
-					model.addAttribute("emailid",req.getParameter("emailid"));
-					model.addAttribute("password",req.getParameter("password"));			
-					model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-					
-					
-					
-					
-					//This part will remove Directory from the root and remove record from database.
-				    String rootdirectory = new java.io.File( "/" ).getCanonicalPath();
-				    File directory=new File(rootdirectory+"/data/stobart_contract/"+req.getParameter("refno").trim());				    
-				    if(deleteDirectory(directory)){				    	
-				       contract.removeContract(req.getParameter("refno").trim()); //<<-  Remove from database 
-				    }
-				    
 						
-					
+					//This part will remove Directory from the root and remove record from database.
+				    File directory=new File(rootdirectory+"/data/stobart_contract/"+req.getParameter("refno").trim());
+				    
+				    if(contract.removeFolderWithallFile(directory)){  //<<--- Remove folder and file in there 				    	
+					       contract.removeContract(req.getParameter("refno").trim()); //<<-  Remove from database 
+					}
+				    
 					model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
 					model.put("contractlist", contract.showAllContract("ALL","ALL"));
 					return "contractmanager/contractmanager";
@@ -212,29 +204,25 @@ public class refisController {
 				
 				
 
-				//--------- This Part will Remove Contract  -----------
+				//--------- This Part REMOVE FILE FROM Folder  -----------
 				if(req.getParameter("event").equals("removefilefromfolder")){		
+				    //------ Remove File from the Contract Folder							
+					File filenametoremove=new File(rootdirectory+"/data/stobart_contract/"+req.getParameter("refno").trim()+"/"+req.getParameter("filename"));
+					boolean delstatus=filenametoremove.delete();
 					
-					model.addAttribute("emailid",req.getParameter("emailid"));
-					model.addAttribute("password",req.getParameter("password"));			
-					model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-					
-					
-			        //------ Select Contract from database
 					model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
-					
-					//------ Remove File from the Contract Folder
-					//model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno"))); 
+					model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
+					model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> File Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
 					
 				   return "contractmanager/updatecontract";
-				
-					
 					
 				
-				}		
+				}//------- END of REMOVE FILE PART -----------------
+				
+				
 				
 			
-			}
+			}//----- END OF If(req.getParameter("event") != null){
 			
 			
 			
@@ -314,24 +302,89 @@ public class refisController {
 
 	
 	
-    
-    
-    //-------- TAKE DIRECTORY AS INPUT AND REMOVE ALL FILE FROM THERE 
-    public static boolean deleteDirectory(File dir) { 
-    	 if (dir.isDirectory()) { 
-    		 File[] children = dir.listFiles(); 
-    		 for (int i = 0; i < children.length; i++) { 
-    			 boolean success = deleteDirectory(children[i]); 
-    			 if (!success) { return false; } 
-    			 }
-    		 } // either file or an empty directory 
-    	   
-    	    return dir.delete(); 
-    	    }
-    }
 
 	
-	//-------END OF CONTRACT MANAGER CONTROLLER--------------------------------------------------------
-    
+	//************** WILL UPDATE CONTRACT TO THE DATABASE AND ADD MORE FILE TO THE FOLDER *********************************
+	@RequestMapping(value = "/updatecontracttodatabase",method = {RequestMethod.POST,RequestMethod.GET})
+    public String UpdateFileUploadAddData(@RequestParam("cfile") MultipartFile file,HttpServletRequest req,ModelMap model) {
+        
+		   
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));			
+		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+			
+		
+	       
+	        try {
+			      
+	        	
+	        	
+	        	   if(file.getSize() > 0) { 
+			        	
+	        	
+			        	    // This Part of Code Will Create Main Folder (stobart_contract) if not exist 
+					        File uploadDir = new File(UPLOAD_DIRECTORY+"stobart_contract/");
+					        if(!uploadDir.exists()) {
+					            uploadDir.mkdir();
+					            logger.info("Main Folder stobart_contract Created ");
+					            
+					        }
+					        
+					        File contractFolder = new File(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/");
+				            if(!contractFolder.exists()){
+				            	contractFolder.mkdir();
+				            	logger.info("Contract Refrence No Folder Created ");			            	
+				            }
+				            
+				          
+					        
+			 	            // This Part will Upload File to into the folder  
+				            byte[] bytes = file.getBytes();
+				            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename());
+				            Files.write(path, bytes);		    
+				            logger.info("Contract File Uploaded to the folder by:"+req.getParameter("emailid"));
+			
+	        	   } 
+	        	   // END OF FILE UPLOAD PART -------
+		            
+	        	   
+ 		            // This Part will Insert Form Data to the database 		            
+		            if(contract.updateNewContract(req) == 1) {		            	
+			           logger.info("Contract Detail is Updated by:"+req.getParameter("emailid"));
+			          		            	
+		            }
+		            
+		            
+		            
+	        } catch (Exception e) {
+	        	logger.error(e);	        	
+	        	model.put("contractupdate","<span style='color:red;font-weight:bold;font-size:12pt;'> Contract  Not Update. Please Try Again !!!..&nbsp;<i class='fa fa-frown-o fa-2x'> </i></span>");	
+	        	model.put("contractlist", contract.showAllContract("ALL","ALL")); 
+	        	return "contractmanager/contractmanager";
+	        }
+	        
+	        
+	       
+	        
+			model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
+			model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
+			model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract  Successfully Updated.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+			
+			return "contractmanager/updatecontract";
+	        
+	        
+	       
+    }
+	//************** END OF UPDATE CONTRACT TO THE DATABASE AND ADD MORE FILE TO THE FOLDER *********************************
+	
+	
+   
+
+
+
+} //---- END OF CONTROLLER CLASS ----------
+
+
+   
 	
 

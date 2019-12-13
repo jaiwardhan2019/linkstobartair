@@ -43,7 +43,7 @@ function update_contract(contractref){
 <style>
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: #EAEDED;
 }
 
 </style>
@@ -134,7 +134,7 @@ tr:nth-child(even) {
 					
 					       
 					               
-					       <span onClick="manage_contract('search');"  class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search Contract </span> 
+					       <span onClick="manage_contract('search');"  class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search </span> 
 					 
 					           
 					
@@ -259,7 +259,22 @@ tr:nth-child(even) {
 					 </td>
 		
 										 
-          </tr>  
+          </tr> 
+          
+         
+       <c:set var = "rowcount"  value = "${fn:length(contractlist)}"/>
+       <c:if test = "${rowcount == 0}">        
+          <tr>
+          
+           <td colspan="9" align="center">
+
+                     <span style="color:red;font-weight:bold;font-size:12pt;"> Sorry No Contract found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-2x"> </i>
+                      <br> Please change Filter or Check your Authorisation with Admin..</span>
+              
+            </td>
+          </tr>
+        </c:if>    
+           
           
          <%
 		 
@@ -290,7 +305,7 @@ tr:nth-child(even) {
 				    <td>
 				    
 		
-				       ${contract.refrence_no}  
+				       ${contract.refrence_no}  &nbsp;<span class="label label-success">New</span>
 				    
 										
 					 		 
@@ -356,7 +371,7 @@ tr:nth-child(even) {
 					 <td>	
 					 
 						  <c:if test="${contract.getFilesCount() > 0}">					 				    
-						    <a href=""><span style="font-weight:600;font-size:9pt;"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> ${contract.getFilesCount()} Files.</span></a>					   			 
+						    <a href="javascript:void();" onClick="alert('Under Construction');"><span style="font-weight:600;font-size:9pt;"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> ${contract.getFilesCount()} Files.</span></a>					   			 
 						 </c:if>
 			             
 			             <c:if test="${contract.getFilesCount() == 0}">	

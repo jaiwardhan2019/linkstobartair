@@ -13,12 +13,6 @@
 <script type="text/javascript">
 
 
-//https://www.codejava.net/coding/upload-files-to-database-servlet-jsp-mysql 
-//https://www.codejava.net/java-ee/servlet/apache-commons-fileupload-example-with-servlet-and-jsp
-//https://javarevisited.blogspot.com/2013/07/ile-upload-example-in-servlet-and-jsp-java-web-tutorial-example.html
-
-
-
 
 
 
@@ -30,8 +24,10 @@ function contract_home(event){
 	
 }//---------- End Of Function  ------------------
 
-function toggle_visibility(id) {
-    var e = document.getElementById(id);
+
+
+function toggle_visibility() {
+    var e = document.getElementById("uploadstatus");
     if(e.style.display == 'block')
        e.style.display = 'none';
     else
@@ -55,12 +51,18 @@ function remove_contract(){
 
 function manage_contract(event){
 
-        document.updatecontract.method="POST"
-	    document.updatecontract.action="contractManager?event="+event;
-        document.updatecontract.submit();
-	    return true;
-	
-/*
+	  
+    if(document.updatecontract.ccompany.value == ""){
+       alert("Please Enter Contractor Company Detail..");
+       document.updatecontract.ccompany.focus();
+       return false;
+	}
+    
+   if(document.updatecontract.ccontract.value == ""){
+       alert("Please Enter Contact Detail.. Email id / Phone no ..");
+       document.updatecontract.ccontract.focus();
+       return false;
+	}
 	  
     if(document.updatecontract.startDate.value == ""){
        alert("Please Select Contract Start Date");
@@ -74,28 +76,42 @@ function manage_contract(event){
        return false;
 	}
 	
-    if(document.updatecontract.comment.value == ""){
-        alert("Please Enter Some detail ");
-        document.updatecontract.comment.focus();
+    if(document.updatecontract.cdescription.value == ""){
+        alert("Please Enter Some detail abbout this Contract.");
+        document.updatecontract.cdescription.focus();
         return false;
  	}
  	
-    if(document.updatecontract.cfile.value == ""){
-        alert("Please Select File..");
-        document.updatecontract.cfile.focus();
-        return false;
- 	}
- 	
-	else
+    else
     {
+
+		toggle_visibility();		
         document.updatecontract.method="POST"
-	    document.updatecontract.action="contractManager?event="+event;
+	    document.updatecontract.action="updatecontracttodatabase";
         document.updatecontract.submit();
 	    return true;
-	    
+		    
     }    
-	*/
+	
 }//---------- End Of Function  ------------------
+
+
+
+function Remove_File_From_Folder(filename){
+	
+      
+	
+	    if(confirm("Are you Sure about removing this File From Contract.??\n Note: Once you confirm then this file can not be recovered..")){
+      
+	    	document.updatecontract.method="POST"
+	    	document.updatecontract.action="contractManager?event=removefilefromfolder&filename="+filename;
+	        document.updatecontract.submit();
+	  	    return true;
+		}
+	
+
+
+}//--- End of Function ------------
 
 
 	
@@ -128,7 +144,7 @@ function manage_contract(event){
  
  
  
- <form name="updatecontract" id="updatecontract" method="post" >
+ <form name="updatecontract" id="updatecontract" method="post" enctype="multipart/form-data">
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
@@ -195,7 +211,7 @@ function manage_contract(event){
 					
 					<div class="form-group">
 							<label  >Ref No.</label> <span style="font-weight:600;font-size:8pt;color:blue">
-							&nbsp;&nbsp;This cant be modified</span> 
+							&nbsp;&nbsp;${contractupdate}</span> 
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
 										<input type="text"   name="refno" id="refno" class="form-control" readonly  value="${contractdetail.refrence_no}">										
@@ -245,7 +261,7 @@ function manage_contract(event){
 								<td align="left" width="85%"><b><%=filecount++%></b>.&nbsp; <img  src="images/page_white_acrobat.png">&nbsp; ${filelist} </td>
 								<td align="left">
 								 <span style="font-weight:600;font-size:9pt;color:red">
-								   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="">&nbsp;Del</a>
+								   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="javascript:void();" onClick="Remove_File_From_Folder('${filelist}');">&nbsp;Del</a>
 								 </span>  
 								 </td>
 							</tr>
@@ -261,7 +277,7 @@ function manage_contract(event){
 							<label> Attach More File. </label>
 							<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
-									 <input type="file"   name="file"   class="form-control"/>
+									 <input type="file"  id="cfile"  name="cfile"   class="form-control"/>
 							</div>
 				   </div>
 						
@@ -279,12 +295,33 @@ function manage_contract(event){
 			                   &nbsp;&nbsp;&nbsp;
 			                   <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
 			                   &nbsp;&nbsp;&nbsp;
-			                   <span onClick="toggle_visibility('uploadstatus');manage_contract('update');" id="addnew" class="btn btn-success" >&nbsp;Update &nbsp; <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>
+			                   <span onClick="manage_contract('update');" id="addnew" class="btn btn-success" >&nbsp;Update &nbsp; <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>
  		 			     </td>
 				     </tr>
 				     
-				     
-				     
+	
+				     <tr align="center"> 
+				     					
+						<td  bgcolor="white">			                   
+			                 
+			                <span style="display:none" id="uploadstatus" class="btn btn-success btn-sm" > <i class="fa fa-spinner fa-pulse fa-2x"></i> &nbsp; <b> Updating.. </b> </span> 
+            
+                  		  <!--                       
+							<div class="progress" style="display:none" id="uploadstatus">
+							
+							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+							    <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-lg"></i>
+							  </div>
+							</div>
+                       
+                       -->
+			        
+			            </td>
+			         
+			         </tr> 
+					     
+						     
+					     
 				     
 							    
 				    </tbody>
