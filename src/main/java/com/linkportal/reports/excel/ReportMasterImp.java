@@ -130,9 +130,9 @@ public class ReportMasterImp implements ReportMaster {
 		
 	    
 		 ClassLoader classLoader = this.getClass().getClassLoader();
-		 File configFile=new File(classLoader.getResource("delaycodegroup.properties").getFile());
-		 FileReader reader=new FileReader(configFile);
-		 Properties p=new Properties(); 
+		 File configFile         = new File(classLoader.getResource("delaycodegroup.properties").getFile());
+		 FileReader reader       = new FileReader(configFile);
+		 Properties p            = new Properties(); 
 		 p.load(reader);
 	
 		
@@ -287,10 +287,10 @@ public class ReportMasterImp implements ReportMaster {
 	    File file = new File(filepath+useremail);
         if (!file.exists()) {
             if (file.mkdir()) {
-                System.out.println("Directory is created!");
+                
                 logger.info(filepath+useremail+" Directory  Created for the Report Files");
             } else {
-                System.out.println("Failed to create directory!");
+                
                 logger.error("Failed to create directory name :"+filepath+useremail+"# Please Check Folder permissions");
             }
         }

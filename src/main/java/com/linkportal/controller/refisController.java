@@ -1,13 +1,21 @@
 package com.linkportal.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,10 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.apache.commons.fileupload.FileItem;
@@ -196,7 +206,7 @@ public class refisController {
 					       contract.removeContract(req.getParameter("refno").trim()); //<<-  Remove from database 
 					}
 				    
-					model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+					model.put("contractupdate","<span style='color:blue;font-weight:bold;font-size:12pt;'> Contract Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
 					model.put("contractlist", contract.showAllContract("ALL","ALL"));
 					return "contractmanager/contractmanager";
 						
@@ -212,7 +222,7 @@ public class refisController {
 					
 					model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
 					model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
-					model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> File Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+					model.put("contractupdate","<span style='color:blue;font-weight:bold;font-size:12pt;'> File Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
 					
 				   return "contractmanager/updatecontract";
 					
@@ -272,7 +282,7 @@ public class refisController {
 			        
 	 	            // This Part will Upload File to into the folder  
 		            byte[] bytes = file.getBytes();
-		            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename());
+		            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename().replaceAll("[\\\\/:*&?\"<>|]",""));
 		            Files.write(path, bytes);		    
 		            logger.info("Contract File Uploaded to the folder by:"+req.getParameter("emailid"));
 		            
@@ -293,7 +303,7 @@ public class refisController {
 	        
 	        
 	        
-			model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract  Successfully Added.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+			model.put("contractupdate","<span style='color:blue;font-weight:bold;font-size:12pt;'> Contract  Successfully Added.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
 			model.put("contractlist", contract.showAllContract("ALL","ALL")); 
 	        return "contractmanager/contractmanager";
     	
@@ -340,7 +350,7 @@ public class refisController {
 					        
 			 	            // This Part will Upload File to into the folder  
 				            byte[] bytes = file.getBytes();
-				            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename());
+				            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename().replaceAll("[\\\\/:*&?\"<>|]",""));
 				            Files.write(path, bytes);		    
 				            logger.info("Contract File Uploaded to the folder by:"+req.getParameter("emailid"));
 			
@@ -368,7 +378,7 @@ public class refisController {
 	        
 			model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
 			model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
-			model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:12pt;'> Contract  Successfully Updated.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+			model.put("contractupdate","<span style='color:blue;font-weight:bold;font-size:12pt;'> Contract  Successfully Updated.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
 			
 			return "contractmanager/updatecontract";
 	        
@@ -378,7 +388,24 @@ public class refisController {
 	//************** END OF UPDATE CONTRACT TO THE DATABASE AND ADD MORE FILE TO THE FOLDER *********************************
 	
 	
-   
+
+	//--------- THIS PART WILL DO DB UPDATE FROM THE AJAX  JAI
+	@ResponseBody
+	@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET}, value="/zipfolderanddownload/{refno}")
+	public int zipFolderandDownload(@PathVariable("refno") String refno,HttpServletRequest req,HttpServletResponse res) throws Exception{
+	
+	        
+	        
+	        
+	        
+	        
+	       logger.info("Contract no :"+refno+" Been Zipped and Downloaded on:"+ new Date());
+	     return 1;  
+    
+	}
+	
+	
+	
 
 
 

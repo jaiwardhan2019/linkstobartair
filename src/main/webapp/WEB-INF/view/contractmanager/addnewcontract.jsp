@@ -20,10 +20,14 @@
 
 
 function bulit_ref_no(){
-	     document.addcontract.refno.value=document.addcontract.department.value;
-	     document.addcontract.refno.value=document.addcontract.refno.value+"-"+document.addcontract.subdepartment.value;
-	     document.addcontract.refno.value=document.addcontract.refno.value+"-"+document.addcontract.ccompany.value.substring(0,4);
-	     document.addcontract.refno.value=document.addcontract.refno.value+"-"+document.addcontract.startDate.value;
+	
+      	 document.addcontract.refno.value=document.addcontract.department.value;
+
+	 	 document.addcontract.refno.value=document.addcontract.refno.value+"-"+document.addcontract.subdepartment.value;
+
+		 document.addcontract.refno.value=document.addcontract.refno.value+"-"+document.addcontract.ccompany.value.substring(0,4).trim();
+
+	     document.addcontract.refno.value=document.addcontract.refno.value+"-"+document.addcontract.startDate.value.trim();
 	     
 	   
 }
@@ -48,8 +52,26 @@ function toggle_visibility() {
 
 
 function manage_contract(event){    
-	  
-    if(document.addcontract.ccompany.value == ""){
+
+    if(document.addcontract.cdescription.value == ""){
+        alert("Please Enter Some detail abbout this Contract.");
+        document.addcontract.cdescription.focus();
+        return false;
+ 	}
+ 	
+    if(document.addcontract.startDate.value == ""){
+        alert("Please Select Contract Start Date");
+        document.addcontract.startDate.focus();
+        return false;
+ 	}
+     
+     if(document.addcontract.endDate.value == ""){
+        alert("Please Select Contract End Date");
+        document.addcontract.endDate.focus();
+        return false;
+ 	}
+ 	
+   if(document.addcontract.ccompany.value == ""){
        alert("Please Enter Contractor Company Detail..");
        document.addcontract.ccompany.focus();
        return false;
@@ -60,24 +82,6 @@ function manage_contract(event){
        document.addcontract.ccontract.focus();
        return false;
 	}
-	  
-    if(document.addcontract.startDate.value == ""){
-       alert("Please Select Contract Start Date");
-       document.addcontract.startDate.focus();
-       return false;
-	}
-    
-    if(document.addcontract.endDate.value == ""){
-       alert("Please Select Contract End Date");
-       document.addcontract.endDate.focus();
-       return false;
-	}
-	
-    if(document.addcontract.cdescription.value == ""){
-        alert("Please Enter Some detail abbout this Contract.");
-        document.addcontract.cdescription.focus();
-        return false;
- 	}
  	
     if(document.addcontract.cfile.value == ""){
         alert("Please Select File..");
@@ -87,6 +91,7 @@ function manage_contract(event){
  	
 	else
     {
+
 
 		toggle_visibility();
         document.addcontract.method="POST"
@@ -135,128 +140,189 @@ function manage_contract(event){
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
       
          
-          <table class="table table-striped table-bordered" border="1" style="width: 35%;" align="center">	    
-    			<tbody>				     
-				     <tr align="center">
-					 <td  bgcolor="#0070BA">
+      <table class="table table-striped table-bordered" border="1" style="width: 65%;" align="center">	    
+    		<tbody>				     
+			     <tr align="center">
+					 <td  bgcolor="#0070BA" colspan="2">
 					   <span style="color:white;"> <i class="fa fa-suitcase fa-lg" aria-hidden="true"></i> &nbsp;<b>
-					    New Contract  &nbsp;&nbsp;
+					    Create New Contract &nbsp;&nbsp;
 					   </b></span>					 
 					 </td>
-				     </tr>
+			     </tr>
 			
 			
 			   <tr>
-					<td align="left" bgcolor="white" >
-					 
-					
-				     <div class="form-group">
+                
+                  <td align="left" bgcolor="white" width="50%">
+					<div class="col-xs-12">
+							<label> Contract Detail.</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
+									<textarea rows="04" name="cdescription"  id="cdescription" class="form-control"></textarea>
+											
+							</div>
+				    </div>
+				    
+	    
+		                
+	                </td>
+	 				
+				            
+	              <td align="left" bgcolor="white" width="50%">
+	              	  <c:set var = "now" value = "<%=new java.util.Date()%>" />
+				      
+	              
+					<div class="col-xs-12">
+							<label  >Ref No.</label>  
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
+										<input type="text"   name="refno" id="refno" class="form-control" readonly value="CON_STO_<fmt:formatDate pattern = "ddMMyyyyhhmmss" value = "${now}"/>" >										
+							</div>
+				    </div>
+				    
+                        
+				    
+				    
+	                </td>
+      	                
+	           </tr>
+	           
+	           
+	           
+	           <tr>
+	               <td align="left" bgcolor="white" width="50%">
+					     <div class="col-xs-12">
 							<label >Department.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control" onchange="bulit_ref_no()" >										
+										<select id="department" name="department" class="form-control">									
 											<option value="GEN"> General Contract - </option>	
 											<option value="ENG" > Engineering </option>
 											<option value="FIN" > Finance </option>												
 										</select>
 							</div>	
 						</div>
-				
-				
-					<div class="form-group">
+	               
+	               
+	               </td>
+	               
+	               <td align="left" bgcolor="white" width="50%">
+				      <div class="col-xs-12">
 							<label  >Sub Depart.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
-										<select  id="subdepartment" name="subdepartment" class="form-control" onchange="bulit_ref_no()" >		
+										<select  id="subdepartment" name="subdepartment" class="form-control">	
 											<option value="ENG1"> - ENG One  - </option>	
 											<option value="ENG2"> - ENG Two -  </option>
 											
 										</select>
 							</div>
 				    </div>
-				    
-				    
-				    <div class="form-group">
-							<label  >Contractor Company Detail.</label>
-							<div class="input-group col-xs-12" >
-								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
-										<input type="text" size="5"  name="ccompany" id="ccompany" class="form-control" onkeypress="bulit_ref_no()" >										
-							</div>
-				    </div>
-				    
-				    <div class="form-group">
-							<label  >Contractor Contact Detail.</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
-								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
-										<textarea rows="02" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com"></textarea>										
-							</div>
-				    </div>						
-					
-					<div class="form-group">
-							<label  >Ref No.</label> 
-							<!-- 
-							&nbsp;&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i>&nbsp;<span style="font-weight:600;font-size:8pt;color:blue">
-							&nbsp;&nbsp;Sample:&nbsp;&nbsp;(ENG/ELE/SUPNAME/DD-MM-YYYY)</span> 
-							 -->
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
-										<input type="text"   name="refno" id="refno" class="form-control" readonly >										
-							</div>
-				    </div>
-	
-			                   
-	
-	                    <div class="form-group">
-							<label for="startDate">Contract Start Date:</label>
+	               
+	               
+	               </td>
+	           
+	           
+	           </tr>
+	           
+	           
+	           <tr>
+		           <td align="left" bgcolor="white" width="50%">
+                    <div class="col-xs-12">
+							<label for="startDate">Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input  type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12"  onchange="bulit_ref_no()"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12"  />
 							</div>	
 						</div>
+		           
+		           
+		           </td>
+		           
+		           
+		           <td align="left" bgcolor="white" width="50%">
 						
-				       <div class="form-group">
-							<label for="endDate">Contract  End Date:</label>
+				       <div class="col-xs-12">
+							<label for="endDate">End Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								
-								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" />
 								
 							</div>
 						</div>
-
-				
-					<div class="form-group">
-							<label> Contract Description.</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-									<textarea rows="05" name="cdescription"  id="cdescription" class="form-control"></textarea>
-											
+		           
+		           
+		           </td>
+		           
+	           </tr>
+	           
+	           
+	           <tr>
+	           
+				  
+				  <td align="left" bgcolor="white" width="50%">
+					    <div class="col-xs-12">
+							<label  >Contractor Company Name.</label>
+							<div class="input-group col-xs-12" >
+								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
+									<textarea rows="03" name="ccompany"  id="ccompany" class="form-control"></textarea>  										
 							</div>
 				    </div>
-						
+				    				  
+				  
+				  
+				  </td>
+	           
+				  
+				  
+				  
+				  
+				  <td align="left" bgcolor="white" width="50%">
+				    <div class="col-xs-12">
+							<label  >Contractor Contact.</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
+								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
+										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com"></textarea>										
+							</div>
+				    </div>						
+				  
+				  
+				  </td>
+				  
+	           </tr>
+	           
 
+
+
+	           <tr>
+	              <td align="left" bgcolor="white" width="50%">
 				
-					<div class="form-group">
+					<div class="col-xs-08">
 							<label> Attach File. </label>
 							<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
-									 <input type="file" id="cfile"  name="cfile"   class="form-control"/>
+									 <input type="file"  id="cfile"  name="cfile"   class="form-control"/>
 							</div>
 				   </div>
-						
+				  
+				  </td>
+				  
+                 <td align="left" bgcolor="white" width="50%">	
+			         <span style="display:none" id="uploadstatus" class="btn btn-success btn-sm" > <i class="fa fa-spinner fa-pulse fa-2x"></i> &nbsp; <b> Saving Contract.. </b> </span> 
+      			 </td>
 				
-					
-						</td>
-						
-				  </tr>	
-						 
-				     
-				    <tr align="center"> 
+				  
+	           </tr>
+
+
+		     
+				    <tr align="center" > 
 				     					
-						<td  bgcolor="white">			                   
-			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Back&nbsp; <i class="fa fa-home" aria-hidden="true"></i>  </span>  
+						<td  bgcolor="white" colspan="2">			                   
+			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract List&nbsp; <i class="fa fa-search" aria-hidden="true"></i></span>  
 			                   &nbsp;&nbsp;&nbsp;
 			                   <span onClick="manage_contract('addnew');" id="addnew" class="btn btn-primary" >&nbsp;Add Contract &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </span>
                                
@@ -267,11 +333,11 @@ function manage_contract(event){
 			
 				     <tr align="center"> 
 				     					
-						<td  bgcolor="white">			                   
+						<td  bgcolor="white" colspan="2">	<br>		                   
 			
 			                <span style="display:none" id="uploadstatus" class="btn btn-success btn-sm" > <i class="fa fa-spinner fa-pulse fa-2x"></i> &nbsp; <b> Saving Contract.. </b> </span> 
             
-            <!--       		                              
+               <!--       		                              
 							<div class="progress" style="display:none" id="uploadstatus">
 							
 							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">

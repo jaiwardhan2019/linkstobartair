@@ -1,6 +1,7 @@
 package com.linkportal.contractmanager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ public interface manageStobartContract {
 	public List<String> showFilesFromFolder(String foldername);
 	
 	public boolean removeFolderWithallFile(File foldername);
+	
+	public byte[] zipFiles(File directory, String[] files)throws IOException;
 	
 	
 }

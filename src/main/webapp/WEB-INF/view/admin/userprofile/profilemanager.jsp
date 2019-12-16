@@ -123,7 +123,7 @@ function show_contract_user_Profile(useremail){
   <table >
   <tr align="left"> 
    <td align="left"> 
-      <button  class="btn btn-secondary btn-lg btn-block">${fn:length(linkuserlist)} - Staff Found</button>
+      <button  class="btn btn-secondary btn-lg btn-block">${fn:length(linkuserlist)} - Users Found</button>
    </td>
   </tr>	
   </table>

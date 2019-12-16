@@ -1,10 +1,16 @@
 package com.linkportal.contractmanager;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
@@ -13,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.linkportal.refis.refisUsersRowmapper;
 
 @Repository
 public class manageStobartContractImp implements manageStobartContract{
@@ -87,6 +91,7 @@ public class manageStobartContractImp implements manageStobartContract{
 	public int addNewContract(HttpServletRequest req) {
 		
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		   
 		   LocalDateTime currentdateandtime = LocalDateTime.now();
 	
 		
@@ -116,10 +121,12 @@ public class manageStobartContractImp implements manageStobartContract{
 		
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		   LocalDateTime currentdateandtime = LocalDateTime.now();
-			
+		  
 		   String updateSql = "UPDATE CORPORATE_PORTAL.CONTRACT_MASTER SET department ='"+req.getParameter("department")+"' , sub_department ='"+req.getParameter("subdepartment")+"',"
-		   		+ "contractor_name ='"+req.getParameter("ccompany")+"' ,contractor_contact_detail = '"+req.getParameter("ccontract").trim()+"',"
-		   		+ "description='"+req.getParameter("cdescription")+"' WHERE refrence_no ='"+req.getParameter("refno")+"'";
+		   		+ " contractor_name ='"+req.getParameter("ccompany")+"' ,contractor_contact_detail = '"+req.getParameter("ccontract").trim()+"',"
+		   		+ " status='"+req.getParameter("status")+"', start_date='"+req.getParameter("startDate")+"', end_date='"+req.getParameter("endDate")+"', "
+		   		+ " entered_by_email='"+req.getParameter("emailid")+"', entry_date_time='"+currentdateandtime+"' ,description='"+req.getParameter("cdescription")+"'  WHERE refrence_no ='"+req.getParameter("refno")+"'";		   
+		   
 		   int rows = jdbcTemplateRefis.update(updateSql);	
 		return rows;
 	}
@@ -182,4 +189,48 @@ public class manageStobartContractImp implements manageStobartContract{
 
 
 
+	@Override
+	public byte[] zipFiles(File directory, String[] files) throws IOException {
+		
+	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	        ZipOutputStream zos = new ZipOutputStream(baos);
+	        byte bytes[] = new byte[4096];
+	        
+	       
+	        
+	        
+	        for (String fileName : files) {
+	        	
+	            try (FileInputStream fis = new FileInputStream(directory.getPath()
+	                    + "/" + fileName);
+	                   
+	                    BufferedInputStream bis = new BufferedInputStream(fis)) {
+	               
+	                zos.putNextEntry(new ZipEntry(fileName));
+	               
+	                int bytesRead;
+	                while ((bytesRead = bis.read(bytes)) != -1) {
+	                    zos.write(bytes, 0, bytesRead);
+	                   
+	                }
+	                zos.closeEntry();
+	            }
+	        }
+	    
+	        zos.flush();
+	        baos.flush();
+	        zos.close();
+	        baos.close();
+	       
+	        return baos.toByteArray();
+	    }
+   
+   
 }
+
+
+
+
+
+
+

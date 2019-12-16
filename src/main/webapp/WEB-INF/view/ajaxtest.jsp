@@ -13,14 +13,19 @@
 
 	$(document).ready(function() {
 
-		$('#buttonDemo6').click(function() {
+
+
+	  $('#buttonDemo6').click(function() {
+		  
 			$.ajax({
 				type : 'GET',
 				url : '${pageContext.request.contextPath}/ajaxrest/test',
 				success : function(result) {
-					$('#result6').text(result);
+				$('#result6').text(result);
 				}
 			});
+
+			
 		});
 
       
@@ -32,7 +37,7 @@
 		$('#buttonDemo1').click(function() {
 			$.ajax({
 				type : 'GET',
-				url : '${pageContext.request.contextPath}/ajaxrest/demo1',
+				url : 'ajaxrest/demo1',
 				success : function(result) {
 					$('#result1').text(result);
 				}
@@ -46,7 +51,7 @@
 			var fullName = $('#fullName').val();
 			$.ajax({
 				type : 'GET',
-				url : '${pageContext.request.contextPath}/ajaxrest/demo2/' + fullName,
+				url : '/ajaxrest/demo2/' + fullName,
 				success : function(result) {
 					$('#result2').text(result);
 				}
@@ -59,7 +64,7 @@
 		$('#buttonDemo3').click(function() {
 			$.ajax({
 				type : 'GET',
-				url : '${pageContext.request.contextPath}/ajaxrest/demo3',
+				url : 'ajaxrest/demo3',
 				dataType : 'json',
 				contentType : 'application/json',
 				success : function(result) {
@@ -76,7 +81,7 @@
 		$('#buttonDemo4').click(function() {
 			$.ajax({
 				type : 'GET',
-				url : '${pageContext.request.contextPath}/ajaxrest/demo4',
+				url : 'ajaxrest/demo4',
 				dataType : 'json',
 				contentType : 'application/json',
 				success : function(result) {
@@ -91,6 +96,8 @@
 				}
 			});
 		});
+
+		
 
 	});
 </script>

@@ -14,6 +14,11 @@
 
 
 
+//https://kodejava.org/how-do-i-create-zip-file-in-servlet-for-download/  <<- zip and download 
+//https://www.daniweb.com/programming/software-development/threads/431245/download-multiple-files-in-single-zip-and-render-for-download
+// Simple https://gkokkinos.wordpress.com/2011/11/25/zip-and-download-content-from-servlet/
+// https://machinesyntax.blogspot.com/2013/10/how-to-create-zip-file-to-download-in.html    <<-- BEST ONE 
+
 
 function manage_contract(event){    
 	    document.contract.method="POST"
@@ -33,6 +38,39 @@ function update_contract(contractref){
 	    return true;
 
 }
+
+
+
+
+
+//*** Here this function will update data in the form to database and write back to the DIV 
+function Zip_Folder_Download_(contractrefno){
+
+         document.getElementById("downloadstatus").innerHTML = "<br /><i class='fa fa-spinner fa-spin'></i> Loading...";
+
+         $.ajax({
+        
+     		  url:'zipfolderanddownload/'+contractrefno,
+			  type:"GET",
+			  success : function(result)
+			  {
+
+			
+					if(result == 1)
+					{
+
+						document.getElementById("downloadstatus").innerHTML = "Download finish..."; 
+						
+					}
+	
+				}// ------ END OF SUCCESS ----  
+	
+       }); //----- END OF AJAX FUNCTION ------- 
+
+
+}//-------- END OF FUNCTION ---------------
+
+
 
 	
 </script>
@@ -71,7 +109,7 @@ tr:nth-child(even) {
  
  <div class="col-md-12 col-sm-12 col-xs-12" align="center" id="printButton">
  
- <form name="contract" id="contract">  
+ <form name="contract" id="contract" method="post">  
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
@@ -159,6 +197,7 @@ tr:nth-child(even) {
 	  <tr>
           <td align="center">  
            
+           <span id="downloadstatus"></span>
              ${contractupdate}
             
           </td>
@@ -214,14 +253,16 @@ tr:nth-child(even) {
 					       Refrence No. 
 					     </b></span>					 
 					 </td>
-					 <td bgcolor="#0070BA" width="25%">
-					   <span style="color:white;"> <b> 
-					    Description 
-					     </b></span>					 
-					 </td>
-					 <td bgcolor="#0070BA">
+	 
+	 			 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
 					      Department  	
+					     </b></span>					 
+					 </td>
+	
+					 <td bgcolor="#0070BA" width="25%">
+					   <span style="color:white;"> <b> 
+					    Detail.
 					     </b></span>					 
 					 </td>
 					
@@ -305,20 +346,11 @@ tr:nth-child(even) {
 				    <td>
 				    
 		
-				       ${contract.refrence_no}  &nbsp;<span class="label label-success">New</span>
+				       ${contract.refrence_no}  &nbsp;<span class="label label-warning">New <i class="fa fa-check" aria-hidden="true"></i></span>
 				    
 										
 					 		 
 					 </td>
-					 
-					 
-					<td>
-					    <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Contract Description" data-content="${contract.contract_description}">
-			                <c:set var="string1" value="${fn:substring(contract.contract_description, 0,40)}" />
-			                   ${string1}
-			             </a>
-			     	 </td>
-					 
 					 
 					 
 					<td>
@@ -338,14 +370,47 @@ tr:nth-child(even) {
 					 
 					 </td>
 					 
+					<td>
+					    <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Contract Description" data-content="${contract.contract_description}">
+			                <c:set var="string1" value="${fn:substring(contract.contract_description, 0,40)}" />
+			                   ${string1}
+			             </a>
+			     	 </td>
+					 
+					 
+					 
 					 
 					 
 					<td>
-					      ${contract.start_date}
+					     
+					      
+						<c:set var="startdate" value="${contract.start_date}" />
+						<fmt:parseDate value="${startdate}" var="parsedCurrentDate" pattern="yyyy-mm-dd" /> 
+				       <fmt:formatDate type = "date"  value = "${parsedCurrentDate}" />
+
+
+                         
+					 
 					 </td>
+					
+					
 					<td>
-					     ${contract.end_date}
+					
+					     
+					     		      
+						<c:set var="enddate" value="${contract.end_date}" />
+						<fmt:parseDate value="${enddate}" var="parsedEndDate" pattern="yyyy-mm-dd" /> 
+				       <fmt:formatDate type = "date"  value = "${parsedEndDate}" />
+
+					     
+					     
 					 </td>
+					 
+					 
+					 
+					 
+					 
+					 
 					<td align="center">					  
 					     <c:if test="${contract.status == 'Active'}">
 		                     <button type="button" class="btn btn-success btn-sm"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <b> Active.</b> </button>
@@ -371,7 +436,8 @@ tr:nth-child(even) {
 					 <td>	
 					 
 						  <c:if test="${contract.getFilesCount() > 0}">					 				    
-						    <a href="javascript:void();" onClick="alert('Under Construction');"><span style="font-weight:600;font-size:9pt;"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> ${contract.getFilesCount()} Files.</span></a>					   			 
+						    <a href="javascript:void();" onClick="Zip_Folder_Download_('${contract.refrence_no}');"><span style="font-weight:600;font-size:9pt;"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> ${contract.getFilesCount()} Files.</span></a>					   			 
+						  
 						 </c:if>
 			             
 			             <c:if test="${contract.getFilesCount() == 0}">	

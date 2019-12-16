@@ -85,11 +85,13 @@ function manage_contract(event){
     else
     {
 
-		toggle_visibility();		
-        document.updatecontract.method="POST"
-	    document.updatecontract.action="updatecontracttodatabase";
-        document.updatecontract.submit();
-	    return true;
+    	   if(confirm("Are you Sure about Updating this Contract..??")){
+					toggle_visibility();		
+			        document.updatecontract.method="POST"
+				    document.updatecontract.action="updatecontracttodatabase";
+			        document.updatecontract.submit();
+				    return true;
+    	   }
 		    
     }    
 	
@@ -148,24 +150,58 @@ function Remove_File_From_Folder(filename){
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
-      
-         
-          <table class="table table-striped table-bordered" border="1" style="width: 35%;" align="center">	    
-    			<tbody>				     
-				     <tr align="center">
-					 <td  bgcolor="#0070BA">
+    
+     <table class="table table-striped table-bordered" border="1" style="width: 65%;" align="center">	    
+    		<tbody>				     
+			     <tr align="center">
+					 <td  bgcolor="#0070BA" colspan="2">
 					   <span style="color:white;"> <i class="fa fa-suitcase fa-lg" aria-hidden="true"></i> &nbsp;<b>
-					    Update Contract  &nbsp;&nbsp;
+					    Update   &nbsp;&nbsp;
 					   </b></span>					 
 					 </td>
-				     </tr>
+			     </tr>
 			
 			
 			   <tr>
-					<td align="left" bgcolor="white" >
-					 
-					
-				     <div class="form-group">
+                
+                  <td align="left" bgcolor="white" width="50%">
+					<div class="col-xs-12">
+							<label> Contract Detail.</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
+									<textarea rows="04" name="cdescription"  id="cdescription" class="form-control">${contractdetail.contract_description}</textarea>
+											
+							</div>
+				    </div>
+				    
+	    
+		                
+	                </td>
+	 				
+				            
+	              <td align="left" bgcolor="white" width="50%">
+					<div class="col-xs-12">
+							<label  >Ref No.</label>  
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
+										<input type="text"   name="refno" id="refno" class="form-control" readonly  value="${contractdetail.refrence_no}">										
+							</div>
+				    </div>
+				    <br>
+				    <br>
+				     <br>
+				    &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight:600;font-size:8pt;color:blue;">
+							&nbsp;&nbsp;${contractupdate}</span>
+	                
+	                </td>
+      	                
+	           </tr>
+	           
+	           
+	           
+	           <tr>
+	               <td align="left" bgcolor="white" width="50%">
+					     <div class="col-xs-12">
 							<label >Department.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
@@ -176,9 +212,12 @@ function Remove_File_From_Folder(filename){
 										</select>
 							</div>	
 						</div>
-				
-				
-					<div class="form-group">
+	               
+	               
+	               </td>
+	               
+	               <td align="left" bgcolor="white" width="50%">
+				      <div class="col-xs-12">
 							<label  >Sub Depart.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
@@ -190,46 +229,32 @@ function Remove_File_From_Folder(filename){
 										</select>
 							</div>
 				    </div>
-				    
-				    
-				    <div class="form-group">
-							<label  >Contractor Company Detail.</label>
-							<div class="input-group col-xs-12" >
-								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
-										<input type="text" size="5"  name="ccompany" id="ccompany" class="form-control" value="${contractdetail.contractor_name}">										
-							</div>
-				    </div>
-				    
-				    <div class="form-group">
-							<label  >Contractor Contact Detail.</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
-								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
-										<textarea rows="02" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com"> ${contractdetail.contractor_contact_detail}</textarea>										
-							</div>
-				    </div>						
-					
-					<div class="form-group">
-							<label  >Ref No.</label> <span style="font-weight:600;font-size:8pt;color:blue">
-							&nbsp;&nbsp;${contractupdate}</span> 
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
-										<input type="text"   name="refno" id="refno" class="form-control" readonly  value="${contractdetail.refrence_no}">										
-							</div>
-				    </div>
-	
-			                   
-	
-	                    <div class="form-group">
-							<label for="startDate">Contract Start Date:</label>
+	               
+	               
+	               </td>
+	           
+	           
+	           </tr>
+	           
+	           
+	           <tr>
+		           <td align="left" bgcolor="white" width="50%">
+                    <div class="col-xs-12">
+							<label for="startDate">Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
 								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12"  value="${contractdetail.start_date}" />
 							</div>	
 						</div>
+		           
+		           
+		           </td>
+		           
+		           
+		           <td align="left" bgcolor="white" width="50%">
 						
-				       <div class="form-group">
-							<label for="endDate">Contract  End Date:</label>
+				       <div class="col-xs-12">
+							<label for="endDate">End Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								
@@ -237,31 +262,64 @@ function Remove_File_From_Folder(filename){
 								
 							</div>
 						</div>
+		           
+		           
+		           </td>
+		           
+	           </tr>
+	           
+	           
+	           <tr>
+	              <td align="left" bgcolor="white" width="50%">
 
-				
-					<div class="form-group">
-							<label> Contract Description.</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-									<textarea rows="05" name="cdescription"  id="cdescription" class="form-control">${contractdetail.contract_description}</textarea>
-											
+				    <div class="col-xs-12">
+							<label  >Contractor Company Name.</label>
+							<div class="input-group col-xs-12" >
+								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
+									<textarea rows="03" name="ccompany"  id="ccompany" class="form-control" >${contractdetail.contractor_name}</textarea>  										
 							</div>
 				    </div>
-				    
-					
-					<div class="form-group">
-							<label>Already attached File. </label>							
-							<span style="font-weight:400;font-size:9pt;">							
-							<table align="left"  class="table table-striped table-bordered">							
+				    				  
+				  </td>
+				  
+				  <td align="left" bgcolor="white" width="50%">
+				    <div class="col-xs-12">
+							<label  >Contractor Contact.</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
+								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
+										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com"> ${contractdetail.contractor_contact_detail}</textarea>										
+							</div>
+				    </div>						
+				  
+				  
+				  </td>
+				  
+	           </tr>
+	           
+
+
+	           <tr>
+	              <td align="left" bgcolor="white" colspan="2">
+		         	
+						<label>Already attached File. </label>							
+				        <br>
+							<span style="font-weight:400;font-size:10pt;">							
+				
+						<table  align="left"  width="50%" class="table table-striped" style="width:85%;">							
 							<% 							
 							int filecount=1;							
 							%>
 							 <c:forEach var="filelist" items="${filelist}">       
 							<tr> 
-								<td align="left" width="85%"><b><%=filecount++%></b>.&nbsp; <img  src="images/page_white_acrobat.png">&nbsp; ${filelist} </td>
-								<td align="left">
+								<td align="left" width="80%"><b><%=filecount++%></b>.&nbsp; <img  src="images/page_white_acrobat.png">&nbsp;&nbsp; 
+								
+								 <b> <a href="${contractdetail.refrence_no}/${filelist}"  target="_blank">  ${filelist}  </a> </b>
+								  
+								</td>
+								<td align="left" width="20%">
 								 <span style="font-weight:600;font-size:9pt;color:red">
-								   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="javascript:void();" onClick="Remove_File_From_Folder('${filelist}');">&nbsp;Del</a>
+								   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="javascript:void();" onClick="Remove_File_From_Folder('${filelist}');">&nbsp;Remove </a>
 								 </span>  
 								 </td>
 							</tr>
@@ -269,29 +327,51 @@ function Remove_File_From_Folder(filename){
 							
 							</table>
 							</span>
-				   </div>
-				   <br>
-		
+				 		  
+				  
+				  </td>
+				  
+	           </tr>
+
+
+	           <tr>
+	              <td align="left" bgcolor="white">
 				
-					<div class="form-group">
+					<div class="col-xs-12">
 							<label> Attach More File. </label>
 							<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
 									 <input type="file"  id="cfile"  name="cfile"   class="form-control"/>
 							</div>
 				   </div>
-						
-				
-					
-						</td>
-						
-				  </tr>	
-						 
-				     
+				  
+				  </td>
+				  
+				  
+				  <td align="left" bgcolor="white">
+						<div class="col-xs-12">
+						  <label>Status.</label>		
+								<div class="input-group"> 
+									<span class="input-group-addon"><i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i></span>							
+										<select id="status" name="status" class="form-control"  >										
+												<option value="Active" <c:if test = "${contractdetail.status == 'Active'}"> selected  </c:if> > Active </option>	
+												<option value="Dactive" <c:if test = "${contractdetail.status == 'Dactive'}"> selected  </c:if> > Expired </option>
+																								
+											</select>
+								</div>
+	
+						  </div>
+				  
+				  </td>
+				  
+	           </tr>
+	           
+
+
 				    <tr align="center"> 
 				     					
-						<td  bgcolor="white">			                   
-			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Back&nbsp; <i class="fa fa-home" aria-hidden="true"></i>  </span>  
+						<td  bgcolor="white" colspan="2">			                   
+			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract List&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
 			                   &nbsp;&nbsp;&nbsp;
 			                   <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
 			                   &nbsp;&nbsp;&nbsp;
@@ -300,33 +380,24 @@ function Remove_File_From_Folder(filename){
 				     </tr>
 				     
 	
-				     <tr align="center"> 
+				     <tr align="center" > 
 				     					
-						<td  bgcolor="white">			                   
+						<td  bgcolor="white" colspan="2" >			                   
 			                 
 			                <span style="display:none" id="uploadstatus" class="btn btn-success btn-sm" > <i class="fa fa-spinner fa-pulse fa-2x"></i> &nbsp; <b> Updating.. </b> </span> 
-            
-                  		  <!--                       
-							<div class="progress" style="display:none" id="uploadstatus">
-							
-							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							    <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-lg"></i>
-							  </div>
-							</div>
-                       
-                       -->
-			        
-			            </td>
+    		            </td>
 			         
 			         </tr> 
-					     
-						     
-					     
 				     
-							    
-				    </tbody>
-			</table>
-	
+	           	           
+       	   </tbody>             
+     </table>  	   
+    
+    
+    <br>
+    <br>
+    <br>
+      				 
 	  
 	
 			

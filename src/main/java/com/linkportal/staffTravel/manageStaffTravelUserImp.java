@@ -81,8 +81,8 @@ public class manageStaffTravelUserImp implements manageStaffTravelUser {
 			   jdbcTemplateStaff.execute("SET FOREIGN_KEY_CHECKS=0");
 				   
 			       status = jdbcTemplateStaff.update("DELETE FROM stafftravel.account WHERE id="+accountid);
-				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.eligible_passenger where eligible_passenger_list_id="+accountid);
-				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.eligible_passenger_list where account_id="+accountid);
+				   //status = jdbcTemplateStaff.update("DELETE FROM stafftravel.eligible_passenger where eligible_passenger_list_id="+accountid);
+				   //status = jdbcTemplateStaff.update("DELETE FROM stafftravel.eligible_passenger_list where account_id="+accountid);
 				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.passport_information where apis_information_id="+accountid);
 				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.travel_request where account_id="+accountid);
 				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.travel_request_eligible_passenger where eligible_passenger_id="+accountid);

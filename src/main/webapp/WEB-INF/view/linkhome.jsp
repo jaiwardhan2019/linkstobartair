@@ -594,10 +594,11 @@ setTimeout(function(){window.location.href="index"},60000000);
 </c:if>
 
 
-	<!--
 
+<!-- 
      <a title="Employee Assistance Programme."  href="ajaxtest" target="_new"> 
-     <a title="Employee Assistance Programme."  href="test" target="_new">  
+
+	     <a title="Employee Assistance Programme."  href="test" target="_new">
 	
 	
         <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
@@ -610,7 +611,7 @@ setTimeout(function(){window.location.href="index"},60000000);
          </a>
 
 
-      
+
 
  
 	<a title="Employee Assistance Programme." href="BENIFITS/idea_at_work.jsp" target="_new">
