@@ -29,9 +29,11 @@ function manage_contract(event){
 }//---------- End Of Function  ------------------
 
 
-function update_contract(contractref){
+function update_contract(contractref,department,subdepartment){
             
         document.contract.refno.value=contractref;
+        document.contract.departmentselected.value=department;   
+        document.contract.subdepartmentselected.value=subdepartment;              
         document.contract.method="POST"
 	    document.contract.action="contractManager?event=view";
         document.contract.submit();
@@ -44,9 +46,9 @@ function update_contract(contractref){
 
 
 //*** Here this function will update data in the form to database and write back to the DIV 
-function Zip_Folder_Download_(contractrefno){
+function Zip_Folder_Download_(contractrefno,srno){
 
-         document.getElementById("downloadstatus").innerHTML = "<br /><i class='fa fa-spinner fa-spin'></i> Loading...";
+         document.getElementById("downloadstatus"+srno).innerHTML = "<i class='fa fa-spinner fa-spin fa-2x'></i> Downloading";
 
          $.ajax({
         
@@ -54,14 +56,9 @@ function Zip_Folder_Download_(contractrefno){
 			  type:"GET",
 			  success : function(result)
 			  {
-
-			
-					if(result == 1)
-					{
-
-						document.getElementById("downloadstatus").innerHTML = "Download finish..."; 
-						
-					}
+					//document.getElementById("downloadstatus").style.display = "none";
+					window.location = contractrefno+".zip";
+					document.getElementById("downloadstatus"+srno).innerHTML = "&nbsp;&nbsp;<img  src='images/zip.png' >";  
 	
 				}// ------ END OF SUCCESS ----  
 	
@@ -114,6 +111,10 @@ tr:nth-child(even) {
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
       <input type="hidden" name="refno" id="refno" value="">
+      <input type="hidden" name="departmentselected" id="departmentselected" value="">
+      <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="">
+      
+     
           <table class="table table-striped table-bordered" border="1" style="width: 30%;" align="center">	    
     			<tbody>				     
 				     <tr align="center">
@@ -133,11 +134,9 @@ tr:nth-child(even) {
 							<label for="department">Department.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control" onchange="showOtherdDateCaption()" >
-											<option value="ALL"> -  All - </option>
-											<option value="ENG"> -  Engineering - </option>		
-											<option value="FIN" > - Finance - </option>
-											<option value="GEN" > - General - </option>	
+										<select id="department" name="department" class="form-control" onChange="manage_contract('search');" >
+											<option value="ALL"> -  All - </option> 
+										        	${departmentlist}
 										</select>
 							</div>	
 						</div>
@@ -149,9 +148,9 @@ tr:nth-child(even) {
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
 										<select  id="subdepartment" name="subdepartment" class="form-control" >
-											<option value="ALL"> -  All - </option>
-											<option value="ELE"> -  Electrical - </option>		
-											
+										      <option value="ALL"> -  All - </option> 
+                                                 ${subdepartmentlist}
+											 
 										</select>
 							</div>
 						</div>
@@ -189,21 +188,6 @@ tr:nth-child(even) {
  
 
 <!--  END of UPPER FORM PART   -->
-
-
-
-	 		 
-  <table  style="width: 80%;" align="center">
-	  <tr>
-          <td align="center">  
-           
-           <span id="downloadstatus"></span>
-             ${contractupdate}
-            
-          </td>
-      </tr>
-   </table>   
-
 
 
 <!--  START OF REPORT  PART   -->
@@ -249,7 +233,7 @@ tr:nth-child(even) {
 					 </td>
 					  
 					 <td bgcolor="#0070BA" >
-					   <span style="color:white;" width="6%"> <b> 
+					   <span style="color:white;" > <b> 
 					       Refrence No. 
 					     </b></span>					 
 					 </td>
@@ -286,7 +270,7 @@ tr:nth-child(even) {
 					
 					<td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					      Update/Remove
+					       Update 
 					     </b></span>					 
 					 </td>
 					 
@@ -366,7 +350,10 @@ tr:nth-child(even) {
 					     <c:if test="${contract.department == 'GEN'}">
 					          General
 					      </c:if>							 
-					 
+						  
+						  <c:if test="${contract.department == 'GOP'}">
+					          Ground Operations
+					      </c:if>								 
 					 
 					 </td>
 					 
@@ -382,29 +369,21 @@ tr:nth-child(even) {
 					 
 					 
 					<td>
-					     
-					      
+				
 						<c:set var="startdate" value="${contract.start_date}" />
-						<fmt:parseDate value="${startdate}" var="parsedCurrentDate" pattern="yyyy-mm-dd" /> 
-				       <fmt:formatDate type = "date"  value = "${parsedCurrentDate}" />
-
-
+						<fmt:parseDate value="${startdate}" var="parsedCurrentDate" pattern="yyyy-MM-dd" />
+				        <fmt:formatDate type = "date"  value = "${parsedCurrentDate}" />
                          
 					 
 					 </td>
 					
 					
-					<td>
-					
-					     
-					     		      
+					<td>     		      
 						<c:set var="enddate" value="${contract.end_date}" />
-						<fmt:parseDate value="${enddate}" var="parsedEndDate" pattern="yyyy-mm-dd" /> 
+						<fmt:parseDate value="${enddate}" var="parsedEndDate" pattern="yyyy-MM-dd" /> 
 				       <fmt:formatDate type = "date"  value = "${parsedEndDate}" />
-
 					     
-					     
-					 </td>
+  				   </td>
 					 
 					 
 					 
@@ -427,17 +406,17 @@ tr:nth-child(even) {
 					 
 					            
 		           <td align="center"> 
-		                <span style="font-weight:bold;" onClick="update_contract('${contract.refrence_no}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Edit </span>
+		                <span style="font-weight:bold;" onClick="update_contract('${contract.refrence_no}','${contract.department}','${contract.sub_department}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Edit </span>
 		           
 		           </td>
 	
 					 
 					 
-					 <td>	
+					 <td >	
 					 
 						  <c:if test="${contract.getFilesCount() > 0}">					 				    
-						    <a href="javascript:void();" onClick="Zip_Folder_Download_('${contract.refrence_no}');"><span style="font-weight:600;font-size:9pt;"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> ${contract.getFilesCount()} Files.</span></a>					   			 
-						  
+						    <a data-placement="top"  data-toggle="popover" data-trigger="hover"  data-content="Click to ZIP and Download"  href="javascript:void();" onClick="Zip_Folder_Download_('${contract.refrence_no}','<%=srno%>');"><span id="downloadstatus<%=srno%>" style="font-weight:600;font-size:9pt;"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> ${contract.getFilesCount()} Files.</span></a>					   			 
+							    
 						 </c:if>
 			             
 			             <c:if test="${contract.getFilesCount() == 0}">	

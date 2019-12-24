@@ -2,6 +2,7 @@ package com.linkportal.contractmanager;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,17 +13,31 @@ public interface manageStobartContract {
 
 	public stobartContract viewContract(String crefno);
 	
-	public int addNewContract(HttpServletRequest req);       // Will add new  contract to the database     return 1 means success
+	public String populate_Department(String usremail ,String dept)throws SQLException;
 	
-	public int updateNewContract(HttpServletRequest req);    // Will update new  contract to the database  return 1 means success
+	public String populate_SubDepartment(String usremail,String dept,String subdept)throws SQLException;
 	
-	public void removeContract(String crefno);       // Will update new  contract to the database     return 1 means success  
+	
+	public int addNewContract(HttpServletRequest req)throws SQLException;       // Will add new  contract to the database     return 1 means success
+	
+	public int updateNewContract(HttpServletRequest req)throws SQLException;    // Will update new  contract to the database  return 1 means success
+	
+	public void removeContract(String crefno);       // Will remove contract from database     return 1 means success  
 	
 	public List<String> showFilesFromFolder(String foldername);
 	
-	public boolean removeFolderWithallFile(File foldername);
+	public boolean removeFolderWithallFile(File foldername);	
+
 	
-	public byte[] zipFiles(File directory, String[] files)throws IOException;
+	public List<contractProfile> showProfileListOfUser(String useremailid); 
+	
+	public int addNewContractProfiletoUser(HttpServletRequest req)throws SQLException;
+	
+	public void removeContractProfileofUser(int profileid, String useremailid)throws SQLException;
+	
+	
+	
+
 	
 	
 }

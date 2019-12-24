@@ -157,24 +157,16 @@ public class HomeController {
 			  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
 			  logger.info("User id:"+req.getParameter("emailid")+" Verified With AD");
 			  
-			  
-			   
-			   String dataPoints = null;	
-			   dataPoints = chart.createBarchartForHomePage();
-			   model.addAttribute("dataPoints",dataPoints); 
-			   
-			
-			  
-			  
-			  
-			  
-			  return "linkhome";
+		       return "linkhome";
+		       
+		       
 		   }
 		   else
 		   {
 			 model.put("userstatus",req.getParameter("emailid"));
 			 return "security/error";
 		   }
+
 	}//----------- End of Function 
 
 	

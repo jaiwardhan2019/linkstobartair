@@ -52,7 +52,7 @@ public class InfrastructureConfig{
 	}
 
 	
-	
+	  //---  THIS IS FOR LINK - DATABASE MYSQL  
 	  @Bean(name = "dataSourcemysql")	  
 	  @ConfigurationProperties(prefix = "mysql.datasource") 
 	  public DataSource dataSource_sqlserver() { 

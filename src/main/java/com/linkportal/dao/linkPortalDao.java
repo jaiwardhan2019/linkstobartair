@@ -15,18 +15,6 @@ public class linkPortalDao {
 	}// End of String function 
 	
 	
-	public String findStobartairExternalUser(String userid , String password) {
-		   String sql  = "select * from ";
-		   return sql;
-	}// End of String function 
-	
-	
-	
-	public String updateGdprConsentToStaffTravleDb(String userid , String password) {
-		   String sql  = "Update * from ";
-		   return sql;
-	}// End of String function 
-	
 		
 	
 	

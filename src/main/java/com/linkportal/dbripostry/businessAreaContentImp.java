@@ -1,5 +1,7 @@
 package com.linkportal.dbripostry;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -66,10 +68,21 @@ public class businessAreaContentImp implements businessAreaContent {
 	public int Update_Content(String content, int bcid, String emailid) {
 		try{
 			
-			String sql="UPDATE CORPORATE_PORTAL.BUSINESS_AREA_CONTENT_MASTER SET CONTENT='"+content+"' , UPDATED_DATE_TIME='"+now+"' , USER='"+emailid+"' WHERE BC_ID="+bcid;
-			return jdbcTemplate.update(sql);
+			 Connection conn= dataSourcemysql.getConnection();
+			
+			String sqlUpdateContent="UPDATE CORPORATE_PORTAL.BUSINESS_AREA_CONTENT_MASTER SET CONTENT='"+content+"' , UPDATED_DATE_TIME='"+now+"' , USER='"+emailid+"' WHERE BC_ID="+bcid;
+			
+			sqlUpdateContent = "UPDATE CORPORATE_PORTAL.BUSINESS_AREA_CONTENT_MASTER SET CONTENT=? , UPDATED_DATE_TIME=?, USER=?  WHERE BC_ID=?";
+			
+			PreparedStatement pstm = conn.prepareStatement(sqlUpdateContent);
+			pstm.setString(1,content);
+			pstm.setString(2,now.toString()); 
+			pstm.setInt(3,bcid);
+			
+			
+			return jdbcTemplate.update(sqlUpdateContent);
 		
-	  }catch(Exception updateerror) {logger.error("While Updating  Content Master:"+updateerror);System.out.println(updateerror);return 0;}
+	  }catch(Exception updateerror) {logger.error("While Updating  Content Master:"+updateerror.toString());return 0;}
 		
 	}
 	

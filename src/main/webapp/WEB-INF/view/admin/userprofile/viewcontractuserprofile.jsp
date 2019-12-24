@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:include page="../../include/adminheader.jsp" />
 
 <!DOCTYPE html>
@@ -12,29 +13,40 @@
 
 <script type="text/javascript">
 	
-// https://html5-tutorial.net/forms/checkboxes/  <<-- For Validation 
 
-function updateUser(){
+function updateUserAccess(ope,profileid){
 
-        if(confirm("Are you sure about this Profile Changes.?!")){
-      	      document.linkuser.method="POST"
-    		  document.contractuser.action="showcontractaccessprofile?emailid=${emailid}";
+        if(confirm("Are you sure about this Change .?!")){
+        	  document.contractuser.operation.value=ope;
+        	  document.contractuser.profileid.value=profileid;
+      	      document.contractuser.method="POST";
+    		  document.contractuser.action="showcontractaccessprofile";
     	      document.contractuser.submit();
     		  return true;
 
          }
           
 
-}
+} //--------- End of Function ----------
 
 
+
+
+function UserSearch(){
+	
+          document.contractuser.method="POST"
+		  document.contractuser.action="profilemanager";
+	      document.contractuser.submit();
+
+	
+}//-------- End Of Function ---------
 
 
 function remove_user_Profile(){
 			
-		if(confirm("Are you sure about Removing Thesse Profile for User?!")){
+		if(confirm("Are you sure about Removing Access from this User.. ??")){
 		      document.contractuser.method="POST"
-			  document.contractuser.action="showcontractaccessprofile?emailid=${emailid}";
+			  document.contractuser.action="showcontractaccessprofile";
 		      document.contractuser.submit();
 			  return true;
 		
@@ -69,21 +81,21 @@ tr:nth-child(even) {
  <div   align="center">	
 	
 		<div class="col-md-12 col-sm-12 col-xs-12"  align="left">
-			<i class="fa fa-users" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Manage User Access to Contract </span></a>
+			<i class="fa fa-users" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Manage User Access to Stobart Contract </span></a>
 	   </div>	
   
   </div>		
 	
 <br>
 <br>
-
+<br>
+<br>
  	
 
 <!-- Body Banner -->
 <div class="container" align="center">
      	
-  
-    <span align="center">   <H3> Manage  Profile : Jai Wardhan  </H3> </span>				           
+         
 	
  
      	
@@ -92,36 +104,48 @@ tr:nth-child(even) {
 
 <form method="post" name="contractuser" id="contractuser">   
    
+
+  <input type="hidden" name="emailid" id="emailid" value="${emailid}">
+  <input type="hidden" name="userid" id="userid" value="${userid}">
+  <input type="hidden" name="operation" id="operation" value="">
+  <input type="hidden" name="profileid" id="profileid" value="">
    
  	 	 
-  <table class="table table-striped table-bordered" border="1" style="width: 60%;" align="center">	
+  <table class="table table-striped table-bordered" border="1" style="width: 70%;" align="center">	
 	     
    <tr>
-          	 <td  bgcolor="#0070BA" width="50%">
+          	 <td  bgcolor="#0070BA" >
 					   <span style="color:white;"> <b>
 					    Main Department
 					   </b></span>					 
 					 </td>
 			
-			 <td  bgcolor="#0070BA" width="50%">
+			 <td  bgcolor="#0070BA" >
 					   <span style="color:white;"> <b>
 					    Sub Department
 					   </b></span>					 
-					 </td>
+		     </td>
+		     
+			 <td  bgcolor="#0070BA" >
+					   <span style="color:white;"> <b>
+					    Admin Status
+					   </b></span>					 
+		     </td>		     
+		     
 			 
       	 	
    </tr>
    
    <tr>
    
-    <td width="50%">
-    	     <div class="form-group">
+    <td >
+    	    <div class="col-xs-10">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control" onchange="bulit_ref_no()" >										
-											<option value="GEN"> General Contract - </option>	
-											<option value="ENG" > Engineering </option>
-											<option value="FIN" > Finance </option>												
+										<select id="department" name="department" class="form-control">
+										     <option value="ALL"> ------- ALL ------ </option>										
+											 ${departmentlist}
+																			
 										</select>
 							</div>	
 						</div>
@@ -131,14 +155,14 @@ tr:nth-child(even) {
     
     </td>
     
- <td width="50%">
-    				<div class="form-group">
+ <td >
+    				<div class="col-xs-10">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
-										<select  id="subdepartment" name="subdepartment" class="form-control" onchange="bulit_ref_no()" >		
-											<option value="ENG1"> - ENG One  - </option>	
-											<option value="ENG2"> - ENG Two -  </option>
+										<select  id="subdepartment" name="subdepartment" class="form-control" >	
+										  <option value="ALL"> ------- ALL ------ </option>			
+                                                ${subdepartmentlist}
 											
 										</select>
 							</div>
@@ -146,7 +170,22 @@ tr:nth-child(even) {
 	
     </td>
     
-    
+    	     <td >
+		     			<div class="col-xs-05">
+						 		
+								<div class="input-group"> 
+									<span class="input-group-addon"><i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i></span>							
+										<select id="admin" name="admin" class="form-control"  >										
+												<option value="Y" > -- Admin -- </option>	
+												<option value="N" > --- Gen --- </option>
+																					
+											</select>
+								</div>
+	
+						  </div>
+		
+		     </td>
+	
    
    </tr>
    
@@ -155,7 +194,8 @@ tr:nth-child(even) {
       
   </table> 
          
-  	 	 
+  
+    		 	 
   <table  style="width: 60%;" align="center">	
   
      <tr>
@@ -165,12 +205,17 @@ tr:nth-child(even) {
 	         &nbsp;&nbsp;<span onClick="UserSearch();"  class="btn btn-primary"  > <i class="fa fa-search-plus" aria-hidden="true"></i> User Search  </span>
 	     
 	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	         <span onClick="updateUser();"  class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Access </span>
-	            
-	            
+	         <span onClick="updateUserAccess('ADD');"  class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Access </span>
+	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	         <span style="font-weight:400;font-size:12pt;color:blue">  ${statusmessage}
+	         
+	           
+	            </span>
 	     </td>
 	     
      </tr>
+   
+ 
   
   
   </table>       
@@ -184,68 +229,100 @@ tr:nth-child(even) {
 <br>
 <br>
 
-		<table   class="table table-striped table-bordered" style="width: 50%;" align="center">								
+<table  style="width: 50%;" align="center">
+	<tr>
+		 <td align="center">	
+		      <H4> <u>Profile Of : ${userid} </u> </H4>
+		  
+		        <c:set var = "rowcount"  value = "${fn:length(usercontractprofilelist)}"/>
+                  <c:if test = "${rowcount == 0}"> <br>   
+                     <span style="color:red;font-size:12pt;"> 
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           &nbsp;!!&nbsp;&nbsp;Sorry No profile&nbsp;&nbsp; <i class="fa fa-frown-o  fa-2x"> </i>
+                      </span>      
+                   </c:if>   
+		  
+		  </td>
+		  
+	</tr>
+	  		 	
+	
+</table>		
+
+
+
+<c:if test = "${rowcount > 0}"> 
+
+		<table   class="table table-striped"  style="width: 50%;" align="center">								
+	         
+	        <tr>
+	         <td> 
+	           <h4><span class="label label-primary">No.</span></h4>
+	         </td>
+	         <td> 
+	           <h4><span class="label label-primary">Department</span></h4>
+	         </td>
+	         <td> 
+	           <h4><span class="label label-primary">Sub Department</span></h4>
+	         </td>
+	         <td> 
+	           <h4><span class="label label-primary">Admin / Non Admin</span></h4>
+	         </td>
+	         
+	         <td> 
+	         
+	           <h4><span class="label label-danger">Remove</span></h4>
+	         
+	         </td>
+	         
+	          
+	        </tr>
+	        
+	    <%
+		 
+         int srno=1;
+         
+	     %>
+             
+	  <c:forEach var="contractprofile" items="${usercontractprofilelist}">               
 	
 			<tr> 
-				<td align="left" width="5%"><b>1.</b>&nbsp;</td>
+				<td align="left" width="5%"><b><%=srno++%>.</b>&nbsp;</td>
 				
-			    <td> Engineering </td>
+			    <td> ${contractprofile.department} </td>
 			    
-			    <td> Electrical</td>
+			    <td> ${contractprofile.subDepartment} </td>
+			    <td> 
 			    
-				
+		       	     <c:if test="${contractprofile.adminstatus == 'Y'}">
+				          Admin   
+				      </c:if>
+				      
+				      <c:if test="${contractprofile.adminstatus == 'N'}">
+				          General
+				      </c:if>
+			
+			    
+			    </td>
+			    
 				<td align="left" width="12%">
-				 <span style="font-weight:600;font-size:9pt;color:red">
-				   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="">&nbsp;Remove</a>
-				 </span>  
+				   <span style="font-weight:600;font-size:9pt;color:red">
+				        <i class="fa fa-trash-o" aria-hidden="true"></i><a  href="javascript:updateUserAccess('REM','${contractprofile.profileid}')">&nbsp;Remove</a>
+				    </span>  
 				 </td>
 			</tr>
-			<tr> 
-				<td align="left" width="5%"><b>1.</b>&nbsp;</td>
-				
-			    <td> Engineering </td>
-			    
-			    <td> Electrical</td>
-			    
-				
-				<td align="left" width="12%">
-				 <span style="font-weight:600;font-size:9pt;color:red">
-				   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="">&nbsp;Remove</a>
-				 </span>  
-				 </td>
-			</tr>
-			<tr> 
-				<td align="left" width="5%"><b>1.</b>&nbsp;</td>
-				
-			    <td> Engineering </td>
-			    
-			    <td> Electrical</td>
-			    
-				
-				<td align="left" width="12%">
-				 <span style="font-weight:600;font-size:9pt;color:red">
-				   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="">&nbsp;Remove</a>
-				 </span>  
-				 </td>
-			</tr>
-			<tr> 
-				<td align="left" width="5%"><b>1.</b>&nbsp;</td>
-				
-			    <td> Engineering </td>
-			    
-			    <td> Electrical</td>
-			    
-				
-				<td align="left" width="12%">
-				 <span style="font-weight:600;font-size:9pt;color:red">
-				   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="">&nbsp;Remove</a>
-				 </span>  
-				 </td>
-			</tr>
+	 </c:forEach> 
+		
 			
 		</table>
 
-
+</c:if>
 
 
 
@@ -257,14 +334,5 @@ tr:nth-child(even) {
 
 </body>
 </html>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
 

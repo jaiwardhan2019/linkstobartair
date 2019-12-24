@@ -115,7 +115,7 @@ function manage_contract(event){
  <div  style="margin-top:60px;" align="center">	
 	
 		<div class="col-md-12 col-sm-12 col-xs-12"  align="left">
-			<i class="fa fa-suitcase fa-2x" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Add New Contracts.</span></a>
+			<i class="fa fa-suitcase fa-2x" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Manage Stobart Contracts.</span></a>
 	   </div>	
   
   </div>		
@@ -145,7 +145,7 @@ function manage_contract(event){
 			     <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">
 					   <span style="color:white;"> <i class="fa fa-suitcase fa-lg" aria-hidden="true"></i> &nbsp;<b>
-					    Create New Contract &nbsp;&nbsp;
+					    Add New Contract &nbsp;&nbsp;
 					   </b></span>					 
 					 </td>
 			     </tr>
@@ -195,10 +195,8 @@ function manage_contract(event){
 							<label >Department.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control">									
-											<option value="GEN"> General Contract - </option>	
-											<option value="ENG" > Engineering </option>
-											<option value="FIN" > Finance </option>												
+										<select id="department" name="department" class="form-control">	
+		                                          ${departmentlist}						
 										</select>
 							</div>	
 						</div>
@@ -213,8 +211,7 @@ function manage_contract(event){
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
 										<select  id="subdepartment" name="subdepartment" class="form-control">	
-											<option value="ENG1"> - ENG One  - </option>	
-											<option value="ENG2"> - ENG Two -  </option>
+										       ${subdepartmentlist}
 											
 										</select>
 							</div>

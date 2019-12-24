@@ -26,7 +26,11 @@ public interface linkUsers {
 	   public  void UpdateLinkProfiletoDataBase(String emailid,String activestatus,String adminstatus, List alllinkprof);
 	   
 	   public  void RemoveUserpProfileAndLinkProfiletoDataBase(String emailid,List alllinkprof);
-		
+	   
+	   
+
+	   
+	  
 	   
 	
 	   

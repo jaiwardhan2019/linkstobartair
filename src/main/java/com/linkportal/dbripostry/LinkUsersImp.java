@@ -15,8 +15,12 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.linkportal.datamodel.Users;
@@ -53,30 +57,23 @@ public class LinkUsersImp implements linkUsers{
 		
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		   LocalDateTime now = LocalDateTime.now();
-		   
-	 		
+		 
 		   String[] FirstName_LastName=useremail.split("[@._]"); 
-		   String sql="SELECT * FROM CORPORATE_PORTAL.LINK_USER_MASTER where EMAIL_ID='"+useremail+"'";
-		   try {
-			    Connection conn = dataSourcemysql.getConnection();
-	            PreparedStatement ps = conn.prepareStatement(sql);
-	            ResultSet rs = ps.executeQuery();
-	            if(rs.next()) {	            	
-	            	//----------  This Part Will execute Only When User login to the site next time on----------------- 
-	            	 ps.executeUpdate("UPDATE CORPORATE_PORTAL.LINK_USER_MASTER SET LAST_LOGIN_DATE_TIME='"+now+"' , LOGIN_COUNT='"+(rs.getInt("LOGIN_COUNT")+1)+"' WHERE EMAIL_ID='"+useremail+"'");
-	            }
-	            else
-	            {
-                     //----------  This Part Will execute Only When User Comes First Time -----------------   
-	            	 sql="INSERT INTO CORPORATE_PORTAL.LINK_USER_MASTER (FIRST_NAME,LAST_NAME,EMAIL_ID,ADMIN_STATUS,LOGIN_COUNT,LAST_LOGIN_DATE_TIME,ACTIVE_STATUS,INTERNAL_EXTERNAL_USER) "
-	            	 		+ "VALUES ('"+FirstName_LastName[0]+"', '"+FirstName_LastName[1]+"','"+useremail+"', 'N', '1','"+now+"','Active','I')";
-	            	 ps.executeUpdate(sql);
-	            	 
-	            }
-	            rs.close();
-	            ps.close();	   
-	            conn.close();
-		   } catch(SQLException sq){throw new RuntimeException(sq);}
+		   String sql="SELECT login_count FROM CORPORATE_PORTAL.LINK_USER_MASTER where EMAIL_ID='"+useremail+"'";		   
+		   SqlRowSet logincount = jdbcTemplateMysql.queryForRowSet(sql);
+		   
+		   if(logincount.next()) {
+			   jdbcTemplateMysql.execute("UPDATE CORPORATE_PORTAL.LINK_USER_MASTER SET LAST_LOGIN_DATE_TIME='"+now+"' , LOGIN_COUNT='"+(logincount.getInt(1)+1)+"' WHERE EMAIL_ID='"+useremail+"'");
+			   
+		   }
+		   else
+		   {
+          	   sql="INSERT INTO CORPORATE_PORTAL.LINK_USER_MASTER (FIRST_NAME,LAST_NAME,EMAIL_ID,ADMIN_STATUS,LOGIN_COUNT,LAST_LOGIN_DATE_TIME,ACTIVE_STATUS,INTERNAL_EXTERNAL_USER) "
+         	 		+ "VALUES ('"+FirstName_LastName[0]+"', '"+FirstName_LastName[1]+"','"+useremail+"', 'N', '1','"+now+"','Active','I')";
+          	    jdbcTemplateMysql.execute(sql);
+		   }
+		   
+
 		
 	}//---------- End of Function updateUser_detail_LastLoginDateTime
 
@@ -90,56 +87,60 @@ public class LinkUsersImp implements linkUsers{
 	@Override
 	public Map getUser_Profile_List_From_DataBase(String useremail) {
 		   
-		   String profilesql= "SELECT LINK_PROFILE_MASTER.PROFILE_ID , MAIN_PROFILE, SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
-					   		  "FROM CORPORATE_PORTAL.LINK_PROFILE_MASTER, CORPORATE_PORTAL.LINK_USER_PROFILE_LIST\r\n" + 
-					   		  "WHERE CORPORATE_PORTAL.LINK_PROFILE_MASTER.PROFILE_ID =  CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.PROFILE_ID \r\n" + 
+		   String profilesql= "SELECT   CORPORATE_PORTAL.LINK_USER_MASTER.ADMIN_STATUS, LINK_PROFILE_MASTER.PROFILE_ID , MAIN_PROFILE, SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
+					   		  "FROM CORPORATE_PORTAL.LINK_PROFILE_MASTER, CORPORATE_PORTAL.LINK_USER_PROFILE_LIST , CORPORATE_PORTAL.LINK_USER_MASTER\r\n" + 
+					   		  "WHERE CORPORATE_PORTAL.LINK_PROFILE_MASTER.PROFILE_ID =  CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.PROFILE_ID "
+					   		  + "and CORPORATE_PORTAL.LINK_USER_MASTER.EMAIL_ID=CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.USER_EMAIL  \r\n" + 
 					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'";
 	
 		   //System.out.println(profilesql);
 		   
 		   //---------- THIS PART WILL COLLECT ALL USER PROFILE INTO A MAP WITH THE KEY AND VALUE----------
-	       Map<String, String> map = new HashMap<String, String>();
-		   
-		   try {
-			    
-			    Connection conn = dataSourcemysql.getConnection();
-	            PreparedStatement ps = conn.prepareStatement(profilesql);
-	            ResultSet rs = ps.executeQuery();
-	            
-	            while(rs.next()){
-	            	
-	            	if(rs.getString("MAIN_PROFILE").equals("Reports")) {map.put("Reports","Y");} 
-	            	if(rs.getString("SUB_PROFILE").equals("Flight_Report")) {map.put("Flight_Report", rs.getString("ACTIVE_STATUS"));} 
-	            	if(rs.getString("SUB_PROFILE").equals("Reliablity")) {map.put("Reliablity", rs.getString("ACTIVE_STATUS"));}
-	            	if(rs.getString("SUB_PROFILE").equals("ReliablityAction")) {map.put("ReliablityAction", rs.getString("ACTIVE_STATUS"));}
-	            	if(rs.getString("SUB_PROFILE").equals("Daily_Summary")) {map.put("Daily_Summary", rs.getString("ACTIVE_STATUS"));}
-	            	if(rs.getString("SUB_PROFILE").equals("Flybe_Today")) {map.put("Flybe_Today", rs.getString("ACTIVE_STATUS"));}
-	            	if(rs.getString("SUB_PROFILE").equals("Voyager")) {map.put("Voyager", rs.getString("ACTIVE_STATUS"));}
-	            	if(rs.getString("SUB_PROFILE").equals("Cascade")) {map.put("Cascade", rs.getString("ACTIVE_STATUS"));}
-	            	if(rs.getString("SUB_PROFILE").equals("StaffTravel")) {map.put("StaffTravel", rs.getString("ACTIVE_STATUS"));}
-	            	if(rs.getString("SUB_PROFILE").equals("Contract")) {map.put("Contract", rs.getString("ACTIVE_STATUS"));}
-	            	if(rs.getString("SUB_PROFILE").equals("Refis")) {map.put("Refis", rs.getString("ACTIVE_STATUS"));}
-  
-	            }// ----------- END OF DO WHILE ------------ 
+	       Map<String, String> profileMap = new HashMap<String, String>();
 	       
-	            
-	            
-	            //--------- THIS PART WILL DECIDE WETHER USER IS ADMIN USER OR NOT -----------------
-	            PreparedStatement ps1 = conn.prepareStatement("select ADMIN_STATUS FROM CORPORATE_PORTAL.LINK_USER_MASTER WHERE EMAIL_ID='"+useremail+"'");
-	            ResultSet rs1 = ps1.executeQuery();	            
-	            while(rs1.next()){
-	            
-	            	if(rs1.getString("ADMIN_STATUS").equals("Y")) {map.put("ADMIN","Y");}
-	            
-	            }
-	            rs.close();
-	            ps.close();	
-	            rs1.close();
-	            ps1.close();
-	            conn.close();
-			   } catch(SQLException sq){throw new RuntimeException(sq);}
+	    
+	    
+
+	    	    
+	       profileMap = jdbcTemplateMysql.query(profilesql, new ResultSetExtractor<Map>(){
+	    	   
+	    	        @Override
+	    	        public Map extractData(ResultSet rs) {
+	    	        	
+	    	      
+	    	            HashMap<String,String> mapRet= new HashMap<String,String>();
+	    	            try {
+							while(rs.next()){
+							    
+								if(rs.getString("MAIN_PROFILE").equals("Reports")) {mapRet.put("Reports","Y");} 
+							 	if(rs.getString("SUB_PROFILE").equals("Flight_Report")) {mapRet.put("Flight_Report", rs.getString("ACTIVE_STATUS"));} 
+								if(rs.getString("SUB_PROFILE").equals("Reliablity")) {mapRet.put("Reliablity", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("ReliablityAction")) {mapRet.put("ReliablityAction", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("Daily_Summary")) {mapRet.put("Daily_Summary", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("Flybe_Today")) {mapRet.put("Flybe_Today", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("Voyager")) {mapRet.put("Voyager", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("Cascade")) {mapRet.put("Cascade", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("StaffTravel")) {mapRet.put("StaffTravel", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("Contract")) {mapRet.put("Contract", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("Refis")) {mapRet.put("Refis", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("ADMIN_STATUS").equals("Y")) {mapRet.put("ADMIN","Y");}	  	
+							    
+							    
+							}//------ End of While 
+							
+							
+						} catch (SQLException sqlex) {logger.error("Reported from the Profile Generation:"+sqlex.toString());}
+	    	     
+					
+	    	        return mapRet;
+	    	            
+	    	        }
+	    	    });	    
+	       
+	       
 		   
-		return map;
+		   
+		return profileMap;
 	}
 
 
@@ -229,9 +230,9 @@ public class LinkUsersImp implements linkUsers{
 		            	stringAllLinkProfile=stringAllLinkProfile+"<tr> <td width='85%' align='left'>&nbsp;&nbsp;"+rs.getString("MAIN_PROFILE")+"&nbsp;&nbsp;&nbsp;:=>&nbsp;"+rs.getString("SUB_PROFILE")+"</td> <td width='15%' align='left'>"
 		            			+ " <input type='checkbox'  id='linkprofile' name='linkprofile' Value='"+rs.getString("PROFILE_ID")+"'>  </td></tr>";	            	
 	                }//------- End Of While Loop
-	
+		            conn.close();
 				
-			}catch (SQLException e) {System.out.println(e.toString());logger.error(e.toString());}
+			}catch (SQLException e) {logger.error("Error in GetUserpProfileAndLinkProfile Fucntion :"+e.toString());}
 			
 		   String[] result = new String[2];
 		   result[0]=stringuserprofile;
@@ -316,6 +317,14 @@ public class LinkUsersImp implements linkUsers{
 		
 		
 	}//-------- END OF FUNCTION ------------------
+
+
+
+
+
+
+
+
 
 
 

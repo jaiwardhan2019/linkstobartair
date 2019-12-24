@@ -1,6 +1,7 @@
 package com.linkportal.controller;
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.datamodel.Product;
 import com.linkportal.dbripostry.businessAreaContent;
 import com.linkportal.dbripostry.linkUsers;
@@ -41,7 +43,8 @@ public class AdminHomeController {
 	flightReports flt1;
 	
 	
-	
+	@Autowired
+	manageStobartContract stobartcontract;
 
 	
     //---------- Logger Initializer------------------------------- 
@@ -152,7 +155,8 @@ public class AdminHomeController {
 	
 	//---------- WILL SHOW LIST OF LINK USER BASED ON SEARCH CRITERIA  -----------------------------	  
 		@RequestMapping(value = "/profilemanager",method = {RequestMethod.POST,RequestMethod.GET})
-		public String profile_manager(ModelMap model,HttpServletRequest req){			
+		public String profile_manager(ModelMap model,HttpServletRequest req){
+			 
 			   model.put("linkuserlist", lkuser.getLinkUserListFromDatabase(req.getParameter("user")));
 			   model.put("emailid", req.getParameter("emailid"));
 			   return "admin/userprofile/profilemanager";
@@ -257,19 +261,67 @@ public class AdminHomeController {
 	
 		
 		
+	
+		
+		
+		
+		
+		
 		
 		//************** THIS PART FOR THE ACCESS PROFILE OF THE STOBART CONTRACT MANAGER
 		
 		
         //---------- WILL SHOW USER DETAIL WITH PROFILE -----------------------------
 		@RequestMapping(value = "/showcontractaccessprofile",method = {RequestMethod.POST,RequestMethod.GET})
-		public String show_user_profile_for_contract_access(ModelMap model,HttpServletRequest req){
-			
-			   //model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
+		public String show_user_profile_for_contract_access(ModelMap model,HttpServletRequest req) throws SQLException{
+	
+			   model.put("emailid", req.getParameter("emailid"));	
+			   model.put("userid", req.getParameter("userid"));
+	
+			   
+			   //--- Add Profile Part ----------
+			   if(req.getParameter("operation") != null){
+				  
+				   
+					   
+					   //-------- This Part will Add Data into database
+					   if(req.getParameter("operation").equals("ADD")){
+
+						      int addingstatus = stobartcontract.addNewContractProfiletoUser(req);
+						      if(addingstatus == 1) {
+						    	  model.put("statusmessage","Profile Added..<i class='fa fa-thumbs-o-up fa-lg'></i>"); 
+						      }
+						      else
+						      {
+						    	  model.put("statusmessage","Not Added please try again.<i class='fa fa-thumbs-o-down fa-lg'></i>"); 
+						      }
+						      
+						      if(addingstatus == 0) {
+						    	  
+						    	  model.put("statusmessage","Profile Allready Exist..");   
+						      } 
+						      
+					   }
+					   
+				   
+					   
+					   if(req.getParameter("operation").equals("REM")){
+						
+						      stobartcontract.removeContractProfileofUser(Integer.parseInt(req.getParameter("profileid")),req.getParameter("userid"));
+						      model.put("statusmessage","Profile Removed..<i class='fa fa-thumbs-o-up fa-lg'></i>"); 
+					   }
+						  
+				   
+				   
+			   }
 			   
 			   
 			   
-			   model.put("emailid", req.getParameter("emailid"));
+			   
+			   model.put("departmentlist", stobartcontract.populate_Department("ALL","ALL"));
+			   model.put("subdepartmentlist", stobartcontract.populate_SubDepartment("ALL","ALL","ALL"));
+			   model.put("usercontractprofilelist", stobartcontract.showProfileListOfUser(req.getParameter("userid")));
+			   
 			   return "admin/userprofile/viewcontractuserprofile";
 		}
 

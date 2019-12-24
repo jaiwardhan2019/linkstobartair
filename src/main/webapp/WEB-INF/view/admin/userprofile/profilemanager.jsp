@@ -41,9 +41,9 @@ function searchUser(){
 
 
 function show_contract_user_Profile(useremail){
-
-		  document.linkuser.method="POST"
-		  document.linkuser.action="showcontractaccessprofile?emailid="+useremail;
+	      document.linkuser.userid.value=useremail;
+		  document.linkuser.method="POST";
+		  document.linkuser.action="showcontractaccessprofile";
 		  document.linkuser.submit();
 		  return true;
 
@@ -81,6 +81,9 @@ function show_contract_user_Profile(useremail){
 <div class="col-md-12 col-sm-12 col-xs-12" align="center">
 
 <form method="post" name="linkuser" onSubmit="return searchUser()";>
+
+  <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
+  <input type="hidden" name="userid" id="userid" value="">
    
     <table  border="0" style="width: 50%;" align="center"> 
     			
@@ -165,7 +168,7 @@ function show_contract_user_Profile(useremail){
 				     
 				     <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					      Stobart Contract 	
+					      Contract &nbsp; 	<i class="fa fa-suitcase fa-lg" aria-hidden="true"></i>
 					     </b></span>					 
 					 </td>
           </tr>
@@ -213,7 +216,7 @@ function show_contract_user_Profile(useremail){
 		           
 		           <td align="center">  
 		               
-		               <button type="button" onClick="show_contract_user_Profile('${linkusers.emailId}');" class="btn btn-success btn-sm"> <span style="font-weight:bold;"> Add Access</span>&nbsp;&nbsp;<i class="fa fa-plus  fa-lg" aria-hidden="true"></i></button> 
+		               <button type="button" onClick="show_contract_user_Profile('${linkusers.emailId}');" class="btn btn-success btn-sm"> <span style="font-weight:bold;"> Manage Profile</span>&nbsp;&nbsp;<i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i></button> 
 		                       
 		           </td>
 		          

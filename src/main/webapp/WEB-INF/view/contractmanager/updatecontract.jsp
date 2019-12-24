@@ -150,7 +150,9 @@ function Remove_File_From_Folder(filename){
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
-    
+
+      
+          
      <table class="table table-striped table-bordered" border="1" style="width: 65%;" align="center">	    
     		<tbody>				     
 			     <tr align="center">
@@ -206,9 +208,7 @@ function Remove_File_From_Folder(filename){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
 										<select id="department" name="department" class="form-control" onchange="showOtherdDateCaption()" >										
-											<option value="GEN"> General Contract - </option>	
-											<option value="ENG" > Engineering </option>
-											<option value="FIN" > Finance </option>												
+                                                    ${departmentlist}								
 										</select>
 							</div>	
 						</div>
@@ -223,8 +223,7 @@ function Remove_File_From_Folder(filename){
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
 										<select  id="subdepartment" name="subdepartment" class="form-control" >
-											<option value="ENG1"> - ENG One  - </option>	
-											<option value="ENG2"> - ENG Two -  </option>
+								                       ${subdepartmentlist}
 											
 										</select>
 							</div>
@@ -288,7 +287,7 @@ function Remove_File_From_Folder(filename){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
 								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
-										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com"> ${contractdetail.contractor_contact_detail}</textarea>										
+										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com">${contractdetail.contractor_contact_detail}</textarea>										
 							</div>
 				    </div>						
 				  
