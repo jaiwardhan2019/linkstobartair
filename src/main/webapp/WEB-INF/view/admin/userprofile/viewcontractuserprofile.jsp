@@ -45,6 +45,7 @@ function UserSearch(){
 function remove_user_Profile(){
 			
 		if(confirm("Are you sure about Removing Access from this User.. ??")){
+			  document.contractuser.operation.value=REM;
 		      document.contractuser.method="POST"
 			  document.contractuser.action="showcontractaccessprofile";
 		      document.contractuser.submit();
@@ -207,10 +208,7 @@ tr:nth-child(even) {
 	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	         <span onClick="updateUserAccess('ADD');"  class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Access </span>
 	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	         <span style="font-weight:400;font-size:12pt;color:blue">  ${statusmessage}
-	         
-	           
-	            </span>
+	         <span style="font-weight:400;font-size:12pt;color:blue">  ${statusmessage} </span>
 	     </td>
 	     
      </tr>

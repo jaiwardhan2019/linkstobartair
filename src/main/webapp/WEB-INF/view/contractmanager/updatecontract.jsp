@@ -369,11 +369,14 @@ function Remove_File_From_Folder(filename){
 
 				    <tr align="center"> 
 				     					
-						<td  bgcolor="white" colspan="2">			                   
-			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract List&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
-			                   &nbsp;&nbsp;&nbsp;
+						<td  bgcolor="white" colspan="2">	
+								 
 			                   <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
-			                   &nbsp;&nbsp;&nbsp;
+								 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                 
+			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract List&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
+
+			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   
 			                   <span onClick="manage_contract('update');" id="addnew" class="btn btn-success" >&nbsp;Update &nbsp; <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>
  		 			     </td>
 				     </tr>

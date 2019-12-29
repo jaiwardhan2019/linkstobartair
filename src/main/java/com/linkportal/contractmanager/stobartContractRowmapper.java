@@ -15,7 +15,10 @@ public class stobartContractRowmapper  implements  RowMapper<stobartContract>{
 		   stobartContract ctrAccount = new stobartContract(
 			
 				   rs.getString("department"),
-				   rs.getString("sub_department"),
+				   rs.getString("subdepartment"),
+				   rs.getString("department_code"),
+				   rs.getString("subdepartment_code"),
+				   rs.getInt("dept_sub_code"),
 				   rs.getString("contractor_name"),
 				   rs.getString("contractor_contact_detail"),
 				   rs.getString("refrence_no"),

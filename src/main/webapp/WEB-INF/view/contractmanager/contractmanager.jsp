@@ -339,22 +339,9 @@ tr:nth-child(even) {
 					 
 					<td>
 					 
-					     <c:if test="${contract.department == 'ENG'}">
-					          Engineering	      
-					      </c:if>
-					      
-					     <c:if test="${contract.department == 'FIN'}">
-					          Finance
-					      </c:if>		
-					      			 
-					     <c:if test="${contract.department == 'GEN'}">
-					          General
-					      </c:if>							 
-						  
-						  <c:if test="${contract.department == 'GOP'}">
-					          Ground Operations
-					      </c:if>								 
+					  ${contract.department}
 					 
+					     
 					 </td>
 					 
 					<td>
@@ -406,7 +393,7 @@ tr:nth-child(even) {
 					 
 					            
 		           <td align="center"> 
-		                <span style="font-weight:bold;" onClick="update_contract('${contract.refrence_no}','${contract.department}','${contract.sub_department}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Edit </span>
+		                <span style="font-weight:bold;" onClick="update_contract('${contract.refrence_no}','${contract.department_code}','${contract.subdepartment_code}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Edit </span>
 		           
 		           </td>
 	

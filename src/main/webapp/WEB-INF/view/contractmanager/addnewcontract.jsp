@@ -320,8 +320,8 @@ function manage_contract(event){
 				     					
 						<td  bgcolor="white" colspan="2">			                   
 			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract List&nbsp; <i class="fa fa-search" aria-hidden="true"></i></span>  
-			                   &nbsp;&nbsp;&nbsp;
-			                   <span onClick="manage_contract('addnew');" id="addnew" class="btn btn-primary" >&nbsp;Add Contract &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </span>
+			                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+			                   <span onClick="manage_contract('addnew');" id="addnew" class="btn btn-success" >&nbsp;Add Contract &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </span>
                                
 		 			     </td>
 				     </tr>
@@ -332,16 +332,17 @@ function manage_contract(event){
 				     					
 						<td  bgcolor="white" colspan="2">	<br>		                   
 			
+			<!-- 
 			                <span style="display:none" id="uploadstatus" class="btn btn-success btn-sm" > <i class="fa fa-spinner fa-pulse fa-2x"></i> &nbsp; <b> Saving Contract.. </b> </span> 
             
-               <!--       		                              
+                  -->	 		                              
 							<div class="progress" style="display:none" id="uploadstatus">
 							
 							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
 							    <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-lg"></i>
 							  </div>
 							</div>
-                 -->             
+                            
                     
 			        
 			            </td>

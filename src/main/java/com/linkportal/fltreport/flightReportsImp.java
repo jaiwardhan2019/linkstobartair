@@ -17,7 +17,9 @@ import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.linkportal.datamodel.AirLineNameCode;
@@ -90,30 +92,29 @@ public class flightReportsImp implements flightReports{
 	//--------------- This will Generate All Operational Airport For Select Combo Box-------------------------
 	@Override
 	public String Populate_Operational_Airport(String airportcode) throws Exception,NullPointerException {
-		   String stationlistwithcode=null;		 
+		 
 		   DateFormat dateFormat = new SimpleDateFormat("yyyy");
 		   Date date = new Date();
 		   String curent_year=dateFormat.format(date);		   
-		   String sql="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from LEGS where DATOP like '"+curent_year+"%') order by STN";	       
-		   Connection connection = dataSourcesqlserver.getConnection();
-		   Statement sta = connection.createStatement();
-		   ResultSet rs = sta.executeQuery(sql);		   
-		   while(rs.next()){
-			   
-			     if(airportcode.trim().equals(rs.getString("STN").trim())) {			    	
-				    stationlistwithcode=stationlistwithcode+"<option value="+rs.getString("STN")+" selected>"+rs.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rs.getString("NAME").trim()+"</option>";
-			     }
-			     else
-			     {
-			       stationlistwithcode=stationlistwithcode+"<option value="+rs.getString("STN")+">"+rs.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rs.getString("NAME").trim()+"</option>";				
-			 	 }
-				
-		   }//---------- End Of While Loop 
-		
-		   sql=null;
-		   rs.close();
-		   sta.close();
-		
+		   String sql="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from pdcstobart.dbo.LEGS where DATOP like '"+curent_year+"%') order by STN";	       
+		   
+		   String stationlistwithcode = null;
+		   
+		   SqlRowSet rowst =  jdbcTemplateSqlServer.queryForRowSet(sql);
+		   while (rowst.next()) {
+				 
+		 		 if(airportcode.trim().equals(rowst.getString("STN").trim())) {			    	
+					    stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("STN")+" selected>"+rowst.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("NAME").trim()+"</option>";
+				 }
+				  else
+				 {
+				       stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("STN")+">"+rowst.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("NAME").trim()+"</option>";				
+				 }
+		         
+		   }//----------- END OF WHILE ---------- 
+
+		   rowst=null;		   
+		   
 		   return stationlistwithcode;
 	       
 	}//---------- End Of Function -----------------------
@@ -121,15 +122,13 @@ public class flightReportsImp implements flightReports{
 	
 
 	
-	
 
 	   //--------------- May Fly Report Body Generator Functions -------------------------
 	   
 		@Override //-------- Display For Today Tomorrow and Yesterday  and Cancel flight 0 
 		public List<fligthSectorLog> Populate_MayFly_Report_body(String airline,String airport,String shortby,String dateofoperation,int num){		
 			   linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();		   
-			   String builtsql = sqlb.builtMayFlightReportSql(airline,airport,shortby,dateofoperation,num);
-			   
+			   String builtsql = sqlb.builtMayFlightReportSql(airline,airport,shortby,dateofoperation,num);			   
 			   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
 			   sqlb=null;
 			   builtsql=null;
@@ -141,8 +140,7 @@ public class flightReportsImp implements flightReports{
 		@Override //-------- Display For One date	  
 		public List<fligthSectorLog> Populate_MayFly_Report_body(String airline,String airport,String shortby,String dateofoperation){		
 			   linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();		   
-			   String builtsql = sqlb.builtMayFlightReportSql(airline,airport,shortby,dateofoperation);
-			   //System.out.println(builtsql);
+			   String builtsql = sqlb.builtMayFlightReportSql(airline,airport,shortby,dateofoperation);			
 			   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
 			   sqlb=null;
 			   builtsql=null;
@@ -414,79 +412,7 @@ public class flightReportsImp implements flightReports{
 		   }
 		  
 			   
-		  	 
-			 
-			 /*
- 
-		   if((!airline.equals("ALL"))){ 
-		    	
-	    		if((airline.equals("BE"))){
-	    			
-		      		   if(operation.equals("All Operation")) { andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; } 
-		    		   if(operation.equals("CPA")) { andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='BE' and legs.FLTID not like 'BE 6%'"; }
-		    		   if(operation.equals("Franchise")) { andstring += " AND LEGS.FLTID like 'BE 6%'"; } 
-		   		}
-	    		else
-	    		{	
-	    			andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; 
-	    		    map1.put("lessthen5minut", lessthen5minut);
-			        map1.put("lessthen15minut", lessthen15minut);
-			     
-	    		}
-          }//----------- End Of If -------------- 
-		   
-		 String sqlfortarget="select sum(case when status = 'ATA' then 1 else 0 end) as NumFlown,      \r\n" + 
-		 		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) <= 5 or datediff(minute, convert(datetime, REPLACE(LEGS.ETA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) <= 5) then 1 else 0 end) as LessthenEqual5Minute,\r\n" + 
-		 		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) <= 15 or datediff(minute, convert(datetime, REPLACE(LEGS.ETA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) <= 15) then 1 else 0 end) as LessthenEqual15Minute,\r\n" + 
-		 		"	   sum(case when status = 'ATA' and DUR1+DUR2+DUR3+DUR4 <= 15 then 1 else 0 end) as LessthenEqual15Minute\r\n" + 
-			   	"	   from LEGS     where DATOP = '"+dateofoperation+"'"+andstring;
 		
-	    
-		 
-		 
-		 
-		 
-
-	     try{
-				
-
-	    	  Connection conn = dataSourcesqlserver.getConnection();
-			  Statement stac = conn.createStatement();
-			  ResultSet rs = stac.executeQuery(sqlfortarget);		   
-		 
-	    	   if(rs.next()){
-				
-	    		   
-	    		   if(rs.getString("NumFlown") != null) {
-	    			   
-					   flightflown=Integer.parseInt(rs.getString("NumFlown"));
-					   lessthen5minut=Integer.parseInt(rs.getString("LessthenEqual5Minute"));					   
-					   lessthen15minut=Integer.parseInt(rs.getString("LessthenEqual15Minute"));					   
-			           try {
-			        	   
-			        	   lessthen5minut= (lessthen5minut * 100)/flightflown;
-			        	   lessthen15minut= (lessthen15minut * 100)/flightflown;
-						   
-			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("In the Function PunctualityTargetPerCent:"+er.toString());}
-					   
-
-	    		   }//End of inner if
-	    		   
-	    	   }//End of outer if 
-		     
-	    
-	    	    
-		         map1.put("lessthen5minut", lessthen5minut);
-		         map1.put("lessthen15minut", lessthen15minut);
-		         conn.close();
-		         stac.close();
-		         rs.close();
-		       
-		       
-	 	   
-	 			} catch (SQLException e) {e.printStackTrace(); logger.error("In the Function PunctualityTargetPerCent:"+e.toString());}
- 	   	     */
-		 
 	  
 		return map1;
 	     
