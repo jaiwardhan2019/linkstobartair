@@ -35,6 +35,7 @@ function showReport(){
 
 		else
 		{ 
+			search_progress();	
 		   document.reliablityreportform.method="POST";
 		   document.reliablityreportform.action="reliabilityReport?emailid=${emailid}";
 	       document.reliablityreportform.submit();
@@ -42,7 +43,24 @@ function showReport(){
 		}
 		
 }//----------- End of Function 
-   
+
+
+
+function search_progress() {
+    var e = document.getElementById("searchbutton");
+    if(e.style.display == 'block')
+       e.style.display = 'none';
+    else
+       e.style.display = 'block';
+
+    var e1 = document.getElementById("searchbutton1");
+    if(e1.style.display == 'block')
+        e1.style.display = 'none';
+     else
+        e1.style.display = 'block';    
+ }
+
+
 	
 </script>
 
@@ -223,7 +241,23 @@ function showReport(){
 					<td  bgcolor="white">
 				       
 				   
-				       <input type="button" class="btn btn-primary" value="Show Report" onClick="showReport();" />  
+				    
+				       
+				       
+				       						
+					        <span style="display:block" id="searchbutton">
+					           <input type="button"  class="btn btn-primary" value="Show Report" onclick="showReport();" /> 
+					        </span>
+					        
+					        <span style="display:none" id="searchbutton1">
+					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+							         <b>Searching..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
+							      </div>   
+					        </span>
+					  
+	
+				       
+				       
 				       
 				     </td>
 				     </tr>

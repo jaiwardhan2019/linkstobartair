@@ -56,7 +56,8 @@ function showmayFlyReport(){
 		}
 		else
         {
-         
+
+		  search_progress();   
 	  	  document.mayFlightReport.method="POST";
 		  document.mayFlightReport.action="flight_mayFly_report";
 	      document.mayFlightReport.submit();
@@ -64,6 +65,22 @@ function showmayFlyReport(){
         } 
 		
 }//---------- End Of Function  ------------------
+
+
+
+function search_progress() {
+    var e = document.getElementById("searchbutton");
+    if(e.style.display == 'block')
+       e.style.display = 'none';
+    else
+       e.style.display = 'block';
+
+    var e1 = document.getElementById("searchbutton1");
+    if(e1.style.display == 'block')
+        e1.style.display = 'none';
+     else
+        e1.style.display = 'block';    
+ }
 
 
 
@@ -197,12 +214,17 @@ tr:nth-child(even) {
 				    <tr align="center"> 
 				     					
 						<td  bgcolor="white">
-					       <!-- 
-					       <input id="Show Report"  class="ibutton" type="button" onclick="showmayFlyReport();" value="Show Report" />
-					       <a onclick="showmayFlyReport();" class="btn btn-success"><i class="fa fa-plane fa-fw"></i> Click Me</a>
-					        -->
-					       <input type="button" class="btn btn-primary" value="Show Report" onclick="showmayFlyReport();" /> 
-					       
+						
+					        <span style="display:block" id="searchbutton">
+					           <input type="button"  class="btn btn-primary" value="Show Report" onclick="showmayFlyReport();" /> 
+					        </span>
+					        
+					        <span style="display:none" id="searchbutton1">
+					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+							         <b>Searching..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
+							      </div>   
+					        </span>
+					  
 					     </td>
 					     </tr>
 				     

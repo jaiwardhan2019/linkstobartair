@@ -8,7 +8,18 @@ import java.nio.file.Files;
 import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Value;
+
+
+
 
 public class stobartContract {
 	
@@ -25,6 +36,7 @@ public class stobartContract {
 	   private String start_date; 
 	   private String end_date;
 	   private String entered_by_email;
+	   private String is_admin;
 	   
 	   
 	  
@@ -35,7 +47,7 @@ public class stobartContract {
 
 	public stobartContract(String department, String subdepartment, String department_code, String subdepartment_code,
 			int dept_sub_code, String contractor_name, String contractor_contact_detail, String refrence_no,
-			String contract_description, String status, String start_date, String end_date, String entered_by_email) {
+			String contract_description, String status, String start_date, String end_date, String entered_by_email, String is_admin) {
 		super();
 		this.department = department;
 		this.subdepartment = subdepartment;
@@ -50,7 +62,12 @@ public class stobartContract {
 		this.start_date = start_date;
 		this.end_date = end_date;
 		this.entered_by_email = entered_by_email;
+		this.is_admin=is_admin;
 	}
+
+
+
+
 
 
 
@@ -66,10 +83,6 @@ public class stobartContract {
 
 
 
-
-
-
-
 	public void setDepartment(String department) {
 		this.department = department;
 	}
@@ -78,17 +91,9 @@ public class stobartContract {
 
 
 
-
-
-
 	public String getSubdepartment() {
 		return subdepartment;
 	}
-
-
-
-
-
 
 
 
@@ -343,6 +348,9 @@ public class stobartContract {
 
 
 
+	public String getIs_admin() {
+		return is_admin;
+	}
 
 
 
@@ -351,15 +359,27 @@ public class stobartContract {
 
 
 
-	@Override
+	public void setIs_admin(String is_admin) {
+		this.is_admin = is_admin;
+	}
+
+
+
+
+
+ 
+	
+    @Override
 	public String toString() {
 		return "stobartContract [department=" + department + ", subdepartment=" + subdepartment + ", department_code="
 				+ department_code + ", subdepartment_code=" + subdepartment_code + ", dept_sub_code=" + dept_sub_code
 				+ ", contractor_name=" + contractor_name + ", contractor_contact_detail=" + contractor_contact_detail
 				+ ", refrence_no=" + refrence_no + ", contract_description=" + contract_description + ", status="
 				+ status + ", start_date=" + start_date + ", end_date=" + end_date + ", entered_by_email="
-				+ entered_by_email + "]";
+				+ entered_by_email + ", is_admin=" + is_admin + "]";
 	}
+
+
 
 
 
@@ -380,7 +400,41 @@ public class stobartContract {
 	       return fileCount;
 	}	   
 	   
+
+	  
+
+
+
+
+
+
+
+
+
+
+
+	public int getContractAge(String addedUpdatedDate) throws ParseException {
+    	   
+   
+    	   
+    	   String format = "yyyy-MM-dd";    		 
+		   SimpleDateFormat sdf = new SimpleDateFormat(format);			 
+		   Date dateObj1 = sdf.parse(addedUpdatedDate);
+		   
+		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern(format);
+		   LocalDateTime currentdateandtime = LocalDateTime.now();		   
+		   
+		   Date dateObj2 = sdf.parse(currentdateandtime.toString());
+    	   
+		   long diff = dateObj2.getTime() - dateObj1.getTime();
+			 
+		   int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
+			    	   
+	   
+	   return diffDays;
+    }	
 	
-	
+   
+   
 
 }

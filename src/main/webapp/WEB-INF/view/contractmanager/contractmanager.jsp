@@ -211,7 +211,7 @@ tr:nth-child(even) {
 	    
 	    
 		 <td align="right"> 
- 		        <button onClick="manage_contract('addnew');" id="addnew" type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp; <b> New Contract </b></button>
+ 		        <button   onClick="manage_contract('addnew');" id="addnew" type="button" class="btn btn-primary btn-sm"> <b> Add New </b> &nbsp;<i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
 		  </td>
 
 	   </tr>	
@@ -222,6 +222,21 @@ tr:nth-child(even) {
 
 <div class="container" id="printButton">
 
+       
+       <c:set var = "rowcount"  value = "${fn:length(contractlist)}"/>
+       <c:if test = "${rowcount == 0}">
+        <table class="table" border="0" style="width: 100%;" align="center">	       
+          <tr>          
+           <td colspan="9" align="center">
+                     <span style="color:red;font-weight:bold;font-size:12pt;"> Sorry No Contract found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-2x"> </i>
+                      <br> Please change Filter or Check your Authorisation with Admin..</span>              
+            </td>
+          </tr>
+          </table>	
+        </c:if>    
+
+
+<c:if test = "${rowcount > 0}">
  <table class="table table-striped table-bordered" border="1" style="width: 100%;" align="center">	
 		
 	     <tr align="center">
@@ -270,14 +285,13 @@ tr:nth-child(even) {
 					
 					<td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					       Update 
+					      Update 
 					     </b></span>					 
 					 </td>
 					 
 					 				 
 					<td bgcolor="#0070BA">
-					  
-					   <img  src="images/page_white_acrobat.png" > &nbsp;
+					
 					   <span style="color:white;">
 					     <i class="fa fa-download fa-lg" aria-hidden="true"></i> 
 					     </span>					 
@@ -286,20 +300,7 @@ tr:nth-child(even) {
 										 
           </tr> 
           
-         
-       <c:set var = "rowcount"  value = "${fn:length(contractlist)}"/>
-       <c:if test = "${rowcount == 0}">        
-          <tr>
-          
-           <td colspan="9" align="center">
-
-                     <span style="color:red;font-weight:bold;font-size:12pt;"> Sorry No Contract found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-2x"> </i>
-                      <br> Please change Filter or Check your Authorisation with Admin..</span>
-              
-            </td>
-          </tr>
-        </c:if>    
-           
+             
           
          <%
 		 
@@ -330,9 +331,14 @@ tr:nth-child(even) {
 				    <td>
 				    
 		
-				       ${contract.refrence_no}  &nbsp;<span class="label label-warning">New <i class="fa fa-check" aria-hidden="true"></i></span>
-				    
-										
+				       ${contract.refrence_no} 
+				       
+				       
+		                <c:set var="contractage" value="${contract.getContractAge(contract.start_date)}" />		                
+		                <c:if test = "${contractage < 30}">        
+                           &nbsp;<span class="label label-danger">New <i class="fa fa-check" aria-hidden="true"></i></span>
+                        </c:if> 		    
+						 				
 					 		 
 					 </td>
 					 
@@ -379,13 +385,14 @@ tr:nth-child(even) {
 					 
 					<td align="center">					  
 					     <c:if test="${contract.status == 'Active'}">
-		                     <button type="button" class="btn btn-success btn-sm"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <b> Active.</b> </button>
+		                            &nbsp;<span class="label label-success"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <b> Active.</b></span>
 		                     
 		                </c:if>
 		          
 		          
 		            	<c:if test="${contract.status == 'Dactive'}">
-			                        <button type="button" class="btn btn-danger btn-sm"> <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;  <b>Expired.</b> </button>
+			                       
+			                         &nbsp;<span class="label label-danger"><i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp; <b> Expired.</b></span>
 		                </c:if>
 		          
  
@@ -393,8 +400,25 @@ tr:nth-child(even) {
 					 
 					            
 		           <td align="center"> 
-		                <span style="font-weight:bold;" onClick="update_contract('${contract.refrence_no}','${contract.department_code}','${contract.subdepartment_code}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Edit </span>
-		           
+		      
+		            <c:if test="${contract.is_admin == 'Y'}">
+		               <!--  <button type="button" onClick="update_contract('${contract.refrence_no}','${contract.department_code}','${contract.subdepartment_code}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Edit</button> -->
+	                     &nbsp;<a href="javascript:void();"><span class="label label-info"  onClick="update_contract('${contract.refrence_no}','${contract.department_code}','${contract.subdepartment_code}');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>  Edit. </b></span></a>
+	
+		            </c:if>
+		            
+		            <c:if test="${contract.is_admin == 'N'}">
+		              
+		               <!--  <button type="button" onClick="update_contract('${contract.refrence_no}','${contract.department_code}','${contract.subdepartment_code}');"  class="btn btn-info btn-sm" disabled ><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Edit</button>  -->
+		              
+		               <a href="#"  data-placement="top" onclick="return false;" data-toggle="popover" data-trigger="hover"   data-content="You Dont Have Admin Right To This Department Contracts , In order to Update this Please contact your Manager.">
+		                 &nbsp;<span class="label label-info"><i  class="fa fa-times" aria-hidden="true" ></i>&nbsp; <b>  Edit. </b></span>
+	                   </a>
+		                
+		            </c:if>
+		            
+		            
+		            
 		           </td>
 	
 					 
@@ -402,15 +426,15 @@ tr:nth-child(even) {
 					 <td >	
 					 
 						  <c:if test="${contract.getFilesCount() > 0}">					 				    
-						    <a data-placement="top"  data-toggle="popover" data-trigger="hover"  data-content="Click to ZIP and Download"  href="javascript:void();" onClick="Zip_Folder_Download_('${contract.refrence_no}','<%=srno%>');"><span id="downloadstatus<%=srno%>" style="font-weight:600;font-size:9pt;"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> ${contract.getFilesCount()} Files.</span></a>					   			 
+						     <img  src="images/page_white_acrobat.png">&nbsp; <a data-placement="top"  data-toggle="popover" data-trigger="hover"  data-content="Click to ZIP and Download"  href="javascript:void();" onClick="Zip_Folder_Download_('${contract.refrence_no}','<%=srno%>');"><span id="downloadstatus<%=srno%>" style="font-weight:600;font-size:9pt;">${contract.getFilesCount()} Files.</span></a>					   			 
 							    
 						 </c:if>
 			             
 			             <c:if test="${contract.getFilesCount() == 0}">	
 			                  				 
-                             <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"   data-content="No Document attached with this Contract. Please Click Edit Button and Attach File ">
+                             <a data-placement="top" href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"   data-content="No Document attached with this Contract. Please Click Edit Button and Attach File ">
 	
-			               <i class="fa fa-paperclip fa-lg" aria-hidden="true"></i> &nbsp; <span style="font-weight:600;font-size:9pt;color:red;"> Missing </span>
+			               <span style="font-weight:600;font-size:9pt;color:red;"> Missing </span>
 			                
 			                </a>
 			  
@@ -424,7 +448,7 @@ tr:nth-child(even) {
                
  </table>           
 
-
+</c:if>
 
 </div>
 

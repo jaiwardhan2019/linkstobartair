@@ -25,8 +25,9 @@ public class stobartContractRowmapper  implements  RowMapper<stobartContract>{
 				   rs.getString("description"),				   
 				   rs.getString("status"),
 				   rs.getString("start_date"),
-				   rs.getString("end_date"),				
-		           rs.getString("entered_by_email"));
+				   rs.getString("end_date"),
+				   rs.getString("entered_by_email"),
+		           rs.getString("is_admin"));
 		   
           return ctrAccount;
 	   }

@@ -17,14 +17,34 @@ function excelReport(){
 	
 	        //var url = 'flight_daily_summary_report';
 	        // popupWindow = window.open(url,'popUpWindow','height=300,width=600,left=500,top=150,resizable=no,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes');
-	
+	     //search_progress();
 	     document.reliablityreport.method="POST";
 		 document.reliablityreport.action="Create_Excel_Reliability_Report?emailid=${emailid}"
-	     document.reliablityreport.submit();
+	     document.reliablityreport.submit();		 
 		 return false;
 		  
 		
 }//----------- End of Function 
+
+
+
+
+
+function search_progress() {
+
+	
+    var e = document.getElementById("searchbutton");
+    if(e.style.display == 'block')
+       e.style.display = 'none';
+    else
+       e.style.display = 'block';
+
+    var e1 = document.getElementById("searchbutton1");
+    if(e1.style.display == 'block')
+        e1.style.display = 'none';
+     else
+        e1.style.display = 'block';    
+ }
 
 
 
@@ -280,10 +300,41 @@ tr:nth-child(even) {
 				     
 				        
 				       
-				       <a  onClick="excelReport();" class="btn btn-primary"> Download Excel Report &nbsp;&nbsp;<i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i>  </a>
+		      		        <span style="display:block" id="searchbutton">					            
+					            <button type="button" onClick="excelReport();" class="btn btn-primary btn-sm"><b>Download Excel Report</b>&nbsp;&nbsp;<i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i>	</button>				       
+					            &nbsp;<img  src="<c:url value="images/excel.png"/>" width="5%" >	
+					        </span>
+					        
+					        
+					        
+					        <span style="display:none" id="searchbutton1">
+					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+							         <b>Generating Report..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
+							         &nbsp;<img  src="<c:url value="images/excel.png"/>" width="5%" >
+							      </div>   
+					        </span>
+					  
+		
 				       
 				       
-				        &nbsp;&nbsp;&nbsp;&nbsp;<img  src="<c:url value="images/excel.png"/>" width="5%" >	
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
+				       
 				     </td>
 				     </tr>
 				     

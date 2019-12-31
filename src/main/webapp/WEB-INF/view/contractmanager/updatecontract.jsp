@@ -116,6 +116,17 @@ function Remove_File_From_Folder(filename){
 }//--- End of Function ------------
 
 
+
+function view_contract(){
+	
+	    document.updatecontract.departmentselected.value=document.updatecontract.department.value;
+        document.updatecontract.method="POST"
+	    document.updatecontract.action="contractManager?event=view";
+        document.updatecontract.submit();
+	    return true;
+
+}
+
 	
 </script>
 
@@ -150,6 +161,9 @@ function Remove_File_From_Folder(filename){
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
+      <input type="hidden" name="departmentselected" id="departmentselected" value="">
+      <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="">
+      
 
       
           
@@ -207,7 +221,7 @@ function Remove_File_From_Folder(filename){
 							<label >Department.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control" onchange="showOtherdDateCaption()" >										
+										<select id="department" name="department" class="form-control" onchange="view_contract()" >										
                                                     ${departmentlist}								
 										</select>
 							</div>	
@@ -374,7 +388,7 @@ function Remove_File_From_Folder(filename){
 			                   <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
 								 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                  
-			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract List&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
+			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract Search&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
 
 			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   
 			                   <span onClick="manage_contract('update');" id="addnew" class="btn btn-success" >&nbsp;Update &nbsp; <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>

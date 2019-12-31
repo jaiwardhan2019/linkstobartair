@@ -151,13 +151,13 @@ public class HomeController {
 		
 		
 		   if(ldp.Validate_User_With_Ldap(req.getParameter("emailid"),req.getParameter("password"),ldapurl)){			   
+			  
 			  model.addAttribute("emailid",req.getParameter("emailid"));
 			  model.addAttribute("password",req.getParameter("password"));			  
 			  dbusr.updateUser_detail_LastLoginDateTime(req.getParameter("emailid")); //<<---This Function Will Update DB for new user and their count
 			  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
-			  logger.info("User id:"+req.getParameter("emailid")+" Verified With AD");
-			  
-		       return "linkhome";
+			  logger.info("User id:"+req.getParameter("emailid")+" Verified With AD");			  
+		      return "linkhome";
 		       
 		       
 		   }
