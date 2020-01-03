@@ -62,7 +62,7 @@ public class ScheduledTasks {
     @Scheduled(cron = "0 * * * * ?")
     public void cronJobSch() {
 
-       System.out.println("Java cron job expression JAI WARDHAN " );
+       System.out.println("Java cron job expression JAI WARDHAN" );
     }
 
     
@@ -71,5 +71,11 @@ public class ScheduledTasks {
        System.out.println("This is another test function with" );
     }
       */  
+    
+    //------ Need to write a DB call schedule on every 3 hr ------------
+      
+    
+    
+    
     
 }

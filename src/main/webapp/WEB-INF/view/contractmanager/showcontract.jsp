@@ -25,80 +25,6 @@ function contract_home(event){
 }//---------- End Of Function  ------------------
 
 
-
-function toggle_visibility() {
-    var e = document.getElementById("uploadstatus");
-    if(e.style.display == 'block')
-       e.style.display = 'none';
-    else
-       e.style.display = 'block';
- }
-
-
-
-function remove_contract(){
-
-	    if(confirm("Are you Sure about removing this Contract From Database..??\n Note: Once you confirm then these file and data will be removed from the System..")){
-	    	document.updatecontract.method="POST"
-     	    document.updatecontract.action="contractManager?event=remove";
-	        document.updatecontract.submit();
-	  	    return true;
-		}
-	  
-        	    
-}
-
-
-function manage_contract(event){
-
-	  
-    if(document.updatecontract.ccompany.value == ""){
-       alert("Please Enter Contractor Company Detail..");
-       document.updatecontract.ccompany.focus();
-       return false;
-	}
-    
-   if(document.updatecontract.ccontract.value == ""){
-       alert("Please Enter Contact Detail.. Email id / Phone no ..");
-       document.updatecontract.ccontract.focus();
-       return false;
-	}
-	  
-    if(document.updatecontract.startDate.value == ""){
-       alert("Please Select Contract Start Date");
-       document.updatecontract.startDate.focus();
-       return false;
-	}
-    
-    if(document.updatecontract.endDate.value == ""){
-       alert("Please Select Contract End Date");
-       document.updatecontract.endDate.focus();
-       return false;
-	}
-	
-    if(document.updatecontract.cdescription.value == ""){
-        alert("Please Enter Some detail abbout this Contract.");
-        document.updatecontract.cdescription.focus();
-        return false;
- 	}
- 	
-    else
-    {
-
-    	   if(confirm("Are you Sure about Updating this Contract..??")){
-					toggle_visibility();		
-			        document.updatecontract.method="POST"
-				    document.updatecontract.action="updatecontracttodatabase";
-			        document.updatecontract.submit();
-				    return true;
-    	   }
-		    
-    }    
-	
-}//---------- End Of Function  ------------------
-
-
-
 function  archive_contract(){
 
 
@@ -129,38 +55,6 @@ function  renew_contract(){
 	   }
 }
 
-
-
-
-
-function Remove_File_From_Folder(filename){
-	
-      
-	
-	    if(confirm("Are you Sure about removing this File From Contract.??\n Note: Once you confirm then this file can not be recovered..")){
-      
-	    	document.updatecontract.method="POST";
-	    	document.updatecontract.action="contractManager?event=removefilefromfolder&filename="+filename;
-	        document.updatecontract.submit();
-	  	    return true;
-		}
-	
-
-
-}//--- End of Function ------------
-
-
-
-function view_contract(){
-	
-	    document.updatecontract.departmentselected.value=document.updatecontract.department.value;	
-	    document.updatecontract.event.value="view";  
-        document.updatecontract.method="POST";
-	    document.updatecontract.action="contractManager";
-        document.updatecontract.submit();
-	    return true;
-
-}
 
 	
 </script>
@@ -193,22 +87,21 @@ function view_contract(){
  
  
  <form name="updatecontract" id="updatecontract" method="post" enctype="multipart/form-data">
-  
+   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
       <input type="hidden" name="departmentselected" id="departmentselected" value="">
       <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="">
       <input type="hidden" name="event" id="event" value="">
       
-
-      
+   
           
      <table class="table table-striped table-bordered" border="1" style="width: 65%;" align="center">	    
     		<tbody>				     
 			     <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">
 					   <span style="color:white;"> <i class="fa fa-suitcase fa-lg" aria-hidden="true"></i> &nbsp;<b>
-					    Update   &nbsp;&nbsp;
+					    Contract Detail   &nbsp;#&nbsp;${contractdetail.refrence_no}
 					   </b></span>					 
 					 </td>
 			     </tr>
@@ -427,17 +320,7 @@ function view_contract(){
 								 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                  -->
 			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract Search&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
-
-			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  
-			                   <span onClick="archive_contract();" id="addnew" class="btn btn-danger" >&nbsp;Archive &nbsp; <i class="fa fa-archive" aria-hidden="true"></i> </span>
-
-			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   
-			                   <span onClick="renew_contract();" id="addnew" class="btn btn-warning" >&nbsp;Renew Contract &nbsp; <i class="fa fa-repeat" aria-hidden="true"></i> </span>
-
-
-			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   
-			                   <span onClick="manage_contract('update');" id="addnew" class="btn btn-success" >&nbsp;Update &nbsp; <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>
- 		 			     </td>
+ 			     </td>
 				     </tr>
 				     
 	

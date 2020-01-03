@@ -584,7 +584,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 	        <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 				<div class="panel panel-info btn-default panel-shadow">
 					<div class="panel-body" style="color:#0071BA;">
-					 <i class="fa fa-suitcase fa-2x pull-left" aria-hidden="true"></i><span class="pull-right" style="font-size:11pt;font-weight:600;">Manage Contract.</span> 
+					 <i class="fa fa-suitcase fa-2x pull-left" aria-hidden="true"></i><span class="pull-right" style="font-size:11pt;font-weight:600;">Contract Database.</span> 
 					</div>
 				</div>
 		    </div>	

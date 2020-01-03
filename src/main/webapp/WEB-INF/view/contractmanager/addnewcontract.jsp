@@ -308,7 +308,8 @@ function manage_contract(event){
 				  </td>
 				  
                  <td align="left" bgcolor="white" width="50%">	
-			         <span style="display:none" id="uploadstatus" class="btn btn-success btn-sm" > <i class="fa fa-spinner fa-pulse fa-2x"></i> &nbsp; <b> Saving Contract.. </b> </span> 
+     		         
+			         </span> 
       			 </td>
 				
 				  
@@ -330,20 +331,14 @@ function manage_contract(event){
 			
 				     <tr align="center"> 
 				     					
-						<td  bgcolor="white" colspan="2">	<br>		                   
-			
-		           	<!-- 
-			                <span style="display:none" id="uploadstatus" class="btn btn-success btn-sm" > <i class="fa fa-spinner fa-pulse fa-2x"></i> &nbsp; <b> Saving Contract.. </b> </span> 
-            
-                    -->	 		                              
-							<div class="progress" style="display:none" id="uploadstatus">
-							
-							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							    <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-lg"></i>
-							  </div>
-							</div>
-                            
-                    
+						<td  bgcolor="white" colspan="2">			                   
+			            
+			               <span style="display:none" id="uploadstatus"  >			         
+	 		                  <div  class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+							         <b>Saving Contract..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
+			                  </div>
+	
+	           
 			        
 			            </td>
 			         

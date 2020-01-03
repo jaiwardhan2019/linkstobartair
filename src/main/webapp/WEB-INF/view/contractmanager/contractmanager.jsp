@@ -6,18 +6,27 @@
 
 
 <head>
-    <title> Stobart Contract Manager </title>    
+    <title> StobartAir Contract Manager </title>    
 </head>
+
+
 
 
 <script type="text/javascript">
 
 
 
-//https://kodejava.org/how-do-i-create-zip-file-in-servlet-for-download/  <<- zip and download 
-//https://www.daniweb.com/programming/software-development/threads/431245/download-multiple-files-in-single-zip-and-render-for-download
-// Simple https://gkokkinos.wordpress.com/2011/11/25/zip-and-download-content-from-servlet/
-// https://machinesyntax.blogspot.com/2013/10/how-to-create-zip-file-to-download-in.html    <<-- BEST ONE 
+function print_report(){
+		var print_div = document.getElementById("printareareport");
+		var print_area = window.open();
+		print_area.document.write(print_div.innerHTML);
+		print_area.document.close();
+		print_area.focus();
+		print_area.print();
+		print_area.close();
+}
+
+
 
 
 function manage_contract(event){    
@@ -69,24 +78,34 @@ function Zip_Folder_Download_(contractrefno,srno){
 
 
 
+function view_contract(refno){
+	
+	    document.contract.refno.value=refno;
+	    document.contract.action="contractManager?event=showcontract";
+	    document.contract.submit();
+	    return true;
+}
+
+
+
+
+function contract_home(event){    
+	    document.updatecontract.method="POST"
+	    document.updatecontract.action="contractManager";
+        document.updatecontract.submit();
+	    return true;
+	
+}//---------- End Of Function  ------------------
+
+
 	
 </script>
 
 
-	
 
-<style>
-
-tr:nth-child(even) {
-  background-color: #EAEDED;
-}
-
-</style>
-
- 
   <br>
  
- <div  style="margin-top:60px;" align="center">	
+ <div  style="margin-top:60px;" align="center" id="printButton">	
 	
 		<div class="col-md-12 col-sm-12 col-xs-12"  align="left">
 			<i class="fa fa-suitcase fa-2x" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Manage Stobart Contracts.</span></a>
@@ -153,32 +172,31 @@ tr:nth-child(even) {
 											 
 										</select>
 							</div>
-						</div>
+						</div>						
+							 
+						<div class="col-xs-14">
+								<label> Contract Detail.</label>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
+										<textarea rows="02"  name="cdescription"  id="cdescription" class="form-control" > </textarea>
+												
+								</div>
+					    </div>
 						
-					
-				
-				
-				
-					
+					    <div class="checkbox disabled">
+					    
+						      <label><input type="checkbox"  id="isarchived" name="isarchived"><b>Archived </b></label>&nbsp;&nbsp;&nbsp;
+						      <!-- 
+						      <label><input type="checkbox" value="" id="isarchived"><b>Expired </b></label>&nbsp;&nbsp;&nbsp;
+						      <label><input type="checkbox" value="" id="isarchived" checked> <b>Active </b></label>
+						       -->
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
+				          	<span onClick="manage_contract('search');"  class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search </span> 
+	
+					</div>	
 						</td>
 						
-				  </tr>	
-						 
-				     
-				    <tr align="center"> 
-				     					
-						<td  bgcolor="white">
-					
-					       
-					               
-					       <span onClick="manage_contract('search');"  class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search </span> 
-					 
-					           
-					
-					       
-					     </td>
-					     </tr>
-				     
+					     
 							    
 				    </tbody>
 			</table>
@@ -195,11 +213,10 @@ tr:nth-child(even) {
 <br>
 <br>
 	 		 
-  <table  style="width: 80%;" align="center">
+  <table  style="width: 80%;" align="center" id="printButton">
 	  <tr>
 	  
-	     
-
+	
 	     <td align="left"> 
 	        <span  style="font-weight:300;font-size:12pt;">Total Contract # </span> <span  style="font-weight:400;font-size:16pt;">
 	              <b>${fn:length(contractlist)} </b>
@@ -211,24 +228,25 @@ tr:nth-child(even) {
 	    
 	    
 		 <td align="right"> 
- 		        <button   onClick="manage_contract('addnew');" id="addnew" type="button" class="btn btn-primary btn-sm"> <b> Add New </b> &nbsp;<i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+		        <button   onClick="print_report();" id="addnew" type="button" class="btn btn-success btn-sm"> <b> Print Report </b> &nbsp;<i class="fa fa-print fa-lg" aria-hidden="true"></i></button> 
+		        &nbsp;&nbsp;&nbsp;
+		        <button   onClick="manage_contract('addnew');" id="addnew" type="button" class="btn btn-success btn-sm"> <b> Add New </b> &nbsp;<i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
 		  </td>
 
 	   </tr>	
 			
  </table>	
+
 <br>
 
-
-<div class="container" id="printButton">
-
+<div class="container">
        
        <c:set var = "rowcount"  value = "${fn:length(contractlist)}"/>
        <c:if test = "${rowcount == 0}">
         <table class="table" border="0" style="width: 100%;" align="center">	       
           <tr>          
            <td colspan="9" align="center">
-                     <span style="color:red;font-weight:bold;font-size:12pt;"> Sorry No Contract found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-2x"> </i>
+                     <span style="color:blue;font-size:12pt;"> Sorry No Contract found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
                       <br> Please change Filter or Check your Authorisation with Admin..</span>              
             </td>
           </tr>
@@ -249,7 +267,7 @@ tr:nth-child(even) {
 					  
 					 <td bgcolor="#0070BA" >
 					   <span style="color:white;" > <b> 
-					       Refrence No. 
+					       Reference No. 
 					     </b></span>					 
 					 </td>
 	 
@@ -313,15 +331,17 @@ tr:nth-child(even) {
         
             	    
 			<c:if test="${contract.status == 'Dactive'}"> 
-				       <tr align="left" bgcolor="#FEF9E7" style="color:red;"> 
+				       <tr align="left"  style="color:red;"> 
 			</c:if>
     
 			<c:if test="${contract.status == 'Active'}"> 
 			
-				      <tr align="left" bgcolor="#FEF9E7" >  
+				      <tr align="left"  >  
 			
 			 </c:if>
-								    
+			<c:if test="${contract.status == 'Archived'}"> 
+				       <tr align="left"  style="color:blue;"> 
+			</c:if>							    
 	     		    <td>
 					    <b> 
 					       <%=srno++%>.
@@ -330,9 +350,11 @@ tr:nth-child(even) {
 					  
 				    <td>
 				    
-		
-				       ${contract.refrence_no} 
+		           <a  href="javascript:void();" onClick="view_contract('${contract.refrence_no}');">					   			 
+							    
+				       ${contract.refrence_no} 		
 				       
+				   </a>    	       
 				       
 		                <c:set var="contractage" value="${contract.getContractAge(contract.start_date)}" />		                
 		                <c:if test = "${contractage < 30}">        
@@ -343,11 +365,11 @@ tr:nth-child(even) {
 					 </td>
 					 
 					 
-					<td>
-					 
-					  ${contract.department}
-					 
-					     
+					<td>	
+	
+				    <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="SUB DEPARTMENT" data-content="${contract.subdepartment}">
+					  ${contract.department}  				 
+	                </a> 				     
 					 </td>
 					 
 					<td>
@@ -395,6 +417,12 @@ tr:nth-child(even) {
 			                         &nbsp;<span class="label label-danger"><i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp; <b> Expired.</b></span>
 		                </c:if>
 		          
+	          
+		            	<c:if test="${contract.status == 'Archived'}">
+			                       
+			                         &nbsp;<span class="label label-primary"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <b> Archived.</b></span>
+		                </c:if>
+		          
  
 					 </td>
 					 
@@ -403,7 +431,7 @@ tr:nth-child(even) {
 		      
 		            <c:if test="${contract.is_admin == 'Y'}">
 		               <!--  <button type="button" onClick="update_contract('${contract.refrence_no}','${contract.department_code}','${contract.subdepartment_code}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Edit</button> -->
-	                     &nbsp;<a href="javascript:void();"><span class="label label-info"  onClick="update_contract('${contract.refrence_no}','${contract.department_code}','${contract.subdepartment_code}');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>  Edit. </b></span></a>
+	                     <a href="javascript:void();"><span class="label label-info"  onClick="update_contract('${contract.refrence_no}','${contract.department_code}','${contract.subdepartment_code}');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>  Edit. </b></span></a>
 	
 		            </c:if>
 		            
@@ -412,7 +440,7 @@ tr:nth-child(even) {
 		               <!--  <button type="button" onClick="update_contract('${contract.refrence_no}','${contract.department_code}','${contract.subdepartment_code}');"  class="btn btn-info btn-sm" disabled ><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Edit</button>  -->
 		              
 		               <a href="#"  data-placement="top" onclick="return false;" data-toggle="popover" data-trigger="hover"   data-content="You Dont Have Admin Right To This Department Contracts , In order to Update this Please contact your Manager.">
-		                 &nbsp;<span class="label label-info"><i  class="fa fa-times" aria-hidden="true" ></i>&nbsp; <b>  Edit. </b></span>
+		                 <span class="label label-danger"><i  class="fa fa-times" aria-hidden="true" ></i>&nbsp; <b>  Edit. </b></span>
 	                   </a>
 		                
 		            </c:if>
@@ -461,4 +489,165 @@ tr:nth-child(even) {
 <br>
 
 <%@include file="../include/footer.jsp" %>
+
+
+
+
+
+<body >
+
+<!-- THIS IS FOR PRINTING AREA  
+
+<div id="printareareport" style="display:none">
+
+ --> 
+ 
+ 
+ 
+<div  id="printareareport"  style="display:none">
+
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				
+				<br>
+				    <br>
+				    
+					 <table class="myTable"  style="width: 100%;" align="center">	
+			
+			            <tr>
+			            <td colspan="5" align="center">
+			            <h2><b> Stobart Air Contract Report.</b></h2> 
+			            
+			            </td>
+			            
+			            <td align="right">
+			              <img  src="images/re1.png">   
+			            </td>
+			            
+			            </tr>
+                  </table>
+				    <br>
+				    <br>
+				    
+				    
+					   <table class="myTable" style="width:100%;border:1px solid black;border-collapse: collapse;">
+								<tr>
+									<td ><b>No.</b></td>
+									<td ><b>Refrence No</b></td>
+									<td ><b>Department</b></td>
+									<td ><b>Detail.</b></td>
+									<td ><b>Start Date.</b></td>
+									<td ><b>End Date.</b></td>
+									<td ><b>Status.</b></td>
+						        </tr>
+	         <%
+		 
+         int srno1=1;
+         
+	     %>
+          
+          
+        <c:forEach var="contract" items="${contractlist}">       
+        
+    
+			<tr align="left">
+			
+									    
+	     		    <td style="border:1px solid black;">
+					    <b> 
+					       <%=srno1++%>.
+					     </b>				 
+					 </td>
+					  
+				    <td style="border:1px solid black;">
+				    
+		
+				       ${contract.refrence_no} 			       
+				       
+					 		 
+					 </td>
+					 
+					 
+					<td style="border:1px solid black;">	
+	
+					  ${contract.department}  				 
+					 </td>
+					 
+					<td style="border:1px solid black;">
+			                <c:set var="string1" value="${fn:substring(contract.contract_description, 0,30)}" />
+			                   ${string1}
+			     	 </td>
+					 
+					 
+					 
+					 
+					 
+					<td style="border:1px solid black;">
+				
+						<c:set var="startdate" value="${contract.start_date}" />
+						<fmt:parseDate value="${startdate}" var="parsedCurrentDate" pattern="yyyy-MM-dd" />
+				        <fmt:formatDate type = "date"  value = "${parsedCurrentDate}" />
+                         
+					 
+					 </td>
+					
+					
+					<td style="border:1px solid black;">     		      
+						<c:set var="enddate" value="${contract.end_date}" />
+						<fmt:parseDate value="${enddate}" var="parsedEndDate" pattern="yyyy-MM-dd" /> 
+				       <fmt:formatDate type = "date"  value = "${parsedEndDate}" />
+					     
+  				   </td>
+					 
+					 
+					 
+					 
+					 
+					 
+					<td  style="border:1px solid black;">					  
+					     ${contract.status}
+ 
+					 </td>
+					 
+					            
+							 
+	      </tr>     
+       
+       </c:forEach>
+	
+	
+						
+					</table>
+					
+					
+			</div>
+				
+	</div>
+    
+	
+
+<style>
+		
+	.myTable tr, .myTable td, .myTable th{
+		padding: 0px;
+		border:1px solid black;
+		font-size: 8pt;
+		font-family: arial,verdana;
+	}
+	
+
+	
+</style>
+	
+</body>
+
+
+
+
+
+
+
+
+
+
+
 

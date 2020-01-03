@@ -58,35 +58,47 @@ public class manageStobartContractImp implements manageStobartContract{
 	
     // -------------  THIS WILL SHOW THE LIST OF CONTRACT --------------- 
 	@Override
-	public List<stobartContract> showAllContract(String emailid ,String dept, String subdept) {		
+	public List<stobartContract> showAllContract(String emailid ,String dept, String subdept , String cdetail , String isarchived) {		
 		    
-		
-		String sqlListContract="SELECT CONTRACT_DEPT_SUBDET.DEPARTMENT , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT, CONTRACT_DEPT_SUBDET.DEPARTMENT_CODE , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT_CODE , CONTRACT_MASTER.DEPT_SUB_CODE \r\n" + 
-				" , CONTRACT_MASTER.contractor_name , CONTRACT_MASTER.contractor_contact_detail,CONTRACT_MASTER.refrence_no,\r\n" + 
-				"   CONTRACT_MASTER.description,CONTRACT_MASTER.status,CONTRACT_MASTER.start_date,CONTRACT_MASTER.end_date,CONTRACT_MASTER.entered_by_email , CONTRACT_ACCESS.is_admin \r\n" + 
-				"   FROM CONTRACT_DEPT_SUBDET,CONTRACT_MASTER , CONTRACT_ACCESS \r\n" + 
-				"   WHERE CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_DEPT_SUBDET.ID "
-				+ " AND  CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_ACCESS.dept_sub_code  AND CONTRACT_MASTER.entered_by_email=CONTRACT_ACCESS.user_email AND "
-				+ " CONTRACT_MASTER.entered_by_email='"+emailid+"'";
-		
-		String andSql=" ";
+			
+			String sqlListContract="SELECT CONTRACT_DEPT_SUBDET.DEPARTMENT , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT, CONTRACT_DEPT_SUBDET.DEPARTMENT_CODE , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT_CODE , CONTRACT_MASTER.DEPT_SUB_CODE \r\n" + 
+					" , CONTRACT_MASTER.contractor_name , CONTRACT_MASTER.contractor_contact_detail,CONTRACT_MASTER.refrence_no,\r\n" + 
+					"   CONTRACT_MASTER.description,CONTRACT_MASTER.status,CONTRACT_MASTER.start_date,CONTRACT_MASTER.end_date,CONTRACT_MASTER.entered_by_email , CONTRACT_ACCESS.is_admin \r\n" + 
+					"   FROM CONTRACT_DEPT_SUBDET,CONTRACT_MASTER , CONTRACT_ACCESS \r\n" + 
+					"   WHERE CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_DEPT_SUBDET.ID "
+					+ " AND  CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_ACCESS.dept_sub_code  AND CONTRACT_ACCESS.user_email='"+emailid+"'";
+			
+			
+			String andSql=" ";
 		   
 		   
-		   
-	   if(!dept.equals("ALL")){
-		   andSql = andSql + "and CONTRACT_MASTER.dept_sub_code in (SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code='"+dept+"')";
-		   if(!subdept.equals("ALL")){
-			   andSql = andSql + "and CONTRACT_MASTER.dept_sub_code in (SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code='"+dept+"' and subdepartment_code='"+subdept+"')";
+			   
+		   if(!dept.equals("ALL")){
+			   andSql = andSql + "and CONTRACT_MASTER.dept_sub_code in (SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code='"+dept+"')";
+			   if(!subdept.equals("ALL")){
+				   andSql = andSql + "and CONTRACT_MASTER.dept_sub_code in (SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code='"+dept+"' and subdepartment_code='"+subdept+"')";
+				   
+			   }
 			   
 		   }
 		   
-	   }
+		   
+		   if(cdetail != null){
+			  andSql = andSql + "and CONTRACT_MASTER.description like '%"+cdetail.trim()+"%'";			   
+		   }
+		   
+			   
+		   if(isarchived != null ){
+			  andSql = andSql + "and CONTRACT_MASTER.STATUS='Archived'";			   
+		   }
+		   else
+		   {
+			   andSql = andSql + "and CONTRACT_MASTER.STATUS != 'Archived'";
+		   }
+		   
 	
 		   sqlListContract=sqlListContract+andSql;
-		   sqlListContract=sqlListContract+" order by CONTRACT_MASTER.entry_date_time desc ";		   
-	          
-		 
-		   
+		   sqlListContract=sqlListContract+" order by CONTRACT_MASTER.entry_date_time desc ";	
 		   
 		   List  Contract = jdbcTemplateRefis.query(sqlListContract,new stobartContractRowmapper());
 		

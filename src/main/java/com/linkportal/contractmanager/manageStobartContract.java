@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface manageStobartContract {
 	
-	public List<stobartContract> showAllContract(String emailid,String dept,String subdept);
+	public List<stobartContract> showAllContract(String emailid,String dept,String subdept, String cdetail , String isarchived);
 
 	public stobartContract viewContract(String crefno);
 	

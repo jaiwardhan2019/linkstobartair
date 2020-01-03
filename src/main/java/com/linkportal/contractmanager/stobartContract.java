@@ -413,13 +413,13 @@ public class stobartContract {
 
 
 
-	public int getContractAge(String addedUpdatedDate) throws ParseException {
+	public int getContractAge(String startdate) throws ParseException {
     	   
    
     	   
     	   String format = "yyyy-MM-dd";    		 
 		   SimpleDateFormat sdf = new SimpleDateFormat(format);			 
-		   Date dateObj1 = sdf.parse(addedUpdatedDate);
+		   Date dateObj1 = sdf.parse(startdate);
 		   
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern(format);
 		   LocalDateTime currentdateandtime = LocalDateTime.now();		   
