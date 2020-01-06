@@ -502,6 +502,7 @@ function contract_home(event){
 
  --> 
  
+	
  
  
 <div  id="printareareport"  style="display:none">
@@ -510,24 +511,28 @@ function contract_home(event){
 				
 				<br>
 				    <br>
-				    
+		    <br>
+				    <br>	    
+				    			    
 					 <table class="myTable"  style="width: 100%;" align="center">	
 			
 			            <tr>
-			            <td colspan="5" align="center">
+				            
+			            <td align="left">
+			              <img  src="images/re1.png">   
+			            </td>
+	
+			            <td colspan="5" align="left">
 			            <h2><b> Stobart Air Contract Report.</b></h2> 
 			            
-			            </td>
-			            
-			            <td align="right">
-			              <img  src="images/re1.png">   
 			            </td>
 			            
 			            </tr>
                   </table>
 				    <br>
 				    <br>
-				    
+				    <br>
+				    <br>	    
 				    
 					   <table class="myTable" style="width:100%;border:1px solid black;border-collapse: collapse;">
 								<tr>
@@ -552,13 +557,13 @@ function contract_home(event){
 			<tr align="left">
 			
 									    
-	     		    <td style="border:1px solid black;">
+	     		    <td  style="border:1px solid black;font-size:10pt;">		
 					    <b> 
 					       <%=srno1++%>.
 					     </b>				 
 					 </td>
 					  
-				    <td style="border:1px solid black;">
+				    <td  style="border:1px solid black;font-size:10pt;">		
 				    
 		
 				       ${contract.refrence_no} 			       
@@ -567,12 +572,12 @@ function contract_home(event){
 					 </td>
 					 
 					 
-					<td style="border:1px solid black;">	
+					<td  style="border:1px solid black;font-size:10pt;">		
 	
 					  ${contract.department}  				 
 					 </td>
 					 
-					<td style="border:1px solid black;">
+					<td  style="border:1px solid black;font-size:10pt;">		
 			                <c:set var="string1" value="${fn:substring(contract.contract_description, 0,30)}" />
 			                   ${string1}
 			     	 </td>
@@ -581,7 +586,7 @@ function contract_home(event){
 					 
 					 
 					 
-					<td style="border:1px solid black;">
+					<td  style="border:1px solid black;font-size:10pt;">		
 				
 						<c:set var="startdate" value="${contract.start_date}" />
 						<fmt:parseDate value="${startdate}" var="parsedCurrentDate" pattern="yyyy-MM-dd" />
@@ -591,7 +596,7 @@ function contract_home(event){
 					 </td>
 					
 					
-					<td style="border:1px solid black;">     		      
+					<td  style="border:1px solid black;font-size:10pt;">		   		      
 						<c:set var="enddate" value="${contract.end_date}" />
 						<fmt:parseDate value="${enddate}" var="parsedEndDate" pattern="yyyy-MM-dd" /> 
 				       <fmt:formatDate type = "date"  value = "${parsedEndDate}" />
@@ -603,7 +608,7 @@ function contract_home(event){
 					 
 					 
 					 
-					<td  style="border:1px solid black;">					  
+					<td  style="border:1px solid black;font-size:10pt;">					  
 					     ${contract.status}
  
 					 </td>
@@ -628,10 +633,10 @@ function contract_home(event){
 <style>
 		
 	.myTable tr, .myTable td, .myTable th{
-		padding: 0px;
+		padding: 5px;
 		border:1px solid black;
-		font-size: 8pt;
 		font-family: arial,verdana;
+
 	}
 	
 

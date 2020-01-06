@@ -408,7 +408,19 @@ public class HomeController {
 		model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
 		model.addAttribute("emailid",req.getParameter("emailid"));
 		model.addAttribute("password",req.getParameter("password"));
-		model.put("datop",req.getParameter("datop"));
+		
+		
+	    Date today = new Date();               
+	    SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+	    Calendar c = Calendar.getInstance();  
+	    String todaydate = (String)(formattedDate.format(c.getTime()));
+	    model.put("datop",todaydate);
+        
+	    if(req.getParameter("datop") != null) {
+	    	model.put("datop",req.getParameter("datop"));
+	    }
+		
+		
 		
 		logger.info("User id:"+req.getParameter("emailid")+" Login to MayFly Report");
 		return "flightreports/mayflyreport";
@@ -564,7 +576,6 @@ public class HomeController {
 	
 	
 	
-	
 
 	
 	
@@ -626,6 +637,8 @@ public class HomeController {
 		   model.put("punctualitystatus",flt.PunctualityStatistics(Airline, Operation, dateofoperation));		   
 		   model.put("fltCompletionkpipax",flt.CompletionKPI_Pax_KPI(Airline, Operation, dateofoperation));
 		   
+		   
+			  
 		 //*********************** END OF REPORT BODY  **************
 		   
 		   

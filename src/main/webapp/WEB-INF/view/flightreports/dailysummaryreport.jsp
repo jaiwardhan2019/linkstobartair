@@ -261,7 +261,7 @@ tr:nth-child(even) {
 				  <td> <b>From Port </b> </td>
 				  <td> <b>Status</b> </td>
 				  <td> <b>No. Of Flights </b></td>
-				  <td> <b>On Time % </b></td>
+				  <td> <b>On Time %  </b></td>
 				  
 				  <td> <b><= <c:out value="${punctualityTarget['title']}"/> Minutes &nbsp;&nbsp;(<c:out value="${punctualityTarget['lessthen5minut']}"/>%) </b></td>
 				  

@@ -96,149 +96,146 @@ function  renew_contract(){
       
    
           
-     <table class="table table-striped table-bordered" border="1" style="width: 65%;" align="center">	    
+     <table class="table table-striped table-bordered" border="1" style="width:60%;" align="center">	    
     		<tbody>				     
 			     <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">
 					   <span style="color:white;"> <i class="fa fa-suitcase fa-lg" aria-hidden="true"></i> &nbsp;<b>
-					    Contract Detail   &nbsp;#&nbsp;${contractdetail.refrence_no}
+					    Contract Detail 
 					   </b></span>					 
 					 </td>
 			     </tr>
 			
+	
 			
 			   <tr>
                 
-                  <td align="left" bgcolor="white" width="50%">
-					<div class="col-xs-12">
-							<label> Contract Detail.</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-									<textarea rows="04" name="cdescription"  id="cdescription" class="form-control">${contractdetail.contract_description}</textarea>
-											
-							</div>
-				    </div>
-				    
-	    
-		                
-	                </td>
-	 				
+                  <td align="left" bgcolor="white" width="25%">
+								<label  >Ref No.</label> 
+	              </td>
 				            
-	              <td align="left" bgcolor="white" width="50%">
-					<div class="col-xs-12">
-							<label  >Ref No.</label>  
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
-										<input type="text"   name="refno" id="refno" class="form-control" readonly  value="${contractdetail.refrence_no}">										
-							</div>
-				    </div>
-				    <br>
-				    <br>
-				     <br>
-				    &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight:600;font-size:8pt;color:blue;">
-							&nbsp;&nbsp;${contractupdate}</span>
-	                
-	                </td>
+	              <td align="left" bgcolor="white" width="75%">
+                        ${contractdetail.refrence_no}
+		          </td>
       	                
 	           </tr>
 	           
-	           
-	           
-	           <tr>
-	               <td align="left" bgcolor="white" width="50%">
-					     <div class="col-xs-12">
-							<label >Department.</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control" onchange="view_contract()" >										
-                                                    ${departmentlist}								
-										</select>
-							</div>	
-						</div>
-	               
-	               
-	               </td>
-	               
-	               <td align="left" bgcolor="white" width="50%">
-				      <div class="col-xs-12">
-							<label  >Sub Depart.</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
-									
-										<select  id="subdepartment" name="subdepartment" class="form-control" >
-								                       ${subdepartmentlist}
-											
-										</select>
-							</div>
-				    </div>
-	               
-	               
-	               </td>
-	           
-	           
+			
+			   <tr>
+                
+                  <td align="left" bgcolor="white" >
+								<label> Contract Detail.</label>
+	              </td>
+				            
+	              <td align="left" bgcolor="white" >
+                        ${contractdetail.contract_description}
+		          </td>
+      	                
 	           </tr>
 	           
-	           
+	
+         
 	           <tr>
-		           <td align="left" bgcolor="white" width="50%">
-                    <div class="col-xs-12">
-							<label for="startDate">Start Date:</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12"  value="${contractdetail.start_date}" />
-							</div>	
-						</div>
-		           
-		           
-		           </td>
-		           
-		           
-		           <td align="left" bgcolor="white" width="50%">
-						
-				       <div class="col-xs-12">
-							<label for="endDate">End Date:</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								
-								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" value="${contractdetail.end_date}"/>
-								
-							</div>
-						</div>
-		           
-		           
-		           </td>
-		           
+                
+                  <td align="left" bgcolor="white" >
+								<label> Department.</label>
+	              </td>
+				            
+	              <td align="left" bgcolor="white" >
+                        ${contractdetail.department}&nbsp;&nbsp;  // &nbsp;&nbsp; (${contractdetail.subdepartment})
+		          </td>
+      	                
 	           </tr>
-	           
-	           
+		           
+	        
 	           <tr>
-	              <td align="left" bgcolor="white" width="50%">
+		           <td align="left" bgcolor="white" >
+                   		<label for="startDate">Start Date:</label>
+							
+								
+		           </td>
+		           
+		           <td align="left" bgcolor="white" >
+		              
+		                 
+		                 
+				 	<c:set var="startdate" value="${contractdetail.start_date}" />
+						<fmt:parseDate value="${startdate}" var="parsedCurrentDate" pattern="yyyy-MM-dd" />
+				        <fmt:formatDate type = "date"  value = "${parsedCurrentDate}" />
+  		                 
 
-				    <div class="col-xs-12">
-							<label  >Contractor Company Name.</label>
-							<div class="input-group col-xs-12" >
-								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
-									<textarea rows="03" name="ccompany"  id="ccompany" class="form-control" >${contractdetail.contractor_name}</textarea>  										
-							</div>
-				    </div>
-				    				  
-				  </td>
-				  
-				  <td align="left" bgcolor="white" width="50%">
-				    <div class="col-xs-12">
-							<label  >Contractor Contact.</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
-								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
-										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com">${contractdetail.contractor_contact_detail}</textarea>										
-							</div>
-				    </div>						
-				  
-				  
-				  </td>
-				  
+		           </td>
+		           
+		           		           
 	           </tr>
 	           
+	           <tr>
+		           <td align="left" bgcolor="white" >
+                   		<label for="startDate">End Date:</label>
+							
+								
+		           </td>
+		           
+		           <td align="left" bgcolor="white" >
+		           
+			    	<c:set var="enddate" value="${contractdetail.end_date}" />
+						<fmt:parseDate value="${enddate}" var="parsedEndDate" pattern="yyyy-MM-dd" /> 
+				       <fmt:formatDate type = "date"  value = "${parsedEndDate}" />
+		
+		           </td>
+		           
+		           		           
+	           </tr>
+	           
+	
+	
+	
+		      <tr>
+		           <td align="left" bgcolor="white" >
+                   		<label for="startDate">Status:</label>
+							
+								
+		           </td>
+		           
+		           <td align="left" bgcolor="white" >
+		                 ${contractdetail.status}
+
+		           </td>
+		           
+		           		           
+	           </tr>
+	           
+	
+	
+		      <tr>
+		           <td align="left" bgcolor="white" >
+                   		<label for="startDate">Contractor Company :</label>
+							
+								
+		           </td>
+		           
+		           <td align="left" bgcolor="white" >
+		                 ${contractdetail.contractor_name} <br>  ${contractdetail.contractor_contact_detail}
+		                 
+
+		           </td>
+		           
+		           		           
+	           </tr>
+	           
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	 	           
 
 
 	           <tr>
@@ -248,7 +245,7 @@ function  renew_contract(){
 				        <br>
 							<span style="font-weight:400;font-size:10pt;">							
 				
-						<table  align="left"  width="50%" class="table table-striped" style="width:85%;">							
+						<table  align="center"   class="table table-striped" style="width:75%;">							
 							<% 							
 							int filecount=1;							
 							%>
@@ -259,12 +256,7 @@ function  renew_contract(){
 								 <b> <a href="${contractdetail.refrence_no}/${filelist}"  target="_blank">  ${filelist}  </a> </b>
 								  
 								</td>
-								<td align="left" width="20%">
-								 <span style="font-weight:600;font-size:9pt;color:red">
-								   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="javascript:void();" onClick="Remove_File_From_Folder('${filelist}');">&nbsp;Remove </a>
-								 </span>  
-								 </td>
-							</tr>
+								</tr>
 						  </c:forEach>
 							
 							</table>
@@ -276,68 +268,14 @@ function  renew_contract(){
 	           </tr>
 
 
-	           <tr>
-	              <td align="left" bgcolor="white">
-				
-					<div class="col-xs-12">
-							<label> Attach More File. </label>
-							<div class="input-group"> 
-								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
-									 <input type="file"  id="cfile"  name="cfile"   class="form-control"/>
-							</div>
-				   </div>
-				  
-				  </td>
-				  
-				  
-				  <td align="left" bgcolor="white">
-						<div class="col-xs-12">
-						  <label>Status.</label>		
-								<div class="input-group"> 
-									<span class="input-group-addon"><i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i></span>							
-										<select id="status" name="status" class="form-control"  >										
-												<option value="Active" <c:if test = "${contractdetail.status == 'Active'}"> selected  </c:if> > Active </option>	
-												<option value="Dactive" <c:if test = "${contractdetail.status == 'Dactive'}"> selected  </c:if> > Expired </option>
-												<option value="Archived" <c:if test = "${contractdetail.status == 'Archived'}"> selected  </c:if> > Archived </option>
-																								
-											</select>
-								</div>
-	
-						  </div>
-				  
-				  </td>
-				  
-	           </tr>
-	           
-
 
 				    <tr align="center"> 
 				     					
 						<td  bgcolor="white" colspan="2">	
-					
-					<!-- 		 
-			                   <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
-								 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                 -->
-			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract Search&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
+				                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract Search&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
  			     </td>
 				     </tr>
-				     
-	
-				     <tr align="center" > 
-				     					
-						<td  bgcolor="white" colspan="2" >			                   
-			                 
-			                <span style="display:none" id="uploadstatus">   
-			                  <div  class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							         <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
-			                  </div>
-			                 </span> 
-    		            </td>
-			         
-			         </tr> 
-				     
-	           	           
+		        	           
        	   </tbody>             
      </table>  	   
     

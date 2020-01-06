@@ -428,27 +428,9 @@ public class flightReportsImp implements flightReports{
 	@Override
 	public String PunctualityStatistics(String airline, String operation, String dateofoperation) throws NumberFormatException {
          
-		   String andstring="";  //<<== THis will be used for the Airline and Operation Selection 
-		 
-		   
-		   
-		   
-		   
-		 //*********************** THIS PART IS FOR ALL DEPARTURE*******************************
-		   if((!airline.equals("ALL"))){ 
-		    	
-	    		if((airline.equals("BE"))){
-	    			
-		      		   if(operation.equals("All Operation")) { andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; } 
-		    		   if(operation.equals("CPA")) { andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='BE' and legs.FLTID not like 'BE 6%'"; }
-		    		   if(operation.equals("Franchise")) { andstring += " AND LEGS.FLTID like 'BE 6%'"; } 
-		   		}
-	    		else
-	    		{	
-	    			andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; 
-	    		}
-           }//----------- End Of If -------------- 
 		
+		 
+		   String andstring="";  //<<== THis will be used for the Airline and Operation Selection 
 		   
 		   
 		   String sqlstr="select sum(case when status = 'ATA' then 1 else 0 end) as NumFlown,      \r\n" + 
@@ -457,9 +439,40 @@ public class flightReportsImp implements flightReports{
 		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) <= 5) then 1 else 0 end)  as LessthenEqual5Minute,\r\n" +
 		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) <= 15) then 1 else 0 end) as LessthenEqual15Minute,\r\n" + 
 		   		"	   sum(case when status = 'ATA' and DUR1+DUR2+DUR3+DUR4 <= 30 then 1 else 0 end) as LessthenEqual30Minute\r\n" + 
-		   		"	   from LEGS    where DATOP = '"+dateofoperation+"'"+andstring;
+		   		"	   from LEGS    where DATOP = '"+dateofoperation+"'";
 		   
+
+ 		   
+		   
+		 //*********************** THIS PART IS FOR ALL DEPARTURE*******************************
+		   if((!airline.equals("ALL"))){ 
+		    	
+	    		if((airline.equals("BE"))){
+	    			
+		      		   if(operation.equals("All Operation")) { andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; } 
+		    		   if(operation.equals("CPA")) { 
+		    			   andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='BE' and legs.FLTID not like 'BE 6%'";
+	    			   
+		    		   }
+		    		   
+		    		   if(operation.equals("Franchise")) { andstring += " AND LEGS.FLTID like 'BE 6%'"; }
+		    		   
+		   		}
+	    		else
+	    		{	
+	    			andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; 
+	    		}
+           }//----------- End Of If -------------- 
 		
+			   
+		   sqlstr = sqlstr+andstring;
+		   
+		   String flybeatrsql     = sqlstr + "and legs.ACTYP='A76'";
+		   String flyembrarrersql = sqlstr + "and legs.ACTYP='E90'";				 
+
+		   
+		   
+		   
 		  
 		   
 		   int noofflightflown=0;
@@ -471,15 +484,9 @@ public class flightReportsImp implements flightReports{
       
 		   String reportbody="";
 		   
-		   
-		   Connection connection;
-		
-		 try{
-			
+				
 
-		   connection     = dataSourcesqlserver.getConnection();
-		   Statement stac = connection.createStatement();
-		   ResultSet rsc  = stac.executeQuery(sqlstr);		   
+		   SqlRowSet rsc  = jdbcTemplateSqlServer.queryForRowSet(sqlstr);  		   
 
 		   
 		   
@@ -498,12 +505,12 @@ public class flightReportsImp implements flightReports{
 				   
 		           try {
 				   
-		           ontime = (ontime * 100)/noofflightflown;
-		           lessthen3minutes= (lessthen3minutes * 100)/noofflightflown;
-		           lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
-				   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
-				   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
-				   
+			           ontime = (ontime * 100)/noofflightflown;
+			           lessthen3minutes= (lessthen3minutes * 100)/noofflightflown;
+			           lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+					   
 		           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("In the Function PunctualityStatistics:"+er.toString());}
 				   
 			
@@ -539,9 +546,11 @@ public class flightReportsImp implements flightReports{
 
     	   
     	   
-		   //System.out.println(sqlstr1);
+		  
 		   
-		   rsc = stac.executeQuery(sqlstr1);		   
+		   	
+		   
+		   rsc =  jdbcTemplateSqlServer.queryForRowSet(sqlstr1);  
 		   if(rsc.next()){				
 	    		   
 	    		   if(rsc.getString("NumFlown") != null) {
@@ -554,10 +563,10 @@ public class flightReportsImp implements flightReports{
 					   
 			           try {
 			        	   
-					   ontime = (ontime * 100)/noofflightflown;
-					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
-					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
-					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+						   ontime = (ontime * 100)/noofflightflown;
+						   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+						   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+						   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
 			           
 			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
 					   
@@ -571,22 +580,101 @@ public class flightReportsImp implements flightReports{
 	    			   
 	    		   }          
 		      }	   
-		   
-	 
-   	   
+		     
     	   rsc = null;
     	   
+	   
     	   
+    	   
+    	   
+    	   //---  THIS PART IS FOR  FLYBE CPA - ATR - EMBERRAR -----------------------
+    	   if(operation.equals("CPA")) {
+    		    
+     		   SqlRowSet row =  jdbcTemplateSqlServer.queryForRowSet(flybeatrsql);  
+    		   if(row.next()) {
+    			   
+    			   
+        		   if(row.getString("NumFlown") != null) {
+        		    	
+	    			   noofflightflown=Integer.parseInt(row.getString("NumFlown"));
+					   ontime=Integer.parseInt(row.getString("OnTime"));
+					   lessthen5minutes=Integer.parseInt(row.getString("LessthenEqual5Minute"));
+					   lessthen15minutes=Integer.parseInt(row.getString("LessthenEqual15Minute"));
+					   lessthen30minutes=Integer.parseInt(row.getString("LessthenEqual30Minute"));
+					   
+			           try {
+			        	   
+						   ontime = (ontime * 100)/noofflightflown;
+						   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+						   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+						   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+			           
+			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
+					   
+				
+					   reportbody =reportbody+"<tr><td>ALL</td><td><b>ATR</b></td><td>"+noofflightflown+"</td>";
+					   reportbody =reportbody+"<td>"+ontime+"%</td>";
+					   reportbody =reportbody+"<td>"+lessthen5minutes+"%</td>";
+					   reportbody =reportbody+"<td>"+lessthen15minutes+"%</td>";
+					   reportbody =reportbody+"<td>-</td></tr>";
+						   
+	    			   
+	    		   }          
+		
+    			   
+    		   }
+    		   row = null;
+    		   row =  jdbcTemplateSqlServer.queryForRowSet(flyembrarrersql);  
+    		   if(row.next()) {
+    			   
+    			   
+        		   if(row.getString("NumFlown") != null) {
+        		    	
+	    			   noofflightflown=Integer.parseInt(row.getString("NumFlown"));
+					   ontime=Integer.parseInt(row.getString("OnTime"));
+					   lessthen5minutes=Integer.parseInt(row.getString("LessthenEqual5Minute"));
+					   lessthen15minutes=Integer.parseInt(row.getString("LessthenEqual15Minute"));
+					   lessthen30minutes=Integer.parseInt(row.getString("LessthenEqual30Minute"));
+					   
+			           try {
+			        	   
+						   ontime = (ontime * 100)/noofflightflown;
+						   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+						   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+						   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+			           
+			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
+					   
+				
+					   reportbody =reportbody+"<tr><td>ALL</td><td><b>EMBRAER</b></td><td>"+noofflightflown+"</td>";
+					   reportbody =reportbody+"<td>"+ontime+"%</td>";
+					   reportbody =reportbody+"<td>"+lessthen5minutes+"%</td>";
+					   reportbody =reportbody+"<td>"+lessthen15minutes+"%</td>";
+					   reportbody =reportbody+"<td>-</td></tr>";
+						   
+	    			   
+	    		   }          
+		
+    			   
+    		   }
+    		   row = null;
+    		
+    		   
+    		   
+    		   
+    		   
+    	   }//--- END OF THIS PART IS FOR  FLYBE CPA - ATR - EMBERRAR -----------------------
+    	 
+    	   
+    
     		
 	   		
 	   		//********************** IF AIR- LINGUS IS SELECTED THEN  NEED TO POPULATE ALL MAZOR STATION *************************** 
 	   		if(airline.equals("EI")) {
 	   			
 	   			//------ FOR DUBLIN DEPARTURE ----
-	   			String alldublindepartureSql = sqlstr+" and DEPSTN='DUB'";	   			
-	   			
-	   		   
-	 		   rsc = stac.executeQuery(alldublindepartureSql);		   
+	   		   String alldublindepartureSql = sqlstr+" and DEPSTN='DUB'";
+	 		   rsc =  jdbcTemplateSqlServer.queryForRowSet(alldublindepartureSql);  
 	 		   if(rsc.next()){				
 	 	    		   
 	 	    		   if(rsc.getString("NumFlown") != null) {
@@ -599,10 +687,10 @@ public class flightReportsImp implements flightReports{
 	 					   
 	 			           try {
 	 			        	   
-	 					   ontime = (ontime * 100)/noofflightflown;
-	 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
-	 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
-	 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+		 					   ontime = (ontime * 100)/noofflightflown;
+		 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+		 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+		 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
 	 			           
 	 			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
 	 					   
@@ -628,8 +716,9 @@ public class flightReportsImp implements flightReports{
 	   		   //------ FOR DUBLIN ARRIVAL ----
 	   	       String alldublinarrivalSql   = sqlstr1+" and ARRSTN='DUB'"; 
 	   	     
-   					
-	 		   rsc = stac.executeQuery(alldublinarrivalSql);		   
+  					
+	 	
+	 		   rsc =  jdbcTemplateSqlServer.queryForRowSet(alldublinarrivalSql);  
 	 		   if(rsc.next()){				
 	 	    		   
 	 	    		   if(rsc.getString("NumFlown") != null) {
@@ -642,10 +731,10 @@ public class flightReportsImp implements flightReports{
 	 					   
 	 			           try {
 	 			        	   
-	 					   ontime = (ontime * 100)/noofflightflown;
-	 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
-	 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
-	 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+		 					   ontime = (ontime * 100)/noofflightflown;
+		 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+		 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+		 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
 	 			           
 	 			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
 	 					   
@@ -663,54 +752,57 @@ public class flightReportsImp implements flightReports{
 	    	   
 	     	   rsc = null;
 		   			
+	     
 	     	   //------ FOR CORK DEPARTURE ----
 	   		   alldublindepartureSql = sqlstr+" and DEPSTN='ORK'";	   			
 	   			
-	   		   
-	 		   rsc = stac.executeQuery(alldublindepartureSql);		   
-	 		   if(rsc.next()){				
-	 	    		   
-	 	    		   if(rsc.getString("NumFlown") != null) {
-	 	    	
-	 	    			   noofflightflown=Integer.parseInt(rsc.getString("NumFlown"));
-	 					   ontime=Integer.parseInt(rsc.getString("OnTime"));
-	 					   lessthen5minutes=Integer.parseInt(rsc.getString("LessthenEqual5Minute"));
-	 					   lessthen15minutes=Integer.parseInt(rsc.getString("LessthenEqual15Minute"));
-	 					   lessthen30minutes=Integer.parseInt(rsc.getString("LessthenEqual30Minute"));
-	 					   
-	 			           try {
-	 			        	   
-	 					   ontime = (ontime * 100)/noofflightflown;
-	 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
-	 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
-	 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
-	 			           
-	 			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
-	 					   
-	 				
-	 					   reportbody =reportbody+"<tr><td>ORK</td><td>DEPARTURE</td><td>"+noofflightflown+"</td>";
-	 					   reportbody =reportbody+"<td>"+ontime+"%</td>";
-	 					   reportbody =reportbody+"<td>"+lessthen5minutes+"%</td>";
-	 					   reportbody =reportbody+"<td>"+lessthen15minutes+"%</td>";
-	 					   reportbody =reportbody+"<td>-</td></tr>";
-	 						   
-	 	    			   
-	 	    		   }          
-	 		      }	   
-	 		   
-	    	   
-	     	   rsc = null;
-	     	   	   			
-	   			
-	   			
+	   
+		 		
+		 		  rsc =  jdbcTemplateSqlServer.queryForRowSet(alldublindepartureSql); 
+		 		  if(rsc.next()){				
+		 	    		   
+		 	    		   if(rsc.getString("NumFlown") != null) {
+		 	    	
+		 	    			   noofflightflown=Integer.parseInt(rsc.getString("NumFlown"));
+		 					   ontime=Integer.parseInt(rsc.getString("OnTime"));
+		 					   lessthen5minutes=Integer.parseInt(rsc.getString("LessthenEqual5Minute"));
+		 					   lessthen15minutes=Integer.parseInt(rsc.getString("LessthenEqual15Minute"));
+		 					   lessthen30minutes=Integer.parseInt(rsc.getString("LessthenEqual30Minute"));
+		 					   
+		 			           try {
+			 			        	   
+			 					   ontime = (ontime * 100)/noofflightflown;
+			 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+			 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+			 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+			 			           
+		 			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
+		 					   
+		 				
+		 					   reportbody =reportbody+"<tr><td>ORK</td><td>DEPARTURE</td><td>"+noofflightflown+"</td>";
+		 					   reportbody =reportbody+"<td>"+ontime+"%</td>";
+		 					   reportbody =reportbody+"<td>"+lessthen5minutes+"%</td>";
+		 					   reportbody =reportbody+"<td>"+lessthen15minutes+"%</td>";
+		 					   reportbody =reportbody+"<td>-</td></tr>";
+		 						   
+		 	    			   
+		 	    		   }          
+		 		      }	   
+		 		   
+		    	   
+		     	   rsc = null;
+		     	   	   			
+		   			
+		   			
 	   			
 	   			
 	   			
 	   		   //------ FOR CORK ARRIVAL ----
 	   	       alldublinarrivalSql   = sqlstr1+" and ARRSTN='ORK'"; 
 	   	     
-  					
-	 		   rsc = stac.executeQuery(alldublinarrivalSql);		   
+	
+	 		
+	 		  rsc =  jdbcTemplateSqlServer.queryForRowSet(alldublinarrivalSql); 
 	 		   if(rsc.next()){				
 	 	    		   
 	 	    		   if(rsc.getString("NumFlown") != null) {
@@ -723,10 +815,10 @@ public class flightReportsImp implements flightReports{
 	 					   
 	 			           try {
 	 			        	   
-	 					   ontime = (ontime * 100)/noofflightflown;
-	 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
-	 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
-	 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+		 					   ontime = (ontime * 100)/noofflightflown;
+		 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+		 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+		 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
 	 			           
 	 			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
 	 					   
@@ -743,16 +835,13 @@ public class flightReportsImp implements flightReports{
 	 		   
 	    	   
 	     	   rsc = null;
-	
-	     	   
-	     	   
-	     	   
 	     	   
 	     	   //------ FOR SHANON  DEPARTURE ----
 	   		   alldublindepartureSql = sqlstr+" and DEPSTN='SNN'";	   			
 	   			
 	   		   
-	 		   rsc = stac.executeQuery(alldublindepartureSql);		   
+	 		  
+	 		  rsc =  jdbcTemplateSqlServer.queryForRowSet(alldublindepartureSql); 
 	 		   if(rsc.next()){				
 	 	    		   
 	 	    		   if(rsc.getString("NumFlown") != null) {
@@ -764,11 +853,11 @@ public class flightReportsImp implements flightReports{
 	 					   lessthen30minutes=Integer.parseInt(rsc.getString("LessthenEqual30Minute"));
 	 					   
 	 			           try {
-	 			        	   
-	 					   ontime = (ontime * 100)/noofflightflown;
-	 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
-	 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
-	 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+		 			        	   
+		 					   ontime = (ontime * 100)/noofflightflown;
+		 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+		 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+		 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
 	 			           
 	 			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
 	 					   
@@ -785,17 +874,16 @@ public class flightReportsImp implements flightReports{
 	 		   
 	    	   
 	     	   rsc = null;
-	     	   	   			
-	   			
-	   			
-	   			
-	   			
-	   			
-	   		   //------ FOR SHANNON ARRIVAL ----
+	     	   	   		
+	     	   
+	     	   
+	  		   //------ FOR SHANNON ARRIVAL ----
 	   	       alldublinarrivalSql   = sqlstr1+" and ARRSTN='SNN'"; 
-	   	       //System.out.println(alldublinarrivalSql);
-  					
-	 		   rsc = stac.executeQuery(alldublinarrivalSql);		   
+	   	  
+ 					
+	 		 
+	 		  rsc =  jdbcTemplateSqlServer.queryForRowSet(alldublinarrivalSql); 
+	 		   
 	 		   if(rsc.next()){				
 	 	    		   
 	 	    		   if(rsc.getString("NumFlown") != null) {
@@ -807,11 +895,11 @@ public class flightReportsImp implements flightReports{
 	 					   lessthen30minutes=Integer.parseInt(rsc.getString("LessthenEqual30Minute"));
 	 					   
 	 			           try {
-	 			        	   
-	 					   ontime = (ontime * 100)/noofflightflown;
-	 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
-	 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
-	 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
+		 			        	   
+		 					   ontime = (ontime * 100)/noofflightflown;
+		 					   lessthen5minutes= (lessthen5minutes * 100)/noofflightflown;
+		 					   lessthen15minutes= (lessthen15minutes * 100)/noofflightflown;
+		 					   lessthen30minutes= (lessthen30minutes * 100)/noofflightflown;
 	 			           
 	 			           }catch (ArithmeticException er) {er.printStackTrace(); logger.error("PunctualityStatistics:"+er.toString());}
 	 					   
@@ -827,56 +915,29 @@ public class flightReportsImp implements flightReports{
 	 		      }	   
 	 		   
 	    	   
-	     	   rsc = null;
-	     	   stac.close();		
-	   			   			
+	     	   rsc = null;	     	   
+	     	   
+	   
 	   			
 	   			
 	   			
-	   			
-	   			
-	   			
-	   		} 		
+	   		} //------ END OF AIR LINGUS SELECTION ---------- 		
 	   	//********************** IF AIR- LINGUS IS SELECTED THEN  NEED TO POPULATE ALL MAZOR STATION ***************************
 	   		 
-   		
+  		
+    	 	   
     	   
     	   
     	   
     	   
     	   
     	   
-    	   
-    	   
-    	   
-    	   
-    	   
-    	   
-    	
+    
+	   		return reportbody;
 	
-		   
-		   
-		} catch (SQLException e) {e.printStackTrace(); logger.error("In the Function PunctualityStatistics:"+e.toString());}
-		  
-		
-	
+			
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		return reportbody;
 	}
 	//**************** END OF FUNCTION ************************************
 
@@ -1086,7 +1147,7 @@ public class flightReportsImp implements flightReports{
 		   }
 		   
 		
-		   //System.out.println(sqlforflightlist);
+
 		   List<String> flightList = jdbcTemplateSqlServer.query(sqlforflightlist, new RowMapper<String>() {
 			      public String mapRow(ResultSet resultSet, int i) throws SQLException {
 			        return resultSet.getString("FLTID");

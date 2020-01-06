@@ -131,7 +131,7 @@ function showReport(){
 						       <b> Flight Date</b>  &nbsp;
 							   <i class="fa fa-calendar"></i>
 							   								
-								 <input type="date" id="flightDate" name="flightDate" class="form-control datepicker" maxlength="12" max="${todaydate}" value="" placeholder="(DD/MM/YYYY)"/> 
+								 <input type="date" id="flightDate" name="flightDate" class="form-control datepicker" maxlength="12" max="${todaydate}" value="${todaydate}" placeholder="(DD/MM/YYYY)"/> 
 								<!-- <input type="date" class="form-control datepicker" id="flightDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy" maxlength="12" max="${todaydate}"> -->
 						</td>
 						
