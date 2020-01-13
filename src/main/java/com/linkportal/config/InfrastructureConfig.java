@@ -73,15 +73,8 @@ public class InfrastructureConfig{
 		     return DataSourceBuilder.create().build(); 
 	  }
 
-	  
-	  
-	  @Bean(name = "dataSourceflightops")	  
-	  @ConfigurationProperties(prefix = "ops.datasource") 
-	  public DataSource dataSource_flightops1() {
-		     return DataSourceBuilder.create().build(); 
-	  }
-	  
-	  
+	 
+	 
 	
 	 
 }

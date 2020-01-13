@@ -1,4 +1,4 @@
-<!--Footer--->
+
 	<footer class="text-center" style="padding-top:0px;">
       <div class="footer-above" style="background:#e9ebee;">
             <div class="container-fluid">

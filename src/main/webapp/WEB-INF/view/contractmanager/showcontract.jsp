@@ -17,45 +17,43 @@
 
 
 function contract_home(event){    
-	    document.updatecontract.method="POST"
-	    document.updatecontract.action="contractManager";
-        document.updatecontract.submit();
+	    document.contract.method="POST"
+	    document.contract.action="contractManager";
+        document.contract.submit();
 	    return true;
 	
 }//---------- End Of Function  ------------------
 
 
-function  archive_contract(){
 
 
-	   if(confirm("You are going to Archive this Contract .. Are you Sure about this..??")){
 
-			    toggle_visibility();
-			    document.updatecontract.status.value="Archived";		
-		        document.updatecontract.method="POST"
-			    document.updatecontract.action="updatecontracttodatabase";
-		        document.updatecontract.submit();
+function  renew_contract(contractref){
+
+
+	   if(confirm("Are you Sure about Renewing this Contract ..??")){			
+			    document.contract.event.value="renew";		
+			    document.contract.refno.value=contractref;
+		        document.contract.method="POST";
+			    document.contract.action="contractManager";
+		        document.contract.submit();
 			    return true;
 	   }
 }
 
 
 
-function  renew_contract(){
+function update_contract(contractref,department,subdepartment){
+            
+        document.contract.refno.value=contractref;
+        document.contract.departmentselected.value=department;   
+        document.contract.subdepartmentselected.value=subdepartment;              
+        document.contract.method="POST"
+	    document.contract.action="contractManager?event=view";
+        document.contract.submit();
+	    return true;
 
-
-	   if(confirm("Are you Sure about this..??")){
-
-			    toggle_visibility();
-			    document.updatecontract.event.value="renew";		
-		        document.updatecontract.method="POST";
-			    document.updatecontract.action="contractManager";
-		        document.updatecontract.submit();
-			    return true;
-	   }
 }
-
-
 	
 </script>
 
@@ -86,12 +84,13 @@ function  renew_contract(){
  
  
  
- <form name="updatecontract" id="updatecontract" method="post" enctype="multipart/form-data">
+ <form name="contract" id="contract" method="post" >
    
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
-      <input type="hidden" name="departmentselected" id="departmentselected" value="">
-      <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="">
+      <input type="hidden" name="departmentselected" id="departmentselected" value="${contractdetail.department_code}">
+      <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="${contractdetail.subdepartment_code}">
+      <input type="hidden" name="refno" id="refno" value="">
       <input type="hidden" name="event" id="event" value="">
       
    
@@ -111,7 +110,7 @@ function  renew_contract(){
 			   <tr>
                 
                   <td align="left" bgcolor="white" width="25%">
-								<label  >Ref No.</label> 
+								<label  >Reference No</label> 
 	              </td>
 				            
 	              <td align="left" bgcolor="white" width="75%">
@@ -124,7 +123,7 @@ function  renew_contract(){
 			   <tr>
                 
                   <td align="left" bgcolor="white" >
-								<label> Contract Detail.</label>
+								<label> Contract Detail </label>
 	              </td>
 				            
 	              <td align="left" bgcolor="white" >
@@ -138,11 +137,11 @@ function  renew_contract(){
 	           <tr>
                 
                   <td align="left" bgcolor="white" >
-								<label> Department.</label>
+								<label> Department </label>
 	              </td>
 				            
 	              <td align="left" bgcolor="white" >
-                        ${contractdetail.department}&nbsp;&nbsp;  // &nbsp;&nbsp; (${contractdetail.subdepartment})
+                        ${contractdetail.department}&nbsp;&nbsp;- &nbsp;&nbsp; ${contractdetail.subdepartment} 
 		          </td>
       	                
 	           </tr>
@@ -150,7 +149,7 @@ function  renew_contract(){
 	        
 	           <tr>
 		           <td align="left" bgcolor="white" >
-                   		<label for="startDate">Start Date:</label>
+                   		<label for="startDate">Start Date</label>
 							
 								
 		           </td>
@@ -171,7 +170,7 @@ function  renew_contract(){
 	           
 	           <tr>
 		           <td align="left" bgcolor="white" >
-                   		<label for="startDate">End Date:</label>
+                   		<label for="startDate">End Date</label>
 							
 								
 		           </td>
@@ -192,13 +191,33 @@ function  renew_contract(){
 	
 		      <tr>
 		           <td align="left" bgcolor="white" >
-                   		<label for="startDate">Status:</label>
-							
-								
+                   		<label for="startDate">Status</label>	
 		           </td>
 		           
 		           <td align="left" bgcolor="white" >
-		                 ${contractdetail.status}
+		               
+		                 
+		                 
+		                 <c:if test="${contractdetail.status == 'Active'}">
+		                            &nbsp;<span class="label label-success"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <b> Active.</b></span>
+		                     
+		                </c:if>
+		          
+		          
+		            	<c:if test="${contractdetail.status == 'Dactive'}">
+			                       
+			                         &nbsp;<span class="label label-danger"><i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp; <b> Expired.</b></span>
+		                </c:if>
+		          
+	          
+		            	<c:if test="${contractdetail.status == 'Archived'}">
+			                       
+			                         &nbsp;<span class="label label-warning"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <b> Archived.</b></span>
+		                </c:if>
+		          
+		                 
+		                 
+		                 
 
 		           </td>
 		           
@@ -209,32 +228,16 @@ function  renew_contract(){
 	
 		      <tr>
 		           <td align="left" bgcolor="white" >
-                   		<label for="startDate">Contractor Company :</label>
-							
-								
+                   		<label for="startDate">Contractor Company</label>
 		           </td>
 		           
 		           <td align="left" bgcolor="white" >
 		                 ${contractdetail.contractor_name} <br>  ${contractdetail.contractor_contact_detail}
-		                 
-
 		           </td>
 		           
 		           		           
 	           </tr>
 	           
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	 	           
 
 
@@ -242,6 +245,7 @@ function  renew_contract(){
 	              <td align="left" bgcolor="white" colspan="2">
 		         	
 						<label>Already attached File. </label>							
+				        <br>
 				        <br>
 							<span style="font-weight:400;font-size:10pt;">							
 				
@@ -272,7 +276,16 @@ function  renew_contract(){
 				    <tr align="center"> 
 				     					
 						<td  bgcolor="white" colspan="2">	
-				                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract Search&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
+				                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract &nbsp; <i class="fa fa-home" aria-hidden="true"></i>  </span>  
+ 	
+			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   
+			                   <span onClick="renew_contract('${contractdetail.refrence_no}');" id="addnew" class="btn btn-warning" >&nbsp;Renew Contract &nbsp; <i class="fa fa-repeat" aria-hidden="true"></i> </span>
+
+ 	
+			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+			                   <span  onClick="update_contract('${contractdetail.refrence_no}','${contractdetail.department_code}','${contractdetail.subdepartment_code}');" id="addnew" class="btn btn-success" >&nbsp;&nbsp;&nbsp;Update &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>
+ 		 			    
+ 			    
  			     </td>
 				     </tr>
 		        	           

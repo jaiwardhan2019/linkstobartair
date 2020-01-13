@@ -13,6 +13,8 @@ public interface manageStobartContract {
 
 	public stobartContract viewContract(String crefno);
 	
+	public stobartContract renewContract(String crefno)throws SQLException;
+	
 	public String populate_Department(String usremail ,String dept)throws SQLException;
 	
 	public String populate_SubDepartment(String usremail,String dept,String subdept)throws SQLException;

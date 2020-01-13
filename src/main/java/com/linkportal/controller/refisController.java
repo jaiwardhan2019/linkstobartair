@@ -12,6 +12,8 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.SQLException;
+import java.util.Arrays;
+
 import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.dbripostry.linkUsers;
@@ -136,7 +139,7 @@ public class refisController {
 			model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 		    String rootdirectory = new java.io.File( "/" ).getCanonicalPath();
 
-		  
+		    
 			
 			if(req.getParameter("event") != null){
 				
@@ -144,21 +147,75 @@ public class refisController {
 					
 					//--------- This Part will display Add  Contract View------------
 					if(req.getParameter("event").equals("addnew")){
-						model.put("departmentlist", contract.populate_Department("ALL","ALL"));
-						model.put("subdepartmentlist", contract.populate_SubDepartment("ALL","ALL","ALL"));	
+						
+
+						
+						if(req.getParameter("departmentselected") != null){
+								
+							model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));
+							model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),"ALL"));
+							model.put("cdescription",req.getParameter("cdescription"));
+							model.put("startDate",req.getParameter("startDate"));
+							model.put("endDate",req.getParameter("endDate"));
+							model.put("endDate",req.getParameter("endDate"));
+							model.put("endDate",req.getParameter("endDate"));
+							model.put("ccompany",req.getParameter("ccompany"));
+							model.put("ccontract",req.getParameter("ccontract"));							
+						}	
+						
+						if(req.getParameter("departmentselected").length() == 4){
+
+							model.put("departmentlist", contract.populate_Department("ALL","GOP"));
+						    model.put("subdepartmentlist", contract.populate_SubDepartment("ALL","GOP","ALL"));
+						}
+						
+						
 						return "contractmanager/addnewcontract";
 					   
 			         }		
 					
-				
+		
+					
+					
+					
+					
 					
 					
 					//---------  This Part will display Search Contract And Display  View----
 					if(req.getParameter("event").equals("search")){					
 						
-						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment"),req.getParameter("cdescription"),req.getParameter("isarchived")));
-						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));
+						 String status="";
+						 int nochecked=0;
 						
+					    if(req.getParameter("Active") != null) {					    	
+					    	status=status+"'"+req.getParameter("Active")+"'";
+					    	nochecked=nochecked + 1;
+					    	model.put("Active", "checked");
+					    }
+					    
+					    if(req.getParameter("Dactive") != null) {
+					       if(nochecked > 0) {status = status +",";}	
+					       status=status+"'"+req.getParameter("Dactive")+"'";
+					       nochecked=nochecked + 1;
+					       model.put("Dactive", "checked");
+					       					       
+					    }
+					    
+					    
+					    if(req.getParameter("Archived") != null) {
+					    	if(nochecked > 0) {status = status +",";}		
+					    	status=status+"'"+req.getParameter("Archived")+"'";
+					    	nochecked=nochecked + 1;	
+					    	model.put("Archived", "checked");
+					    }
+					    
+					    
+					    
+						 
+						
+						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment"),req.getParameter("cdescription"),status.trim()));
+						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));
+					
 						if(req.getParameter("department").equals("ALL")) {
 						   model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),"ALL"));	
 						}
@@ -166,12 +223,26 @@ public class refisController {
 						{
 						   model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
 						}
+						
+						 model.put("cdescription",req.getParameter("cdescription"));
+						
+						 
 						return "contractmanager/contractmanager";
 					   
 			         }	
-					//-------- END OF SEARCH ----------
+					//-------- END OF SEARCH  BUTTON EVENT ----------
 				
 				
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					
 					//--------- This Part will display Update Contract View -----------
 					if(req.getParameter("event").equals("view")){		
@@ -207,31 +278,17 @@ public class refisController {
 					   return "contractmanager/showcontract";
 					   
 			         }	
-					
-
 						
-					
-					
-					
-					
-					
-					
-					
-					
 					
 					//--------- This Part will display Update Contract View -----------
 					if(req.getParameter("event").equals("renew")){		
 						
-					    //------ Select Contract from database
-						model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
-						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("departmentselected")));						
-						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("departmentselected"),req.getParameter("subdepartmentselected")));
-						//------ Select Contract file list from File System
-						//model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
-						
-					    System.out.println("Renew Setion is called");
-						
-					   return "contractmanager/updatecontract";
+					    //------ Select Contract from database						
+						model.put("contractdetail", contract.renewContract(req.getParameter("refno")));
+						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("departmentselected").trim()));
+						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("departmentselected").trim(),req.getParameter("subdepartmentselected").trim()));
+						model.put("contractupdate","<br><p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> Contract Renewed .&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");
+			    	    return "contractmanager/updatecontract";
 					   
 			         }	
 						
@@ -241,37 +298,42 @@ public class refisController {
 					
 					//--------- This Part will Remove CONTRACT + FOLDER  -----------
 					if(req.getParameter("event").equals("remove")){		
-							
+						
+						
+						
+						contract.removeContract(req.getParameter("refno").trim()); //<<-  Remove from database
 						//This part will remove Directory from the root and remove record from database.
 					    File directory=new File(rootdirectory+"/data/stobart_contract/"+req.getParameter("refno").trim());
 					    
 					    if(contract.removeFolderWithallFile(directory)){  //<<--- Remove folder and file in there 				    	
-						       contract.removeContract(req.getParameter("refno").trim()); //<<-  Remove from database 
+						     contract.removeContract(req.getParameter("refno").trim()); //<<-  Remove from database 
 						}
 					    
-						model.put("contractupdate","<span style='color:blue;font-weight:bold;font-size:12pt;'> Contract Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
-						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL","",""));
+						model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:10pt;'> Contract no:"+req.getParameter("refno")+" Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null));
 						return "contractmanager/contractmanager";
 							
 					}	
 					
 					
-	
+					
 					//--------- This Part REMOVE FILE FROM Folder  -----------
-					if(req.getParameter("event").equals("removefilefromfolder")){		
+					if(req.getParameter("event").equals("removefilefromfolder")){	
+					
 					    //------ Remove File from the Contract Folder							
 						File filenametoremove=new File(rootdirectory+"/data/stobart_contract/"+req.getParameter("refno").trim()+"/"+req.getParameter("filename"));
 						boolean delstatus=filenametoremove.delete();
-						
+							
 						model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
 						model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
 						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));						
 						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
-						
-						model.put("contractupdate","<span style='color:blue;font-weight:bold;font-size:12pt;'> File Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+						model.put("contractupdate","<br><p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> File Removed Successfully .&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");
+
 						
 					   return "contractmanager/updatecontract";
-						
+			   
+					
 					
 					}//------- END of REMOVE FILE PART -----------------
 					
@@ -285,7 +347,7 @@ public class refisController {
 			model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null));
 			model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),"ALL"));
 			model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),"ALL","ALL"));
-			
+			model.put("Active", "checked");
 			
 			
 			return "contractmanager/contractmanager";
@@ -350,15 +412,17 @@ public class refisController {
 		            
 	        } catch (Exception e) {
 	        	logger.error(e);	        	
-	        	model.put("contractupdate","<span style='color:red;font-weight:bold;font-size:12pt;'> Contract  Not Added Please Try Again !!!..&nbsp;<i class='fa fa-frown-o fa-2x'><br>"+e.toString()+"</i></span>");	
+	        	model.put("contractupdate","<p align='center'><span style='color:red;font-weight:bold;font-size:10pt;'> Contract  Not Added Please Try Again !!!..&nbsp;<i class='fa fa-frown-o fa-2x'><br>"+e.toString()+"</i></span></p>");	
+	        	
 	        	model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null)); 
 	        	return "contractmanager/contractmanager";
 	        }
 	        
 	        
 	        
-			model.put("contractupdate","<span style='color:blue;font-weight:bold;font-size:12pt;'> Contract  Successfully Added.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
-			model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL","","")); 
+			model.put("contractupdate","<p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> Contract no:( "+req.getParameter("refno")+" ) Successfully Added.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");
+			model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null)); 
+			model.put("Active", "checked"); 
 			logger.info("Contract no:"+req.getParameter("refno")+" Created in System by :"+req.getParameter("emailid")); 
 	        return "contractmanager/contractmanager";
     	
@@ -423,10 +487,11 @@ public class refisController {
 		            
 	        } catch (Exception e) {
 	        	logger.error(e);	        	
-	        	model.put("contractupdate","<span style='color:red;font-weight:bold;font-size:12pt;'> Contract  Not Update. Please Try Again !!!..&nbsp;<i class='fa fa-frown-o fa-2x'> </i><br>"+e.toString()+"</span>");	
+	        	model.put("contractupdate","<p align='center'><span style='color:red;font-weight:bold;font-size:10pt;'> Contract  Not Update. Please Try Again !!!..&nbsp;<i class='fa fa-frown-o fa-2x'> </i><br>"+e.toString()+"</span></p>");	
 	        	model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null)); 
 				model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),"ALL"));						
 				model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),"ALL","ALL"));
+				model.put("Active", "checked"); 
 	        	return "contractmanager/contractmanager";
 	        }
 	        
@@ -437,7 +502,7 @@ public class refisController {
 			model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
 			model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));						
 			model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
-			model.put("contractupdate","<span style='color:blue;font-weight:bold;font-size:12pt;'> Contract  Successfully Updated.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
+			model.put("contractupdate","<p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> Contract  Successfully Updated.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");
 			return "contractmanager/updatecontract";
 	        
 	        

@@ -27,6 +27,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import com.linkportal.fltreport.flightReportsImp;
 import com.linkportal.staffTravel.manageStaffTravelUserImp;
 
 @Repository
@@ -38,7 +39,7 @@ public class manageStobartContractImp implements manageStobartContract{
 
 	JdbcTemplate jdbcTemplateRefis;	
 	
-	
+	private Logger logger = Logger.getLogger(manageStobartContractImp.class);
 
     
 	
@@ -58,7 +59,7 @@ public class manageStobartContractImp implements manageStobartContract{
 	
     // -------------  THIS WILL SHOW THE LIST OF CONTRACT --------------- 
 	@Override
-	public List<stobartContract> showAllContract(String emailid ,String dept, String subdept , String cdetail , String isarchived) {		
+	public List<stobartContract> showAllContract(String emailid ,String dept, String subdept , String cdetail , String status) {		
 		    
 			
 			String sqlListContract="SELECT CONTRACT_DEPT_SUBDET.DEPARTMENT , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT, CONTRACT_DEPT_SUBDET.DEPARTMENT_CODE , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT_CODE , CONTRACT_MASTER.DEPT_SUB_CODE \r\n" + 
@@ -83,22 +84,38 @@ public class manageStobartContractImp implements manageStobartContract{
 		   }
 		   
 		   
+		   
+		   //--- Only when Sub Department is selected and click Search Button  ---
+		   if(!subdept.equals("ALL") && dept.equals("ALL")){
+			   andSql = andSql + "and CONTRACT_MASTER.dept_sub_code in (SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where subdepartment_code='"+subdept+"')";
+
+		   }
+		   
+		   
+		   
+		   
 		   if(cdetail != null){
 			  andSql = andSql + "and CONTRACT_MASTER.description like '%"+cdetail.trim()+"%'";			   
 		   }
 		   
-			   
-		   if(isarchived != null ){
-			  andSql = andSql + "and CONTRACT_MASTER.STATUS='Archived'";			   
+		   
+		   if((status != null) && (status != "")){
+			  andSql = andSql + "and CONTRACT_MASTER.STATUS in ("+status+")";
+			  
 		   }
 		   else
 		   {
-			   andSql = andSql + "and CONTRACT_MASTER.STATUS != 'Archived'";
+			   andSql = andSql + "and CONTRACT_MASTER.STATUS='Active'";  
 		   }
+			   
+	            
 		   
-	
+		   
 		   sqlListContract=sqlListContract+andSql;
 		   sqlListContract=sqlListContract+" order by CONTRACT_MASTER.entry_date_time desc ";	
+		   
+		   
+		   //System.out.println(sqlListContract);
 		   
 		   List  Contract = jdbcTemplateRefis.query(sqlListContract,new stobartContractRowmapper());
 		
@@ -123,14 +140,118 @@ public class manageStobartContractImp implements manageStobartContract{
 				"   WHERE CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_DEPT_SUBDET.ID "
 				+ " AND  CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_ACCESS.dept_sub_code  AND CONTRACT_MASTER.entered_by_email=CONTRACT_ACCESS.user_email AND "
 				+ " CONTRACT_MASTER.refrence_no=?";
-			 	
-		
 		 return jdbcTemplateRefis.queryForObject(viewsql, new Object[]{crefno}, new stobartContractRowmapper());	    
-	
+	   
 	}
 
 
+	
+	
+	// -------------  THIS WILL SHOW ONE CONTRACT WITN THE NEW REFRENCE NO +1 AT THE END --------------- 
+	@Override
+	public stobartContract renewContract(String crefno) throws SQLException{
+		   
+		   String oldrefno=crefno;
+		   String newrefrenceno="";
+		
+		stobartContract stbc =null;	
+		try {
+		
+		// Step 1 Creating New Refrence No. 
+			
+	   if(crefno.contains("R")) {		   
+			String[] crefno1 = crefno.split("_");
+			crefno =crefno1[0]+"_"+crefno1[1];	
+		   
+	   }
+			
+		String viewsql="SELECT max(renew_count) as renno  FROM CORPORATE_PORTAL.CONTRACT_MASTER where refrence_no like '%"+crefno+"%'";
+		
+		SqlRowSet rs =  jdbcTemplateRefis.queryForRowSet(viewsql);
+		rs.next();
+		
+		int renew_count=rs.getInt("renno");
+		
+		
+		
+		if(!crefno.contains("R")) {
+			// First time Renew 
+			newrefrenceno=crefno+"_REN_"+(++renew_count);
+	    }
+		else
+		{			
+			//newrefrenceno=getString("refrence_no")+"_"+(++renew_count);
+			String[] refnoarray = crefno.split("_");
+			newrefrenceno ="CS_"+refnoarray[1]+"_REN_"+(++renew_count);			
+		}
+		
+		
+		rs=null;
+		
+		
+		
+		// Step 2 Copying Contract  and  Create new Entry in the DataBase
+		viewsql="SELECT * FROM CORPORATE_PORTAL.CONTRACT_MASTER where refrence_no like '"+oldrefno+"'";
+		
+		
+	
+		rs =  jdbcTemplateRefis.queryForRowSet(viewsql);
+		rs.next();
 
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");		   
+	    LocalDateTime currentdateandtime = LocalDateTime.now();
+	
+	
+		Connection con2= dataSourcemysql.getConnection();
+		String SQL_ADD = "INSERT INTO CORPORATE_PORTAL.CONTRACT_MASTER (refrence_no,renew_count,description ,dept_sub_code  , start_date  "
+			   		+ ", end_date  , contractor_name ,contractor_contact_detail  , status  , entered_by_email  , entry_date_time)"
+			   		+ "value (? , ? , ? , ?, ?, ? , ? , ? , ? , ? , ? )";
+		   
+		 PreparedStatement pstm = con2.prepareStatement(SQL_ADD);
+		   
+		       pstm.setString(1,newrefrenceno);
+		       pstm.setInt(2,renew_count);		       
+			   pstm.setString(3,rs.getString("description"));
+			   pstm.setInt(4,rs.getInt("dept_sub_code"));				  
+			   pstm.setString(5,rs.getString("start_date"));
+			   pstm.setString(6,rs.getString("end_date"));
+			   pstm.setString(7,rs.getString("contractor_name"));
+			   pstm.setString(8,rs.getString("contractor_contact_detail"));
+			   pstm.setString(9,"Active");
+			   pstm.setString(10,rs.getString("entered_by_email"));	    
+			   pstm.setString(11,currentdateandtime.toString());			
+		       int rows = pstm.executeUpdate();
+		       pstm.close();
+		       
+	     pstm=null;
+	     con2.close();
+	     
+		
+		
+	
+		
+       viewsql="SELECT CONTRACT_DEPT_SUBDET.DEPARTMENT , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT, CONTRACT_DEPT_SUBDET.DEPARTMENT_CODE , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT_CODE , CONTRACT_MASTER.DEPT_SUB_CODE \r\n" + 
+		" , CONTRACT_MASTER.contractor_name , CONTRACT_MASTER.contractor_contact_detail,CONTRACT_MASTER.refrence_no,\r\n" + 
+		"   CONTRACT_MASTER.description,CONTRACT_MASTER.status,CONTRACT_MASTER.start_date,CONTRACT_MASTER.end_date,CONTRACT_MASTER.entered_by_email , CONTRACT_ACCESS.is_admin \r\n" + 
+		"   FROM CONTRACT_DEPT_SUBDET,CONTRACT_MASTER , CONTRACT_ACCESS \r\n" + 
+		"   WHERE CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_DEPT_SUBDET.ID "
+		+ " AND  CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_ACCESS.dept_sub_code  AND CONTRACT_MASTER.entered_by_email=CONTRACT_ACCESS.user_email AND "
+		+ " CONTRACT_MASTER.refrence_no=?";
+       
+		stbc =jdbcTemplateRefis.queryForObject(viewsql, new Object[]{newrefrenceno}, new stobartContractRowmapper());
+		
+	
+		
+		}catch(Exception ex) {logger.error("While Renuing Contratc :"+ex.toString());}
+
+		
+		return stbc;
+		
+		
+	}
+
+
+	
 	
 	
 	
@@ -140,7 +261,8 @@ public class manageStobartContractImp implements manageStobartContract{
     //--------- THIS FUNCTION WILL ADD CONTRACT DETAIL INTO THE DATABASE -----------
 	@Override
 	public int addNewContract(HttpServletRequest req) throws SQLException {
-		
+		int rows =0;
+		  try {
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");		   
 		   LocalDateTime currentdateandtime = LocalDateTime.now();
 		   
@@ -165,10 +287,10 @@ public class manageStobartContractImp implements manageStobartContract{
 			   pstm.setString(8,"Active");
 			   pstm.setString(9,req.getParameter("emailid"));	    
 			   pstm.setString(10,currentdateandtime.toString());			
-		       int rows = pstm.executeUpdate();
+		       rows = pstm.executeUpdate();
 	       pstm=null;
 	       con1.close();
-	      		   
+	      }catch(Exception ex) {logger.error("While Adding Contract :"+ex.toString());}		   
 		return rows;
 	}
 
@@ -182,6 +304,7 @@ public class manageStobartContractImp implements manageStobartContract{
 	public int updateNewContract(HttpServletRequest req) throws SQLException {
 
 		   int rows     = 0;
+		   try {
 		   int depsubid = 0;
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		   LocalDateTime currentdateandtime = LocalDateTime.now();		   
@@ -221,9 +344,9 @@ public class manageStobartContractImp implements manageStobartContract{
 				   pstm.setString(10,req.getParameter("refno"));
 			   rows = pstm.executeUpdate();
 			   pstm = null;
-	   
+			   conn.close();
 		   
-		  
+		   }catch(Exception ex) {logger.error("While Updating Contract :"+ex.toString());}	
 			
 		
 		return rows;	
@@ -239,8 +362,9 @@ public class manageStobartContractImp implements manageStobartContract{
 	
 	@Override
 	public void removeContract(String refrenceno) {
-		// TODO Auto-generated method stub		
-		jdbcTemplateRefis.execute("delete from CORPORATE_PORTAL.CONTRACT_MASTER  where refrence_no='"+refrenceno+"'");
+		   try {
+		        jdbcTemplateRefis.execute("delete from CORPORATE_PORTAL.CONTRACT_MASTER  where refrence_no='"+refrenceno+"'");
+		   }catch(Exception ex) {logger.error("While Deleting Contract :"+ex.toString());}	
 	}
 
 
@@ -337,6 +461,7 @@ public class manageStobartContractImp implements manageStobartContract{
 		       subdeptSql = "SELECT * FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code='"+dept+"' order by subdepartment";
 	       }
 	
+
 		   
 		   SqlRowSet rs =  jdbcTemplateRefis.queryForRowSet(subdeptSql);
 		   while(rs.next()){			     

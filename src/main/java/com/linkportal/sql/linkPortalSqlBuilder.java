@@ -83,7 +83,7 @@ public class linkPortalSqlBuilder implements Serializable{
 				sql += " WHERE LEGS.STATUS IN ('ATA') AND legs.datop  between '"+startDate+"' and '"+endDate+"'";
 				if((airline != null) && (!airline.equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
 				if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
-				sql +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) >= "+tolerance+")";
+				sql +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) > "+tolerance+")";
 				sql +=  " order by  FLIGHT_DATE ,ETD_DATE_TIME";
 		        //System.out.println(sql);
 		  return sql;

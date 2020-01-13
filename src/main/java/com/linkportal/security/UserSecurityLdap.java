@@ -23,6 +23,7 @@ import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.linkportal.controller.HomeController;
+
 import java.util.Properties;
 
 
@@ -42,7 +45,11 @@ import java.util.Properties;
 
 public class UserSecurityLdap{
 
-
+	 //---------- Logger Initializer------------------------------- 
+     private Logger logger = Logger.getLogger(UserSecurityLdap.class);
+		
+		
+		
 	//---------- This Function will check usr in LDAP and return true /  false status to the caller
 	public boolean Validate_User_With_Ldap(String useremailid,String userspassword,String ldapurl) throws NamingException,NullPointerException,IOException,UnknownHostException{
           
@@ -57,8 +64,13 @@ public class UserSecurityLdap{
 		  //env.put(Context.PROVIDER_URL,"ldap://CORPDC01.aerarann.com:389");  <<--Will be used for the people with the old domain. 
 		  LdapContext ctx = new InitialLdapContext(env,null); 
 		  ctx.close();
-		  }catch(AuthenticationException E) {System.out.println(E);return false;}
-		  //System.out.println("User Email:"+useremailid+"\nUser Password:"+userspassword+"\nLdap URL:"+ldapurl.trim());
+		  
+		  
+		  }catch(AuthenticationException E) {
+			  logger.error("While Validating LDAP For :"+useremailid+"##"+E.toString());return false;
+			  //--- Write Send email function   
+		  }
+		 
 		  
 		 return true;
 	}// End of function Validate_User_With_Ldap

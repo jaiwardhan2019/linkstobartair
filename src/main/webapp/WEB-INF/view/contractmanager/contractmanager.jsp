@@ -30,7 +30,8 @@ function print_report(){
 
 
 function manage_contract(event){    
-	    document.contract.method="POST"
+ 	    document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..";
+ 	    document.contract.method="POST"
 	    document.contract.action="contractManager?event="+event;
         document.contract.submit();
 	    return true;
@@ -57,7 +58,7 @@ function update_contract(contractref,department,subdepartment){
 //*** Here this function will update data in the form to database and write back to the DIV 
 function Zip_Folder_Download_(contractrefno,srno){
 
-         document.getElementById("downloadstatus"+srno).innerHTML = "<i class='fa fa-spinner fa-spin fa-2x'></i> Downloading";
+         document.getElementById("downloadstatus"+srno).innerHTML = "<i class='fa fa-cog fa-spin fa-2x fa-fw'></i>&nbsp;Downloading";
 
          $.ajax({
         
@@ -130,8 +131,8 @@ function contract_home(event){
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
       <input type="hidden" name="refno" id="refno" value="">
-      <input type="hidden" name="departmentselected" id="departmentselected" value="">
-      <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="">
+      <input type="hidden" name="departmentselected" id="departmentselected" value="null">
+      <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="null">
       
      
           <table class="table table-striped table-bordered" border="1" style="width: 30%;" align="center">	    
@@ -178,23 +179,29 @@ function contract_home(event){
 								<label> Contract Detail.</label>
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-										<textarea rows="02"  name="cdescription"  id="cdescription" class="form-control" > </textarea>
+										<textarea rows="02"  name="cdescription"  id="cdescription" class="form-control">${cdescription}</textarea>
 												
 								</div>
 					    </div>
-						
-					    <div class="checkbox disabled">
 					    
-						      <label><input type="checkbox"  id="isarchived" name="isarchived"><b>Archived </b></label>&nbsp;&nbsp;&nbsp;
-						      <!-- 
-						      <label><input type="checkbox" value="" id="isarchived"><b>Expired </b></label>&nbsp;&nbsp;&nbsp;
-						      <label><input type="checkbox" value="" id="isarchived" checked> <b>Active </b></label>
-						       -->
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
-				          	<span onClick="manage_contract('search');"  class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search </span> 
-	
-					</div>	
-						</td>
+					    
+		               <div class="checkbox disabled">
+		               
+  				              <label><input type="checkbox" id="Active" name="Active"  value="Active" ${Active}> <span class="label label-success"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i><b> Active.</b></span></label>&nbsp; &nbsp; 
+						      <label><input type="checkbox" id="Dactive" name="Dactive" value="Dactive" ${Dactive}><span class="label label-danger"><i class="fa fa-times  fa-lg" aria-hidden="true"></i><b> Expired.</b></span></label>&nbsp; &nbsp; 						      
+						      <label><input type="checkbox" id="Archived" name="Archived"  value="Archived" ${Archived}> <span class="label label-warning"><i class="fa fa-archive  fa-lg" aria-hidden="true"></i><b> Archived.</b></span></label>
+						      
+					    </div>
+							
+					    <div align="center">
+					        
+				          	<span id="searchbutton" onClick="manage_contract('search');"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Search </span> 
+					    
+					    </div>
+					    
+					    
+					    	
+				   </td>
 						
 					     
 							    
@@ -219,18 +226,23 @@ function contract_home(event){
 	
 	     <td align="left"> 
 	        <span  style="font-weight:300;font-size:12pt;">Total Contract # </span> <span  style="font-weight:400;font-size:16pt;">
-	              <b>${fn:length(contractlist)} </b>
+	              <b>${fn:length(contractlist)} </b> 
 	              
 	              <!-- <button type="button" class="btn btn-primary">Total Contract <span class="badge">${fn:length(contractlist)}</span></button> -->
 	              
 	              </span>
+	              
+	              
 	     </td>
-	    
+	     
+	     <td align="center"> 
+	        &nbsp;&nbsp;&nbsp;&nbsp; ${contractupdate}
+	      </td>
 	    
 		 <td align="right"> 
-		        <button   onClick="print_report();" id="addnew" type="button" class="btn btn-success btn-sm"> <b> Print Report </b> &nbsp;<i class="fa fa-print fa-lg" aria-hidden="true"></i></button> 
+		        <button   onClick="print_report();" id="addnew" type="button" class="btn btn-default btn-sm"> <b> Print </b> &nbsp;<i class="fa fa-print fa-lg" aria-hidden="true"></i></button> 
 		        &nbsp;&nbsp;&nbsp;
-		        <button   onClick="manage_contract('addnew');" id="addnew" type="button" class="btn btn-success btn-sm"> <b> Add New </b> &nbsp;<i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+		        <button   onClick="manage_contract('addnew');" id="addnew" type="button" class="btn btn-primary btn-sm"> <b> Add New </b> &nbsp;<i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
 		  </td>
 
 	   </tr>	
@@ -246,7 +258,7 @@ function contract_home(event){
         <table class="table" border="0" style="width: 100%;" align="center">	       
           <tr>          
            <td colspan="9" align="center">
-                     <span style="color:blue;font-size:12pt;"> Sorry No Contract found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
+                     <span style="color:blue;font-size:10pt;"> Sorry No Contract found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
                       <br> Please change Filter or Check your Authorisation with Admin..</span>              
             </td>
           </tr>
@@ -358,7 +370,7 @@ function contract_home(event){
 				       
 		                <c:set var="contractage" value="${contract.getContractAge(contract.start_date)}" />		                
 		                <c:if test = "${contractage < 30}">        
-                           &nbsp;<span class="label label-danger">New <i class="fa fa-check" aria-hidden="true"></i></span>
+                           &nbsp;<span class="label label-success">New <i class="fa fa-check" aria-hidden="true"></i></span>
                         </c:if> 		    
 						 				
 					 		 
@@ -420,7 +432,7 @@ function contract_home(event){
 	          
 		            	<c:if test="${contract.status == 'Archived'}">
 			                       
-			                         &nbsp;<span class="label label-primary"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <b> Archived.</b></span>
+			                         &nbsp;<span class="label label-warning"><i class="fa fa-archive  fa-lg" aria-hidden="true"></i>&nbsp; <b> Archived.</b></span>
 		                </c:if>
 		          
  
@@ -523,7 +535,7 @@ function contract_home(event){
 			            </td>
 	
 			            <td colspan="5" align="left">
-			            <h2><b> Stobart Air Contract Report.</b></h2> 
+			            <h1><b> Contract Database.</b></h1> 
 			            
 			            </td>
 			            
@@ -534,7 +546,7 @@ function contract_home(event){
 				    <br>
 				    <br>	    
 				    
-					   <table class="myTable" style="width:100%;border:1px solid black;border-collapse: collapse;">
+					   <table class="myTable" style="width:100%;border:1px solid black;border-collapse:collapse;cellspacing:20;">
 								<tr>
 									<td ><b>No.</b></td>
 									<td ><b>Refrence No</b></td>
@@ -630,19 +642,6 @@ function contract_home(event){
     
 	
 
-<style>
-		
-	.myTable tr, .myTable td, .myTable th{
-		padding: 5px;
-		border:1px solid black;
-		font-family: arial,verdana;
-
-	}
-	
-
-	
-</style>
-	
 </body>
 
 

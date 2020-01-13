@@ -36,9 +36,6 @@ public class piechartImp implements piechart{
     @Autowired
     DataSource dataSourcesqlserver;
     
-    @Autowired
-    DataSource dataSourceflightops;
-    
   
 
     
@@ -75,7 +72,7 @@ public class piechartImp implements piechart{
 		   //------------ SQL TO PULL OFF DETAIL FROM PDC -------------
 		   
 		   String andstring="";  
-		   andstring +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) >="+tolrance+")";
+		   andstring +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) > "+tolrance+")";
 			
 		   if((!airline.equals("ALL"))){andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'";}
 		   if((!port.equals("ALL"))){andstring += " AND LEGS.DEPSTN='"+port+"'"; } 
@@ -119,15 +116,15 @@ public class piechartImp implements piechart{
 		   			    List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
 		   			     
 		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Total Flights"); 
+		   			    map1.put("label", "Total Delay Flights"); 
 		   			    map1.put("y", totalflights); 
 		   			    list.add(map1);
-		   			    
+		   			    /*
 		   			    map1 = new HashMap<Object,Object>(); 
 		   			    map1.put("label", "Total Flown"); 
 		   			    map1.put("y", NumFlown); 
 		   			    list.add(map1);
-		   			    
+		   			    */
 		   			    map1 = new HashMap<Object,Object>(); 
 		   			    map1.put("label", "All Cancelled"); 
 		   			    map1.put("y", NumCancelled); 
@@ -246,13 +243,12 @@ public class piechartImp implements piechart{
 		  		"	   sum(case when status = 'ATA' then 1 else 0 end ) as NumFlown, \r\n" + 
 		  		"	   sum(case when status = 'CNL' then 1 else 0 end) as NumCancelled,\r\n" + 
 		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimeflights, \r\n" + 
-		  		"	   sum(case when status = 'ATA' and DUR1+DUR2+DUR3+DUR4 > 5 then 1 else 0 end) as Late_morethen5minute,\r\n" + 
-		  		"	   sum(case when status = 'ATA' and DUR1+DUR2+DUR3+DUR4 > 15 then 1 else 0 end)  as Late_morethen15Minute,\r\n" + 
-		  		"	   sum(case when status = 'ATA' and DUR1+DUR2+DUR3+DUR4 > 30 then 1 else 0 end) as Late_morethen30Minute, \r\n" + 
+		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) > 0) then 1 else 0 end) as alldelay,\r\n" + 
 		  		"	   sum(case when status = 'ATA' then pax else 0 end) as Passenger_Carried_PAX,	\r\n" + 
 		  		"	   sum(VER.scr_seats) as Total_Available_Seat from LEGS , ACTYPE_VERSIONS_MISC VER \r\n" + 
 		  		"	   where legs.ACTYP = VER.actype and LEGS.VERSION = VER.version "+andstring;
-			 
+			
+		 //System.out.println(sqlstrkpi);
 		
 		   Connection connection = dataSourcesqlserver.getConnection();
 		   Statement stac = connection.createStatement();
@@ -267,9 +263,9 @@ public class piechartImp implements piechart{
 		   			     NumFlown             = Integer.parseInt(rsc.getString("NumFlown"));
 		   			     NumCancelled         = Integer.parseInt(rsc.getString("NumCancelled"));
 		   			     ontimeflights        = Integer.parseInt(rsc.getString("ontimeflights"));		   
-		   			     Late_morethen5minute = Integer.parseInt(rsc.getString("Late_morethen5minute"));
-		   			     Late_morethen15Minute= Integer.parseInt(rsc.getString("Late_morethen15Minute"));
-		   			     Late_morethen30Minute   = Integer.parseInt(rsc.getString("Late_morethen30Minute"));	
+		   			     Late_morethen5minute = Integer.parseInt(rsc.getString("alldelay"));
+		   			    // Late_morethen15Minute= Integer.parseInt(rsc.getString("Late_morethen15Minute"));
+		   			    // Late_morethen30Minute   = Integer.parseInt(rsc.getString("Late_morethen30Minute"));	
 		   			     
 		   			   
 		   			    Gson gsonObj = new Gson();
@@ -305,7 +301,13 @@ public class piechartImp implements piechart{
 		   			    list.add(map1);
 		   			    
 		   			    
+		   			    map1 = new HashMap<Object,Object>(); 
+		   			    map1.put("label", "All Delay"); 
+		   			    map1.put("y", Late_morethen5minute); 
+		   			    list.add(map1);
 		   			    
+		   			    
+		   			    /*
 		   			    map1 = new HashMap<Object,Object>(); 
 		   			    map1.put("label", "Delay More Then 5 Minutes"); 
 		   			    map1.put("y", Late_morethen5minute); 
@@ -316,7 +318,7 @@ public class piechartImp implements piechart{
 		   			    map1.put("label", "Delay More Then 15 Minute"); 
 		   			    map1.put("y", Late_morethen15Minute); 
 		   			    list.add(map1);
-		   			    
+		   			    */
 		   			    
 		   			    
 		    		    graphstring = gsonObj.toJson(list);

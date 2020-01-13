@@ -17,10 +17,10 @@
 
 
 function contract_home(event){    
-	    document.updatecontract.method="POST"
-	    document.updatecontract.action="contractManager";
-        document.updatecontract.submit();
-	    return true;
+	     document.updatecontract.method="POST"
+	     document.updatecontract.action="contractManager";
+         document.updatecontract.submit();
+	     return true;
 	
 }//---------- End Of Function  ------------------
 
@@ -40,7 +40,8 @@ function remove_contract(){
 
 	    if(confirm("Are you Sure about removing this Contract From Database..??\n Note: Once you confirm then these file and data will be removed from the System..")){
 	    	document.updatecontract.method="POST"
-     	    document.updatecontract.action="contractManager?event=remove";
+	    	document.updatecontract.event.value="remove";
+     	    document.updatecontract.action="contractManager";
 	        document.updatecontract.submit();
 	  	    return true;
 		}
@@ -136,11 +137,11 @@ function  renew_contract(){
 function Remove_File_From_Folder(filename){
 	
       
-	
+	  
 	    if(confirm("Are you Sure about removing this File From Contract.??\n Note: Once you confirm then this file can not be recovered..")){
-      
+	    	document.updatecontract.event.value="removefilefromfolder";
 	    	document.updatecontract.method="POST";
-	    	document.updatecontract.action="contractManager?event=removefilefromfolder&filename="+filename;
+	    	document.updatecontract.action="contractManager?filename="+filename;
 	        document.updatecontract.submit();
 	  	    return true;
 		}
@@ -357,23 +358,46 @@ function view_contract(){
 				
 						<table  align="left"  width="50%" class="table table-striped" style="width:85%;">							
 							<% 							
-							int filecount=1;							
+							int filecount=0;							
 							%>
-							 <c:forEach var="filelist" items="${filelist}">       
-							<tr> 
-								<td align="left" width="80%"><b><%=filecount++%></b>.&nbsp; <img  src="images/page_white_acrobat.png">&nbsp;&nbsp; 
+								<c:forEach var="filelist" items="${filelist}">       
+									 <tr> 
+									 	<td align="left" width="80%"><b><%=++filecount%></b>.&nbsp; <img  src="images/page_white_acrobat.png">&nbsp;&nbsp; 
+										    <b><a href="${contractdetail.refrence_no}/${filelist}"  target="_blank">  ${filelist}  </a> </b>
+										</td>
+										<td align="left" width="20%">
+										   <span style="font-weight:600;font-size:9pt;color:red">
+										      <i class="fa fa-trash-o" aria-hidden="true"></i><a href="javascript:void();" onClick="Remove_File_From_Folder('${filelist}');">&nbsp;Remove </a>
+										    </span>  
+										 </td>
+									  </tr>
+								     </c:forEach>
+					     
+								<% 							
+								if(filecount==0){
+								%>	
+			                        <tr> 
+									 	<td align="center" colspan="2">
+										
+										  <span style="font-weight:600;font-size:9pt;color:red">
+										          
+										          Please Attach Contract File with it..
+										    </span>  
+										 </td>
+									  </tr>
+														
+									
+									
+								<%	
+								}							
+								%>
+
+					     
+								     
+								     
+								     
+								     
 								
-								 <b> <a href="${contractdetail.refrence_no}/${filelist}"  target="_blank">  ${filelist}  </a> </b>
-								  
-								</td>
-								<td align="left" width="20%">
-								 <span style="font-weight:600;font-size:9pt;color:red">
-								   <i class="fa fa-trash-o" aria-hidden="true"></i><a href="javascript:void();" onClick="Remove_File_From_Folder('${filelist}');">&nbsp;Remove </a>
-								 </span>  
-								 </td>
-							</tr>
-						  </c:forEach>
-							
 							</table>
 							</span>
 				 		  
@@ -422,41 +446,51 @@ function view_contract(){
 				     					
 						<td  bgcolor="white" colspan="2">	
 					
-					<!-- 		 
+						     <%
+						     if(request.getParameter("emailid").equals("jai.wardhan@stobartair.com")){
+						     %>
 			                   <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
 								 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                 -->
-			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract Search&nbsp; <i class="fa fa-search" aria-hidden="true"></i>  </span>  
+
+                             <%
+						     }
+                             %>
+
+			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract &nbsp;<i class="fa fa-home" aria-hidden="true"></i>  </span>  
 
 			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  
-			                   <span onClick="archive_contract();" id="addnew" class="btn btn-danger" >&nbsp;Archive &nbsp; <i class="fa fa-archive" aria-hidden="true"></i> </span>
-
-			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   
-			                   <span onClick="renew_contract();" id="addnew" class="btn btn-warning" >&nbsp;Renew Contract &nbsp; <i class="fa fa-repeat" aria-hidden="true"></i> </span>
-
+			                   <span onClick="archive_contract();" id="addnew" class="btn btn-warning" >&nbsp;Archive &nbsp; <i class="fa fa-archive" aria-hidden="true"></i> </span>
 
 			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   
 			                   <span onClick="manage_contract('update');" id="addnew" class="btn btn-success" >&nbsp;Update &nbsp; <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>
  		 			     </td>
 				     </tr>
-				     
-	
-				     <tr align="center" > 
+	           	           
+       	   </tbody>             
+     </table>  	   
+      
+      <table width="65%" align="center" border="0">
+      		     <tr align="center" > 
 				     					
 						<td  bgcolor="white" colspan="2" >			                   
 			                 
 			                <span style="display:none" id="uploadstatus">   
 			                  <div  class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							         <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
+							         <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-lg"></i>
 			                  </div>
 			                 </span> 
     		            </td>
 			         
 			         </tr> 
-				     
-	           	           
-       	   </tbody>             
-     </table>  	   
+		
+      
+      
+      </table>
+    
+    
+    
+    
+    
     
     
     <br>

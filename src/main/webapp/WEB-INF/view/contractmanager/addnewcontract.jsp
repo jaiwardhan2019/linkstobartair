@@ -53,7 +53,7 @@ function toggle_visibility() {
 
 function manage_contract(event){    
 
-    if(document.addcontract.cdescription.value == ""){
+    if(document.addcontract.cdescription.value.trim() == ""){
         alert("Please Enter Some detail abbout this Contract.");
         document.addcontract.cdescription.focus();
         return false;
@@ -71,13 +71,13 @@ function manage_contract(event){
         return false;
  	}
  	
-   if(document.addcontract.ccompany.value == ""){
+   if(document.addcontract.ccompany.value.trim() == ""){
        alert("Please Enter Contractor Company Detail..");
        document.addcontract.ccompany.focus();
        return false;
 	}
     
-   if(document.addcontract.ccontract.value == ""){
+   if(document.addcontract.ccontract.value.trim() == ""){
        alert("Please Enter Contact Detail.. Email id / Phone no ..");
        document.addcontract.ccontract.focus();
        return false;
@@ -102,6 +102,21 @@ function manage_contract(event){
     }    
 	
 }//---------- End Of Function  ------------------
+
+
+
+
+function Load_Subdepartment(){
+	  
+	    document.addcontract.departmentselected.value=document.addcontract.department.value;	
+	    document.addcontract.event.value="addnew";  
+        document.addcontract.method="POST";
+	    document.addcontract.action="contractManager";
+        document.addcontract.submit();
+	    return true;
+
+}
+
 
 
 	
@@ -134,11 +149,13 @@ function manage_contract(event){
  
  
  
- <form name="addcontract" method="post" enctype="multipart/form-data">
+ <form name="addcontract" id="addcontract" method="post" enctype="multipart/form-data">
   
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
       <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
-      
+       <input type="hidden" name="departmentselected" id="departmentselected" value="">
+       <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="">    
+       <input type="hidden" name="event" id="event" value="">    
          
       <table class="table table-striped table-bordered" border="1" style="width: 65%;" align="center">	    
     		<tbody>				     
@@ -158,7 +175,7 @@ function manage_contract(event){
 							<label> Contract Detail.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-									<textarea rows="04" name="cdescription"  id="cdescription" class="form-control"></textarea>
+									<textarea rows="04" name="cdescription"  id="cdescription" class="form-control">${cdescription}</textarea>
 											
 							</div>
 				    </div>
@@ -176,7 +193,7 @@ function manage_contract(event){
 							<label  >Ref No.</label>  
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
-										<input type="text"   name="refno" id="refno" class="form-control" readonly value="CON_STO_<fmt:formatDate pattern = "ddMMyyyyhhmmss" value = "${now}"/>" >										
+										<input type="text"   name="refno" id="refno" class="form-control" readonly value="CS_<fmt:formatDate pattern = "ddMMyyyyhhmmss" value = "${now}"/>" >										
 							</div>
 				    </div>
 				    
@@ -195,7 +212,7 @@ function manage_contract(event){
 							<label >Department.</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control">	
+										<select id="department" name="department" class="form-control" onchange="Load_Subdepartment();">	
 		                                          ${departmentlist}						
 										</select>
 							</div>	
@@ -230,7 +247,7 @@ function manage_contract(event){
 							<label for="startDate">Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12"  />
+								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12"  value="${startDate}"/>
 							</div>	
 						</div>
 		           
@@ -245,7 +262,7 @@ function manage_contract(event){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								
-								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" />
+								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" value="${endDate}" />
 								
 							</div>
 						</div>
@@ -264,7 +281,7 @@ function manage_contract(event){
 							<label  >Contractor Company Name.</label>
 							<div class="input-group col-xs-12" >
 								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
-									<textarea rows="03" name="ccompany"  id="ccompany" class="form-control"></textarea>  										
+									<textarea rows="03" name="ccompany"  id="ccompany" class="form-control">${ccompany}</textarea>  										
 							</div>
 				    </div>
 				    				  
@@ -282,7 +299,7 @@ function manage_contract(event){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
 								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
-										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com"></textarea>										
+										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com">${ccontract}</textarea>										
 							</div>
 				    </div>						
 				  
@@ -319,9 +336,9 @@ function manage_contract(event){
 		     
 				    <tr align="center" > 
 				     					
-						<td  bgcolor="white" colspan="2">			                   
-			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract List&nbsp; <i class="fa fa-search" aria-hidden="true"></i></span>  
-			                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+						<td  bgcolor="white" colspan="2">	
+						       <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract &nbsp;<i class="fa fa-home" aria-hidden="true"></i>  </span>  
+						       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 			                   <span onClick="manage_contract('addnew');" id="addnew" class="btn btn-success" >&nbsp;Add Contract &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </span>
                                
 		 			     </td>
@@ -329,13 +346,18 @@ function manage_contract(event){
 			
 			
 			
-				     <tr align="center"> 
+							    
+				    </tbody>
+			</table>
+	        
+	        <table  border="0" width="65%" align="center">
+			     <tr align="center"> 
 				     					
 						<td  bgcolor="white" colspan="2">			                   
 			            
 			               <span style="display:none" id="uploadstatus"  >			         
-	 		                  <div  class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							         <b>Saving Contract..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
+	 		                  <div  class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+							         <b>Saving Contract..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-lg"></i>
 			                  </div>
 	
 	           
@@ -343,10 +365,8 @@ function manage_contract(event){
 			            </td>
 			         
 			         </tr> 
-							    
-				    </tbody>
-			</table>
-	
+		        
+	        </table>	    
 	  
 	
 			

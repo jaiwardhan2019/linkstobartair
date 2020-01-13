@@ -301,17 +301,41 @@ public class AdminHomeController {
 						    	  model.put("statusmessage","Profile Allready Exist..");   
 						      } 
 						      
+							   model.put("departmentlist", stobartcontract.populate_Department("ALL",req.getParameter("department")));
+							   model.put("subdepartmentlist", stobartcontract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
+							   model.put("usercontractprofilelist", stobartcontract.showProfileListOfUser(req.getParameter("userid")));
+							   return "admin/userprofile/viewcontractuserprofile";	
+						      
 					   }
+					   
+					   
 					   
 				   
 					   
 					   if(req.getParameter("operation").equals("REM")){
 						
-						      stobartcontract.removeContractProfileofUser(Integer.parseInt(req.getParameter("profileid")),req.getParameter("userid"));
-						      model.put("statusmessage","Profile Removed..<i class='fa fa-thumbs-o-up fa-lg'></i>"); 
+					      stobartcontract.removeContractProfileofUser(Integer.parseInt(req.getParameter("profileid")),req.getParameter("userid"));
+					      model.put("statusmessage","Profile Removed..<i class='fa fa-thumbs-o-up fa-lg'></i>"); 
+						  model.put("departmentlist", stobartcontract.populate_Department("ALL",req.getParameter("department")));
+						  model.put("subdepartmentlist", stobartcontract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
+						  model.put("usercontractprofilelist", stobartcontract.showProfileListOfUser(req.getParameter("userid")));
+						  return "admin/userprofile/viewcontractuserprofile";	
+
 					   }
 						  
 				   
+					   
+					   
+					   //--- ON CHANGE OF DEPARTMENT THIS WILL BE CALLED ----------
+					   if(req.getParameter("operation").equals("LOAD")){		
+						   model.put("departmentlist", stobartcontract.populate_Department("ALL",req.getParameter("department")));
+						   model.put("subdepartmentlist", stobartcontract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
+						   model.put("usercontractprofilelist", stobartcontract.showProfileListOfUser(req.getParameter("userid")));
+						   return "admin/userprofile/viewcontractuserprofile";	
+					   }//  End of Load 
+					   
+					   
+					   
 				   
 			   }
 			   

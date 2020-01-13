@@ -39,7 +39,7 @@ public class flightReportsImp implements flightReports{
     DataSource dataSourcesqlserver;
     
     @Autowired
-    DataSource dataSourceflightops;
+    DataSource dataSourcemysql;
     
 
     //---------- Logger Initializer------------------------------- 
@@ -53,9 +53,9 @@ public class flightReportsImp implements flightReports{
 
 	
 	
-	flightReportsImp(DataSource dataSourcesqlserver,DataSource dataSourceflightops){ 
+	flightReportsImp(DataSource dataSourcesqlserver,DataSource dataSourcemysql){ 
 		jdbcTemplateSqlServer      = new JdbcTemplate(dataSourcesqlserver);
-		jdbcTemplateMysql = new JdbcTemplate(dataSourceflightops);
+		jdbcTemplateMysql = new JdbcTemplate(dataSourcemysql);
 	}
 
 
@@ -66,7 +66,7 @@ public class flightReportsImp implements flightReports{
 	@Override
 	public String Populate_Operational_Airline(String airlinecode){
 		   String airlinelistwithcode=null;	   
-		   String sql1="SELECT * FROM FLIGHT_OPERATIONS.AirlineMaster where operational=1 order  by name";
+		   String sql1="SELECT * FROM AirlineMaster where operational=1 order  by name";
 		   List<AirLineNameCode>  airlinelist = jdbcTemplateMysql.query(sql1,new AirLineNameCodeRowmapper());
 		   for (AirLineNameCode namecode : airlinelist) {			   
 			   
@@ -163,6 +163,7 @@ public class flightReportsImp implements flightReports{
 		   String startDate, String endDate, String tolerance, String delayCodeGroupCode) {
 		   linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();
 		   String sql=sqlb.builtReliabilityReportSQL(airline,airport,startDate,endDate,tolerance,delayCodeGroupCode);
+		  
 		   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(sql,new flightSectorLogRowmapper());		
 		   sql=null;
 		   sqlb=null;

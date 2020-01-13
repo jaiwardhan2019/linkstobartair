@@ -32,10 +32,11 @@ function updateUserAccess(ope,profileid){
 
 
 
-function UserSearch(){
-	
+function Load_Dept_Subdept(){
+
+	      document.contractuser.operation.value="LOAD";
           document.contractuser.method="POST"
-		  document.contractuser.action="profilemanager";
+		  document.contractuser.action="showcontractaccessprofile";
 	      document.contractuser.submit();
 
 	
@@ -57,7 +58,14 @@ function remove_user_Profile(){
 } //-------- End Of Function 
 
 
+function UserSearch(){
+	
+     document.contractuser.method="POST"
+	 document.contractuser.action="profilemanager";
+     document.contractuser.submit();
 
+
+}//-------- End Of Function ---------
 
 
 </script>
@@ -143,7 +151,7 @@ tr:nth-child(even) {
     	    <div class="col-xs-10">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control">
+										<select id="department" name="department" class="form-control" onChange="Load_Dept_Subdept();">
 										     <option value="ALL"> ------- ALL ------ </option>										
 											 ${departmentlist}
 																			
@@ -177,8 +185,8 @@ tr:nth-child(even) {
 								<div class="input-group"> 
 									<span class="input-group-addon"><i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i></span>							
 										<select id="admin" name="admin" class="form-control"  >										
-												<option value="Y" > -- Admin -- </option>	
-												<option value="N" > --- Gen --- </option>
+												<option value="Y" > -- Admin User -- </option>	
+												<option value="N" selected > --- General User --- </option>
 																					
 											</select>
 								</div>
@@ -195,8 +203,26 @@ tr:nth-child(even) {
       
   </table> 
          
-  
-    		 	 
+   <table  border="0" style="width: 70%;" align="center">	
+   
+     <tr>
+     <td>
+     <span style="font-weight:550;font-size:9pt;color:blue">  
+       Admin User :</span>
+       <span style="font-weight:150;font-size:9pt;color:black">  
+        Can Do following (Add / Update / Archive / Renew ) Contract. &nbsp;
+      </span>
+      <br>
+      <span style="font-weight:550;font-size:9pt;color:blue">  
+         General User :</span>
+       <span style="font-weight:150;font-size:9pt;color:black">  
+        Can only Add and view Contract. &nbsp;
+      </span>       
+       
+     </td>
+     </tr>
+   </table>
+   <br>	 	 
   <table  style="width: 60%;" align="center">	
   
      <tr>
@@ -208,7 +234,7 @@ tr:nth-child(even) {
 	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	         <span onClick="updateUserAccess('ADD');"  class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Access </span>
 	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	         <span style="font-weight:400;font-size:12pt;color:blue">  ${statusmessage} </span>
+	         <span style="font-weight:400;font-size:10pt;color:blue">  ${statusmessage} </span>
 	     </td>
 	     
      </tr>
@@ -234,7 +260,7 @@ tr:nth-child(even) {
 		  
 		        <c:set var = "rowcount"  value = "${fn:length(usercontractprofilelist)}"/>
                   <c:if test = "${rowcount == 0}"> <br>   
-                     <span style="color:red;font-size:12pt;"> 
+                     <span style="color:red;font-size:10pt;"> 
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -242,7 +268,7 @@ tr:nth-child(even) {
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           &nbsp;!!&nbsp;&nbsp;Sorry No profile&nbsp;&nbsp; <i class="fa fa-frown-o  fa-2x"> </i>
+                           &nbsp;!!&nbsp;&nbsp;Sorry No profile&nbsp;&nbsp; <i class="fa fa-frown-o  fa-lx"> </i>
                       </span>      
                    </c:if>   
 		  
@@ -270,7 +296,7 @@ tr:nth-child(even) {
 	           <h4><span class="label label-primary">Sub Department</span></h4>
 	         </td>
 	         <td> 
-	           <h4><span class="label label-primary">Admin / Non Admin</span></h4>
+	           <h4><span class="label label-primary">Admin / General </span></h4>
 	         </td>
 	         
 	         <td> 
@@ -299,11 +325,15 @@ tr:nth-child(even) {
 			    <td> 
 			    
 		       	     <c:if test="${contractprofile.adminstatus == 'Y'}">
-				          Admin   
+		       	        <span style="font-weight:600;font-size:10pt;color:blue">
+				          <i class="fa fa-user-md" aria-hidden="true"></i> &nbsp; Admin
+				        </span>    
 				      </c:if>
 				      
 				      <c:if test="${contractprofile.adminstatus == 'N'}">
-				          General
+				      <span style="font-weight:600;font-size:10pt;color:black">
+				         <i class="fa fa-user-circle-o" aria-hidden="true"></i> &nbsp; General
+				      </span>   
 				      </c:if>
 			
 			    
@@ -332,5 +362,6 @@ tr:nth-child(even) {
 
 </body>
 </html>
-
-
+<br>
+<br>
+<%@include file="../../include/footer.jsp" %>
