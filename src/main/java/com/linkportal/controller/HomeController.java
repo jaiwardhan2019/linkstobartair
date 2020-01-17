@@ -82,8 +82,7 @@ public class HomeController {
 	@Autowired
 	piechart chart;
 	
-	@Autowired
-	pdfWordReportBuilder pdfdoc;
+
 	
 	
 	

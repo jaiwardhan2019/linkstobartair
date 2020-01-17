@@ -412,29 +412,45 @@ public class stobartContract {
 
 
 
-
+    //------- FUNCTION WILL TAKE CONTRACT START DATE AS INPUT AND RETURN THE AGE OF CONTRACT 
 	public int getContractAge(String startdate) throws ParseException {
-    	   
-   
-    	   
     	   String format = "yyyy-MM-dd";    		 
 		   SimpleDateFormat sdf = new SimpleDateFormat(format);			 
-		   Date dateObj1 = sdf.parse(startdate);
-		   
+		   Date dateObj1 = sdf.parse(startdate);		   
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern(format);
-		   LocalDateTime currentdateandtime = LocalDateTime.now();		   
-		   
+		   LocalDateTime currentdateandtime = LocalDateTime.now();		
 		   Date dateObj2 = sdf.parse(currentdateandtime.toString());
-    	   
 		   long diff = dateObj2.getTime() - dateObj1.getTime();
-			 
 		   int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
-			    	   
-	   
 	   return diffDays;
     }	
 	
-   
+  
+	
+
+
+    //------- FUNCTION WILL TAKE CONTRACT END DATE AS INPUT AND RETURN THE NO OF DAYS LEFT TO EXPIRE  
+	public int noofDaysToExpire(String contractenddate) throws ParseException {
+    	   String format = "yyyy-MM-dd";    		 
+		   SimpleDateFormat sdf = new SimpleDateFormat(format);			 
+		   Date dateObj1 = sdf.parse(contractenddate);		   
+		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern(format);
+		   LocalDateTime currentdateandtime = LocalDateTime.now();		
+		   Date dateObj2 = sdf.parse(currentdateandtime.toString());
+		   long diff = dateObj1.getTime() - dateObj2.getTime();
+		   int diffDays1 = (int) (diff / (24 * 60 * 60 * 1000));
+		   //System.out.println("No of days to expire is :"+diffDays1);
+		   
+		   
+	   return diffDays1;
+    }	
+	
+
+	
+	
+	
+	
+	
    
 
 }

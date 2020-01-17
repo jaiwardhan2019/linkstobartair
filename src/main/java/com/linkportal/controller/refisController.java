@@ -148,12 +148,12 @@ public class refisController {
 					//--------- This Part will display Add  Contract View------------
 					if(req.getParameter("event").equals("addnew")){
 						
+						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));
+						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),"ALL"));
 
 						
 						if(req.getParameter("departmentselected") != null){
 								
-							model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));
-							model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),"ALL"));
 							model.put("cdescription",req.getParameter("cdescription"));
 							model.put("startDate",req.getParameter("startDate"));
 							model.put("endDate",req.getParameter("endDate"));
@@ -163,13 +163,7 @@ public class refisController {
 							model.put("ccontract",req.getParameter("ccontract"));							
 						}	
 						
-						if(req.getParameter("departmentselected").length() == 4){
-
-							model.put("departmentlist", contract.populate_Department("ALL","GOP"));
-						    model.put("subdepartmentlist", contract.populate_SubDepartment("ALL","GOP","ALL"));
-						}
-						
-						
+					
 						return "contractmanager/addnewcontract";
 					   
 			         }		
@@ -310,7 +304,11 @@ public class refisController {
 						}
 					    
 						model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:10pt;'> Contract no:"+req.getParameter("refno")+" Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
-						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null));
+						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),req.getParameter("department"),"ALL",null,null));
+
+						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));						
+						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
+						model.put("Active", "checked");
 						return "contractmanager/contractmanager";
 							
 					}	

@@ -140,6 +140,9 @@ public class manageStobartContractImp implements manageStobartContract{
 				"   WHERE CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_DEPT_SUBDET.ID "
 				+ " AND  CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_ACCESS.dept_sub_code  AND CONTRACT_MASTER.entered_by_email=CONTRACT_ACCESS.user_email AND "
 				+ " CONTRACT_MASTER.refrence_no=?";
+		
+
+		
 		 return jdbcTemplateRefis.queryForObject(viewsql, new Object[]{crefno}, new stobartContractRowmapper());	    
 	   
 	}
@@ -180,7 +183,7 @@ public class manageStobartContractImp implements manageStobartContract{
 	    }
 		else
 		{			
-			//newrefrenceno=getString("refrence_no")+"_"+(++renew_count);
+			// Second Time On Ward  
 			String[] refnoarray = crefno.split("_");
 			newrefrenceno ="CS_"+refnoarray[1]+"_REN_"+(++renew_count);			
 		}
@@ -228,8 +231,12 @@ public class manageStobartContractImp implements manageStobartContract{
 	     
 		
 		
-	
-		
+	   // Step 3   Update Contract Status to Expired
+		jdbcTemplateRefis.execute("UPDATE CORPORATE_PORTAL.CONTRACT_MASTER SET  CORPORATE_PORTAL.CONTRACT_MASTER.STATUS='Dactive'  where refrence_no='"+crefno+"'");
+			     
+	     
+	     
+	   // Step 4   View New Contract No 	
        viewsql="SELECT CONTRACT_DEPT_SUBDET.DEPARTMENT , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT, CONTRACT_DEPT_SUBDET.DEPARTMENT_CODE , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT_CODE , CONTRACT_MASTER.DEPT_SUB_CODE \r\n" + 
 		" , CONTRACT_MASTER.contractor_name , CONTRACT_MASTER.contractor_contact_detail,CONTRACT_MASTER.refrence_no,\r\n" + 
 		"   CONTRACT_MASTER.description,CONTRACT_MASTER.status,CONTRACT_MASTER.start_date,CONTRACT_MASTER.end_date,CONTRACT_MASTER.entered_by_email , CONTRACT_ACCESS.is_admin \r\n" + 
@@ -492,8 +499,8 @@ public class manageStobartContractImp implements manageStobartContract{
 	public List<contractProfile> showProfileListOfUser(String useremailid) {
 		
 	          
-	   String  sqlListContract="SELECT CONTRACT_ACCESS.dept_sub_code, CONTRACT_DEPT_SUBDET.department ,  CONTRACT_DEPT_SUBDET.subdepartment ,  CONTRACT_ACCESS.is_admin \r\n" + 
-	     		"FROM CORPORATE_PORTAL.CONTRACT_ACCESS , CONTRACT_DEPT_SUBDET \r\n" + 
+	   String  sqlListContract="SELECT CONTRACT_ACCESS.dept_sub_code, CONTRACT_DEPT_SUBDET.department ,  CONTRACT_DEPT_SUBDET.subdepartment ,  CONTRACT_ACCESS.is_admin ,  \r\n" + 
+	     		"CONTRACT_ACCESS.eligible_for_email_notification  FROM CORPORATE_PORTAL.CONTRACT_ACCESS , CONTRACT_DEPT_SUBDET \r\n" + 
 	     		"where CONTRACT_DEPT_SUBDET.id=CONTRACT_ACCESS.dept_sub_code and CONTRACT_ACCESS.user_email='"+useremailid+"' order by CONTRACT_DEPT_SUBDET.department";    
 	 	        List  profilelist = jdbcTemplateRefis.query(sqlListContract,new contractProfileRowmapper());
 		
@@ -524,12 +531,13 @@ public class manageStobartContractImp implements manageStobartContract{
 		   else 
 		   {
 		       
-			   String SQL_ADD = "INSERT INTO CORPORATE_PORTAL.CONTRACT_ACCESS(dept_sub_code,user_email,is_admin)"
-				   		+ "value (?, ?, ?)";			   
+			   String SQL_ADD = "INSERT INTO CORPORATE_PORTAL.CONTRACT_ACCESS(dept_sub_code,user_email,is_admin,eligible_for_email_notification)"
+				   		+ "value (?, ?,?,?)";			   
 			   PreparedStatement pstm = con2.prepareStatement(SQL_ADD);		       
 				   pstm.setInt(1,profileid);
 				   pstm.setString(2,req.getParameter("userid"));
 				   pstm.setString(3,req.getParameter("admin"));
+				   pstm.setString(4,req.getParameter("eligible_for_email_notification"));
 			       rows = pstm.executeUpdate();
 			       
 			}

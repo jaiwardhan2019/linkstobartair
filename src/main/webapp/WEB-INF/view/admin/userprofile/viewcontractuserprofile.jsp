@@ -97,8 +97,7 @@ tr:nth-child(even) {
 	
 <br>
 <br>
-<br>
-<br>
+
  	
 
 <!-- Body Banner -->
@@ -141,6 +140,11 @@ tr:nth-child(even) {
 					   </b></span>					 
 		     </td>		     
 		     
+				 <td  bgcolor="#0070BA" >
+					   <span style="color:white;"> <b>
+					    Email Notification 
+					   </b></span>					 
+		     </td>		     
 			 
       	 	
    </tr>
@@ -148,7 +152,7 @@ tr:nth-child(even) {
    <tr>
    
     <td >
-    	    <div class="col-xs-10">
+    	    <div class="col-xs-15">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
 										<select id="department" name="department" class="form-control" onChange="Load_Dept_Subdept();">
@@ -165,7 +169,7 @@ tr:nth-child(even) {
     </td>
     
  <td >
-    				<div class="col-xs-10">
+    				<div class="col-xs-15">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
@@ -180,13 +184,13 @@ tr:nth-child(even) {
     </td>
     
     	     <td >
-		     			<div class="col-xs-05">
+		     			<div >
 						 		
 								<div class="input-group"> 
 									<span class="input-group-addon"><i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i></span>							
 										<select id="admin" name="admin" class="form-control"  >										
-												<option value="Y" > -- Admin User -- </option>	
-												<option value="N" selected > --- General User --- </option>
+												<option value="Y" >Admin User</option>	
+												<option value="N" selected >General User</option>
 																					
 											</select>
 								</div>
@@ -195,6 +199,21 @@ tr:nth-child(even) {
 		
 		     </td>
 	
+   	     <td >
+		     			<div>
+						 		
+								<div class="input-group"> 
+									<span class="input-group-addon"><i  class="fa fa-envelope-o fa-lg" aria-hidden="true"></i></span>							
+										<select id="eligible_for_email_notification" name="eligible_for_email_notification" class="form-control"  >										
+												<option value="Y" selected > -YES-</option>	
+												<option value="N" > -NO- </option>
+																					
+											</select>
+								</div>
+	
+						  </div>
+		
+		     </td>
    
    </tr>
    
@@ -203,42 +222,43 @@ tr:nth-child(even) {
       
   </table> 
          
-   <table  border="0" style="width: 70%;" align="center">	
-   
-     <tr>
-     <td>
-     <span style="font-weight:550;font-size:9pt;color:blue">  
-       Admin User :</span>
-       <span style="font-weight:150;font-size:9pt;color:black">  
-        Can Do following (Add / Update / Archive / Renew ) Contract. &nbsp;
-      </span>
-      <br>
-      <span style="font-weight:550;font-size:9pt;color:blue">  
-         General User :</span>
-       <span style="font-weight:150;font-size:9pt;color:black">  
-        Can only Add and view Contract. &nbsp;
-      </span>       
-       
-     </td>
-     </tr>
-   </table>
-   <br>	 	 
-  <table  style="width: 60%;" align="center">	
+	 
+  <table  style="width: 70%;" align="center">	
   
      <tr>
+         <td align="left" width="50%" >
+		      <span style="font-weight:550;font-size:9pt;color:red">  
+		       Admin User :</span>
+		       <span style="font-weight:150;font-size:9pt;color:black">  
+		        Can Do following (Add / Update / Archive / Renew ) Contract. &nbsp;
+		      </span>
+		      <br>
+		      <span style="font-weight:550;font-size:9pt;color:red">  
+		         General User :</span>
+		       <span style="font-weight:150;font-size:9pt;color:black">  
+		        Can only Add and view Contract. &nbsp;
+		      </span>       
      
-	     <td align="center"> 
-	         
-	         &nbsp;&nbsp;<span onClick="UserSearch();"  class="btn btn-primary"  > <i class="fa fa-search-plus" aria-hidden="true"></i> User Search  </span>
-	     
-	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          
+         </td>
+         
+	     <td align="left"> 	         
+	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span onClick="UserSearch();"  class="btn btn-primary"  > <i class="fa fa-search-plus" aria-hidden="true"></i> User Search  </span>	     
+	        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	         <span onClick="updateUserAccess('ADD');"  class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Access </span>
-	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	         <span style="font-weight:400;font-size:10pt;color:blue">  ${statusmessage} </span>
 	     </td>
 	     
      </tr>
    
+  
+     <tr bgcolor="white">
+     
+        <td align="center" colspan="2" bgcolor="white"><br>
+	         <span style="font-weight:400;font-size:10pt;color:blue">  ${statusmessage} </span>
+        
+        </td>
+       
+     </tr>
  
   
   
@@ -296,7 +316,7 @@ tr:nth-child(even) {
 	           <h4><span class="label label-primary">Sub Department</span></h4>
 	         </td>
 	         <td> 
-	           <h4><span class="label label-primary">Admin / General </span></h4>
+	           <h4><span class="label label-primary">Admin / General / Email </span></h4>
 	         </td>
 	         
 	         <td> 
@@ -333,8 +353,15 @@ tr:nth-child(even) {
 				      <c:if test="${contractprofile.adminstatus == 'N'}">
 				      <span style="font-weight:600;font-size:10pt;color:black">
 				         <i class="fa fa-user-circle-o" aria-hidden="true"></i> &nbsp; General
-				      </span>   
+				      </span>  
+					       <c:if test="${contractprofile.eligibleforemailnotification == 'Y'}">
+					         &nbsp;<i class="fa fa-envelope-o" aria-hidden="true"></i>
+					       </c:if>
+					      
+				       
 				      </c:if>
+				      
+			      
 			
 			    
 			    </td>

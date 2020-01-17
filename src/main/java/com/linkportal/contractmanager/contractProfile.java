@@ -6,14 +6,16 @@ public class contractProfile {
 	   private String department;
 	   private String subDepartment;
 	   private String adminstatus;
+	   private String eligibleforemailnotification;
 	   
 
-	public contractProfile(int profileid, String department, String subDepartment, String adminstatus) {
+	public contractProfile(int profileid, String department, String subDepartment, String adminstatus , String eligibleforemailnotification) {
 		super();
 		this.profileid = profileid;
 		this.department = department;
 		this.subDepartment = subDepartment;
 		this.adminstatus = adminstatus;
+		this.eligibleforemailnotification=eligibleforemailnotification;
 	}
 
 
@@ -56,17 +58,26 @@ public class contractProfile {
 		this.adminstatus = adminstatus;
 	}
 
+     
+	public String getEligibleforemailnotification() {
+		return eligibleforemailnotification;
+	}
 
+
+	public void setEligibleforemailnotification(String eligibleforemailnotification) {
+		this.eligibleforemailnotification = eligibleforemailnotification;
+	}
+
+
+	
 	@Override
 	public String toString() {
 		return "contractProfile [profileid=" + profileid + ", department=" + department + ", subDepartment="
-				+ subDepartment + ", adminstatus=" + adminstatus + ", getProfileid()=" + getProfileid()
-				+ ", getDepartment()=" + getDepartment() + ", getSubDepartment()=" + getSubDepartment()
-				+ ", getAdminstatus()=" + getAdminstatus() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ subDepartment + ", adminstatus=" + adminstatus + ", eligibleforemailnotification="
+				+ eligibleforemailnotification + "]";
 	}
 
-	
+   
 	   
 	
 	

@@ -16,7 +16,8 @@ public class contractProfileRowmapper  implements  RowMapper<contractProfile>{
 				   rs.getInt("dept_sub_code"), 			
 				   rs.getString("department"),
 				   rs.getString("subdepartment"),
-				   rs.getString("is_admin"));
+				   rs.getString("is_admin"),
+		           rs.getString("eligible_for_email_notification"));
 		   
           return profile;
 	   }

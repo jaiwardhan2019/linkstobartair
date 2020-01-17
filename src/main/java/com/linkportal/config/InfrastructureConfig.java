@@ -37,13 +37,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@ComponentScan(basePackages = { "com.linkportal.docmanager","com.linkportal.security.UserSecurityLdapDatabase","com.flightreports.dbripostry.flightReports"})
 //@ComponentScan(basePackages = { "com.linkportal.docmanager" })
-
+//@ComponentScan({"com.linkportal.email.linkPortalEmail"})
 
 
 @Configuration
 //@EnableTransactionManagement
 public class InfrastructureConfig{
       
+	
+	
+	
 	
 	@Bean(name = "dataSourcesqlserver")
 	@ConfigurationProperties(prefix = "sqlserver.datasource")

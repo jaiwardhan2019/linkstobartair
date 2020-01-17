@@ -228,9 +228,7 @@ function contract_home(event){
 	        <span  style="font-weight:300;font-size:12pt;">Total Contract # </span> <span  style="font-weight:400;font-size:16pt;">
 	              <b>${fn:length(contractlist)} </b> 
 	              
-	              <!-- <button type="button" class="btn btn-primary">Total Contract <span class="badge">${fn:length(contractlist)}</span></button> -->
-	              
-	              </span>
+	                </span>
 	              
 	              
 	     </td>
@@ -289,7 +287,7 @@ function contract_home(event){
 					     </b></span>					 
 					 </td>
 	
-					 <td bgcolor="#0070BA" width="25%">
+					 <td bgcolor="#0070BA" width="28%">
 					   <span style="color:white;"> <b> 
 					    Detail.
 					     </b></span>					 
@@ -366,6 +364,12 @@ function contract_home(event){
 							    
 				       ${contract.refrence_no} 		
 				       
+				       
+				       <!--
+				        Expire in : 	
+				        ${contract.noofDaysToExpire(contract.end_date)} 	
+				        -->
+				       				        	
 				   </a>    	       
 				       
 		                <c:set var="contractage" value="${contract.getContractAge(contract.start_date)}" />		                
@@ -386,7 +390,7 @@ function contract_home(event){
 					 
 					<td>
 					    <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Contract Description" data-content="${contract.contract_description}">
-			                <c:set var="string1" value="${fn:substring(contract.contract_description, 0,40)}" />
+			                <c:set var="string1" value="${fn:substring(contract.contract_description, 0,50)}" />
 			                   ${string1}
 			             </a>
 			     	 </td>

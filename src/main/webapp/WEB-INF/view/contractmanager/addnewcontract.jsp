@@ -339,7 +339,7 @@ function Load_Subdepartment(){
 						<td  bgcolor="white" colspan="2">	
 						       <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract &nbsp;<i class="fa fa-home" aria-hidden="true"></i>  </span>  
 						       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-			                   <span onClick="manage_contract('addnew');" id="addnew" class="btn btn-success" >&nbsp;Add Contract &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </span>
+			                   <span onClick="manage_contract('addnew');" id="addnew" class="btn btn-success" >&nbsp;Save Contract &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </span>
                                
 		 			     </td>
 				     </tr>

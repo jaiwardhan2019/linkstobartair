@@ -277,16 +277,13 @@ function update_contract(contractref,department,subdepartment){
 				     					
 						<td  bgcolor="white" colspan="2">	
 				                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract &nbsp; <i class="fa fa-home" aria-hidden="true"></i>  </span>  
- 	
-			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   
-			                   <span onClick="renew_contract('${contractdetail.refrence_no}');" id="addnew" class="btn btn-warning" >&nbsp;Renew Contract &nbsp; <i class="fa fa-repeat" aria-hidden="true"></i> </span>
-
- 	
-			                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-			                   <span  onClick="update_contract('${contractdetail.refrence_no}','${contractdetail.department_code}','${contractdetail.subdepartment_code}');" id="addnew" class="btn btn-success" >&nbsp;&nbsp;&nbsp;Update &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>
- 		 			    
- 			    
- 			     </td>
+ 	                                 <c:if test = "${contractdetail.is_admin == 'Y'}"> 
+						                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   
+						                   <span onClick="renew_contract('${contractdetail.refrence_no}');" id="addnew" class="btn btn-warning" >&nbsp;Renew Contract &nbsp; <i class="fa fa-repeat" aria-hidden="true"></i> </span>
+						                   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+						                   <span  onClick="update_contract('${contractdetail.refrence_no}','${contractdetail.department_code}','${contractdetail.subdepartment_code}');" id="addnew" class="btn btn-success" >&nbsp;&nbsp;&nbsp;Update &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i> </span>
+ 		 			               </c:if>
+ 			              </td>
 				     </tr>
 		        	           
        	   </tbody>             

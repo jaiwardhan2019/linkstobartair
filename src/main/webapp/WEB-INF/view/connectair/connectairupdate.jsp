@@ -34,7 +34,10 @@
 <br>
 <br>
 
-<div class="container" align="left"  >
+<table width="75%" align="center">
+<tr>
+<td>	
+
 <p align="justify" style="word-spacing: 3px;" >	
 <br>
 
@@ -67,49 +70,38 @@ ____________________
 <br>
 
 </p>	      
-</div>	
-	
-	
+
+</td>
+</tr>
+</table>	
 	
 
-<div class="container" align="left">
-	
-	<div class="row">
-	
 
-<!--left side video-->
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			
-				<div class="panel-body">
+<table width="75%" align="center">
+	<tr>
+		<td width="50%">	
+
 				<h6 class="post_title" ><b>A message from Mark Anderson, CEO Connect Airways</b></h6>
-				    <video width="100%" controls controlsList="nodownload">
+				    <video width="90%" controls controlsList="nodownload">
 					   <source src="<c:url value="mark.mp4"/>" type="video/mp4">
 					  Your browser does not support HTML5 video.
 					</video>
 			
-			</div>
-				
-						
-		</div>
+		</td>
 		
-		
-		<!--Right side video-->
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			
-				<div class="panel-body">
+		<td width="50%">
 				<h6 class="post_title" ><b>Mark Anderson, @ Dublin Townhall 9th July 2019</b></h6>
-					<video width="100%" controls controlsList="nodownload">
+					<video width="90%" controls controlsList="nodownload">
 					 
 					 <source src="<c:url value="markdublin2019.mp4"/>" type="video/mp4">
 					  Your browser does not support HTML5 video.
 					</video>
-				</div>
-		
-		</div>
+			
+		</td>
 
-	</div>
-</div>	
-
+	</tr>
+</table>
+	
 
 <br>
 <br>
