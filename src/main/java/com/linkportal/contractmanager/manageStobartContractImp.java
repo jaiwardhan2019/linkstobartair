@@ -407,15 +407,15 @@ public class manageStobartContractImp implements manageStobartContract{
 	@Override
 	public boolean removeFolderWithallFile(File dir) {
 		   
-	   	 if (dir.isDirectory()) { 
-    		 File[] children = dir.listFiles(); 
-    		 for (int i = 0; i < children.length; i++) { 
-    			 boolean success = removeFolderWithallFile(children[i]); 
-    			 if (!success) { return false; } 
-    			 }
-    		 } // either file or an empty directory 
-    	   
-    	    return dir.delete();
+		   if(dir.isDirectory()){ 
+	    		 File[] children = dir.listFiles(); 
+	    		 for (int i = 0; i < children.length; i++) { 
+	    			 boolean success = removeFolderWithallFile(children[i]); 
+	    			 if (!success) { return false; } 
+	    			 }
+	    		 } // either file or an empty directory 
+	    	   
+	    	    return dir.delete();
 	}
 
 

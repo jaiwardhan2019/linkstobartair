@@ -68,6 +68,11 @@ Hask Key Object :
     </tr>
 </security:authorize>
  
-
+<br>
+ 
+ Click on the link to download:<a href="DownloadServlet">Download a File</a> 
+ 
+ <br>
+ 
  
  

@@ -2,6 +2,11 @@
 
 <jsp:include page="../include/refisheader.jsp" />
 
+
+
+<!--  
+  https://www.w3schools.com/Bootstrap/bootstrap_grid_examples.asp
+-->
 <head>
     <meta charset="utf-8">
     <title> Ground Operation | Home  </title>    
@@ -30,6 +35,14 @@
 			</center>
 			
   </div>
+
+  
+<div class="row" align="center">
+  <div class="col-sm-4">.col-sm-4</div>
+  <div class="col-sm-4">.col-sm-4</div>
+  <div class="col-sm-4">.col-sm-4</div>
+</div>
+  
   <br>
     <br>
       <br>
@@ -41,7 +54,7 @@
           <br>
     <br>
  
-  <div>
+
 </body>
 <br>
 <%@include file="../include/footer.jsp" %>

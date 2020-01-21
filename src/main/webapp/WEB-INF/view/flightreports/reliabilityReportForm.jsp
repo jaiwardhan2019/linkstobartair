@@ -159,7 +159,7 @@ function search_progress() {
 							<label for="startDate">Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12" max="${todaydate}"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12" max="${todaydate}"  value="${todaydate}"  placeholder="(DD/MM/YYYY)"/>
 							</div>	
 						</div>
 						
@@ -177,7 +177,7 @@ function search_progress() {
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								
-								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" max="${todaydate}"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" max="${todaydate}" value="${todaydate}"  placeholder="(DD/MM/YYYY)"/>
 								
 							</div>
 						</div>

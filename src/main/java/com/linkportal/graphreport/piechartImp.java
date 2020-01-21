@@ -71,25 +71,23 @@ public class piechartImp implements piechart{
 		   
 		   //------------ SQL TO PULL OFF DETAIL FROM PDC -------------
 		   
-		   String andstring="";  
-		   andstring +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) > "+tolrance+")";
-			
+		   String andstring="";
 		   if((!airline.equals("ALL"))){andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'";}
 		   if((!port.equals("ALL"))){andstring += " AND LEGS.DEPSTN='"+port+"'"; } 
 	
 		   
 		  String sqlstrkpi="select sum(case when status != 'RTR' then 1 else 0 end ) as totalflights,\r\n" + 
-		  		"	   sum(case when status = 'ATA' then 1 else 0 end ) as NumFlown, \r\n" + 
+		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) >= "+tolrance+") then 1 else 0 end ) as NumFlown, \r\n" + 
 		  		"	   sum(case when status = 'CNL' then 1 else 0 end) as NumCancelled\r\n" + 
 		  		//"	   sum(case when status = 'ATA' and DUR1+DUR2+DUR3+DUR4 < 5 then 1 else 0 end) as Late_Lessthen5minute,\r\n" + 
 		  		//"	   sum(case when status = 'ATA' and DUR1+DUR2+DUR3+DUR4 < 15 then 1 else 0 end)  as Late_Lessthen15Minute,\r\n" + 
 		  		//"	   sum(case when status = 'ATA' and DUR1+DUR2+DUR3+DUR4 > 15 then 1 else 0 end) as Late_Above15Minute, \r\n" + 
 		  		//"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimeflights \r\n" + 		  		
-		  		"	   from LEGS  where  DATOP between '"+startdate+"' and  '"+enddate+"'   "+andstring;
+		  		"	   from LEGS  where  DATOP between '"+startdate+"' and  '"+enddate+"'"+andstring;
 		  
 		  
 		   
-         //System.out.println(sqlstrkpi);
+          System.out.println(sqlstrkpi);
 		   
 		   
 		   Connection connection = dataSourcesqlserver.getConnection();
@@ -101,8 +99,7 @@ public class piechartImp implements piechart{
 		   		   if(rsc.getString("totalflights") != null) {
 		   			  
 		   			   
-		   			     totalflights         = Integer.parseInt(rsc.getString("totalflights"));
-		   			     NumFlown             = Integer.parseInt(rsc.getString("NumFlown"));
+		   			     totalflights         = Integer.parseInt(rsc.getString("NumFlown"));		   			    
 		   			     NumCancelled         = Integer.parseInt(rsc.getString("NumCancelled"));
 		   			    // ontimeflights        = Integer.parseInt(rsc.getString("ontimeflights"));		   
 		   			    // Late_Lessthen5minute = Integer.parseInt(rsc.getString("Late_Lessthen5minute"));
@@ -116,7 +113,7 @@ public class piechartImp implements piechart{
 		   			    List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
 		   			     
 		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Total Delay Flights"); 
+		   			    map1.put("label", "Flights Count"); 
 		   			    map1.put("y", totalflights); 
 		   			    list.add(map1);
 		   			    /*
@@ -126,7 +123,7 @@ public class piechartImp implements piechart{
 		   			    list.add(map1);
 		   			    */
 		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "All Cancelled"); 
+		   			    map1.put("label", "Cancelled Count"); 
 		   			    map1.put("y", NumCancelled); 
 		   			    list.add(map1);
 

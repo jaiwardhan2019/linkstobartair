@@ -60,6 +60,21 @@ public class AdminHomeController {
 	
 	
 
+	@GetMapping("/atrdicing")	
+	String atr_diccing_traning_page(ModelMap model){		
+
+	    return "atrdicing/index";
+	 }
+
+	
+	
+	
+	
+	
+	
+	
+	
+
 	@GetMapping("/test")	
 	String test_page(ModelMap model){		
 		logger.info("Info level log message");
@@ -100,6 +115,7 @@ public class AdminHomeController {
 	    
 	    //return "test";
 	    return "testgraph";
+	    //return "atrdicing/index";
 	}
 	
 	

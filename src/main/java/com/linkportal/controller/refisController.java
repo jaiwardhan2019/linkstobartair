@@ -301,7 +301,18 @@ public class refisController {
 					    
 					    if(contract.removeFolderWithallFile(directory)){  //<<--- Remove folder and file in there 				    	
 						     contract.removeContract(req.getParameter("refno").trim()); //<<-  Remove from database 
-						}
+	                         
+						     //--- IF ZIP FILE EXIST THEN REMOVE 
+						     boolean zipfiledelstatus=false;
+							 File zipfile = new File(rootdirectory+"/data/stobart_contract/"+req.getParameter("refno").trim()+".zip");
+					         if(zipfile.isFile()) {zipfiledelstatus=zipfile.delete();}
+							   
+					    
+					    
+					    }
+					    
+					    
+					    
 					    
 						model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:10pt;'> Contract no:"+req.getParameter("refno")+" Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
 						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),req.getParameter("department"),"ALL",null,null));
@@ -532,7 +543,7 @@ public class refisController {
 	                        outputStream.write(bytes, 0, bytes.length);
 	                        outputStream.closeEntry();
 	                    } catch (IOException e) {
-	                        e.printStackTrace();
+	                    	logger.error("While zipping Contract no ::"+refno+"::"+e.toString());
 	                    }
 	                    return FileVisitResult.CONTINUE;
 	                }

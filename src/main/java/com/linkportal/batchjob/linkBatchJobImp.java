@@ -1,25 +1,34 @@
 package com.linkportal.batchjob;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.linkportal.contractmanager.stobartContract;
 import com.linkportal.contractmanager.stobartContractRowmapper;
-
-
 import com.linkportal.email.linkPortalEmail;
 
 
@@ -54,8 +63,8 @@ public class linkBatchJobImp implements linkBatchJob{
 		@Value("${mail.host}") String mailhostserver;	
 		@Value("${mail.From}") String emailfrom;
 		@Value("${mail.subject.contract}") String emailsubject;
-		@Value("${mail.body.contractRenew}") String emailBodyRenew;
-		@Value("${mail.body.contractExpiry}") String emailBodyExpired;
+		@Value("${mail.body.contractRenew}") String emailBodyRenew1;
+		@Value("${mail.body.contractExpiry}") String emailBodyExpired1;
 		@Value("${stobart.contract.folder}") String contractpath;
 		
 		
@@ -91,25 +100,56 @@ public class linkBatchJobImp implements linkBatchJob{
 		    	   	
 		    		stobartContract contr=(stobartContract)it.next();
 		    	   	int noofDaysToExpire = contr.noofDaysToExpire(contr.getEnd_date());
-	    	    	
+		    	   	String emailBodyRenew=emailBodyRenew1;
+		    	   	String emailBodyExpired=emailBodyExpired1;
+		    	   	
+		    	   	
+		    	   	
+		    	   	//-- Formatting End Date ---
+		    	   	String enddate = contr.getEnd_date();	    	        
+		    		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		    		SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
+		    		String dateString = sdf2.format(sdf1.parse(enddate));		    		
+		    		Date date = sdf2.parse(dateString);
+		    		dateString = date.toString();
+		    
+		    	
+	    	     
 	    	   	
 		    	   	
 		    	  //---- FOR ABOUT TO EXPIRE IN 180 DAYS 
-		    	   	if((noofDaysToExpire >= 0) && (noofDaysToExpire <= 180)){
+		    	   	if((noofDaysToExpire > 0) && (noofDaysToExpire <= 180)){
+		    	   		compressFolderMakeZip(contr.getRefrence_no());		
 		    	   		emailBodyRenew = emailBodyRenew.replaceAll("CONTRACTNO", contr.getRefrence_no());
-		    	   		emailBodyRenew = emailBodyRenew.replaceAll("NDAYS", Integer.toString(noofDaysToExpire) );		
-		    	    	emailinst.sendTextHtmlEmail(mailhostserver, emailfrom,collectAdminEmailList(contr.getRefrence_no()), (emailsubject+contr.getRefrence_no()), emailBodyRenew.replaceAll("CONTRACTNO", contr.getRefrence_no()),contractpath+"stobart_contract/"+contr.getRefrence_no()+".zip");
-		    	    } 
+		    	   		emailBodyRenew = emailBodyRenew.replaceAll("NDAYS", Integer.toString(noofDaysToExpire) );		    	   		
+		    	        emailBodyRenew = emailBodyRenew.replaceAll("EXDT", dateString);
+		    	    	emailinst.sendTextHtmlEmail(mailhostserver, emailfrom,collectAdminEmailList(contr.getRefrence_no()), (emailsubject+contr.getRefrence_no()), emailBodyRenew,contractpath+"stobart_contract/"+contr.getRefrence_no()+".zip");
+		    	       
 		    	     
-		    	    
+		    	   	} 
+	
 		    	   	
-
-		    	   	//---- FOR FULLY EXPIRED CONTRACT 
-		    	   	if((noofDaysToExpire <= 0) || (contr.getStatus().equals("Dactive"))) {	    	    		
-		    	    	emailinst.sendTextHtmlEmail(mailhostserver, emailfrom,collectAdminEmailList(contr.getRefrence_no()), (emailsubject+contr.getRefrence_no()), emailBodyExpired.replaceAll("CONTRACTNO", contr.getRefrence_no()),contractpath+"stobart_contract/"+contr.getRefrence_no()+".zip");
-
-	    	    	} 
-			    	   	
+		    	   	
+		    	   	
+		    	   	
+		    	   	
+		    	   	//---- FOR FULLY EXPIRED CONTRACT 		    	 
+		    	   	if(noofDaysToExpire <= 0) {                        
+		    	   		//-- This part will change the status to Dactive ---		    	   	
+		    	   		jdbcTempBatch.update("UPDATE CORPORATE_PORTAL.CONTRACT_MASTER SET STATUS='Dactive' where refrence_no='"+contr.getRefrence_no()+"'");	
+		    	   		
+		    	   		//--- Make zip folder to the contract 
+		    	   		compressFolderMakeZip(contr.getRefrence_no());		
+		    	    	
+		    	   		//--- Send email notification to all Admin and Qualified User
+		    	   		emailBodyExpired = emailBodyExpired.replaceAll("CONTRACTNO", contr.getRefrence_no());
+		    	   		emailBodyExpired = emailBodyExpired.replaceAll("EXDT",dateString);
+		    	   		emailinst.sendTextHtmlEmail(mailhostserver, emailfrom,collectAdminEmailList(contr.getRefrence_no()), (emailsubject+contr.getRefrence_no()), emailBodyExpired,contractpath+"stobart_contract/"+contr.getRefrence_no()+".zip");
+		    	   		
+		    	   	} 
+		    	   	
+		    	   	emailBodyRenew="";
+		    	   	emailBodyExpired="";   	
 
 		    	 
 		    	 } //------ END OF WHILE LOOP    
@@ -117,7 +157,11 @@ public class linkBatchJobImp implements linkBatchJob{
 		    	 
 		    	 
 		   		
-	    	}catch(Exception exc) {LOGGER.error("Issue in Method :=> linkbatch.notify_Contarct_Admin_About_ContractExpiry() @:"+dateTimeFormatter.format(LocalDateTime.now())+exc.toString());}
+	    	}catch(Exception exc) {
+	    	
+	    		LOGGER.error("Issue in Method :=> linkbatch.notify_Contarct_Admin_About_ContractExpiry() @:"+dateTimeFormatter.format(LocalDateTime.now())+exc.toString());
+    	   		//emailinst.sendTextHtmlEmail(mailhostserver, emailfrom,"jai.wardhan@stobartair.com","Contract Notification batch job is failing",exc.toString(),null);
+	    	}
 	    	
 		   	
 	 
@@ -144,6 +188,55 @@ public class linkBatchJobImp implements linkBatchJob{
 	    	    
 	    	return adminEmailList;
 	    }
+
+
+	    
+
+        //-- THIS FUNCTION WILL CHANGE THE CONTRACT FOLDER TO THE .ZIP FILE
+		private void compressFolderMakeZip(String refNo) {		
+		
+
+			 String dirPath=contractpath+"stobart_contract/"+refNo;
+			
+		       final Path sourceDir = Paths.get(dirPath);
+		        String zipFileName = dirPath.concat(".zip");
+		        try {
+		            final ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(zipFileName));
+		            Files.walkFileTree(sourceDir, new SimpleFileVisitor<Path>() {
+		                @Override
+		                public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
+		                    try {
+		                        Path targetFile = sourceDir.relativize(file);
+		                        outputStream.putNextEntry(new ZipEntry(targetFile.toString()));
+		                        byte[] bytes = Files.readAllBytes(file);
+		                        outputStream.write(bytes, 0, bytes.length);
+		                        outputStream.closeEntry();
+		                    } catch (IOException e) {
+		                    	LOGGER.error("While zipping Contract no ::"+refNo+"::"+e.toString());
+		                    }
+		                    return FileVisitResult.CONTINUE;
+		                }
+		            });
+		            outputStream.close();
+	
+		        } catch (IOException e) {	           
+		        	LOGGER.error("While zipping Contract no ::"+refNo+"::"+e.toString());
+		        }		
+		        
+		        LOGGER.info("Contract no :"+refNo+" Been Zipped and Downloaded on:"+ new Date());
+		       
+		
+	
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

@@ -539,7 +539,7 @@ function contract_home(event){
 			            </td>
 	
 			            <td colspan="5" align="left">
-			            <h1><b> Contract Database.</b></h1> 
+			            <h1><b> Contract Report.</b></h1> 
 			            
 			            </td>
 			            

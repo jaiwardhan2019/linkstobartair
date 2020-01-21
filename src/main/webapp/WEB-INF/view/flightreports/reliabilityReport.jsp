@@ -15,11 +15,11 @@
 
 function excelReport(){
 	
-	        //var url = 'flight_daily_summary_report';
-	        // popupWindow = window.open(url,'popUpWindow','height=300,width=600,left=500,top=150,resizable=no,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes');
+	     //var url = 'flight_daily_summary_report';
+	     // popupWindow = window.open(url,'popUpWindow','height=300,width=600,left=500,top=150,resizable=no,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes');
 	     //search_progress();
 	     document.reliablityreport.method="POST";
-		 document.reliablityreport.action="Create_Excel_Reliability_Report?emailid=${emailid}"
+		 document.reliablityreport.action="Create_Excel_Reliability_Report?emailid=${emailid}";
 	     document.reliablityreport.submit();		 
 		 return false;
 		  
@@ -48,7 +48,8 @@ function search_progress() {
 
 
 
-//------------- FOR THE GRAPH DISPLAY ------------------ 
+
+/*------------- FOR THE GRAPH DISPLAY ------------------ 
 window.onload = function() { 
  
 var chart = new CanvasJS.Chart("chartContainer", {
@@ -72,9 +73,6 @@ var chart = new CanvasJS.Chart("chartContainer", {
 chart.render();
  
 }
-
-
-/*
 
 
 window.onload = function() { 
@@ -150,8 +148,6 @@ window.onload = function() {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-
-
 </style>
 
 
@@ -367,8 +363,8 @@ tr:nth-child(even) {
  <div class="col-md-12 col-sm-12 col-xs-12" align="left" >
  
    		<ul class="nav nav-pills">
-						<li class="active"><a data-toggle="pill" href="#menu1"><b>${reportbody.stream().distinct().count()}</b> - Delayed Flights</a></li>
-						<li><a data-toggle="pill" href="#menu2"><b>${reportbody_C.stream().distinct().count()}</b> - Cancelled Flights</a></li>                    		    	
+						<li class="active"><a data-toggle="pill" href="#menu1"><b>${reportbody.stream().distinct().count()}</b> - Flights</a></li>
+						<li><a data-toggle="pill" href="#menu2"><b>${reportbody_C.stream().distinct().count()}</b> - Cancelled </a></li>                    		    	
 	                   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		               <i class="fa fa-clock-o" aria-hidden="true"></i> <span style="color:black;font-weight:bold;"> ZULU Time. </span>
 	                    
@@ -392,7 +388,7 @@ tr:nth-child(even) {
 					  
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					    Flight No	
+					    Flt. No	
 					     </b></span>					 
 					 </td>
 					 <td bgcolor="#0070BA">

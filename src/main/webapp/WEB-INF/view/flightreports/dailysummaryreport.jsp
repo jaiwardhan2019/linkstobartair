@@ -11,6 +11,22 @@
 <script type="text/javascript">
 
 
+function excelReport(){
+	
+	        //var url = 'flight_daily_summary_report';
+	        // popupWindow = window.open(url,'popUpWindow','height=300,width=600,left=500,top=150,resizable=no,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes');
+	     //search_progress();
+	     document.reliablityreport.method="POST";
+		 document.reliablityreport.action="Create_Excel_Reliability_Report?emailid=${emailid}";
+	     document.reliablityreport.submit();		 
+		 return false;
+		  
+		
+}//----------- End of Function 
+
+
+
+
 //----------- THis will Print the Webpage Content -----------------------------------
 function printThisPage_PDF() {
 	var confirmationMessage = 'Are you sure that you want to print this Report?'; 

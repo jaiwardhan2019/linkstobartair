@@ -368,16 +368,6 @@ public class HomeController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
 	@RequestMapping(value = "/flight_mayFly_report",method = {RequestMethod.POST,RequestMethod.GET}) 
@@ -482,8 +472,8 @@ public class HomeController {
 		   
 		   //-------------- FOR GRAPH --------------------------------- 
 			     
-		    String dataPoints =chart.createPieChart(req.getParameter("airlineCode"), req.getParameter("airportCode"), req.getParameter("startDate"),req.getParameter("endDate"),req.getParameter("tolerance"));
-		    model.addAttribute("dataPoints",dataPoints); 
+		    //String dataPoints =chart.createPieChart(req.getParameter("airlineCode"), req.getParameter("airportCode"), req.getParameter("startDate"),req.getParameter("endDate"),req.getParameter("tolerance"));
+		    //model.addAttribute("dataPoints",dataPoints); 
 		   
 		   
 		   
