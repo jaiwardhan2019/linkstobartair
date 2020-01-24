@@ -14,13 +14,13 @@
 </script>
 
 <br>
-<br>
+
 
 <body>
 
    <div class="container-fluid" style="margin-top:60px;">	
 		<div class="col-md-5 col-sm-5 col-xs-12" style="color:#005da8;">
-			<i class="fa fa-heartbeat fa-2x pull-left"></i>&ensp;<span style="font-weight:600;font-size:13pt;color:#005da8;">Live Well Program : >> </span>
+			<i class="fa fa-heartbeat fa-2x pull-left"></i>&ensp;<span style="font-weight:600;font-size:13pt;color:#005da8;">Live Well Program. </span>
 	   </div>
   </div>
   <br>

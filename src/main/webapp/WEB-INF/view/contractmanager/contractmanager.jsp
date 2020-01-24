@@ -388,9 +388,9 @@ function contract_home(event){
 	                </a> 				     
 					 </td>
 					 
-					<td>
+					<td width="28%">
 					    <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Contract Description" data-content="${contract.contract_description}">
-			                <c:set var="string1" value="${fn:substring(contract.contract_description, 0,50)}" />
+			                <c:set var="string1" value="${fn:substring(contract.contract_description, 0,40)}" />
 			                   ${string1}
 			             </a>
 			     	 </td>

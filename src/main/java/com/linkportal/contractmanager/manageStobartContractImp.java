@@ -150,7 +150,7 @@ public class manageStobartContractImp implements manageStobartContract{
 
 	
 	
-	// -------------  THIS WILL SHOW ONE CONTRACT WITN THE NEW REFRENCE NO +1 AT THE END --------------- 
+	// -------------  THIS WILL RENEW CONTRACT --------------- 
 	@Override
 	public stobartContract renewContract(String crefno) throws SQLException{
 		   
@@ -160,7 +160,7 @@ public class manageStobartContractImp implements manageStobartContract{
 		stobartContract stbc =null;	
 		try {
 		
-		// Step 1 Creating New Refrence No. 
+		// Step 1 Creating New Refrence No with the REN and _01 _02 _03. 
 			
 	   if(crefno.contains("R")) {		   
 			String[] crefno1 = crefno.split("_");
@@ -168,12 +168,10 @@ public class manageStobartContractImp implements manageStobartContract{
 		   
 	   }
 			
-		String viewsql="SELECT max(renew_count) as renno  FROM CORPORATE_PORTAL.CONTRACT_MASTER where refrence_no like '%"+crefno+"%'";
+		String viewsql="SELECT max(renew_count) as renno  FROM CORPORATE_PORTAL.CONTRACT_MASTER where refrence_no like '%"+crefno+"%'";		
+		int renew_count=jdbcTemplateRefis.queryForObject(viewsql, Integer.class);
+
 		
-		SqlRowSet rs =  jdbcTemplateRefis.queryForRowSet(viewsql);
-		rs.next();
-		
-		int renew_count=rs.getInt("renno");
 		
 		
 		
@@ -189,17 +187,15 @@ public class manageStobartContractImp implements manageStobartContract{
 		}
 		
 		
-		rs=null;
+		
 		
 		
 		
 		// Step 2 Copying Contract  and  Create new Entry in the DataBase
 		viewsql="SELECT * FROM CORPORATE_PORTAL.CONTRACT_MASTER where refrence_no like '"+oldrefno+"'";
-		
-		
-	
-		rs =  jdbcTemplateRefis.queryForRowSet(viewsql);
+		SqlRowSet rs =  jdbcTemplateRefis.queryForRowSet(viewsql);
 		rs.next();
+		
 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");		   
 	    LocalDateTime currentdateandtime = LocalDateTime.now();
@@ -273,27 +269,28 @@ public class manageStobartContractImp implements manageStobartContract{
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");		   
 		   LocalDateTime currentdateandtime = LocalDateTime.now();
 		   
-		   String sqlforid="SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code='"+req.getParameter("department")+"' and subdepartment_code='"+req.getParameter("subdepartment")+"'";		   
-		   SqlRowSet row =  jdbcTemplateRefis.queryForRowSet(sqlforid);		   
-		   row.next();	  
+		   String sqlforid="SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code= ? and subdepartment_code= ?";		   
+		   int deptcode=jdbcTemplateRefis.queryForObject(sqlforid, Integer.class, req.getParameter("department"), req.getParameter("subdepartment"));
 
 	
 		   Connection con1= dataSourcemysql.getConnection();
 		   String SQL_ADD = "INSERT INTO CORPORATE_PORTAL.CONTRACT_MASTER (refrence_no,description ,dept_sub_code  , start_date  "
-			   		+ ", end_date  , contractor_name ,contractor_contact_detail  , status  , entered_by_email  , entry_date_time)"
-			   		+ "value (?, ?, ?, ?, ? , ? , ? , ? , ? , ? )";
+			   		+ ", end_date  , contractor_name ,contractor_contact_detail  , status  , entered_by_email  , updated_by_email ,entry_date_time)"
+			   		+ "value (?, ?, ?, ?, ? , ? , ? , ? , ? , ?, ?)";
+		   
 		   
 		   PreparedStatement pstm = con1.prepareStatement(SQL_ADD);
 		       pstm.setString(1,req.getParameter("refno"));
 			   pstm.setString(2,req.getParameter("cdescription"));
-			   pstm.setInt(3,row.getInt("ID"));				  
+			   pstm.setInt(3,deptcode);				  
 			   pstm.setString(4,req.getParameter("startDate"));
 			   pstm.setString(5,req.getParameter("endDate"));
 			   pstm.setString(6,req.getParameter("ccompany"));
 			   pstm.setString(7,req.getParameter("ccontract"));
 			   pstm.setString(8,"Active");
-			   pstm.setString(9,req.getParameter("emailid"));	    
-			   pstm.setString(10,currentdateandtime.toString());			
+			   pstm.setString(9,req.getParameter("emailid"));	 
+			   pstm.setString(10,req.getParameter("emailid"));	
+			   pstm.setString(11,currentdateandtime.toString());			
 		       rows = pstm.executeUpdate();
 	       pstm=null;
 	       con1.close();
@@ -312,32 +309,22 @@ public class manageStobartContractImp implements manageStobartContract{
 
 		   int rows     = 0;
 		   try {
-		   int depsubid = 0;
+		  
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		   LocalDateTime currentdateandtime = LocalDateTime.now();		   
 		   Connection conn= dataSourcemysql.getConnection();		   
+	       
+		   //-- FIND DEPT - SUBDEPT CODE 
+		   String sqlfind="SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code= ? and subdepartment_code= ?";		   
+		   int depsubid=jdbcTemplateRefis.queryForObject(sqlfind, Integer.class, req.getParameter("department"), req.getParameter("subdepartment"));
 		   
-		   
-		   
-		   String sqlfind="SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code='"+req.getParameter("department")+"' and subdepartment_code='"+req.getParameter("subdepartment")+"'";		   
-		   SqlRowSet rowst =  jdbcTemplateRefis.queryForRowSet(sqlfind);		   
-		   
-		   //------- If DEPT - SUBDEPT FOUND in the DATABASE 
-		   if(rowst.next()){	  
 	
-			   depsubid=rowst.getInt("ID");
-		   }
-		   else
-		   {
-               sqlfind="SELECT id FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET where department_code='"+req.getParameter("department")+"'";		   
-			   rowst =  jdbcTemplateRefis.queryForRowSet(sqlfind);
-			   rowst.next();
-			   depsubid=rowst.getInt("ID");
-		   }
+		   
 		   
 		   String SQL_UPDATE = "UPDATE CORPORATE_PORTAL.CONTRACT_MASTER SET description=? , dept_sub_code=? , start_date=? "
-			   		+ ", end_date=? , contractor_name=?, contractor_contact_detail=? , status=? , entered_by_email=? , entry_date_time=? WHERE refrence_no=?";
-			   
+			   		+ ", end_date=? , contractor_name=?, contractor_contact_detail=? , status=? , updated_by_email=? , entry_date_time=? WHERE refrence_no=?";
+		 
+		   
 			   PreparedStatement pstm = conn.prepareStatement(SQL_UPDATE);
 				   pstm.setString(1,req.getParameter("cdescription"));
 				   pstm.setInt(2,depsubid);			  
@@ -434,7 +421,7 @@ public class manageStobartContractImp implements manageStobartContract{
 		   deptSql         = "SELECT DISTINCT department_code , department FROM CORPORATE_PORTAL.CONTRACT_DEPT_SUBDET order by department";		   
 		   SqlRowSet rs =  jdbcTemplateRefis.queryForRowSet(deptSql);		   			   
 		   while(rs.next()){
-			     if(dept.trim().equals(rs.getString("department_code").trim())) {			    	
+			     if(dept.equals(rs.getString("department_code").trim())) {			    	
 			    	 departmentlistwithcode=departmentlistwithcode+"<option value="+rs.getString("department_code")+" selected>"+rs.getString("department").trim()+"</option>";
 			     }
 			     else
@@ -473,7 +460,7 @@ public class manageStobartContractImp implements manageStobartContract{
 		   SqlRowSet rs =  jdbcTemplateRefis.queryForRowSet(subdeptSql);
 		   while(rs.next()){			     
 			 
-			     if(subdept.trim().equals(rs.getString("subdepartment_code").trim())) {			    	
+			     if(subdept.equals(rs.getString("subdepartment_code").trim())) {			    	
 			    	 subdepartmentlistwithcode=subdepartmentlistwithcode+"<option value="+rs.getString("subdepartment_code")+" selected>"+rs.getString("subdepartment").trim()+"</option>";
 			     }
 			     else

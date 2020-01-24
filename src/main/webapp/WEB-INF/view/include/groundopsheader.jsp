@@ -18,22 +18,13 @@
 	<link rel="stylesheet" href="<c:url value="css/freelancer.css"/>">
 	
 	<!-- FontAwesome FA FA ICONS -->
-	<link rel="stylesheet" href="<c:url value="css/font-awesome.min.css"/>">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
 	
-	<link rel="stylesheet" href="<c:url value="css/custom-style.css"/>">
+	<link rel="stylesheet" href="css/custom-style.css">
 	
+		
 	
-	<!-- Bootstrap Datetime Picker CSS --> 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-	
-	
-	
-	
-	<!-- Offline GOOGLE Fonts -->
-	
-	<link href="<c:url value="google-front/google-font-montserrat-400-700.css"/>" rel="stylesheet" type="text/css">
-	<link href="<c:url value="google-front/google-font-400-700.css"/>" rel="stylesheet" type="text/css">
-	
+		
 	<!-- Favicon -->
 <link rel="icon"   href="<c:url value="images/favicon.png"/>">
 
@@ -91,35 +82,36 @@ function calRefisReport(reportname){
 <!-- Menu --->	 
 <nav class="navbar navbar-default navbar-fixed-top panel-shadow">
 
-	<div class="container-fluid" style="background:#0071ba;" >
+<div class="container-fluid" style="background:#0071ba;" >
    
 	
-
-    <div class="navbar-header"  >
+    <div class="navbar-header">
          
 		<a href="javascript:void();" onClick="calHomePage();"  class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Link Home Page" style="margin-left:3px;margin-top:04px;padding:0px;" >
 			<img src="images/logo-menu-new.png" alt="Link Home Page" class="img-responsive" style="margin-top:-px;" />
-		</a>	
+	    </a>
+	
     </div>
   
-    
+
 
  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
     
 		<ul class="nav navbar-nav navbar-right">
 		
-			
+<!-- 			
 		 <li class="dropdown">
 	 
 	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Link Home</a>
-		  
 					  
 		</li>
+ -->
+ 
          <!-- FIRST MENU -->		
 	     <li class="dropdown">
 		 
-			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;Reports <span class="caret"></span></a>
+			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;Reports <span class="caret"></span></a>
 			  
 				  <ul class="dropdown-menu">
 				        
@@ -147,11 +139,53 @@ function calRefisReport(reportname){
 			     </ul>	 
 			      
 		</li>
+	    
+	    <li class="dropdown">
+	 
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;GCI / GCM /GCR</a>
+					  
+		</li>
+		
+		
+	    <li class="dropdown">
+	 
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals</a>
+					  
+		</li>
+	
+		
+	    <li class="dropdown">
+	 
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Safety/Comp.</a>
+					  
+		</li>
+
+	
+	    <li class="dropdown">
+	 
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Training.</a>
+					  
+		</li>
+		
+	    <li class="dropdown">
+	 
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Daily OTP Report.</a>
+					  
+		</li>
+		
+		
+	    <li class="dropdown">
+	 
+		  <a href="" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Weight Statement</a>
+		  
+					  
+		</li>
+	
 	
 
 	 <li class="dropdown">
 	 
-		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Documentation&nbsp;<span class="caret"></span></a>
+		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Documentation&nbsp;<span class="caret"></span></a>
 		  
 			   <ul class="dropdown-menu">
 
@@ -171,13 +205,7 @@ function calRefisReport(reportname){
 					  
 		</li>
 		
-		<li class="dropdown">
-	 
-		  <a href="" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Aircraft Weight Statement&nbsp;</a>
-		  
-					  
-		</li>
-  		
+	  		
 		 <li class="dropdown">
 	 
 		  <a href="forms" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Forms&nbsp;<span class="caret"></span></a>
@@ -215,7 +243,7 @@ function calRefisReport(reportname){
 					      </ul>
 								  
 					</li>
-
+         
 			<li class="dropdown">
 					  <a href="#" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;${userid}&nbsp;<span class="caret"></span></a>
 					  <ul class="dropdown-menu">
@@ -223,9 +251,6 @@ function calRefisReport(reportname){
 					  
 					  </ul>
 			 </li>	
-			 
-				 
-
 			
 		</ul>
     </div>
@@ -233,21 +258,60 @@ function calRefisReport(reportname){
 </div>	<!-- /.container-fluid -->
 
 
-	
 </nav>
 
-
-
 <!-- End of  Menu  --->	 
+<br>
+<br>
+<br>
 
 
+
+<div class="col-md-5 col-sm-5 col-xs-12" >
+	<i class="fa fa-road fa-2x pull-left"></i>&ensp;<span style="font-weight:600;font-size:13pt;color:black;">Ground Operations </span>
+ </div>
+ 
+<div  class="col-md-7 col-sm-7 col-xs-12" align="right">
+	<span style="font-weight:300;font-size:12pt;color:black;align:right">	  
+	<!-- 
+	  <span class="label label-default">Menu 1</span>
+      <span class="label label-primary">Menu 2</span>
+      <span class="label label-success">Menu 3</span>
+       -->
+      <a href=""><span class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;File A Report</span></a>&nbsp;&nbsp;&nbsp;
+      <a href=""><span class="label label-danger"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>&nbsp;Emergency Response</span></a>&nbsp;&nbsp;&nbsp;
+      <a href=""><span class="label label-info"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;Key Contacts</span></a> &nbsp;&nbsp;&nbsp;
+      <a href=""><span class="label label-warning"><i class="fa fa-globe" aria-hidden="true"></i>&nbsp;Links</span></a>&nbsp;&nbsp;&nbsp;
+	</span>
+	
+ 
+      <input type="text"  id="myInput" placeholder="Search Document.." >
+      <!-- <span id="searchbutton" onclick="manage_contract('search');" class="btn btn-primary btn-sm">&nbsp;&nbsp;<i class="fa fa-search  fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;</span> -->
+      <button type="submit"  id="myBtn" onclick="javascript:alert('Hello World!')"><i class="fa fa-search"></i></button>
+	
+ </div>
+ 
+ 
+<br>
+<br>
+<br>
+
+
+<script>
+	var input = document.getElementById("myInput");
+	input.addEventListener("keyup", function(event) {
+	  if (event.keyCode === 13) {
+	   event.preventDefault();
+	   document.getElementById("myBtn").click();
+	  }
+	});
+</script>
 
 <!-- jQuery -->
-   <script src="js/jquery.min.js"></script>
-  
-
-   <!-- Bootstrap Core JavaScript -->
+   <script src="js/jquery.min.js"></script>  
    <script src="js/bootstrap.min.js"></script>
-   <script src="js/bootstrap-datepicker.js"></script>
+
+
+
 
    

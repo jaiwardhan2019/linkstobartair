@@ -54,7 +54,7 @@ function toggle_visibility() {
 function manage_contract(event){    
 
     if(document.addcontract.cdescription.value.trim() == ""){
-        alert("Please Enter Some detail abbout this Contract.");
+        alert("Please Enter Some Detail About This Contract.");
         document.addcontract.cdescription.focus();
         return false;
  	}

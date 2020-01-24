@@ -234,7 +234,7 @@ function callive_well(){
 
 
 function cal_refis(){
-	document.refis.action="refisHomePage";
+	document.refis.action="groundopsHomePage";
 	//document.callive_well1.target="_blank"
     document.refis.submit();
 	return true;
@@ -687,7 +687,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 
 
 
-	<div class="row">
+	<div>
 		<!--Full Width text-->
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			
@@ -714,16 +714,15 @@ setTimeout(function(){window.location.href="index"},60000000);
 <br>
 
 
-<div class="container-fluid" align="left">
+<div class="container-fluid" align="left" >
 	
 	<div class="row">
+	
+	<!--  
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 	
-			<!-- <div class="panel panel-default panel-shadow" onClick="window.open('BENIFITS/benifits-management.jsp', '_blank');">  -->
 			<div class="panel panel-default panel-shadow" onClick="alert('Under Construction');"> 
-				<div class="panel-body" style="height:200px;background:url('<c:url value="images/policy.jpg"/>') no-repeat 50% 50%; background-size:cover;cursor:pointer;">
-					<!--Leave it blank-->
-				</div>
+				<div class="panel-body" style="height:200px;background:url('<c:url value="images/policy.jpg"/>') no-repeat 50% 50%; background-size:cover;cursor:pointer;"></div>
 				
 				<div class="panel-footer">
 					<h5 class="post_title"><b>Company Policy and Procedures</b></h5>				
@@ -731,10 +730,34 @@ setTimeout(function(){window.location.href="index"},60000000);
 						Here you can  access HR policy  documents which supplement the  terms outlined  in your contract  of employment.  These policy documents provide guidance in relation to company standards,  policies and procedures.
 					</p>
 						<br />
-						<!-- <a href="BENIFITS/benifits-management.jsp" target="_new" id="p1">Read More</a> &nbsp; &nbsp;-->
+						<a href="BENIFITS/benifits-management.jsp" target="_new" id="p1">Read More</a> &nbsp; &nbsp;
 				</div>
 			</div>
 		</div>
+		-->
+		
+	  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+	
+			<div class="panel panel-default panel-shadow" > 
+				<div class="panel-body" style="height:200px;background:url('<c:url value="images/greenawards.png"/>') no-repeat 50% 100%; background-size:cover;cursor:pointer;"></div>
+				
+				<div class="panel-footer">
+					<h5 class="post_title"><b>2020 Green Award </b></h5>				
+					<p align="justify" class="my_discription">
+						Stobart Air has been shortlisted for the Green Awards 2020 in the Green Transport category. This award recognises organisations which demonstrate a comprehensive programme of actions which promote sustainable transport.  
+                        Stobart Air are the only airline shortlisted in these awards with the overall winner being announced on Tuesday, 25 February 2020.
+						
+					</p>
+						<br />
+						
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		
+		
 		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			<div class="panel panel-default panel-shadow">

@@ -11,18 +11,12 @@
 
 
 
-<link href="../include/css/businessarea.css" rel="stylesheet">
-<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
-
-
-
-
 
 <body>
 <br>
    <div class="container-fluid" style="margin-top:60px;">	
 		<div class="col-md-5 col-sm-5 col-xs-12" style="color:#005da8;">
-			<i class="fa fa-cart-plus fa-2x pull-left"></i>&ensp;<span style="font-weight:600;font-size:13pt;color:#005da8;">Stobart Air Employee Discounts : >> </span>
+			<i class="fa fa-cart-plus fa-2x pull-left"></i>&ensp;<span style="font-weight:600;font-size:13pt;color:#005da8;">Stobart Air Employee Discounts</span>
 	   </div>
   </div>	
   <br>	   

@@ -87,7 +87,9 @@ function manage_contract(event){
     {
 
     	   if(confirm("Are you Sure about Updating this Contract..??")){
-					toggle_visibility();		
+					toggle_visibility();
+					document.updatecontract.departmentselected.value=document.updatecontract.department.value;
+					document.updatecontract.subdepartmentselected.value=document.updatecontract.subdepartment.value;
 			        document.updatecontract.method="POST"
 				    document.updatecontract.action="updatecontracttodatabase";
 			        document.updatecontract.submit();

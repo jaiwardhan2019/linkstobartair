@@ -63,7 +63,7 @@ public class refisController {
 
 
 	//------- This Part Will be Called from the Login Page index.jsp 
-	@RequestMapping(value = "/refisHomePage",method = {RequestMethod.POST,RequestMethod.GET}) 
+	@RequestMapping(value = "/groundopsHomePage",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String HomePage(HttpServletRequest req,ModelMap model) throws Exception{
 	       
 		  if(req.getParameter("emailid") == null) {return "index";}
@@ -71,7 +71,7 @@ public class refisController {
 		  model.addAttribute("password",req.getParameter("password"));			
 		  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
 		  
-		  return "groundoperation/refishome";
+		  return "groundoperation/groundopshome";
 		  
 	}//----------- End of Function 
 
@@ -265,10 +265,7 @@ public class refisController {
 					        //------ Select Contract from database
 						model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
 						//------ Select Contract file list from File System
-						model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
-						
-					
-						
+						model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));	
 					   return "contractmanager/showcontract";
 					   
 			         }	
@@ -315,14 +312,22 @@ public class refisController {
 					    
 					    
 						model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:10pt;'> Contract no:"+req.getParameter("refno")+" Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
-						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),req.getParameter("department"),"ALL",null,null));
+						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null));
 
-						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));						
-						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
+						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),"All"));						
+						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),"ALL","ALL"));
 						model.put("Active", "checked");
 						return "contractmanager/contractmanager";
 							
-					}	
+					} //  End of Contract Remove Part--
+					
+					
+					
+					
+					
+					
+					
+					
 					
 					
 					
@@ -379,7 +384,7 @@ public class refisController {
 	
 	//************** WILL UPLOAD FILE AND ADD ENTRY TO THE THE DATABASE *********************************
 	@RequestMapping(value = "/addcontracttodatabase",method = {RequestMethod.POST,RequestMethod.GET})
-    public String singleFileUpload(@RequestParam("cfile") MultipartFile file,HttpServletRequest req,ModelMap model) {
+    public String singleFileUpload(@RequestParam("cfile") MultipartFile file,HttpServletRequest req,ModelMap model) throws SQLException {
         
 		   
 		   model.addAttribute("emailid",req.getParameter("emailid"));
@@ -431,6 +436,8 @@ public class refisController {
 	        
 			model.put("contractupdate","<p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> Contract no:( "+req.getParameter("refno")+" ) Successfully Added.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");
 			model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null)); 
+			model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),"ALL"));						
+			model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),"ALL","ALL"));
 			model.put("Active", "checked"); 
 			logger.info("Contract no:"+req.getParameter("refno")+" Created in System by :"+req.getParameter("emailid")); 
 	        return "contractmanager/contractmanager";
@@ -486,7 +493,7 @@ public class refisController {
 	        	   // END OF FILE UPLOAD PART -------
 		            
 	        	   
- 		            // This Part will Insert Form Data to the database 		            
+ 		            // This Part will Update Form Data to the database 		            
 		            if(contract.updateNewContract(req) == 1) {		            	
 		            	logger.info("Contract no:"+req.getParameter("refno")+" Update in System by :"+req.getParameter("emailid")); 
 			          		            	
