@@ -9,7 +9,9 @@ import org.apache.poi.util.Beta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 
+@Transactional
 @Repository
 public class manageStaffTravelUserImp implements manageStaffTravelUser {
 
@@ -69,37 +72,40 @@ public class manageStaffTravelUserImp implements manageStaffTravelUser {
 		}
 
 
-
+        //https://dzone.com/articles/bountyspring-transactional-management
+		//https://stackoverflow.com/questions/8490852/spring-transactional-isolation-propagation
+		
 		@Override	
-		@Transactional
-		public int removeStaff_FromDb(int accountid) {
+		@Transactional(rollbackFor=Exception.class,propagation= Propagation.REQUIRES_NEW)
+		public int removeStaff_FromDb(int accountid,String flname) {
 			   
 			 int status=1;	
 	           
 			   try {				   
 		
-			   jdbcTemplateStaff.execute("SET FOREIGN_KEY_CHECKS=0");
 				   
-			       /*
-			       status = jdbcTemplateStaff.update("DELETE FROM stafftravel.account WHERE id="+accountid);
-				   */
-			   
-			       //----- TO Remove Relatives from the list  
-			       status = jdbcTemplateStaff.update("DELETE FROM stafftravel.eligible_passenger where eligible_passenger_list_id in(1416,1710,1416,1710)"); 
-				   //status = jdbcTemplateStaff.update("DELETE FROM stafftravel.eligible_passenger_list where id=1308"); 
+			       jdbcTemplateStaff.execute("SET FOREIGN_KEY_CHECKS=0");			   
+			        
+		           //delete Passport no 685 <<-- Account detail need to be removed
 			       
-			       /*
-				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.passport_information where apis_information_id="+accountid);
-				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.travel_request where account_id="+accountid);
-				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.travel_request_eligible_passenger where eligible_passenger_id="+accountid);
-				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.apis_information where id="+accountid);
-				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.travel_request_eligible_passenger where travel_request_passengers_travelling_id="+accountid);			   
-                 */
+			       status = jdbcTemplateStaff.update("DELETE FROM  stafftravel.passport_information where passport_name like '%"+flname+"%'");
+			       status = jdbcTemplateStaff.update("DELETE FROM stafftravel.account WHERE id="+accountid);
+			       status = jdbcTemplateStaff.update("DELETE FROM stafftravel.eligible_passenger where eligible_passenger_list_id in (select id from stafftravel.eligible_passenger_list where account_id="+accountid+")"); 
+			       status = jdbcTemplateStaff.update("DELETE FROM stafftravel.eligible_passenger_list where account_id="+accountid);
+			       status = jdbcTemplateStaff.update("DELETE FROM stafftravel.apis_information where id in(SELECT id FROM stafftravel.travel_request where account_id="+accountid+")");
+			       status = jdbcTemplateStaff.update("DELETE FROM stafftravel.travel_request where account_id="+accountid);				   
+				   status = jdbcTemplateStaff.update("DELETE FROM stafftravel.travel_request_eligible_passenger where travel_request_passengers_travelling_id="+accountid);
 				   
+				   // SELECT * FROM stafftravel.apis_information;  <<--- THis is left 
+					   
 			   jdbcTemplateStaff.execute("SET FOREIGN_KEY_CHECKS=1");
 			  
 			   
-			   }catch(Exception exp) {logger.error(exp);}
+			   }catch(Exception exp) {
+				   logger.error(exp);
+				   System.out.println(exp.toString());   
+			   
+			   }
 			
 			   return status;
 			   

@@ -65,7 +65,7 @@ function update_contract(contractref,department,subdepartment){
  <div  style="margin-top:60px;" align="center">	
 	
 		<div class="col-md-12 col-sm-12 col-xs-12"  align="left">
-			<i class="fa fa-suitcase fa-2x" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Manage Stobart Contracts.</span></a>
+			<i class="fa fa-suitcase fa-2x" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">View Stobart Air Contract</span></a>
 	   </div>	
   
   </div>		

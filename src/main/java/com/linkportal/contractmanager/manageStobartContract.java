@@ -11,7 +11,7 @@ public interface manageStobartContract {
 	
 	public List<stobartContract> showAllContract(String emailid,String dept,String subdept, String cdetail , String isarchived);
 
-	public stobartContract viewContract(String crefno);
+	public stobartContract viewContract(String crefno, String useremail);
 	
 	public stobartContract renewContract(String crefno)throws SQLException;
 	

@@ -41,9 +41,10 @@ function searchUser(){
 
 
 
-function remove_user_Profile(accountid){
+function remove_user_Profile(accountid,firstname,lastname){
 			
 		if(confirm("Are you sure about Removing This User ??")){
+			  document.staffTravel.flname=firstname+" "+lastname;
 		      document.staffTravel.method="POST"
 			  document.staffTravel.action="stafflist?account="+accountid;
 		      document.staffTravel.submit();
@@ -88,6 +89,7 @@ function remove_user_Profile(accountid){
 
   <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
   <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
+  <input type="hidden" id="flname" name="flname" value="">
    
     <table  border="0" style="width: 50%;" align="center"> 
     			
@@ -203,7 +205,7 @@ function remove_user_Profile(accountid){
 		           <td>  
 		             
 		                
-		                <span style="font-weight:bold;" onClick="remove_user_Profile('${staffTravels.id}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o  fa-lg"></i>&nbsp;Remove</span>
+		                <span style="font-weight:bold;" onClick="remove_user_Profile('${staffTravels.id}','${staffTravels.first_name}','${staffTravels.surname}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o  fa-lg"></i>&nbsp;Remove</span>
 		           </td>
 		          
 		          </tr>

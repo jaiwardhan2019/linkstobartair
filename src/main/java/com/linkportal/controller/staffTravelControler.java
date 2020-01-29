@@ -58,7 +58,7 @@ public class staffTravelControler {
 				
 			   try{
 					
-						int delstatus=staffuser.removeStaff_FromDb(Integer.parseInt(req.getParameter("account")));
+						int delstatus=staffuser.removeStaff_FromDb(Integer.parseInt(req.getParameter("account")),req.getParameter("flname"));
 						model.put("deletestatus","<span style='color:green;'> <b> User ID  : "+req.getParameter("account")+"  Removed !! </b></span>");					    	
 					    logger.info("User ID  : "+req.getParameter("account")+" Removed from Staff Travel Database by :"+req.getParameter("emailid")); 
 				

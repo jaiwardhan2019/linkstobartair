@@ -49,34 +49,38 @@ String user_login_id        = FirstName_LastName[0];
 
 function calHomePage(){
 
-	document.stobart_home_page.method="POST";
-	document.stobart_home_page.action="HomePage";
-    document.stobart_home_page.submit();
+	document.refisheader.method="POST";
+	document.refisheader.action="HomePage";
+    document.refisheader.submit();
 	return true;
 }
 
 
 
 function calRefisReport(reportname){
-	document.stobart_home_page.method="POST";
-	document.stobart_home_page.action=reportname;
-    document.stobart_home_page.submit();
+	document.refisheader.method="POST";
+	document.refisheader.action=reportname;
+    document.refisheader.submit();
 	return true;
 }
 
 
-
+function cal_groundops_home(){
+	document.refisheader.action="groundopsHomePage";
+	//document.callive_well1.target="_blank"
+    document.refisheader.submit();
+	return true;
+}
 
 </script>
 
 
 
-<form name="stobart_home_page" id="stobart_home_page">
-
-  <input type="hidden" id="emailid" name="emailid" value="<%=fullemail%>">
-  <input type="hidden" id="password" name="password" value="<%=password%>">
-
+<form name="refisheader" id="refisheader">
+    <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
+    <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
 </form>
+
 
 
 <!-- Menu --->	 
@@ -169,7 +173,7 @@ function calRefisReport(reportname){
 		
 	    <li class="dropdown">
 	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Daily OTP Report.</a>
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Daily Summary Report.</a>
 					  
 		</li>
 		
@@ -255,10 +259,14 @@ function calRefisReport(reportname){
 		</ul>
     </div>
 
+
 </div>	<!-- /.container-fluid -->
 
 
 </nav>
+
+
+
 
 <!-- End of  Menu  --->	 
 <br>
@@ -268,7 +276,7 @@ function calRefisReport(reportname){
 
 
 <div class="col-md-5 col-sm-5 col-xs-12" >
-	<i class="fa fa-road fa-2x pull-left"></i>&ensp;<span style="font-weight:600;font-size:13pt;color:black;">Ground Operations </span>
+<a onclick="cal_groundops_home();" href="javascript:void();"><span style="font-weight:600;font-size:13pt;color:white;">Ground Operations</span></a> 
  </div>
  
 <div  class="col-md-7 col-sm-7 col-xs-12" align="right">
@@ -278,10 +286,9 @@ function calRefisReport(reportname){
       <span class="label label-primary">Menu 2</span>
       <span class="label label-success">Menu 3</span>
        -->
-      <a href=""><span class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;File A Report</span></a>&nbsp;&nbsp;&nbsp;
+      <a href=""><span class="label label-success"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;File A Report</span></a>&nbsp;&nbsp;&nbsp;
       <a href=""><span class="label label-danger"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>&nbsp;Emergency Response</span></a>&nbsp;&nbsp;&nbsp;
       <a href=""><span class="label label-info"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;Key Contacts</span></a> &nbsp;&nbsp;&nbsp;
-      <a href=""><span class="label label-warning"><i class="fa fa-globe" aria-hidden="true"></i>&nbsp;Links</span></a>&nbsp;&nbsp;&nbsp;
 	</span>
 	
  
@@ -312,6 +319,38 @@ function calRefisReport(reportname){
    <script src="js/bootstrap.min.js"></script>
 
 
+<style>
+body2 {
+  background-image: url('images/groundopsbackground.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+}
 
+body3 {
+  background-image: url('images/refisback.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+}
+
+body {
+  background-image: url('images/background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+}
+
+
+
+body1 {
+  background-image: url('images/groundopsbackground.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+}
+
+
+</style>
 
    

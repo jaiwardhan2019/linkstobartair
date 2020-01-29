@@ -17,270 +17,24 @@
 
 </script>
 
-<br>
+
+
 
 
 <body>
 
- 
+<div> 
 	
-		<!--Full Width text-->
-		<div class="col-xs-4 col-md-4">
-			
-			<div class="panel pane-default panel-shadow">
-				<div class="panel-body">
-                     
-					<p>
-						<span  style="font-weight:600;font-size:11pt;color:#0071ba;"><b>Recent Updates</b>&nbsp;<i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></span>	 				  
-					</p>
-                      <table class="table"  style="width:100%;" align="center">	    
-			    
-						
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="75%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-				           		   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="75%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="75%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="75%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="75%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-		
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="75%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-		
-		
-		         
-		      </table>     
-		                <p align="right">
-					     	<span class="label label-primary">Show All</span>
-					    </p>  
-	
-						
-					
-					
-					
-					
-					
-					
-				</div>
-			</div>
-			
-		</div>
-	
-	
-		<!--Full Width text-->
-		<div class="col-xs-5 col-md-5">
-			
-			<div class="panel pane-default panel-shadow">
-				<div class="panel-body">
-				<p>
-						<span  style="font-weight:600;font-size:11pt;color:#0071ba;"><b>Notifications</b>&nbsp;<i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></span>	 				  
-					</p>
-  				
-				<table class="table"  style="width:100%;" align="center">	    
-			    		<tbody>
-						
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="20%">
-											<span style="font-size:09pt;font-weight:600;">   10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="70%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test First File Name for 
-			                       </span>
-					          </td>
-					          
-				              <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                         GHB
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="20%">
-											<span style="font-size:09pt;font-weight:600;">   10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="70%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test First File Name for 
-			                       </span>
-					          </td>
-					          
-				              <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                         GHB
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="20%">
-											<span style="font-size:09pt;font-weight:600;">   10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="70%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test First File Name for 
-			                       </span>
-					          </td>
-					          
-				              <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                         GHB
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-		
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="20%">
-											<span style="font-size:09pt;font-weight:600;">   10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="70%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test First File Name for 
-			                       </span>
-					          </td>
-					          
-				              <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                         GHB
-			                       </span>
-					          </td>
-		                </tr>
 
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="20%">
-											<span style="font-size:09pt;font-weight:600;">   10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="70%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test First File Name for 
-			                       </span>
-					          </td>
-					          
-				              <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                         GHB
-			                       </span>
-					          </td>
-		                </tr>
-		                
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="20%">
-											<span style="font-size:09pt;font-weight:600;">   10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="70%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test First File Name for 
-			                       </span>
-					          </td>
-					          
-				              <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                         GHB
-			                       </span>
-					          </td>
-		                </tr>		         
-		      </table>     
-		                <p align="right">
-						<span class="label label-primary">Show All</span>
-					    </p>  
 	
-				</div>
-			</div>
-			
-		</div>
-	
-	
-		<!--Full Width text-->
+			<!--Daily Punctuality Statistics -->
 		<div class="col-xs-3 col-md-3">
 			
 			<div class="panel pane-default panel-shadow">
 				<div class="panel-body">                     	 
 					<p>
-						<span style="font-weight:600;font-size:11pt;color:#0071ba;"><b> Daily Punctuality Statistics   </b>&nbsp;<i class="fa fa-line-chart fa-lg" aria-hidden="true"></i></span>
-						  
+						<span style="font-weight:600;font-size:12pt;color:#0071ba;"><b> Daily Punctuality Statistics   </b>&nbsp;<i class="fa fa-line-chart fa-lg" aria-hidden="true"></i></span>
+						 _________________________________________	 
 					</p>
 			    
 			    <table   style="width:100%;" align="center">	    
@@ -289,8 +43,10 @@
 						   <tr>
 			                
 			                  <td  align="center" bgcolor="white" width="60%" colspan="2">
-											<span style="font-size:09pt;font-weight:600;"> Date :</span> &nbsp;
-											<span style="font-size:09pt">   10 Jan 2020   </span>											
+			                               
+											<span style="font-size:09pt;font-weight:600;"> </span> &nbsp;
+											<span style="font-size:10pt;font-weight:600;">   10 Jan 2020   </span>	
+																				
 				              </td>
 			      	                
 				           </tr>
@@ -309,7 +65,7 @@
 				              </td>
 							            
 				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt">  
+			                       <span style="font-size:09pt;font-weight:600;">  
 			                          54% 
 			                       </span>
 					          </td>
@@ -324,7 +80,7 @@
 				              </td>
 							            
 				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt">  
+			                       <span style="font-size:09pt;font-weight:600;">  
 			                          78% 
 			                       </span>
 					          </td>
@@ -346,7 +102,7 @@
 				              </td>
 							            
 				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt">  
+			                       <span style="font-size:09pt;font-weight:600;">  
 			                          67% 
 			                       </span>
 					          </td>
@@ -357,39 +113,413 @@
 					     
 					     <tr>			                
 			                  <td align="left" bgcolor="white" width="60%">
-											<span style="font-size:09pt;font-weight:300;"> Within 15 Minutes. </span>
+									<span style="font-size:09pt;font-weight:300;"> Within 15 Minutes. </span>
 				              </td>
 							            
 				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt">  
+			                       <span style="font-size:09pt;font-weight:600;">  
 			                          88% 
 			                       </span>
 					          </td>
 			      	                
 				           </tr>
-						   
-				         
-					          
+				           
+			            <tr>
+					          <td colspan="2" align="left" height="30px"><br>
+					            <u><span style="font-size:09pt;font-weight:600;"> No of Flights </span></u>				          
+					          </td>
+				          </tr>
+				
+				        <tr>			                
+			                  <td align="left" bgcolor="white" width="60%">
+									<span style="font-size:09pt;font-weight:300;"> Schedule for Today . </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="40%" >
+			                       <span style="font-size:09pt;font-weight:600;">  
+			                           112
+			                       </span>
+					          </td>
+			      	                
+				           </tr>
+
+				        <tr>			                
+			                  <td align="left" bgcolor="white" width="60%">
+									<span style="font-size:09pt;font-weight:300;"> Completed So Far. </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="40%" >
+			                       <span style="font-size:09pt;font-weight:600;color:green;">  
+			                           18
+			                       </span>
+					          </td>
+			      	                
+				        </tr>
+
+				        <tr>			                
+			                  <td align="left" bgcolor="white" width="60%">
+									<span style="font-size:09pt;font-weight:300;"> Cancelled. </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="40%" >
+			                       <span style="font-size:09pt;color:red;font-weight:600;">  
+			                           3
+			                       </span>
+					          </td>
+			      	                
+				        </tr>
+					           
+					
+					   <tr>
 				          
 		        
 		      </table>   					
+				
+					
+				</div>
+				 
+			</div>
+			
+		</div> 
+	<!-- END OF DAILY PUNCT STATS DIV  -->	
+
+	
+	
+		<!--RECENT DOCUMENT UPDATE -->
+		<div class="col-xs-5 col-md-5" >
+			
+			<div class="panel pane-default panel-shadow">
+				<div class="panel-body">
+                     
+					<p>
+						<span  style="font-weight:600;font-size:12pt;color:#0071ba;"><b>Recent Documents Update</b>&nbsp;<i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></span>	 				  
+					________________________________________________________________________	 
+					</p>
+                      <table class="table"  style="width:100%;" align="center">	    
+			    
+						
+						   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+							   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+								   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+								   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+								   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+								   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+								   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+								   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+								   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+						   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+						   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+						   <tr>
+			                
+			                  <td align="left" bgcolor="white" width="25%">
+											<span style="font-size:09pt"> 10 Jan 2020 </span>
+				              </td>
+							            
+				              <td align="left" bgcolor="white" width="65%">
+			                       <span style="font-size:09pt">  
+			                         First File Name for the test 
+			                          First File Name for the test 
+			                         
+			                       </span>
+					          </td>
+					          
+					         <td align="left" bgcolor="white" width="10%">
+			                       <span style="font-size:09pt;font-weight:600;">
+			                           GHB
+			                       </span>
+					          </td>
+	
+			      	                
+				           </tr>
+					          
+	
+					       <tr>
+					       <td colspan="3" align="right">
+					       <br>
+					       <span class="label label-primary">Show All</span>
+					       </td>
+					       </tr>   
+				          						          			
+		
+		         
+		      </table>     
+		     
 					
 					
+				</div>
+			</div>
+			
+		</div> <!--END OF RECENT UPDATE -->
+	
+	
+			
+	
+	
+	
+		<!--START VOICE OF GUEST-->
+		<div class="col-xs-4 col-md-4">
+			
+			<div class="panel pane-default panel-shadow">
+				<div class="panel-body">
+				     <p>
+						<span  style="font-weight:600;font-size:12pt;color:#0071ba;"><b>Voice OF Guest</b>&nbsp;<i class="fa fa-bullhorn fa-lg" aria-hidden="true"></i></span>	 				  
+					    ________________________________________________________
+					</p>
+  			             &nbsp;&nbsp; <img src="images/vog1.jpg"  width="95%">
+                    
+	
 				</div>
 			</div>
 			
 		</div>
 	
 	
- 
- 
- 
- 
+	
 
-</body>
+	
+</div>  <!-- END OF MAIN DIV  -->	
 
-
-<!-- Modal 
+	
+	
+	
+	
+	
+	
+	
+	            
+	
+<!-- Modal ------- 
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
   Launch demo modal
 </button>
@@ -413,9 +543,62 @@
     </div>
   </div>
 </div>
-
 -->
 
+
+	<!-- 
+	 For Flashing TEXT in the  BOTTOM
+	  https://www.techonthenet.com/html/elements/marquee_tag.php
+	-->
+
+   <div class="col-xs-12 col-md-12">
+			
+		
+
+				<div class="panel-body">                     	 
+
+					 <marquee>
+					
+						<span class="label label-warning" style="font-weight:600;font-size:22pt;color:black;"><b> News &nbsp;&nbsp;&nbsp; Bulletin&nbsp;&nbsp; Message &nbsp;&nbsp;here ..........!!!   </b></span>
+				
+					</marquee>
+			
+	                 
+	                </div>
+	      
+	              
+	  </div>
+
+
+<br>
+<br>
+<br>
+
+
+</body>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
@@ -425,19 +608,9 @@
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
+ <%@include file="../include/gopsfooter.jsp" %>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<%@include file="../include/footer.jsp" %>

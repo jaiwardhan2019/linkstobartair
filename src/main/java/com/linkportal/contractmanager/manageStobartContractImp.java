@@ -112,7 +112,7 @@ public class manageStobartContractImp implements manageStobartContract{
 		   
 		   
 		   sqlListContract=sqlListContract+andSql;
-		   sqlListContract=sqlListContract+" order by CONTRACT_MASTER.entry_date_time desc ";	
+		   sqlListContract=sqlListContract+" order by  CONTRACT_MASTER.start_date desc ";	
 		   
 		   
 		   //System.out.println(sqlListContract);
@@ -131,16 +131,16 @@ public class manageStobartContractImp implements manageStobartContract{
 
 	// -------------  THIS WILL SHOW ONE CONTRACT --------------- 
 	@Override
-	public stobartContract viewContract(String crefno) {
+	public stobartContract viewContract(String crefno , String loginuseremailid) {
 			
 		String viewsql="SELECT CONTRACT_DEPT_SUBDET.DEPARTMENT , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT, CONTRACT_DEPT_SUBDET.DEPARTMENT_CODE , CONTRACT_DEPT_SUBDET.SUBDEPARTMENT_CODE , CONTRACT_MASTER.DEPT_SUB_CODE \r\n" + 
 				" , CONTRACT_MASTER.contractor_name , CONTRACT_MASTER.contractor_contact_detail,CONTRACT_MASTER.refrence_no,\r\n" + 
 				"   CONTRACT_MASTER.description,CONTRACT_MASTER.status,CONTRACT_MASTER.start_date,CONTRACT_MASTER.end_date,CONTRACT_MASTER.entered_by_email , CONTRACT_ACCESS.is_admin \r\n" + 
 				"   FROM CONTRACT_DEPT_SUBDET,CONTRACT_MASTER , CONTRACT_ACCESS \r\n" + 
 				"   WHERE CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_DEPT_SUBDET.ID "
-				+ " AND  CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_ACCESS.dept_sub_code  AND CONTRACT_MASTER.entered_by_email=CONTRACT_ACCESS.user_email AND "
+				+ " AND  CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_ACCESS.dept_sub_code  AND CONTRACT_ACCESS.user_email='"+loginuseremailid+"' AND "
 				+ " CONTRACT_MASTER.refrence_no=?";
-		
+		//System.out.println(viewsql);
 
 		
 		 return jdbcTemplateRefis.queryForObject(viewsql, new Object[]{crefno}, new stobartContractRowmapper());	    

@@ -100,27 +100,12 @@ function add_new_user(){
 
 
 
-
 </script>
 
 
 
 <body>
 
-
-
-<br>
-
-
- <div  style="margin-top:60px;" align="center">	
-	
-		<div class="col-md-12 col-sm-12 col-xs-12"  align="left">
-			<i class="fa fa-users" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Manage Ground Ops  Users.</span></a>
-	   </div>	
-  
-  </div>		
-	
-<br>
 
 <!-- Body Banner -->
 <div class="container" align="center" >
@@ -132,43 +117,29 @@ function add_new_user(){
 
   <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
   <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
-   <br>
-    <table  border="0" style="width: 50%;" align="center"> 
-    			
-				<tbody>	
-			    		  
-		   		  <tr>
-				      <td align="right">
-								<input autofocus  type="text" name="user"  id="user"  class="form-control"    placeholder="Enter First Name or Last Name"/>
-					      </td>
-					      <td align="left">
-					         &nbsp;&nbsp;&nbsp;   
-					          <span onClick="searchUser();" id="buttonDemo1" class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Search </span> 
-						
-				           
-					      </td>
-				     
-				     </tr>
-				     
+
+  <table  border="0" style="width: 50%;" align="center"> 
 				     <tr>
 				        <td align="center"><br>
 				              <span style="color:red;"> <b> ${deletestatus}    </b></span>	 
 				               
 				       </td>
 				     </tr>
-				     
-				    
-	
-	           </tbody>
-	
-	
-	
 	
   </table>	
-	<br><br>
+
 	 		 
   <table  style="width: 80%;" align="center">
 	  <tr>
+	  			    <td  align="right">
+	  			
+						<input autofocus  type="text" name="user"  id="user"  class="form-control"    placeholder="Enter First Name or Last Name"/>
+		        	</td>
+					<td align="left">
+						&nbsp;&nbsp; <span onClick="searchUser();" id="buttonDemo1" class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Search </span> 
+					
+					</td>
+		
 		  <td align="right"> 
         		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New User  </span> 
 		 
@@ -217,7 +188,7 @@ function add_new_user(){
            <%int ctr=1;%>
            <c:forEach var="refisAccount" items="${refisAccountlist}">          
 		               
-		          <tr>
+		          <tr >
 		          
 		          <td><i class="fa fa-user-circle-o  fa-lg" aria-hidden="true"></i> &nbsp;${refisAccount.username}</td>
 		          
@@ -287,14 +258,12 @@ function add_new_user(){
 
 </body>
 </html>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+ <%@include file="../include/gopsfooter.jsp" %>

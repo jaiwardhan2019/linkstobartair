@@ -242,7 +242,7 @@ public class refisController {
 					if(req.getParameter("event").equals("view")){		
 						
 					        //------ Select Contract from database
-						model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
+						model.put("contractdetail", contract.viewContract(req.getParameter("refno"),req.getParameter("emailid")));
 						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("departmentselected")));						
 						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("departmentselected"),req.getParameter("subdepartmentselected")));
 						
@@ -263,7 +263,7 @@ public class refisController {
 					if(req.getParameter("event").equals("showcontract")){		
 						
 					        //------ Select Contract from database
-						model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
+						model.put("contractdetail", contract.viewContract(req.getParameter("refno"),req.getParameter("emailid")));
 						//------ Select Contract file list from File System
 						model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));	
 					   return "contractmanager/showcontract";
@@ -338,7 +338,7 @@ public class refisController {
 						File filenametoremove=new File(rootdirectory+"/data/stobart_contract/"+req.getParameter("refno").trim()+"/"+req.getParameter("filename"));
 						boolean delstatus=filenametoremove.delete();
 							
-						model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
+						model.put("contractdetail", contract.viewContract(req.getParameter("refno"),req.getParameter("emailid")));
 						model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
 						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));						
 						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
@@ -514,7 +514,7 @@ public class refisController {
 	        
 	       
 	        
-			model.put("contractdetail", contract.viewContract(req.getParameter("refno")));
+			model.put("contractdetail", contract.viewContract(req.getParameter("refno"),req.getParameter("emailid")));
 			model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
 			model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));						
 			model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));

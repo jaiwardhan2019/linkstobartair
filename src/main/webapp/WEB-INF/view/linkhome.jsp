@@ -561,11 +561,11 @@ setTimeout(function(){window.location.href="index"},60000000);
  <form name="refis" method="POST">  	
        <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
         <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
-       <a title="New Ground Operation." onClick="cal_refis();">
+       <a title="New Ground Operation" onClick="cal_refis();">
         <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
-				<div class="panel-body" style="color:#0071BA;">
-				 	<i class="fa fa-road fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">New Ground Ops.</span> 
+				<div class="panel-body" style="color:green">
+				 	<i class="fa fa-road fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">New Ground Ops.</span> 
 				</div>
 			</div>
 	    </div>	
@@ -583,8 +583,8 @@ setTimeout(function(){window.location.href="index"},60000000);
 	       <a title="Manage Contract." onClick="cal_manage_contract();">
 	        <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 				<div class="panel panel-info btn-default panel-shadow">
-					<div class="panel-body" style="color:#0071BA;">
-					 <i class="fa fa-suitcase fa-2x pull-left" aria-hidden="true"></i><span class="pull-right" style="font-size:11pt;font-weight:600;">Contract Database.</span> 
+					<div class="panel-body" style="color:green">
+					 <i class="fa fa-suitcase fa-2x pull-left" aria-hidden="true"></i><span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">Contract Database</span> 
 					</div>
 				</div>
 		    </div>	
@@ -687,7 +687,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 
 
 
-	<div>
+	
 		<!--Full Width text-->
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			
@@ -705,7 +705,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 	</div>
 	
 		
-</div>			
+			
 	
 
 
@@ -714,7 +714,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 <br>
 
 
-<div class="container-fluid" align="left" >
+<div class="container-fluid" align="left">
 	
 	<div class="row">
 	
@@ -738,7 +738,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 		
 	  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 	
-			<div class="panel panel-default panel-shadow" > 
+			<div class="panel panel-default panel-shadow"> 
 				<div class="panel-body" style="height:200px;background:url('<c:url value="images/greenawards.png"/>') no-repeat 50% 100%; background-size:cover;cursor:pointer;"></div>
 				
 				<div class="panel-footer">
@@ -761,14 +761,15 @@ setTimeout(function(){window.location.href="index"},60000000);
 		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			<div class="panel panel-default panel-shadow">
-				<div class="panel-body" style="height:200px;background:url('<c:url value="images/about_us.jpg"/>') no-repeat 50% 50%; background-size:cover;">
+				<div class="panel-body" style="height:200px;background:url('<c:url value="images/careers.jpg"/>') no-repeat 50% 50%; background-size:cover;">
 					<!--Leave it blank-->
 				</div>
 				
 				<div class="panel-footer">
 					<h5 class="post_title"><b>About Us</b></h5>
 					<p align="justify"  class="my_discription">Stobart Air, the regional franchise flying partner to leading airlines, operates up to 940 flights weekly across 43 routes throughout 11 European countries from bases in the UK & Ireland. Today, Stobart Air is one of Europe's leading franchise.</p>
-					
+					<br>
+					<br><br>
 					<a href="https://www.stobartair.com/about/" target="_new" id="p2" >Read More</a>
 				</div>
 			</div>
@@ -797,7 +798,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			<div class="panel panel-default panel-shadow">
-					<div class="panel-body" style="height:200px;background:url('<c:url value="images/award.png"/>') no-repeat 50% 50%; background-size:cover;">
+					<div class="panel-body" style="height:200px;background:url('<c:url value="images/award.png"/>') no-repeat 50% 100%; background-size:cover;">
 				</div>
 				
 				<div class="panel-footer">
@@ -805,6 +806,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 					<p align="justify"  class="my_discription">				
 						Stobart Air have won this years Aviation Industry Awards in the Aircraft Operator category! This category aims to recognise an airline who displays excellence consistently through their business including operational excellence, innovation, safety and environment. 
 					</p><br>
+					<br><br>
 					<!-- <a href="javascript:alert('Under Construction')" id="p3">Read More</a> -->
 				</div>
 			</div>
@@ -814,14 +816,15 @@ setTimeout(function(){window.location.href="index"},60000000);
 		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			<div class="panel panel-default panel-shadow">
-				<div class="panel-body" style="height:200px;background:url('<c:url value="images/careers.jpg"/>') no-repeat 50% 50%; background-size:cover;">
+				<div class="panel-body" style="height:200px;background:url('<c:url value="images/aboutus.png"/>') no-repeat 50% 100%; background-size:cover;">
 				
 				</div>
 				
 				<div class="panel-footer">
 					<h5 class="post_title"><b>Careers</b></h5>
 					<p align="justify" class="my_discription">Our people are our key assets. Stobart Air is always looking for motivated, competent and responsible employees who are ready to give our customers the best service possible in the air and on the ground. We are always looking for.</p>
-					<a href="http://www.stobartair.com/careers/" target="_new" id="p3">Read More</a>
+										<br>
+					<br><br><a href="http://www.stobartair.com/careers/" target="_new" id="p3">Read More</a>
 				</div>
 			</div>
 		</div>

@@ -109,7 +109,7 @@ function contract_home(event){
  <div  style="margin-top:60px;" align="center" id="printButton">	
 	
 		<div class="col-md-12 col-sm-12 col-xs-12"  align="left">
-			<i class="fa fa-suitcase fa-2x" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Manage Stobart Contracts.</span></a>
+			<i class="fa fa-suitcase fa-2x" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Stobart Air Contracts</span></a>
 	   </div>	
   
   </div>		
@@ -151,7 +151,7 @@ function contract_home(event){
 					 
 					
 				     <div class="form-group">
-							<label for="department">Department.</label>
+							<label for="department">Department</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
 										<select id="department" name="department" class="form-control" onChange="manage_contract('search');" >
@@ -163,7 +163,7 @@ function contract_home(event){
 				
 				
 					<div class="form-group">
-							<label  >Sub Depart.</label>
+							<label  >Sub Department</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
@@ -176,7 +176,7 @@ function contract_home(event){
 						</div>						
 							 
 						<div class="col-xs-14">
-								<label> Contract Detail.</label>
+								<label> Contract Detail</label>
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
 										<textarea rows="02"  name="cdescription"  id="cdescription" class="form-control">${cdescription}</textarea>
@@ -211,7 +211,13 @@ function contract_home(event){
   </div>		
 
  
-
+   <table  style="width: 80%;" align="center" id="printButton">
+	       <tr> 
+	       <td align="center">      
+	               ${contractupdate}
+           </td>
+           </tr>
+   </table>
 <!--  END of UPPER FORM PART   -->
 
 
@@ -229,14 +235,14 @@ function contract_home(event){
 	              <b>${fn:length(contractlist)} </b> 
 	              
 	                </span>
-	              
+	              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	              <span  style="font-weight:300;font-size:08pt;color:blue;"> 
+	              <b> Note:</b> In order to View / Search Contract please make sure your User Id have Authorisation to the (Dept./Sub Dept.) in subject.   
+	              </span>
+
 	              
 	     </td>
 	     
-	     <td align="center"> 
-	        &nbsp;&nbsp;&nbsp;&nbsp; ${contractupdate}
-	      </td>
-	    
 		 <td align="right"> 
 		        <button   onClick="print_report();" id="addnew" type="button" class="btn btn-default btn-sm"> <b> Print </b> &nbsp;<i class="fa fa-print fa-lg" aria-hidden="true"></i></button> 
 		        &nbsp;&nbsp;&nbsp;
@@ -271,13 +277,13 @@ function contract_home(event){
 				    
 				    <td bgcolor="#0070BA">
 					   <span style="color:white;" > <b> 
-					    No.	
+					    No
 					     </b></span>					 
 					 </td>
 					  
 					 <td bgcolor="#0070BA" >
 					   <span style="color:white;" > <b> 
-					       Reference No. 
+					       Reference No 
 					     </b></span>					 
 					 </td>
 	 
@@ -289,7 +295,7 @@ function contract_home(event){
 	
 					 <td bgcolor="#0070BA" width="28%">
 					   <span style="color:white;"> <b> 
-					    Detail.
+					    Detail
 					     </b></span>					 
 					 </td>
 					

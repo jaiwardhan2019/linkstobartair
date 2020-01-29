@@ -176,7 +176,7 @@ function view_contract(){
  <div  style="margin-top:60px;" align="center">	
 	
 		<div class="col-md-12 col-sm-12 col-xs-12"  align="left">
-			<i class="fa fa-suitcase fa-2x" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Manage Stobart Contracts.</span></a>
+			<i class="fa fa-suitcase fa-2x" aria-hidden="true"></i>&ensp;<span style="font-weight:600;font-size:13pt;">Manage Stobart Air Contract</span></a>
 	   </div>	
   
   </div>		
@@ -221,7 +221,7 @@ function view_contract(){
                 
                   <td align="left" bgcolor="white" width="50%">
 					<div class="col-xs-12">
-							<label> Contract Detail.</label>
+							<label> Contract Detail </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
 									<textarea rows="04" name="cdescription"  id="cdescription" class="form-control">${contractdetail.contract_description}</textarea>
@@ -236,7 +236,7 @@ function view_contract(){
 				            
 	              <td align="left" bgcolor="white" width="50%">
 					<div class="col-xs-12">
-							<label  >Ref No.</label>  
+							<label  >Ref No </label>  
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
 										<input type="text"   name="refno" id="refno" class="form-control" readonly  value="${contractdetail.refrence_no}">										
@@ -257,7 +257,7 @@ function view_contract(){
 	           <tr>
 	               <td align="left" bgcolor="white" width="50%">
 					     <div class="col-xs-12">
-							<label >Department.</label>
+							<label >Department </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
 										<select id="department" name="department" class="form-control" onchange="view_contract()" >										
@@ -271,7 +271,7 @@ function view_contract(){
 	               
 	               <td align="left" bgcolor="white" width="50%">
 				      <div class="col-xs-12">
-							<label  >Sub Depart.</label>
+							<label  >Sub Depart </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
@@ -325,7 +325,7 @@ function view_contract(){
 	              <td align="left" bgcolor="white" width="50%">
 
 				    <div class="col-xs-12">
-							<label  >Contractor Company Name.</label>
+							<label  >Contractor Company Name </label>
 							<div class="input-group col-xs-12" >
 								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
 									<textarea rows="03" name="ccompany"  id="ccompany" class="form-control" >${contractdetail.contractor_name}</textarea>  										
@@ -336,7 +336,7 @@ function view_contract(){
 				  
 				  <td align="left" bgcolor="white" width="50%">
 				    <div class="col-xs-12">
-							<label  >Contractor Contact.</label>
+							<label  >Contractor Contact </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
 								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
@@ -354,7 +354,7 @@ function view_contract(){
 	           <tr>
 	              <td align="left" bgcolor="white" colspan="2">
 		         	
-						<label>Already attached File. </label>							
+						<label>Already attached File  </label>							
 				        <br>
 							<span style="font-weight:400;font-size:10pt;">							
 				
@@ -413,7 +413,7 @@ function view_contract(){
 	              <td align="left" bgcolor="white">
 				
 					<div class="col-xs-12">
-							<label> Attach More File. </label>
+							<label> Attach More File </label>
 							<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
 									 <input type="file"  id="cfile"  name="cfile"   class="form-control"/>
@@ -425,7 +425,7 @@ function view_contract(){
 				  
 				  <td align="left" bgcolor="white">
 						<div class="col-xs-12">
-						  <label>Status.</label>		
+						  <label>Status</label>		
 								<div class="input-group"> 
 									<span class="input-group-addon"><i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i></span>							
 										<select id="status" name="status" class="form-control"  >										
@@ -449,7 +449,7 @@ function view_contract(){
 						<td  bgcolor="white" colspan="2">	
 					
 						     <%
-						     if(request.getParameter("emailid").equals("jai.wardhan@stobartair.com")){
+						     if(request.getParameter("emailid").equals("jai.wardhan@stobartair.com") || request.getParameter("emailid").equals("julie.connolly@stobartair.com")){
 						     %>
 			                   <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
 								 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;

@@ -13,11 +13,6 @@
 <script type="text/javascript">
 
 
-//https://www.codejava.net/coding/upload-files-to-database-servlet-jsp-mysql 
-//https://www.codejava.net/java-ee/servlet/apache-commons-fileupload-example-with-servlet-and-jsp
-//https://javarevisited.blogspot.com/2013/07/ile-upload-example-in-servlet-and-jsp-java-web-tutorial-example.html
-
-
 
 function bulit_ref_no(){
 	
@@ -172,7 +167,7 @@ function Load_Subdepartment(){
                 
                   <td align="left" bgcolor="white" width="50%">
 					<div class="col-xs-12">
-							<label> Contract Detail.</label>
+							<label> Contract  </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
 									<textarea rows="04" name="cdescription"  id="cdescription" class="form-control">${cdescription}</textarea>
@@ -190,7 +185,7 @@ function Load_Subdepartment(){
 				      
 	              
 					<div class="col-xs-12">
-							<label  >Ref No.</label>  
+							<label  >Ref No </label>  
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
 										<input type="text"   name="refno" id="refno" class="form-control" readonly value="CS_<fmt:formatDate pattern = "ddMMyyyyhhmmss" value = "${now}"/>" >										
@@ -209,7 +204,7 @@ function Load_Subdepartment(){
 	           <tr>
 	               <td align="left" bgcolor="white" width="50%">
 					     <div class="col-xs-12">
-							<label >Department.</label>
+							<label >Department </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
 										<select id="department" name="department" class="form-control" onchange="Load_Subdepartment();">	
@@ -223,7 +218,7 @@ function Load_Subdepartment(){
 	               
 	               <td align="left" bgcolor="white" width="50%">
 				      <div class="col-xs-12">
-							<label  >Sub Depart.</label>
+							<label  >Sub Depart </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></i></span>							
 									
@@ -278,7 +273,7 @@ function Load_Subdepartment(){
 				  
 				  <td align="left" bgcolor="white" width="50%">
 					    <div class="col-xs-12">
-							<label  >Contractor Company Name.</label>
+							<label  >Contractor Company Name </label>
 							<div class="input-group col-xs-12" >
 								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
 									<textarea rows="03" name="ccompany"  id="ccompany" class="form-control">${ccompany}</textarea>  										
@@ -295,7 +290,7 @@ function Load_Subdepartment(){
 				  
 				  <td align="left" bgcolor="white" width="50%">
 				    <div class="col-xs-12">
-							<label  >Contractor Contact.</label>
+							<label  >Contractor Contact </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
 								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
@@ -315,7 +310,7 @@ function Load_Subdepartment(){
 	              <td align="left" bgcolor="white" width="50%">
 				
 					<div class="col-xs-08">
-							<label> Attach File. </label>
+							<label> Attach File  </label>
 							<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
 									 <input type="file"  id="cfile"  name="cfile"   class="form-control"/>
