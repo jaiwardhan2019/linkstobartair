@@ -798,7 +798,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			<div class="panel panel-default panel-shadow">
-					<div class="panel-body" style="height:200px;background:url('<c:url value="images/award.png"/>') no-repeat 50% 100%; background-size:cover;">
+					<div class="panel-body" style="height:200px;background:url('<c:url value="images/award.png"/>') no-repeat 50% 50%; background-size:cover;">
 				</div>
 				
 				<div class="panel-footer">

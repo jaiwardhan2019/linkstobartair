@@ -320,21 +320,21 @@ function cal_groundops_home(){
 
 
 <style>
-body2 {
+body {
   background-image: url('images/groundopsbackground.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;  
   background-size: cover;
 }
 
-body3 {
+body1 {
   background-image: url('images/refisback.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;  
   background-size: cover;
 }
 
-body {
+body1 {
   background-image: url('images/background.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;  

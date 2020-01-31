@@ -263,7 +263,7 @@ function contract_home(event){
           <tr>          
            <td colspan="9" align="center">
                      <span style="color:blue;font-size:10pt;"> Sorry No Contract found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
-                      <br> Please change Filter or Check your Authorisation with Admin..</span>              
+                     <!--  <br> Also Possible you might not have access to the selected Department , please check your Authorisation with Admin..</span>  -->              
             </td>
           </tr>
           </table>	

@@ -155,6 +155,9 @@ public class HomeController {
 			  model.addAttribute("password",req.getParameter("password"));			  
 			  dbusr.updateUser_detail_LastLoginDateTime(req.getParameter("emailid")); //<<---This Function Will Update DB for new user and their count
 			  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
+			  
+			  req.getSession().setAttribute("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+			  
 			  logger.info("User id:"+req.getParameter("emailid")+" Verified With AD");			  
 		      return "linkhome";
 		       
@@ -177,7 +180,8 @@ public class HomeController {
 	
 			  model.addAttribute("emailid",req.getParameter("emailid"));
 			  model.addAttribute("password",req.getParameter("password"));			
-			  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
+			  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
+			  model.put("profilelist",req.getSession().getAttribute("profilelist"));
 			  String dataPoints = null;	
 			  dataPoints = chart.createBarchartForHomePage();
 			  model.addAttribute("dataPoints",dataPoints); 
@@ -193,8 +197,8 @@ public class HomeController {
 	public String Login_connectairupdate(HttpServletRequest req, ModelMap model) {
 		model.addAttribute("emailid",req.getParameter("emailid"));
 		model.addAttribute("password",req.getParameter("password"));
-  	    model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
-
+  	    //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
+		model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 		return "connectair/connectairupdate";
 	}
 	
@@ -323,7 +327,8 @@ public class HomeController {
 	public String show_employee_discount_page(HttpServletRequest req, ModelMap model) {	 
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));
-		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   return "empdiscount/employee_discount";
 	}
 	
@@ -335,8 +340,8 @@ public class HomeController {
 	public String show_livewell_page(HttpServletRequest req, ModelMap model) {	
 		   model.addAttribute("password",req.getParameter("password"));  
 		   model.addAttribute("emailid",req.getParameter("emailid"));
-		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
-
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
+		   model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 		   return "livewell/livewell";
 	}
 	
@@ -354,7 +359,7 @@ public class HomeController {
 		   
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
-
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   return "security/loginhrmanagment";
 	}
 	
@@ -394,7 +399,8 @@ public class HomeController {
 		
 		
 		model.addAttribute("airlinecode",req.getParameter("airlineCode").toLowerCase());		
-		model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
+		//model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
+		model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		model.addAttribute("emailid",req.getParameter("emailid"));
 		model.addAttribute("password",req.getParameter("password"));
 		
@@ -426,8 +432,8 @@ public class HomeController {
 		model.addAttribute("emailid",req.getParameter("emailid"));
 		model.addAttribute("password",req.getParameter("password"));
 		
-		model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
-		
+		//model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
+		model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		
 		
 		Date today = new Date();               
@@ -478,7 +484,8 @@ public class HomeController {
 		   
 		   
 		   
-		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));
 		   logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Report");
@@ -496,8 +503,8 @@ public class HomeController {
 		  model.put("airlinelist",flt.Populate_Operational_Airline(("ALL")));		
 		  model.put("airportlist",flt.Populate_Operational_Airport("ALL"));
 		  model.addAttribute("emailid",req.getAttribute("emailid"));		
-		  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
-		
+		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
+		  model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		
 		  model.addAttribute("emailid",req.getParameter("emailid"));
 		  model.addAttribute("password",req.getParameter("password"));
@@ -529,7 +536,8 @@ public class HomeController {
 			         req.getParameter("airportCode"),req.getParameter("startDate"),req.getParameter("endDate"),
 			         req.getParameter("tolerance")));
 	
-		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));
 		   logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Report");
@@ -575,8 +583,8 @@ public class HomeController {
 		   model.addAttribute("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode")));		  
 		   model.addAttribute("emailid",req.getParameter("emailid"));	
 		   model.addAttribute("password",req.getParameter("password"));
-		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
-		   
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   Date today = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar c = Calendar.getInstance();  
@@ -601,8 +609,8 @@ public class HomeController {
 		   String Operation=req.getParameter("airlineOperationCode");
 		   String dateofoperation=req.getParameter("flightDate");	
 		   
-		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
-			
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   
 		   // JAI- Under Construction --------
 		   //pdfdoc.createDailySummaryReport_PDF("Aer Lingus", "ALL", "2019-09-01",req.getParameter("emailid"));

@@ -48,8 +48,9 @@ String password             = request.getAttribute("password").toString();
 if(fullemail.trim().length() < 2){response.sendRedirect("index");}
 String[] FirstName_LastName = fullemail.split("@");
 String user_login_id        = FirstName_LastName[0];
-//https://stackoverflow.com/questions/5053975/how-to-encode-a-string-representing-url-path-with-jstl
 
+
+//https://stackoverflow.com/questions/5053975/how-to-encode-a-string-representing-url-path-with-jstl
 %>
 
 

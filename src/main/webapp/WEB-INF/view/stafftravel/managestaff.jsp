@@ -190,25 +190,20 @@ function remove_user_Profile(accountid,firstname,lastname){
 		               
 		          <tr>
 		          
-		          <td><%=ctr%></td>
-		          
-		          <td> ${staffTravels.first_name}&nbsp;&nbsp;${staffTravels.surname} </td>
-		          <td> ${staffTravels.email}</td>
-		          <td> ${staffTravels.department} </td>
-		          <td> 
-	
-			          ${staffTravels.status}
-	
-	                 
-		          </td>
-		           
-		           
-		           
-		           <td>  
-		             
-		                
-		                <span style="font-weight:bold;" onClick="remove_user_Profile('${staffTravels.id}','${staffTravels.first_name}','${staffTravels.surname}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o  fa-lg"></i>&nbsp;Remove</span>
-		           </td>
+			          <td><%=ctr%></td>
+			          
+			          <td> ${staffTravels.first_name}&nbsp;&nbsp;${staffTravels.surname} </td>
+			          <td> ${staffTravels.email}</td>
+			          <td> ${staffTravels.department} </td>
+			          <td> 	
+				          ${staffTravels.status}
+			          </td>
+			           
+			           
+			           
+			           <td>  
+			                <span style="font-weight:bold;" onClick="remove_user_Profile('${staffTravels.id}','${staffTravels.first_name}','${staffTravels.surname}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o  fa-lg"></i>&nbsp;Remove</span>
+			           </td>
 		          
 		          </tr>
 		         
