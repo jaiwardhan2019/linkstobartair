@@ -311,8 +311,8 @@ public class HomeController {
 		   
 		   model.addAttribute("password",req.getParameter("password"));
 		   model.addAttribute("emailid",req.getParameter("emailid"));
-		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
-
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
+		   model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 		   return "businessupdates/businessupdatehome";
 	}
 	

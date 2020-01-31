@@ -93,7 +93,7 @@ public class LinkUsersImp implements linkUsers{
 					   		  + "and CORPORATE_PORTAL.LINK_USER_MASTER.EMAIL_ID=CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.USER_EMAIL  \r\n" + 
 					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'";
 	
-		   //System.out.println(profilesql);
+		   System.out.println(profilesql);
 		   
 		   //---------- THIS PART WILL COLLECT ALL USER PROFILE INTO A MAP WITH THE KEY AND VALUE----------
 	       Map<String, String> profileMap = new HashMap<String, String>();

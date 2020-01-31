@@ -69,8 +69,8 @@ public class refisController {
 		  if(req.getParameter("emailid") == null) {return "index";}
 		  model.addAttribute("emailid",req.getParameter("emailid"));
 		  model.addAttribute("password",req.getParameter("password"));			
-		  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
-		  
+		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
+		  model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 		  return "groundoperation/groundopshome";
 		  
 	}//----------- End of Function 
@@ -87,8 +87,8 @@ public class refisController {
 		
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));			
-			model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-			
+			//model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 			
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("user") != null){	
@@ -136,7 +136,8 @@ public class refisController {
 		
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));			
-			model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+			//model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 		    String rootdirectory = new java.io.File( "/" ).getCanonicalPath();
 
 		    
@@ -389,8 +390,8 @@ public class refisController {
 		   
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));			
-		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-			
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+		   model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 		
 	       
 	        try {
@@ -456,8 +457,8 @@ public class refisController {
 		   
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));			
-		   model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-			
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+		   model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 		
 	       
 	        try {

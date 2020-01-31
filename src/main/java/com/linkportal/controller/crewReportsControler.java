@@ -103,7 +103,8 @@ public class crewReportsControler {
 			 
 			 
 			 
-			 model.put("profilelist", usrprof.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
+			 //model.put("profilelist", usrprof.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
+			 model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 			 model.addAttribute("emailid",req.getParameter("emailid")); 
 			 model.addAttribute("password",req.getParameter("password"));
 		   

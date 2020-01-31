@@ -50,8 +50,8 @@ public class staffTravelControler {
 		
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));			
-			model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-			
+			//model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 			
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("account") != null){	
