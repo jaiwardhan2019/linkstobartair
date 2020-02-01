@@ -19,6 +19,7 @@ public interface linkUsers {
 
 	   public  String[] getUserpProfileAndLinkProfile(String emailid);
 	   
+	   public boolean Validate_External_User(String username);  
 	   
          
 	   public  void UpdateUserpProfileAndActiveStatustoDataBase(String emailid,String activestatus,String adminstatus);

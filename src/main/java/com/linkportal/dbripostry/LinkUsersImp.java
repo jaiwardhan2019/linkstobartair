@@ -59,11 +59,11 @@ public class LinkUsersImp implements linkUsers{
 		   LocalDateTime now = LocalDateTime.now();
 		 
 		   String[] FirstName_LastName=useremail.split("[@._]"); 
-		   String sql="SELECT login_count FROM CORPORATE_PORTAL.LINK_USER_MASTER where EMAIL_ID='"+useremail+"'";		   
+		   String sql="SELECT login_count FROM CORPORATE_PORTAL.LINK_USER_MASTER where EMAIL_ID='"+useremail+"' or first_name='"+useremail+"'";		   
 		   SqlRowSet logincount = jdbcTemplateMysql.queryForRowSet(sql);
 		   
 		   if(logincount.next()) {
-			   jdbcTemplateMysql.execute("UPDATE CORPORATE_PORTAL.LINK_USER_MASTER SET LAST_LOGIN_DATE_TIME='"+now+"' , LOGIN_COUNT='"+(logincount.getInt(1)+1)+"' WHERE EMAIL_ID='"+useremail+"'");
+			   jdbcTemplateMysql.execute("UPDATE CORPORATE_PORTAL.LINK_USER_MASTER SET LAST_LOGIN_DATE_TIME='"+now+"' , LOGIN_COUNT='"+(logincount.getInt(1)+1)+"' WHERE EMAIL_ID='"+useremail+"' or first_name='"+useremail+"'");
 			   
 		   }
 		   else
@@ -93,7 +93,7 @@ public class LinkUsersImp implements linkUsers{
 					   		  + "and CORPORATE_PORTAL.LINK_USER_MASTER.EMAIL_ID=CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.USER_EMAIL  \r\n" + 
 					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'";
 	
-		   System.out.println(profilesql);
+		   //System.out.println(profilesql);
 		   
 		   //---------- THIS PART WILL COLLECT ALL USER PROFILE INTO A MAP WITH THE KEY AND VALUE----------
 	       Map<String, String> profileMap = new HashMap<String, String>();
@@ -116,9 +116,13 @@ public class LinkUsersImp implements linkUsers{
 							 	if(rs.getString("SUB_PROFILE").equals("Flight_Report")) {mapRet.put("Flight_Report", rs.getString("ACTIVE_STATUS"));} 
 								if(rs.getString("SUB_PROFILE").equals("Reliablity")) {mapRet.put("Reliablity", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("ReliablityAction")) {mapRet.put("ReliablityAction", rs.getString("ACTIVE_STATUS"));}
+
 								if(rs.getString("SUB_PROFILE").equals("Daily_Summary")) {mapRet.put("Daily_Summary", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Flybe_Today")) {mapRet.put("Flybe_Today", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Voyager")) {mapRet.put("Voyager", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("GCIGCMGCR")) {mapRet.put("GCIGCMGCR", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("Manuals")) {mapRet.put("Manuals", rs.getString("ACTIVE_STATUS"));}
+								
 								if(rs.getString("SUB_PROFILE").equals("Cascade")) {mapRet.put("Cascade", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("StaffTravel")) {mapRet.put("StaffTravel", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Contract")) {mapRet.put("Contract", rs.getString("ACTIVE_STATUS"));}
@@ -317,6 +321,29 @@ public class LinkUsersImp implements linkUsers{
 		
 		
 	}//-------- END OF FUNCTION ------------------
+
+
+
+
+
+
+
+
+	@Override
+	public boolean Validate_External_User(String username) {		 
+		  try {
+			  
+		  String sqlForUser = "SELECT FIRST_NAME FROM CORPORATE_PORTAL.LINK_USER_MASTER where FIRST_NAME=?"; 		  
+		  String streetName = (String) jdbcTemplateMysql.queryForObject(sqlForUser, new Object[] { username }, String.class);	
+		  
+		  //???  Write code for the ground operation header profile object ....
+		  
+		  }catch(Exception dbex) {					  
+			  logger.error("Ground Handler User Id:"+username+" is Not Validated:"+dbex.toString());
+			  return false;
+		  }
+		return true;
+	}
 
 
 

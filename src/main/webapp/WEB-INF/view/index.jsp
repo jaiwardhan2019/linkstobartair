@@ -101,7 +101,7 @@ function myFunction(){
 										<div class="col-md-12 col-sm-12 col-xs-12">
 											<div class="input-group">
 												<span class="input-group-addon" id="sizing-addon2" style="background:#005da8;border-color:#005da8;color:#fff;"><i class="fa fa-user fa-fw"></i></span>
-												<input type="text"  autofocus name="emailid"  id="emailid" style="font-size:9pt;" class="form-control" placeholder="Enter Email Id" aria-describedby="sizing-addon2"/>
+												<input type="text"  autofocus name="emailid"  id="emailid" style="font-size:9pt;" class="form-control" placeholder="Enter Email Id / User ID" aria-describedby="sizing-addon2"/>
 											</div>
 											<span style="font-size:10pt;" id="warning_username"></span>
 										</div>
@@ -127,7 +127,7 @@ function myFunction(){
 											<a href="https://password.stobartair.com" target="_new" style="font-size:9pt;" >Forgot your password?</a>
 											
 											 <br>									 
-											 <span style="font-size:09pt;color:red;"  id="login_message">Please use your email address and password to login</span>
+											 <span style="font-size:09pt;color:red;align:left;"  id="login_message">Please use your email id / User id and password to login</span>
 											
 										</div>
 									</div>

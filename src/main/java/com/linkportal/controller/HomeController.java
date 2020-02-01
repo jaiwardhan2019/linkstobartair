@@ -136,9 +136,12 @@ public class HomeController {
 	
 	@GetMapping("/logout")
 	String Log_out(HttpServletRequest request){
+		
 		HttpSession session=request.getSession();
 		session.setAttribute("userEmail","");
+		session.setAttribute("profilelist","");		
 		return "index";
+		
 	}
 		
 	
@@ -146,22 +149,47 @@ public class HomeController {
 	//------- This Part Will be Called from the Login Page index.jsp 
 	@RequestMapping(value = "/verifyuser", method = RequestMethod.POST)
 	public String Verify_Save_User(HttpServletRequest req,ModelMap model,UserSecurityLdap ldp) throws Exception{
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
+		   
+		   boolean isStobartUser = req.getParameter("emailid").indexOf("stobartair") !=-1? true: false;
+		 
+		   
+		   // -- If Ground Handler,External User
+		   if(!isStobartUser) {			
 	
-		
-		
-		   if(ldp.Validate_User_With_Ldap(req.getParameter("emailid"),req.getParameter("password"),ldapurl)){			   
+			  if(dbusr.Validate_External_User(req.getParameter("emailid"))) {
+				  
+				  model.addAttribute("emailid",req.getParameter("emailid"));
+				  model.addAttribute("password",req.getParameter("password"));
+				  dbusr.updateUser_detail_LastLoginDateTime(req.getParameter("emailid"));
+				  req.getSession().setAttribute("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
+				  model.put("usertype","E");
+				  return "groundoperation/groundopshome";
+			  }
+			  else 
+			  {
+					 model.put("errormessage","Please try again Still if you are unable to logon then Please Contact IT <br><br>&nbsp;&nbsp;&nbsp; <b> servicedesk@stobartair.com </b>");
+					 return "security/gerror";
+				  
+			  }
+			  			   
+		   }//--- End of If Ground Handler,External User
+		   
+
+		   
+		   
+		// -- If Stobart User  
+		   if(ldp.Validate_User_With_Ldap(req.getParameter("emailid"),req.getParameter("password"),ldapurl)){
+			  //This Function Will Update DB for new user and their count
+			  dbusr.updateUser_detail_LastLoginDateTime(req.getParameter("emailid")); 
 			  
-			  model.addAttribute("emailid",req.getParameter("emailid"));
-			  model.addAttribute("password",req.getParameter("password"));			  
-			  dbusr.updateUser_detail_LastLoginDateTime(req.getParameter("emailid")); //<<---This Function Will Update DB for new user and their count
-			  model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
-			  
+			  // Populate Profile List with the map object and place on the session object 
+			  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 			  req.getSession().setAttribute("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 			  
 			  logger.info("User id:"+req.getParameter("emailid")+" Verified With AD");			  
 		      return "linkhome";
-		       
-		       
 		   }
 		   else
 		   {
@@ -169,23 +197,30 @@ public class HomeController {
 			 return "security/error";
 		   }
 
+		   
+		   
+		   
+		   
 	}//----------- End of Function 
 
+	
+	
+	
+	
+	
+	
 	
 	
 
 	//------- This Part Will be Called from the Login Page index.jsp 
 	@RequestMapping(value = "/HomePage",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String HomePage(HttpServletRequest req,ModelMap model,UserSecurityLdap ldp) throws Exception{
-	
-			  model.addAttribute("emailid",req.getParameter("emailid"));
-			  model.addAttribute("password",req.getParameter("password"));			
-			  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
-			  model.put("profilelist",req.getSession().getAttribute("profilelist"));
-			  String dataPoints = null;	
-			  dataPoints = chart.createBarchartForHomePage();
-			  model.addAttribute("dataPoints",dataPoints); 
-			  return "linkhome";
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));			
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		   String dataPoints = null;	
+		   return "linkhome";
 	}//----------- End of Function 
 
 

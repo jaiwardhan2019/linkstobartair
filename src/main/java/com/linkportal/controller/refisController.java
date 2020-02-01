@@ -71,6 +71,7 @@ public class refisController {
 		  model.addAttribute("password",req.getParameter("password"));			
 		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
 		  model.put("profilelist",req.getSession().getAttribute("profilelist")); 
+		  model.put("usertype","I");
 		  return "groundoperation/groundopshome";
 		  
 	}//----------- End of Function 

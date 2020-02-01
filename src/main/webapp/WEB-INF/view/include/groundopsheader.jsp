@@ -90,11 +90,23 @@ function cal_groundops_home(){
    
 	
     <div class="navbar-header">
-         
-		<a href="javascript:void();" onClick="calHomePage();"  class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Link Home Page" style="margin-left:3px;margin-top:04px;padding:0px;" >
-			<img src="images/logo-menu-new.png" alt="Link Home Page" class="img-responsive" style="margin-top:-px;" />
-	    </a>
-	
+    
+       <c:if test="${usertype == 'I'}">   
+	        
+			<a href="javascript:void();" onClick="calHomePage();"  class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Link Home Page" style="margin-left:3px;margin-top:04px;padding:0px;" >
+				<img src="images/logo-menu-new.png" alt="Link Home Page" class="img-responsive" style="margin-top:-px;" />
+		    </a>
+       
+       </c:if>
+ 	 	
+ 	   <c:if test="${usertype == 'E'}">
+			<span class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Link Home Page" style="margin-left:3px;margin-top:04px;padding:0px;" >
+				<img src="images/logo-menu-new.png" alt="Link Home Page" class="img-responsive" style="margin-top:-px;" />
+		    </span>
+       </c:if>
+ 	
+ 	
+ 	
     </div>
   
 
@@ -143,24 +155,23 @@ function cal_groundops_home(){
 			     </ul>	 
 			      
 		</li>
-	    
-	    <li class="dropdown">
-	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;GCI / GCM /GCR</a>
-					  
+	  
+	   <c:if test="${profilelist.GCIGCMGCR  == 'Y'}">   
+		    <li class="dropdown">		 
+		  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;GCI GCM GCR</a>						  
+			</li>
+	    </c:if> 
+	  
+	  <c:if test="${profilelist.Manuals  == 'Y'}">  	
+	    <li class="dropdown">	 
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals</a>					  
 		</li>
-		
-		
-	    <li class="dropdown">
-	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals</a>
-					  
-		</li>
+	</c:if>	
 	
 		
 	    <li class="dropdown">
 	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Safety/Comp.</a>
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Safety Compliance.</a>
 					  
 		</li>
 
