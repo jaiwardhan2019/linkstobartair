@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,8 +18,11 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import javax.sql.DataSource;
+import javax.servlet.http.Part;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +30,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.itextpdf.text.pdf.codec.Base64.OutputStream;
 import com.linkportal.fltreport.flightReportsImp;
 import com.linkportal.staffTravel.manageStaffTravelUserImp;
+import com.mysql.cj.jdbc.Blob;
 
 @Repository
 public class manageStobartContractImp implements manageStobartContract{
@@ -544,10 +552,69 @@ public class manageStobartContractImp implements manageStobartContract{
 		
 	  	   jdbcTemplateRefis.execute("delete from CORPORATE_PORTAL.CONTRACT_ACCESS where user_email='"+useremailid+"' and dept_sub_code="+profileid);
 	}
+
+
+
+
+
+    // ---- This function will add file to the database -------------------------
+	@Override
+	public void appenFiletoDataBase(HttpServletRequest req,@RequestParam("photo") MultipartFile file) throws IOException, ServletException, SQLException{
+		// TODO Auto-generated method stub
+		Connection conn=null; 
+		try {
+			    conn= dataSourcemysql.getConnection();
+			
+			    String firstName = req.getParameter("firstName");
+		        String lastName = req.getParameter("lastName");
+		         
+		        InputStream inputStream = null; // input stream of the upload file
+		         
+		        // obtains the upload file part in this multipart request
+		        Part filePart = req.getPart("photo");
+		        if (file != null) {
+		            // prints out some information for debugging
+		            System.out.println(file.getOriginalFilename());
+		            System.out.println(file.getSize());
+		            System.out.println(file.getContentType());
+		             
+		            // obtains input stream of the upload file
+		            inputStream = file.getInputStream();
+		        }
+		        
+			        
+				// constructs SQL statement
+				String sql = "INSERT INTO contacts (first_name, last_name, photo) values (?, ?, ?)";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				statement.setString(1, firstName);
+				statement.setString(2, lastName);
+				statement.setBlob(3, inputStream);
+				
+			
+	
+			// sends the statement to the database server
+			int row = statement.executeUpdate();
+			if (row > 0) {
+				String message = "File uploaded and saved into database";
+				System.out.println(message);
+			}
+
+			
+		}catch(SQLException e){			
+			logger.error(e.toString());			
+		}finally {conn.close();}
+		
+		
+		
+		
+	}//--------- END OF MAIN FUNCTION -----------
    
 	
+	
+	
+	
    
-}
+}//--- END OF MAIN CLASS ------------------
 
 
 

@@ -718,9 +718,9 @@ public class HomeController {
 		
 		        
 		//----------------------- Here Below is the File  Download Code --------------------
-		        String filename="viewExcelReliabilityReportFlights.xls";
-			 	res.setContentType("text/html");  
-			    PrintWriter out = res.getWriter();  
+		          String filename="viewExcelReliabilityReportFlights.xls";
+			 	  res.setContentType("text/html");  
+			      PrintWriter out = res.getWriter();  
 			         
 	
 			      res.setContentType("APPLICATION/OCTET-STREAM");   

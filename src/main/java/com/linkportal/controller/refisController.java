@@ -463,8 +463,6 @@ public class refisController {
 		
 	       
 	        try {
-			      
-	        	
 	        	
 	        	   if(file.getSize() > 0) { 
 			        	

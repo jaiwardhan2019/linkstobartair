@@ -1,6 +1,12 @@
 package com.linkportal.controller;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +27,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -25,6 +37,7 @@ import com.linkportal.datamodel.Product;
 import com.linkportal.dbripostry.businessAreaContent;
 import com.linkportal.dbripostry.linkUsers;
 import com.linkportal.fltreport.flightReports;
+import com.mysql.cj.jdbc.Blob;
 
 
 
@@ -35,6 +48,11 @@ public class AdminHomeController {
     
 	@Autowired
 	businessAreaContent bac;
+	
+	@Autowired
+	DataSource dataSourcemysql;
+	
+
 	
 	@Autowired
 	linkUsers lkuser;
@@ -59,16 +77,13 @@ public class AdminHomeController {
 	}
 	
 	
-
+    //--- THIS IS FOR Dicing traning      
 	@GetMapping("/atrdicing")	
 	String atr_diccing_traning_page(ModelMap model){		
 
 	    return "atrdicing/index";
 	 }
 
-	
-	
-	
 	
 	
 	
@@ -113,8 +128,8 @@ public class AdminHomeController {
        
 	    model.addAttribute("dataPoints",dataPoints); 
 	    
-	    //return "test";
-	    return "testgraph";
+	    return "test";
+	    //return "testgraph";
 	    //return "atrdicing/index";
 	}
 	
@@ -370,9 +385,52 @@ public class AdminHomeController {
 		
 		
 		
+///////////////  FILE ADD UPDATE / VIEW/ DOWNLOAD FROM DATABASE 	 JAI
+		
+
+	    
+		@GetMapping("/fileuploadtest")	
+		String fileuploadTest(ModelMap model){		
+
+		    return "Upload";
+		 }
+
 		
 		
 		
+	
+		
+		//---------- THIS FUNCTION WILL ADD FILE INTO DATABASE -----------------------------
+		@RequestMapping(value = "/uploadServlet",method = {RequestMethod.POST,RequestMethod.GET})
+		public String upload_filetoDatabaseforTest(ModelMap model,HttpServletRequest req,HttpServletResponse response,@RequestParam("photo") MultipartFile file1) throws IOException, ServletException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	     
+			   stobartcontract.appenFiletoDataBase(req,file1);
+			   model.put("status", "File Uploaded Success Fully ");
+			   
+			   return "Upload";
+		}		
+		
+	
+	
+		
+		
+		//---------- THIS FUNCTION WILL ADD FILE INTO DATABASE -----------------------------
+		@RequestMapping(value = "/viewDownloadServlet",method = {RequestMethod.POST,RequestMethod.GET})
+		public String view_downloadd_fileFromDatabase(HttpServletRequest req,HttpServletResponse res) throws IOException, ServletException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	     
+		
+			    Connection conn= dataSourcemysql.getConnection();
+			    int BUFFER_SIZE = 4096;
+			  
+			    String sql = "SELECT photo FROM contacts WHERE first_name=? AND last_name=?";
+			    PreparedStatement statement = conn.prepareStatement(sql);
+		        statement.setString(1, "JAI");
+		        statement.setString(2, "WARDHAN");
+		        ResultSet result = statement.executeQuery();
+				
+			
+			   return "Upload";
+		}		
 		
 		
 		

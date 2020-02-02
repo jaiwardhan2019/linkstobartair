@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface manageStobartContract {
 	
@@ -36,6 +40,9 @@ public interface manageStobartContract {
 	public int addNewContractProfiletoUser(HttpServletRequest req)throws SQLException;
 	
 	public void removeContractProfileofUser(int profileid, String useremailid)throws SQLException;
+	
+	
+	public void appenFiletoDataBase(HttpServletRequest req,@RequestParam("photo") MultipartFile file)throws IOException, ServletException,SQLException;
 	
 	
 	
