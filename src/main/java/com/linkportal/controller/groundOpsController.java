@@ -40,7 +40,7 @@ import com.linkportal.refis.manageRefisUser;
 
 
 @Controller
-public class refisController {
+public class groundOpsController {
 
 	
 	@Autowired
@@ -71,7 +71,7 @@ public class refisController {
 		  model.addAttribute("password",req.getParameter("password"));			
 		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
 		  model.put("profilelist",req.getSession().getAttribute("profilelist")); 
-		  model.put("usertype","I");
+		  model.put("usertype",req.getParameter("usertype"));
 		  return "groundoperation/groundopshome";
 		  
 	}//----------- End of Function 
@@ -90,6 +90,9 @@ public class refisController {
 			model.addAttribute("password",req.getParameter("password"));			
 			//model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
+			model.put("usertype",req.getParameter("usertype"));			
+			
+			
 			
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("user") != null){	

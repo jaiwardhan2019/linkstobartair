@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../include/groundopsheader.jsp" />
 
 <!DOCTYPE html>
@@ -111,12 +113,13 @@ function add_new_user(){
 <div class="container" align="center" >
 	  	
 <!----------------- RIGHT CONTENT -------------------->
-<div class="col-md-12 col-sm-12 col-xs-12" align="center">
+<div class="col-md-12 col-sm-12 col-xs-12" align="center" >
 
 <form method="post" name="refieUser" onSubmit="return searchUser()";>
 
   <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
   <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
+   <input type="hidden" name="usertype" value="${usertype}">
 
   <table  border="0" style="width: 50%;" align="center"> 
 				     <tr>
@@ -150,7 +153,7 @@ function add_new_user(){
  </table>	
 	
  	<br>	 
-  <table class="table table-striped table-bordered" border="1" style="width: 80%;" align="center">	
+  <table class="table table-striped table-bordered" border="1" style="width: 80%;background-color:#FDFEFE;" align="center">	
 		
 	     <tr align="center">
 				    
@@ -231,7 +234,18 @@ function add_new_user(){
           
        
           <tr>
-            <td colspan="6"> <p id="result1"></p>	 </td>
+            <td colspan="6" align="center"> 
+            
+                
+	             <% if (ctr == 1){%>
+	                Sorry There is no User Found based on your search criteria..!!  <br> Please try again.!!
+		
+		    	<%
+		    	}
+		    	%>
+            
+            
+             </td>
           </tr>
           
           

@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,8 +66,8 @@ function calRefisReport(reportname){
 }
 
 
-function cal_groundops_home(){
-	document.refisheader.action="groundopsHomePage";
+function cal_groundops_home(usertype){
+	document.refisheader.action="groundopsHomePage?usertype="+usertype;
 	//document.callive_well1.target="_blank"
     document.refisheader.submit();
 	return true;
@@ -76,9 +77,10 @@ function cal_groundops_home(){
 
 
 
-<form name="refisheader" id="refisheader">
+<form name="refisheader" id="refisheader" method="POST">
     <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
     <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
+    <input type="hidden" name="usertype" value="${usertype}">
 </form>
 
 
@@ -182,12 +184,7 @@ function cal_groundops_home(){
 					  
 		</li>
 		
-	    <li class="dropdown">
-	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Daily Summary Report.</a>
-					  
-		</li>
-		
+			
 		
 	    <li class="dropdown">
 	 
@@ -287,7 +284,16 @@ function cal_groundops_home(){
 
 
 <div class="col-md-5 col-sm-5 col-xs-12" >
-<a onclick="cal_groundops_home();" href="javascript:void();"><span style="font-weight:600;font-size:13pt;color:white;">Ground Operations</span></a> 
+  
+  <c:if test="${usertype == 'I'}">
+     <a onclick="cal_groundops_home('I');" href="javascript:void();"><span style="font-weight:600;font-size:13pt;color:white;">Ground Operations</span></a>     
+  </c:if>
+  
+  <c:if test="${usertype == 'E'}">
+    <a onclick="cal_groundops_home('E');" href="javascript:void();"><span style="font-weight:600;font-size:13pt;color:white;">Ground Operations</span></a>     
+  </c:if>
+  
+
  </div>
  
 <div  class="col-md-7 col-sm-7 col-xs-12" align="right">

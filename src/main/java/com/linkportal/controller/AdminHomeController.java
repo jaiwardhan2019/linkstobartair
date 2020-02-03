@@ -1,8 +1,10 @@
 package com.linkportal.controller;
 
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,7 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -32,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.itextpdf.text.pdf.codec.Base64.OutputStream;
 import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.datamodel.Product;
 import com.linkportal.dbripostry.businessAreaContent;
@@ -414,7 +419,8 @@ public class AdminHomeController {
 	
 		
 		
-		//---------- THIS FUNCTION WILL ADD FILE INTO DATABASE -----------------------------
+		//--https://www.codejava.net/java-ee/servlet/java-servlet-to-download-file-from-database
+		//---------- THIS FUNCTION WILL DOWNLOAD FILE FROM DATABASE TO YOUR DESKTOP -----------------------------
 		@RequestMapping(value = "/viewDownloadServlet",method = {RequestMethod.POST,RequestMethod.GET})
 		public String view_downloadd_fileFromDatabase(HttpServletRequest req,HttpServletResponse res) throws IOException, ServletException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 	     
@@ -422,19 +428,34 @@ public class AdminHomeController {
 			    Connection conn= dataSourcemysql.getConnection();
 			    int BUFFER_SIZE = 4096;
 			  
-			    String sql = "SELECT photo FROM contacts WHERE first_name=? AND last_name=?";
+			    String sql = "SELECT * FROM CORPORATE_PORTAL.contacts where contact_id=?";
 			    PreparedStatement statement = conn.prepareStatement(sql);
-		        statement.setString(1, "JAI");
-		        statement.setString(2, "WARDHAN");
+		        statement.setInt(1, Integer.parseInt(req.getParameter("docid")));		        
 		        ResultSet result = statement.executeQuery();
+		        if (result.next()) {
+	                // gets file name and file blob data
+	                String fileName = "Test File";
+	                Blob blob = (Blob) result.getBlob("photo");
+	                InputStream inputStream = blob.getBinaryStream();
+			        res.setContentType("APPLICATION/OCTET-STREAM");   
+			        res.setHeader("Content-Disposition","attachment Test File ");
+			        ServletOutputStream outStream = res.getOutputStream();
+	                byte[] buffer = new byte[BUFFER_SIZE];
+	                int bytesRead = -1;		                 
+	                while((bytesRead = inputStream.read(buffer)) != -1) {outStream.write(buffer, 0, bytesRead);}
+		      }
+		          else
+		          {
+		                // no file found
+		                System.out.println("File not found for the id: ");  
+		          }
+		        
+		        
 				
 			
 			   return "Upload";
-		}		
-		
-		
-		
-		
+		}
+	
 		
 		
 				
