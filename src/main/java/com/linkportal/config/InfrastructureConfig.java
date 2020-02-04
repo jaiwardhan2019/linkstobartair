@@ -52,6 +52,24 @@ public class InfrastructureConfig{
 	public DataSource dataSourcesqlserver() {
  	       return DataSourceBuilder.create().build();
 	}
+	
+	
+
+	
+	@Bean(name = "dataSourcesqlservercp")
+	@ConfigurationProperties(prefix = "cpsqlserver.datasource")
+	public DataSource dataSourcesqlservercp() {
+ 	       return DataSourceBuilder.create().build();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	  //---  THIS IS FOR LINK - DATABASE MYSQL  

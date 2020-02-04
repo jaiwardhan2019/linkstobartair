@@ -53,6 +53,22 @@ function show_contract_user_Profile(useremail){
 
 
 
+
+function show_groundops_user_Profile(useremail){
+	      document.linkuser.userid.value=useremail;
+		  document.linkuser.method="POST";
+		  document.linkuser.action="gopsprofilemanager";
+		  document.linkuser.submit();
+		  return true;
+
+	
+}
+
+
+
+
+
+
 </script>
 
 
@@ -162,7 +178,7 @@ function show_contract_user_Profile(useremail){
 					
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					      Manage Link Profile 	
+					      Ground Ops Profile. 	
 					     </b></span>					 
 					 </td>
 				     
@@ -198,7 +214,8 @@ function show_contract_user_Profile(useremail){
 		          </td>
 		          <td align="center"> 
 		          
-		           <span style="font-weight:bold;" onClick="update_user_Profile('${linkusers.emailId}');"  class="btn btn-light btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Update </span>
+		           
+		           <button type="button" onClick="show_groundops_user_Profile('${linkusers.emailId}');" class="btn btn-info btn-sm"> <span style="font-weight:bold;"> Manage Profile</span>&nbsp;&nbsp;<i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i></button> 
 		            
 		            <!-- 
 					<c:choose>

@@ -193,7 +193,7 @@ function calStaffTravelUsers(){
 					  					  
 					  
 					  
-					   <c:if test="${profilelist.ADMIN  == 'Y'}">   
+					   <c:if test="${profilelist.admin  == 'Y'}">   
 		                       <li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome?emailid=<%=fullemail%>" target="_new"  style="font-size:09pt;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp;Admin</a></li>
                         </c:if> 
 			                 

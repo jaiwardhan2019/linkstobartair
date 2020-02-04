@@ -83,8 +83,8 @@ public class groundOpsController {
 	
 	
 	//-------THis Will be Called When Refis User Links is called from Ground Ops  
-	@RequestMapping(value = "/managerefisuser",method = {RequestMethod.POST,RequestMethod.GET})
-	public String refisuserlist(HttpServletRequest req, ModelMap model) throws Exception {	
+	@RequestMapping(value = "/managegopssuser",method = {RequestMethod.POST,RequestMethod.GET})
+	public String groundopsuserlist(HttpServletRequest req, ModelMap model) throws Exception {	
 		
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));			

@@ -182,21 +182,14 @@ public class AdminHomeController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	//---------- WILL SHOW LIST OF LINK USER BASED ON SEARCH CRITERIA  -----------------------------	  
-		@RequestMapping(value = "/profilemanager",method = {RequestMethod.POST,RequestMethod.GET})
-		public String profile_manager(ModelMap model,HttpServletRequest req){
+	@RequestMapping(value = "/profilemanager",method = {RequestMethod.POST,RequestMethod.GET})
+	public String profile_manager(ModelMap model,HttpServletRequest req){
 			 
 			   model.put("linkuserlist", lkuser.getLinkUserListFromDatabase(req.getParameter("user")));
 			   model.put("emailid", req.getParameter("emailid"));
 			   return "admin/userprofile/profilemanager";
-		}
+	}
 
 
 		
@@ -235,20 +228,14 @@ public class AdminHomeController {
 				 lkuser.UpdateLinkProfiletoDataBase(req.getParameter("id"),req.getParameter("activestatus"),req.getParameter("adminstatus"), profilelist);
 			   }
 			
-	 			
-			   
-			   
-			   
-			   
+	 		   
 			   //----------- This Part is to Built -  Next Page with the User Detail and Profile detail 
 			   String[] userprofile_linkprofile= new String[2];			   
 			   userprofile_linkprofile=lkuser.getUserpProfileAndLinkProfile(req.getParameter("id"));			   
 			   model.put("userprofilelist",userprofile_linkprofile[0]);
 			   model.put("linkprofilelist",userprofile_linkprofile[1]);
 			   model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
-			   model.put("emailid", req.getParameter("emailid"));
-			   
-			   
+			   model.put("emailid", req.getParameter("emailid"));		   
 			   
 			   
 			   return "admin/userprofile/updateuserprofile";
@@ -286,9 +273,7 @@ public class AdminHomeController {
 			   model.put("userprofilelist",userprofile_linkprofile[0]);
 			   model.put("linkprofilelist",userprofile_linkprofile[1]);
 			   model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
-			   model.put("emailid", req.getParameter("emailid"));
-			   
-			   
+			   model.put("emailid", req.getParameter("emailid"));		   
 			   
 			   
 			   return "admin/userprofile/updateuserprofile";
@@ -375,9 +360,6 @@ public class AdminHomeController {
 				   
 			   }
 			   
-			   
-			   
-			   
 			   model.put("departmentlist", stobartcontract.populate_Department("ALL","ALL"));
 			   model.put("subdepartmentlist", stobartcontract.populate_SubDepartment("ALL","ALL","ALL"));
 			   model.put("usercontractprofilelist", stobartcontract.showProfileListOfUser(req.getParameter("userid")));
@@ -385,6 +367,52 @@ public class AdminHomeController {
 			   return "admin/userprofile/viewcontractuserprofile";
 		}
 
+		
+	
+		
+		
+		
+		
+//--------- FOR GROUND OPS USER PROFILE -------------------------
+		
+
+		
+
+			
+			
+	        //---------- WILL SHOW USER DETAIL WITH PROFILE -----------------------------
+			@RequestMapping(value = "/gopsprofilemanager",method = {RequestMethod.POST,RequestMethod.GET})
+			public String gopsprofile_manager(ModelMap model,HttpServletRequest req){
+				
+				   model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userid")));
+				   
+				   String[] userprofile_linkprofile= new String[2];
+						   
+				   userprofile_linkprofile=lkuser.getUserpProfileAndLinkProfile(req.getParameter("userid"));
+				   
+				   model.put("userprofilelist",userprofile_linkprofile[0]);
+				   model.put("linkprofilelist",userprofile_linkprofile[1]);
+				   
+				   
+				   model.put("emailid", req.getParameter("emailid"));
+				   return "admin/userprofile/gopsuserprofilemanager";
+			}
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

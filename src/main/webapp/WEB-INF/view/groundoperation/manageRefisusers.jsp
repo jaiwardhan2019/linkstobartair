@@ -29,7 +29,7 @@ function searchUser(){
       {
 
     	  document.refieUser.method="POST"
-		  document.refieUser.action="managerefisuser";
+		  document.refieUser.action="managegopssuser";
 	      document.refieUser.submit();
 		  return true;
 
@@ -234,8 +234,7 @@ function add_new_user(){
           
        
           <tr>
-            <td colspan="6" align="center"> 
-            
+            <td colspan="6" align="center">             
                 
 	             <% if (ctr == 1){%>
 	                Sorry There is no User Found based on your search criteria..!!  <br> Please try again.!!

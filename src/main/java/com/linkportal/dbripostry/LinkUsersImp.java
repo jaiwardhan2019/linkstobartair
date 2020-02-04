@@ -32,17 +32,19 @@ import com.linkportal.datamodel.UsersRowmapper;
 @Repository
 public class LinkUsersImp implements linkUsers{
        
-	  @Autowired
-	  DataSource dataSourcemysql;
-	  
-	  
-	  JdbcTemplate jdbcTemplateMysql;	
-
-	  
-
-	  LinkUsersImp(DataSource dataSourcemysql){ 			
 	
-		    jdbcTemplateMysql = new JdbcTemplate(dataSourcemysql);
+	  
+	  @Autowired
+	  DataSource dataSourcesqlservercp;
+	  
+	  
+	  JdbcTemplate jdbcTemplatSqlserver;	
+
+	  
+
+	  LinkUsersImp(DataSource dataSourcesqlservercp){
+	
+		    jdbcTemplatSqlserver = new JdbcTemplate(dataSourcesqlservercp);   // <<-- New SQLSERVER 
 	  
 	  }
 
@@ -59,18 +61,18 @@ public class LinkUsersImp implements linkUsers{
 		   LocalDateTime now = LocalDateTime.now();
 		 
 		   String[] FirstName_LastName=useremail.split("[@._]"); 
-		   String sql="SELECT login_count FROM CORPORATE_PORTAL.LINK_USER_MASTER where EMAIL_ID='"+useremail+"' or first_name='"+useremail+"'";		   
-		   SqlRowSet logincount = jdbcTemplateMysql.queryForRowSet(sql);
+		   String sql="SELECT login_count FROM  link_user_master where email_id='"+useremail+"' or first_name='"+useremail+"'";		   
+		   SqlRowSet logincount = jdbcTemplatSqlserver.queryForRowSet(sql);
 		   
 		   if(logincount.next()) {
-			   jdbcTemplateMysql.execute("UPDATE CORPORATE_PORTAL.LINK_USER_MASTER SET LAST_LOGIN_DATE_TIME='"+now+"' , LOGIN_COUNT='"+(logincount.getInt(1)+1)+"' WHERE EMAIL_ID='"+useremail+"' or first_name='"+useremail+"'");
+			  jdbcTemplatSqlserver.execute("UPDATE LINK_USER_MASTER SET LAST_LOGIN_DATE_TIME='"+now+"' , LOGIN_COUNT='"+(logincount.getInt(1)+1)+"' WHERE EMAIL_ID='"+useremail+"' or first_name='"+useremail+"'");
 			   
 		   }
 		   else
 		   {
-          	   sql="INSERT INTO CORPORATE_PORTAL.LINK_USER_MASTER (FIRST_NAME,LAST_NAME,EMAIL_ID,ADMIN_STATUS,LOGIN_COUNT,LAST_LOGIN_DATE_TIME,ACTIVE_STATUS,INTERNAL_EXTERNAL_USER) "
+          	   sql="INSERT INTO LINK_USER_MASTER (FIRST_NAME,LAST_NAME,EMAIL_ID,ADMIN_STATUS,LOGIN_COUNT,LAST_LOGIN_DATE_TIME,ACTIVE_STATUS,INTERNAL_EXTERNAL_USER) "
          	 		+ "VALUES ('"+FirstName_LastName[0]+"', '"+FirstName_LastName[1]+"','"+useremail+"', 'N', '1','"+now+"','Active','I')";
-          	    jdbcTemplateMysql.execute(sql);
+          	    jdbcTemplatSqlserver.execute(sql);
 		   }
 		   
 
@@ -87,11 +89,11 @@ public class LinkUsersImp implements linkUsers{
 	@Override
 	public Map getUser_Profile_List_From_DataBase(String useremail) {
 		   
-		   String profilesql= "SELECT   CORPORATE_PORTAL.LINK_USER_MASTER.ADMIN_STATUS, LINK_PROFILE_MASTER.PROFILE_ID , MAIN_PROFILE, SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
-					   		  "FROM CORPORATE_PORTAL.LINK_PROFILE_MASTER, CORPORATE_PORTAL.LINK_USER_PROFILE_LIST , CORPORATE_PORTAL.LINK_USER_MASTER\r\n" + 
-					   		  "WHERE CORPORATE_PORTAL.LINK_PROFILE_MASTER.PROFILE_ID =  CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.PROFILE_ID "
-					   		  + "and CORPORATE_PORTAL.LINK_USER_MASTER.EMAIL_ID=CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.USER_EMAIL  \r\n" + 
-					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'";
+		   String profilesql= "SELECT    LINK_USER_MASTER.ADMIN_STATUS, LINK_PROFILE_MASTER.PROFILE_ID , MAIN_PROFILE, SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
+					   		  "FROM  LINK_PROFILE_MASTER,  LINK_USER_PROFILE_LIST ,  LINK_USER_MASTER\r\n" + 
+					   		  "WHERE  LINK_PROFILE_MASTER.PROFILE_ID =   LINK_USER_PROFILE_LIST.PROFILE_ID "
+					   		  + "and  LINK_USER_MASTER.EMAIL_ID= LINK_USER_PROFILE_LIST.USER_EMAIL  \r\n" + 
+					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'";
 	
 		   //System.out.println(profilesql);
 		   
@@ -102,7 +104,7 @@ public class LinkUsersImp implements linkUsers{
 	    
 
 	    	    
-	       profileMap = jdbcTemplateMysql.query(profilesql, new ResultSetExtractor<Map>(){
+	       profileMap = jdbcTemplatSqlserver.query(profilesql, new ResultSetExtractor<Map>(){
 	    	   
 	    	        @Override
 	    	        public Map extractData(ResultSet rs) {
@@ -122,12 +124,26 @@ public class LinkUsersImp implements linkUsers{
 								if(rs.getString("SUB_PROFILE").equals("Voyager")) {mapRet.put("Voyager", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("GCIGCMGCR")) {mapRet.put("GCIGCMGCR", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Manuals")) {mapRet.put("Manuals", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("safetycompliance")) {mapRet.put("safetycompliance", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("traning")) {mapRet.put("traning", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("weightstatement")) {mapRet.put("weightstatement", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("documentation")) {mapRet.put("documentation", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("forms")) {mapRet.put("forms", rs.getString("ACTIVE_STATUS"));}
+								
+								if(rs.getString("SUB_PROFILE").equals("gopsadmin")) {mapRet.put("gopsadmin", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("ManageUsers")) {mapRet.put("ManageUsers", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("ManageSmscontact")) {mapRet.put("ManageSmscontact", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("AirlineDataManager")) {mapRet.put("AirlineDataManager", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("CrewBrifingManager")) {mapRet.put("CrewBrifingManager", rs.getString("ACTIVE_STATUS"));}
+								
+								
+								
 								
 								if(rs.getString("SUB_PROFILE").equals("Cascade")) {mapRet.put("Cascade", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("StaffTravel")) {mapRet.put("StaffTravel", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Contract")) {mapRet.put("Contract", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Refis")) {mapRet.put("Refis", rs.getString("ACTIVE_STATUS"));}
-								if(rs.getString("ADMIN_STATUS").equals("Y")) {mapRet.put("ADMIN","Y");}	  	
+								if(rs.getString("ADMIN_STATUS").equals("Y")) {mapRet.put("admin","Y");}	  	
 							    
 							    
 							}//------ End of While 
@@ -165,17 +181,17 @@ public class LinkUsersImp implements linkUsers{
 		 
 		   if(usersname == null) {
 			   
-			   sqlstr="SELECT * FROM CORPORATE_PORTAL.LINK_USER_MASTER  order by FIRST_NAME";
+			   sqlstr="SELECT * FROM  LINK_USER_MASTER  order by FIRST_NAME";
 			   
 		   }
 		   else
 		   {
 
-				sqlstr="SELECT * FROM CORPORATE_PORTAL.LINK_USER_MASTER where FIRST_NAME like '"+usersname.trim()+"%'  or  LAST_NAME like '"+usersname.trim()+"%' order by FIRST_NAME";
+				sqlstr="SELECT * FROM  LINK_USER_MASTER where FIRST_NAME like '"+usersname.trim()+"%'  or  LAST_NAME like '"+usersname.trim()+"%' order by FIRST_NAME";
 				
 		   }
 		   
-		   List  linkusers = jdbcTemplateMysql.query(sqlstr,new UsersRowmapper());
+		   List  linkusers = jdbcTemplatSqlserver.query(sqlstr,new UsersRowmapper());
 	
 		   return linkusers;
 		
@@ -186,8 +202,8 @@ public class LinkUsersImp implements linkUsers{
 
 	@Override //-------- DISPLAY INDIVISUAL USER DETAIL AFTER SELECTION OF USER   
 	public Users getLinkUserDetails(String emailid) {	
-		String sql = "SELECT * FROM CORPORATE_PORTAL.LINK_USER_MASTER where EMAIL_ID = ?";
-		Users linkusersdetail =  jdbcTemplateMysql.queryForObject(sql, new Object[]{emailid}, new UsersRowmapper());
+		String sql = "SELECT * FROM  LINK_USER_MASTER where EMAIL_ID = ?";
+		Users linkusersdetail =  jdbcTemplatSqlserver.queryForObject(sql, new Object[]{emailid}, new UsersRowmapper());
 		return linkusersdetail;
 		
 	
@@ -199,13 +215,13 @@ public class LinkUsersImp implements linkUsers{
 	public  String[] getUserpProfileAndLinkProfile(String emailid) {	
 		
 		   String sqlforuserprofile="SELECT LINK_USER_PROFILE_LIST.PROFILE_ID , MAIN_PROFILE, SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
-			   		"FROM CORPORATE_PORTAL.LINK_PROFILE_MASTER, CORPORATE_PORTAL.LINK_USER_PROFILE_LIST\r\n" + 
-			   		"WHERE CORPORATE_PORTAL.LINK_PROFILE_MASTER.PROFILE_ID =  CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.PROFILE_ID \r\n" + 
-			   		"AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+emailid+"' AND CORPORATE_PORTAL.LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y' order by LINK_PROFILE_MASTER.MAIN_PROFILE, LINK_PROFILE_MASTER.SUB_PROFILE";
+			   		"FROM  LINK_PROFILE_MASTER,  LINK_USER_PROFILE_LIST\r\n" + 
+			   		"WHERE  LINK_PROFILE_MASTER.PROFILE_ID =   LINK_USER_PROFILE_LIST.PROFILE_ID \r\n" + 
+			   		"AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+emailid+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y' order by LINK_PROFILE_MASTER.MAIN_PROFILE, LINK_PROFILE_MASTER.SUB_PROFILE";
 				
 	
 		   
-		   String sqlforlinkprofile="SELECT * FROM CORPORATE_PORTAL.LINK_PROFILE_MASTER order by MAIN_PROFILE,SUB_PROFILE";
+		   String sqlforlinkprofile="SELECT * FROM  LINK_PROFILE_MASTER order by MAIN_PROFILE,SUB_PROFILE";
 			 
 		   
 		   
@@ -215,12 +231,12 @@ public class LinkUsersImp implements linkUsers{
 		   
 		   try {
 				
-				    Connection conn = dataSourcemysql.getConnection();				
+				    Connection conn = dataSourcesqlservercp.getConnection();				
 					PreparedStatement ps = conn.prepareStatement(sqlforuserprofile);
 		            ResultSet rs = ps.executeQuery();
 		         
 		            while(rs.next()){
-		            	stringuserprofile=stringuserprofile+"<tr> <td width='85%' align='left'>&nbsp;&nbsp;"+rs.getString("SUB_PROFILE")+"</td> <td width='15%' align='left'>"
+		            	stringuserprofile=stringuserprofile+"<tr> <td width='85%' align='left'>&nbsp;&nbsp;"+rs.getString("SUB_PROFILE")+"</td> <td width='15%' align='center'>"
 		            			+ " <input type='checkbox'  id='userprofile' name='userprofile' Value='"+rs.getString("PROFILE_ID")+"'>  </td></tr>";	            	
 	                }//------- End Of While Loop
 		            
@@ -231,7 +247,7 @@ public class LinkUsersImp implements linkUsers{
 		            rs = ps.executeQuery();
 		            
 		            while(rs.next()){
-		            	stringAllLinkProfile=stringAllLinkProfile+"<tr> <td width='85%' align='left'>&nbsp;&nbsp;"+rs.getString("MAIN_PROFILE")+"&nbsp;&nbsp;&nbsp;:=>&nbsp;"+rs.getString("SUB_PROFILE")+"</td> <td width='15%' align='left'>"
+		            	stringAllLinkProfile=stringAllLinkProfile+"<tr> <td width='85%' align='left'>&nbsp;&nbsp;"+rs.getString("MAIN_PROFILE")+"&nbsp;&nbsp;&nbsp;:=>&nbsp;"+rs.getString("SUB_PROFILE")+"</td> <td width='15%' align='center'>"
 		            			+ " <input type='checkbox'  id='linkprofile' name='linkprofile' Value='"+rs.getString("PROFILE_ID")+"'>  </td></tr>";	            	
 	                }//------- End Of While Loop
 		            conn.close();
@@ -263,7 +279,7 @@ public class LinkUsersImp implements linkUsers{
 	
 	@Override // THIS FUNCTION WILL UPDATE USER ACTIVE STATUS AND ADMIN STATUS 	
 	public void UpdateUserpProfileAndActiveStatustoDataBase(String emailid,String activestatus,String adminstatus) {		
-		   int status=jdbcTemplateMysql.update("UPDATE CORPORATE_PORTAL.LINK_USER_MASTER SET ACTIVE_STATUS='"+activestatus+"' , ADMIN_STATUS='"+adminstatus+"' WHERE CORPORATE_PORTAL.LINK_USER_MASTER.EMAIL_ID='"+emailid+"'");
+		   int status=jdbcTemplatSqlserver.update("UPDATE  LINK_USER_MASTER SET ACTIVE_STATUS='"+activestatus+"' , ADMIN_STATUS='"+adminstatus+"' WHERE  LINK_USER_MASTER.EMAIL_ID='"+emailid+"'");
 	}
 	
 	
@@ -276,11 +292,11 @@ public class LinkUsersImp implements linkUsers{
 		   try{
 			
 			   for(int i = 0; i < linkallprof.size(); i++) {
-					  String sql = "SELECT COUNT(*) FROM CORPORATE_PORTAL.LINK_USER_PROFILE_LIST WHERE PROFILE_ID="+linkallprof.get(i)+" AND USER_EMAIL='"+emailid+"'";	
+					  String sql = "SELECT COUNT(*) FROM  LINK_USER_PROFILE_LIST WHERE PROFILE_ID="+linkallprof.get(i)+" AND USER_EMAIL='"+emailid+"'";	
 				
-					  long foundstatus = jdbcTemplateMysql.queryForObject(sql,Long.class);
+					  long foundstatus = jdbcTemplatSqlserver.queryForObject(sql,Long.class);
 					   if(foundstatus == 0) {				   
-						   int statstatus=jdbcTemplateMysql.update("INSERT INTO CORPORATE_PORTAL.LINK_USER_PROFILE_LIST (USER_EMAIL, PROFILE_ID,ACTIVE_STATUS) VALUES ('"+emailid+"',"+linkallprof.get(i)+",'Y')");					  
+						   int statstatus=jdbcTemplatSqlserver.update("INSERT INTO  LINK_USER_PROFILE_LIST (USER_EMAIL, PROFILE_ID,ACTIVE_STATUS) VALUES ('"+emailid+"',"+linkallprof.get(i)+",'Y')");					  
 						    
 					   } // End of if--  	   			
 							
@@ -306,8 +322,8 @@ public class LinkUsersImp implements linkUsers{
 			   
 			   for(int j = 0; j < Userprofile.size(); j++) {
 				   
-				   String sql = "DELETE  FROM CORPORATE_PORTAL.LINK_USER_PROFILE_LIST WHERE PROFILE_ID="+Userprofile.get(j)+" AND USER_EMAIL='"+emailid+"'";	
-				   int stats=jdbcTemplateMysql.update(sql);		
+				   String sql = "DELETE  FROM  LINK_USER_PROFILE_LIST WHERE PROFILE_ID="+Userprofile.get(j)+" AND USER_EMAIL='"+emailid+"'";	
+				   int stats=jdbcTemplatSqlserver.update(sql);		
 			   
 			   }//----- End Of For Loop.
 			   
@@ -333,8 +349,8 @@ public class LinkUsersImp implements linkUsers{
 	public boolean Validate_External_User(String username) {		 
 		  try {
 			  
-		  String sqlForUser = "SELECT FIRST_NAME FROM CORPORATE_PORTAL.LINK_USER_MASTER where FIRST_NAME=?"; 		  
-		  String streetName = (String) jdbcTemplateMysql.queryForObject(sqlForUser, new Object[] { username }, String.class);	
+		  String sqlForUser = "SELECT FIRST_NAME FROM  LINK_USER_MASTER where FIRST_NAME=?"; 		  
+		  String streetName = (String) jdbcTemplatSqlserver.queryForObject(sqlForUser, new Object[] { username }, String.class);	
 		  
 		  //???  Write code for the ground operation header profile object ....
 		  
