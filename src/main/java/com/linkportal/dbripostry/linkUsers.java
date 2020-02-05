@@ -19,6 +19,11 @@ public interface linkUsers {
 
 	   public  String[] getUserpProfileAndLinkProfile(String emailid);
 	   
+	   public  String[] getUserpProfileandAllgroundopsProfile(String emailid);
+	   
+	   
+	   
+	   
 	   public boolean Validate_External_User(String username);  
 	   
          
@@ -31,7 +36,7 @@ public interface linkUsers {
 	   
 
 	   
-	  
+	   public  void  UpdateGopsProfiletoDataBase(String emailid , List alllinkprof);
 	   
 	
 	   

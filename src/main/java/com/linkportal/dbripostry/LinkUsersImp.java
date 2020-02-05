@@ -217,11 +217,11 @@ public class LinkUsersImp implements linkUsers{
 		   String sqlforuserprofile="SELECT LINK_USER_PROFILE_LIST.PROFILE_ID , MAIN_PROFILE, SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
 			   		"FROM  LINK_PROFILE_MASTER,  LINK_USER_PROFILE_LIST\r\n" + 
 			   		"WHERE  LINK_PROFILE_MASTER.PROFILE_ID =   LINK_USER_PROFILE_LIST.PROFILE_ID \r\n" + 
-			   		"AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+emailid+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y' order by LINK_PROFILE_MASTER.MAIN_PROFILE, LINK_PROFILE_MASTER.SUB_PROFILE";
+			   		"AND LINK_PROFILE_MASTER.application='link'  AND LINK_USER_PROFILE_LIST.USER_EMAIL='"+emailid+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y' order by LINK_PROFILE_MASTER.MAIN_PROFILE, LINK_PROFILE_MASTER.SUB_PROFILE";
 				
 	
 		   
-		   String sqlforlinkprofile="SELECT * FROM  LINK_PROFILE_MASTER order by MAIN_PROFILE,SUB_PROFILE";
+		   String sqlforlinkprofile="SELECT * FROM  LINK_PROFILE_MASTER where application='link' order by MAIN_PROFILE,SUB_PROFILE";
 			 
 		   
 		   
@@ -359,6 +359,98 @@ public class LinkUsersImp implements linkUsers{
 			  return false;
 		  }
 		return true;
+	}
+
+
+
+
+
+
+
+    ////////  GET ALL GROUND OPS PROFILE AND GROUND OPS USER PROFILE 
+	@Override
+	public String[] getUserpProfileandAllgroundopsProfile(String emailid) {
+		   String sqlforuserprofile="SELECT LINK_USER_PROFILE_LIST.PROFILE_ID , MAIN_PROFILE, SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
+			   		"FROM  LINK_PROFILE_MASTER,  LINK_USER_PROFILE_LIST\r\n" + 
+			   		"WHERE  LINK_PROFILE_MASTER.PROFILE_ID =   LINK_USER_PROFILE_LIST.PROFILE_ID \r\n" + 
+			   		"AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+emailid+"'  AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y' and LINK_PROFILE_MASTER.application='gops' order by LINK_PROFILE_MASTER.MAIN_PROFILE, LINK_PROFILE_MASTER.SUB_PROFILE";
+				
+	
+		
+		   
+		   String sqlforlinkprofile="SELECT * FROM  LINK_PROFILE_MASTER where  application='gops' order by MAIN_PROFILE,SUB_PROFILE";
+			 
+		   
+		   
+		   String stringuserprofile="";
+		   String stringAllGopsProfile="";
+		   
+		   
+		   try {
+				
+				    Connection conn = dataSourcesqlservercp.getConnection();				
+					PreparedStatement ps = conn.prepareStatement(sqlforuserprofile);
+		            ResultSet rs = ps.executeQuery();
+		         
+		            while(rs.next()){
+		            	stringuserprofile=stringuserprofile+"<tr> <td width='85%' align='left'>&nbsp;&nbsp;<b>"+rs.getString("MAIN_PROFILE")+"&nbsp;&nbsp;&nbsp;:=>&nbsp;"+rs.getString("SUB_PROFILE")+"</b></td> "
+		            			+ "<td width='15%' align='center'> <input type='checkbox'  id='userprofile' name='userprofile' Value='"+rs.getString("PROFILE_ID")+"'>  </td></tr>";	            	
+	      		            
+		            }//------- End Of While Loop
+		            
+		            
+		            ps=null;
+		            rs=null;
+		            ps = conn.prepareStatement(sqlforlinkprofile);
+		            rs = ps.executeQuery();
+		            
+		            while(rs.next()){
+		            	stringAllGopsProfile=stringAllGopsProfile+"<tr> <td width='85%' align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>"+rs.getString("MAIN_PROFILE")+"&nbsp;&nbsp;&nbsp;:=>&nbsp;"+rs.getString("SUB_PROFILE")+"</b></td> "
+		            			+ " <td width='15%' align='center'><input type='checkbox'  id='gopsprofile' name='gopsprofile' Value='"+rs.getString("PROFILE_ID")+"'> </td></tr>";	            	
+	                }//------- End Of While Loop
+		            conn.close();
+				
+			}catch (SQLException e) {logger.error("Error in GetUserpProfileAndLinkProfile Fucntion :"+e.toString());}
+			
+		   String[] result = new String[2];
+		   result[0]=stringuserprofile;
+		   result[1]=stringAllGopsProfile;
+		 
+						
+		  return result;
+		
+	  }
+
+
+
+
+
+
+
+
+    ////////  UPDATE GROUND OPS USER PROFILE FROM THE DATABASE 
+	@Override
+	public void UpdateGopsProfiletoDataBase(String emailid, List linkallprof) {
+		   
+		   try{
+			
+			   for(int i = 0; i < linkallprof.size(); i++) {
+					  String sql = "SELECT COUNT(*) FROM  LINK_USER_PROFILE_LIST WHERE PROFILE_ID="+linkallprof.get(i)+" AND USER_EMAIL='"+emailid+"'";	
+					  //System.out.println(sql); 
+					  
+					  long foundstatus = jdbcTemplatSqlserver.queryForObject(sql,Long.class);
+					   if(foundstatus == 0) {				   
+						   int statstatus=jdbcTemplatSqlserver.update("INSERT INTO  LINK_USER_PROFILE_LIST (USER_EMAIL, PROFILE_ID,ACTIVE_STATUS) VALUES ('"+emailid+"',"+linkallprof.get(i)+",'Y')");					  
+						   //System.out.println("Added to database "+linkallprof.get(i));  
+					   } // End of if--  	   			
+							
+						   
+				 }// End of For Loop --- 
+
+		   }catch(Exception updateerror) {logger.error("While Updating Ground Ops User Profile:"+updateerror.toString());}
+
+	
+		
 	}
 
 

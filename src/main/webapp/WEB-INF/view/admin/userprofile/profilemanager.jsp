@@ -192,7 +192,7 @@ function show_groundops_user_Profile(useremail){
            <c:forEach var="linkusers" items="${linkuserlist}"> 
            
 		               
-		          <tr>
+		   <tr>
 		          
 		          <td><%=ctr%></td>
 		          

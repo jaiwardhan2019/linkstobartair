@@ -170,31 +170,37 @@ function cal_groundops_home(usertype){
 		</li>
 	</c:if>	
 	
-		
+	
+	  <c:if test="${profilelist.safetycompliance  == 'Y'}"> 	
 	    <li class="dropdown">
 	 
 	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Safety Compliance.</a>
 					  
 		</li>
-
-	
+      </c:if>
+      
+      
+     <c:if test="${profilelist.traning  == 'Y'}"> 	
+	 
 	    <li class="dropdown">
 	 
 	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Training.</a>
 					  
 		</li>
-		
+	</c:if>	
 			
-		
+     <c:if test="${profilelist.weightstatement  == 'Y'}"> 			
 	    <li class="dropdown">
 	 
 		  <a href="" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Weight Statement</a>
 		  
 					  
 		</li>
+	</c:if>
 	
 	
-
+	
+ <c:if test="${profilelist.documentation  == 'Y'}"> 		
 	 <li class="dropdown">
 	 
 		  <a href="adminhome" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Documentation&nbsp;<span class="caret"></span></a>
@@ -216,9 +222,11 @@ function cal_groundops_home(usertype){
 		       </ul>
 					  
 		</li>
+	</c:if>
 		
 	  		
-		 <li class="dropdown">
+ <c:if test="${profilelist.forms  == 'Y'}"> 		
+	<li class="dropdown">
 	 
 		  <a href="forms" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Forms&nbsp;<span class="caret"></span></a>
 		  
@@ -232,7 +240,7 @@ function cal_groundops_home(usertype){
 			    </ul>
 					  
 		</li>
- 
+ </c:if>
 
 
 	
@@ -241,7 +249,7 @@ function cal_groundops_home(usertype){
 	  <c:set var="userid" value="<%=user_login_id %>"/>
 			
 
-		
+		 <c:if test="${profilelist.admin  == 'Y'}"> 	
 				 <li class="dropdown">
 				 
 					  <a href="refisadmin" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-md" aria-hidden="true"></i>&nbsp;&nbsp;Admin <span class="caret"></span></a>
@@ -255,6 +263,10 @@ function cal_groundops_home(usertype){
 					      </ul>
 								  
 					</li>
+         </c:if>
+         
+         
+         
          
 			<li class="dropdown">
 					  <a href="#" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;${userid}&nbsp;<span class="caret"></span></a>

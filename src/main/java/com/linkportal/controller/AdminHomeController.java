@@ -242,17 +242,11 @@ public class AdminHomeController {
 		}		
 		
 		
+			
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		//---------- THIS PART WILL REMOVE EXISTING PROFILE FROM DATABASE FOR A USER -----------------------------
+		//---------- THIS PART WILL REMOVE EXISTING LINK PROFILE FROM DATABASE FOR A USER -----------------------------
 		@RequestMapping(value = "/removelinkuserprofile",method = {RequestMethod.POST,RequestMethod.GET})
 		public String remove_linkuser_profileToDatabase(ModelMap model,HttpServletRequest req) {
 			
@@ -274,9 +268,8 @@ public class AdminHomeController {
 			   model.put("linkprofilelist",userprofile_linkprofile[1]);
 			   model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
 			   model.put("emailid", req.getParameter("emailid"));		   
-			   
-			   
 			   return "admin/userprofile/updateuserprofile";
+			
 		}		
 		
 	
@@ -373,34 +366,97 @@ public class AdminHomeController {
 		
 		
 		
-//--------- FOR GROUND OPS USER PROFILE -------------------------
+		
+		
+		
+/////////////////// FOR GROUND OPS USER PROFILE ////////////////////////-------
 		
 
 		
 
+	
+	
+    //---------- WILL SHOW USER DETAIL WITH PROFILE OF GROUND OPS-----------------------------
+	@RequestMapping(value = "/gopsprofilemanager",method = {RequestMethod.POST,RequestMethod.GET})
+	public String gopsprofile_manager(ModelMap model,HttpServletRequest req){
+		
+		   model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userid")));
+		   
+		   String[] userprofile_linkprofile= new String[2];
+				   
+		   userprofile_linkprofile=lkuser.getUserpProfileandAllgroundopsProfile(req.getParameter("userid"));
+		   
+		   model.put("userprofilelist",userprofile_linkprofile[0]);
+		   model.put("gopsprofilelist",userprofile_linkprofile[1]);
+		   
+		   
+		   model.put("emailid", req.getParameter("emailid"));
+		   return "admin/userprofile/gopsuserprofilemanager";
+	}
+
+	
+		
+	
+	
+	
+	//---------- THIS PART WILL UPDATE NEW LINK PROFILE FOR A USER TO DATABASE -----------------------------
+	@RequestMapping(value = "/updateGopsProfileToDataBase",method = {RequestMethod.POST,RequestMethod.GET})
+	public String update_Gops_profileToDatabase(ModelMap model,HttpServletRequest req) {
+		  model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userid")));
+		   
+		   if(req.getParameterValues("gopsprofile") != null) {
+		     String[] selectedGopsprofile = req.getParameterValues("gopsprofile");
+		     List profilelist = Arrays.asList(selectedGopsprofile);
+		     // THIS FUNCTION WILL UPDATE USER MASTER AND USER PROFILE LIST					
+			 lkuser.UpdateGopsProfiletoDataBase(req.getParameter("userid"),profilelist);
+			 model.put("status","Profile Updated..");
+		   }
+		
+ 		   
+		   //----------- This Part is to Built -  Next Page with the User Detail and Profile detail 
+		   String[] userprofile_linkprofile= new String[2];			   
+		   userprofile_linkprofile=lkuser.getUserpProfileandAllgroundopsProfile(req.getParameter("userid"));		   
+		   model.put("userprofilelist",userprofile_linkprofile[0]);
+		   model.put("gopsprofilelist",userprofile_linkprofile[1]);
+		   model.put("emailid", req.getParameter("emailid"));
+		   return "admin/userprofile/gopsuserprofilemanager";	
+	
+	}		
+	
+	
+	
+		
+
+	
+	
+	//---------- THIS PART WILL REMOVE EXISTING LINK PROFILE FROM DATABASE FOR A USER -----------------------------
+	@RequestMapping(value = "/removegopsprofile",method = {RequestMethod.POST,RequestMethod.GET})
+	public String remove_Groundops_profilefromDatabase(ModelMap model,HttpServletRequest req) {
+		
+		   if(req.getParameterValues("userprofile") != null) {
+		     String[] selectedUserprofile = req.getParameterValues("userprofile");
+		     List userprofilelist = Arrays.asList(selectedUserprofile);
+		     // THIS FUNCTION WILL UPDATE USER MASTER AND USER PROFILE LIST			   
+			 lkuser.RemoveUserpProfileAndLinkProfiletoDataBase(req.getParameter("userid"),userprofilelist);
+			 model.put("status","Profile Removed...");
+					   
+		   }
+	
+		   
+
+		   //----------- This Part is to Built -  Next Page with the User Detail and Profile detail 
+		   String[] userprofile_linkprofile= new String[2];			   
+		   userprofile_linkprofile=lkuser.getUserpProfileandAllgroundopsProfile(req.getParameter("userid"));		   
+		   model.put("userprofilelist",userprofile_linkprofile[0]);
+		   model.put("gopsprofilelist",userprofile_linkprofile[1]);
+		   model.put("emailid", req.getParameter("emailid"));
+		   model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userid")));
+		   return "admin/userprofile/gopsuserprofilemanager";	
 			
-			
-	        //---------- WILL SHOW USER DETAIL WITH PROFILE -----------------------------
-			@RequestMapping(value = "/gopsprofilemanager",method = {RequestMethod.POST,RequestMethod.GET})
-			public String gopsprofile_manager(ModelMap model,HttpServletRequest req){
-				
-				   model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userid")));
-				   
-				   String[] userprofile_linkprofile= new String[2];
-						   
-				   userprofile_linkprofile=lkuser.getUserpProfileAndLinkProfile(req.getParameter("userid"));
-				   
-				   model.put("userprofilelist",userprofile_linkprofile[0]);
-				   model.put("linkprofilelist",userprofile_linkprofile[1]);
-				   
-				   
-				   model.put("emailid", req.getParameter("emailid"));
-				   return "admin/userprofile/gopsuserprofilemanager";
-			}
-
+	}		
 		
-		
-		
+	
+	
 		
 		
 		
