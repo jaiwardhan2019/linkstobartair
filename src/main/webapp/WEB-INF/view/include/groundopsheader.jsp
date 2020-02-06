@@ -349,7 +349,7 @@ function cal_groundops_home(usertype){
 
 
 <style>
-body {
+body1 {
   background-image: url('images/groundopsbackground.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;  
@@ -372,7 +372,7 @@ body1 {
 
 
 
-body1 {
+body {
   background-image: url('images/groundopsbackground.png');
   background-repeat: no-repeat;
   background-attachment: fixed;  

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Manage REFIS User Account </title>
+<title>Manage Ground Ops User Account </title>
 </head>
 
 
@@ -28,7 +28,7 @@ function searchUser(){
       else
       {
 
-    	  document.refieUser.method="POST"
+    	  document.refieUser.method="POST";
 		  document.refieUser.action="managegopssuser";
 	      document.refieUser.submit();
 		  return true;
@@ -45,54 +45,44 @@ function searchUser(){
 function remove_user_Profile(accountid){
 			
 		if(confirm("Are you sure about Removing This User ??")){
-		      //document.refieUser.method="POST"
-			  //document.refieUser.action="stafflist?account="+accountid;
-		      //document.refieUser.submit();
-			  //return true;
-		
-		}
 
-		alert("Under Construction..");
+			   document.refieUser.method="POST";
+			   document.refieUser.operation.value="remove";
+			   document.refieUser.userinsubject.value=accountid;
+			   document.refieUser.action="managegopssuser";
+			   document.refieUser.submit();
+			   return true;		
+		 }
+	
 
 } //-------- End Of Function 
 
 
 
 
-function update_user_Profile(accountid){
+function view_update_user_Profile(accountid){
 			
-		if(confirm("Are you sure about Removing This User ??")){
-		      //document.refieUser.method="POST"
-			  //document.refieUser.action="stafflist?account="+accountid;
-		      //document.refieUser.submit();
-			  //return true;		
-		}
-		alert("Under Construction.."+accountid);
-
+	
+		   document.refieUser.method="POST"
+		   document.refieUser.operation.value="viewupdate";
+		   document.refieUser.action="managegopssuser";
+		   document.refieUser.submit();
+		   return true;		
+	
 } //-------- End Of Function 
 
-
-
-
-function view_user_Profile(accountid){
-		      //document.refieUser.method="POST"
-			  //document.refieUser.action="stafflist?account="+accountid;
-		      //document.refieUser.submit();
-			  //return true;		
-		alert("View User Profile Under  Construction.."+accountid);
-
-} //-------- End Of Function 
 
 
 
 
 
 function add_new_user(){
-		      //document.refieUser.method="POST"
-			  //document.refieUser.action="stafflist?account="+accountid;
-		      //document.refieUser.submit();
-			  //return true;		
-		alert("Under Construction..");
+	
+	   document.refieUser.method="POST"
+	   document.refieUser.operation.value="addnew";
+	   document.refieUser.action="managegopssuser";
+	   document.refieUser.submit();
+	   return true;		
 
 } //-------- End Of Function 
 
@@ -119,7 +109,11 @@ function add_new_user(){
 
   <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
   <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
-   <input type="hidden" name="usertype" value="${usertype}">
+  <input type="hidden" name="usertype"  value="${usertype}">
+  <input type="hidden" name="operation" id="operation" value="">
+  <input type="hidden" name="userinsubject" id="userinsubject"  value="">
+  
+
 
   <table  border="0" style="width: 50%;" align="center"> 
 				     <tr>
@@ -177,14 +171,14 @@ function add_new_user(){
 	
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					    Permissions	
+					    ( View / Update ) Profile	
 					     </b></span>					 
 					 </td>
 					
 					     
 				     <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					      Manage (Update /  Remove )	
+					       Remove 
 					     </b></span>					 
 					 </td>
           </tr>
@@ -199,12 +193,12 @@ function add_new_user(){
 		         
 		          <td>
 		          
-		            	<c:if test="${refisAccount.enabled == 1}">
+		            	<c:if test="${refisAccount.enabled == 'Active'}">
 		                     <i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <span style="color:green;font-weight:bold;"> Enable</span>
 		                </c:if>
 		          
 		          
-		            	<c:if test="${refisAccount.enabled == 0}">
+		            	<c:if test="${refisAccount.enabled == 'Dctive'}">
 		                    <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;  <span style="color:red;font-weight:bold;"> Disable  </span>
 		                </c:if>
 		          
@@ -213,13 +207,11 @@ function add_new_user(){
 		          
 		          </td>
 	
-		          <td> &nbsp;&nbsp; <span style="font-weight:bold;" onClick="view_user_Profile('${refisAccount.username}');"  class="btn btn-info btn-sm"><i class="fa fa-eye fa-lg" aria-hidden="true"></i> View  </span></td>
+		          <td align="center"> &nbsp;&nbsp; <span style="font-weight:bold;" onClick="view_update_user_Profile('${refisAccount.username}');"  class="btn btn-info btn-sm"> <i class="fa fa-eye fa-lg" aria-hidden="true"></i>&nbsp;View&nbsp; &nbsp;<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp;Update</span></td>
 		         
 		         
 		           
 		           <td align="center"> 
-		                <span style="font-weight:bold;" onClick="update_user_Profile('${refisAccount.username}');"  class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i>&nbsp; Update </span>
-		                &nbsp;&nbsp;&nbsp;&nbsp; 
 		                <span style="font-weight:bold;" onClick="remove_user_Profile('${refisAccount.username}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw  fa-lg"></i>&nbsp;Delete</span>
 		           
 		           </td>

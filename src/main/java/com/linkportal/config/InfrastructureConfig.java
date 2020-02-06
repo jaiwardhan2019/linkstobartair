@@ -46,7 +46,7 @@ public class InfrastructureConfig{
 	
 	
 	
-	
+	//------- PDC DB----------------
 	@Bean(name = "dataSourcesqlserver")
 	@ConfigurationProperties(prefix = "sqlserver.datasource")
 	public DataSource dataSourcesqlserver() {
@@ -55,7 +55,7 @@ public class InfrastructureConfig{
 	
 	
 
-	
+	//------- LINK PORTAL----------------
 	@Bean(name = "dataSourcesqlservercp")
 	@ConfigurationProperties(prefix = "cpsqlserver.datasource")
 	public DataSource dataSourcesqlservercp() {
