@@ -90,38 +90,48 @@ public class groundOpsController {
 			model.addAttribute("password",req.getParameter("password"));			
 			//model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
-			model.put("usertype",req.getParameter("usertype"));			
+			model.put("usertype",req.getParameter("usertype"));	
+			
 			
 			
 			
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("operation") != null){	
 				
-				if(req.getParameter("operation").equals("viewupdate")) {System.out.println("View Update Selected");}
 				
-				if(req.getParameter("operation").equals("remove")) {
-				   System.out.println("Remove Operation is selected ");
-				   status=refisuser.removeRefisUser_FromDb(req.getParameter("userinsubject"));
+				//-- View Update Ground Ops User --
+				if(req.getParameter("operation").equals("viewupdate")) {
+					System.out.println("View Update Selected");
+					model.put("status","User Updated..");
+					model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim()));					
+					//System.out.println(refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim()).toString());
+					return "groundoperation/viewUpdateRefisusers"; 
 				}
 				
 				
-				if(req.getParameter("operation").equals("addnew")) {System.out.println("Add new is selected ");}
 				
-				try {
-					
-					/*
-						int delstatus=staffuser.removeStaff_FromDb(Integer.parseInt(req.getParameter("account")));
-						if(delstatus == 0){		
-							model.put("deletestatus","<span style='color:green;'> <b> User ID  : "+req.getParameter("account")+"  Removed !! </b></span>");					    	
-						    logger.info("User ID  : "+req.getParameter("account")+" Removed from Staff Travel Database by :"+req.getParameter("emailid")); 
-						}
-						else
-						{
-							model.put("deletestatus","<span style='color:red;'> <b> User ID  : "+req.getParameter("account")+" Not Removed !! please try again </b></span>");
-					    	
-						}
-				*/
-				}catch(NumberFormatException ww) {logger.error(ww);}
+				
+				
+				
+				
+				
+				
+				//-- Remove Ground Ops User --
+				if(req.getParameter("operation").equals("remove")) {
+				   System.out.println("Remove Operation is selected ");
+				   status=refisuser.removeRefisUser_FromDb(req.getParameter("userinsubject"));
+				   model.put("status","User id :&nbsp;"+req.getParameter("userinsubject")+"&nbsp; Removed Successfully..");	
+				}
+				
+				
+				//-- Add new User--
+				if(req.getParameter("operation").equals("addnew")) {
+				  System.out.println("Add new is selected ");
+				  model.put("status","New Ground Handler Created Successfully..");
+				}
+				
+				
+				
 				
 			}//---------- End Of Account Removed Operation 
 			

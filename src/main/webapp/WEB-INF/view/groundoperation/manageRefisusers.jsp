@@ -62,9 +62,10 @@ function remove_user_Profile(accountid){
 
 function view_update_user_Profile(accountid){
 			
-	
+	   
 		   document.refieUser.method="POST"
 		   document.refieUser.operation.value="viewupdate";
+		   document.refieUser.userinsubject.value=accountid;
 		   document.refieUser.action="managegopssuser";
 		   document.refieUser.submit();
 		   return true;		
@@ -128,21 +129,25 @@ function add_new_user(){
 	 		 
   <table  style="width: 80%;" align="center">
 	  <tr>
-	  			    <td  align="right">
+	  			    <td  align="right" width="40%">
 	  			
 						<input autofocus  type="text" name="user"  id="user"  class="form-control"    placeholder="Enter First Name or Last Name"/>
 		        	</td>
 					<td align="left">
 						&nbsp;&nbsp; <span onClick="searchUser();" id="buttonDemo1" class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Search </span> 
-					
+					    &nbsp;&nbsp;<span style="color:white;font-weight:bold;">${status}</span> 
 					</td>
+					
+			        
 		
 		  <td align="right"> 
+		       
         		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New User  </span> 
 		 
 		  </td>
 
-	   </tr>	
+	   </tr>
+	
 			
  </table>	
 	

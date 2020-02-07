@@ -481,7 +481,7 @@ public class AdminHomeController {
 		@GetMapping("/fileuploadtest")	
 		String fileuploadTest(ModelMap model){		
 
-		    return "Upload";
+		    return "fileuploadtest";
 		 }
 
 		

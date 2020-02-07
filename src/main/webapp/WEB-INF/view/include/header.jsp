@@ -4,6 +4,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<script>
+    //--- THIS PIECE OF CODE WILL DISABLE THE MOUSE RIGHT CLICK ------------ 
+    var isNS = (navigator.appName == "Netscape") ? 1 : 0;
+	if(navigator.appName == "Netscape") document.captureEvents(Event.MOUSEDOWN||Event.MOUSEUP);
+
+	function mischandler(){
+	    return false;
+	}
+
+	function mousehandler(e){
+	var myevent = (isNS) ? e : event;
+	var eventbutton = (isNS) ? myevent.which : myevent.button;
+	if((eventbutton==2)||(eventbutton==3)) return false;
+	}
+
+	document.oncontextmenu = mischandler;
+	document.onmousedown = mousehandler;
+	document.onmouseup = mousehandler;
+	
+</script>
  
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

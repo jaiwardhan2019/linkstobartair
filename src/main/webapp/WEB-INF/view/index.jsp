@@ -3,11 +3,33 @@
 <html lang="en">
 <head>
 
+<script>
+    //--- THIS PIECE OF CODE WILL DISABLE THE MOUSE RIGHT CLICK ------------ 
+    var isNS = (navigator.appName == "Netscape") ? 1 : 0;
+	if(navigator.appName == "Netscape") document.captureEvents(Event.MOUSEDOWN||Event.MOUSEUP);
+
+	function mischandler(){
+	    return false;
+	}
+
+	function mousehandler(e){
+	var myevent = (isNS) ? e : event;
+	var eventbutton = (isNS) ? myevent.which : myevent.button;
+	if((eventbutton==2)||(eventbutton==3)) return false;
+	}
+
+	document.oncontextmenu = mischandler;
+	document.onmousedown = mousehandler;
+	document.onmouseup = mousehandler;
+	
+</script>
+
+
     <meta charset="utf-8">   
     <title>StobartAir| StobartAir | Link 1.1 </title>
     
     <!-- Bootstrap Core CSS --> 
-    <link href="<c:url value="css/bootstrap.min.css"/>" rel="stylesheet">	
+    <link href="css/bootstrap.min.css" rel="stylesheet">	
 	<link rel="stylesheet" href="<c:url value="css/freelancer.css"/>">
 	
 	<!-- FontAwesome FA FA ICONS -->
@@ -35,7 +57,7 @@
 </head>
 
 
-<body style="font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;background:url('<c:url value="images/11.png"/>');background-position: 50% 50%;background-size:cover;">
+<body style="font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;background:url('images/11.png');background-position: 50% 50%;background-size:cover;">
 
 
 

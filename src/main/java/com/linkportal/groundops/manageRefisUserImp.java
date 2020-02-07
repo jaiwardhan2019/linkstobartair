@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.linkportal.contractmanager.stobartContractRowmapper;
+
 
 @Transactional
 @Repository
@@ -80,7 +82,9 @@ public class manageRefisUserImp implements manageRefisUser  {
 	           
 		       status = jdbcTemplateRefis.update("DELETE FROM  link_user_master WHERE internal_external_user='E' and email_id='"+emailid+"'");
 		       status = jdbcTemplateRefis.update("DELETE FROM link_user_profile_list WHERE user_email='"+emailid+"'");
-			      
+			   //** NEED TO REMOVE AIRLINE AND AIRPORT LIST ATTACHED WITH THIS USER AS WELL   
+		       
+		       
 			   //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=1");
 		  
 		   
@@ -92,6 +96,26 @@ public class manageRefisUserImp implements manageRefisUser  {
 		
 		   return status;
 	
+	}
+
+
+
+
+	@Override
+	public refisUsers viewGopsUserDetail(String username) {		
+		   String viewsql="SELECT * FROM link_user_master where internal_external_user='E' and first_name=?";
+		   //System.out.println(viewsql);
+		   return jdbcTemplateRefis.queryForObject(viewsql, new Object[]{username}, new refisUsersRowmapper());	
+	}
+
+
+	
+
+
+	@Override
+	public int updateGopsUserDetail(String username) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
