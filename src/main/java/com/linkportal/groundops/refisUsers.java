@@ -86,7 +86,7 @@ public class refisUsers {
 
 	public void setPasswordDecodeBase64(String comments) {
 		if (comments != null) {
-			this.password = new String(Base64.encodeBase64(password.getBytes()));
+			this.password = new String(Base64.encodeBase64(comments.getBytes()));
 		} else {
 			this.password = null;
 		}

@@ -64,7 +64,7 @@ function view_update_user_Profile(accountid){
 			
 	   
 		   document.refieUser.method="POST"
-		   document.refieUser.operation.value="viewupdate";
+		   document.refieUser.operation.value="view";
 		   document.refieUser.userinsubject.value=accountid;
 		   document.refieUser.action="managegopssuser";
 		   document.refieUser.submit();
@@ -203,7 +203,7 @@ function add_new_user(){
 		                </c:if>
 		          
 		          
-		            	<c:if test="${refisAccount.enabled == 'Dctive'}">
+		            	<c:if test="${refisAccount.enabled == 'Dactive'}">
 		                    <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;  <span style="color:red;font-weight:bold;"> Disable  </span>
 		                </c:if>
 		          

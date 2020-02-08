@@ -2,6 +2,8 @@ package com.linkportal.groundops;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface manageRefisUser {
 	
 
@@ -14,7 +16,7 @@ public interface manageRefisUser {
 	public refisUsers viewGopsUserDetail(String username);	
 	
 	
-	public int  updateGopsUserDetail(String username);
+	public int  updateGopsUserDetail(HttpServletRequest req);
 	
 	
 	

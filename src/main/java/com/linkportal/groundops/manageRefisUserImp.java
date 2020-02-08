@@ -1,9 +1,17 @@
 package com.linkportal.groundops;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.apache.poi.util.Beta;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,9 +121,41 @@ public class manageRefisUserImp implements manageRefisUser  {
 
 
 	@Override
-	public int updateGopsUserDetail(String username) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateGopsUserDetail(HttpServletRequest req) {
+		   String viewsql="SELECT * FROM link_user_master where internal_external_user='E' and first_name=?";
+		   //System.out.println(viewsql);
+		   
+		   try {
+				  
+			   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			   LocalDateTime currentdateandtime = LocalDateTime.now();		   
+			   Connection conn= dataSourcesqlservercp.getConnection();		   
+		
+			   
+			   
+			   String SQL_UPDATE = "UPDATE link_user_master SET first_name=? , email_id=? , active_status=? , gh_password=? , gops_user_creation_date=? "
+				   		+ " WHERE first_name=?";
+			 
+			   
+			   
+			   
+				   PreparedStatement pstm = conn.prepareStatement(SQL_UPDATE);
+					   pstm.setString(1,req.getParameter("userid"));					  	  
+					   pstm.setString(2,req.getParameter("useremail"));
+					   pstm.setString(3,req.getParameter("status"));
+					   pstm.setString(4,Base64.encodeBase64(req.getParameter("userpassword").getBytes()).toString());
+					   pstm.setString(5,currentdateandtime.toString());
+					   pstm.setString(6,req.getParameter("userid").trim());		
+				   int rows = pstm.executeUpdate();
+				   pstm = null;
+				   conn.close();
+			   
+			   }catch(Exception ex) {logger.error("While Updating Ground OPS USER :"+ex.toString()); return 0;}	
+				
+		   
+		   
+		   return 1;	
+		
 	}
 
 }

@@ -99,18 +99,28 @@ public class groundOpsController {
 			if(req.getParameter("operation") != null){	
 				
 				
-				//-- View Update Ground Ops User --
-				if(req.getParameter("operation").equals("viewupdate")) {
-					System.out.println("View Update Selected");
-					model.put("status","User Updated..");
-					model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim()));					
-					//System.out.println(refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim()).toString());
+				//-- View  Ground Ops User --
+				if(req.getParameter("operation").equals("view")) {
+					System.out.println("View Update Selected");					
+					model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim()));
 					return "groundoperation/viewUpdateRefisusers"; 
 				}
 				
 				
 				
 				
+				//-- Update Ground Ops User --
+				if(req.getParameter("operation").equals("update")) {
+			   	   if(refisuser.updateGopsUserDetail(req) == 1){
+					  model.put("status","User Updated...");
+				    }
+			   	   else
+			   	   {
+			   		model.put("status","User Not Updated check log file.");
+			   	   }
+				   model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userid").trim()));					
+				   return "groundoperation/viewUpdateRefisusers"; 
+				}
 				
 				
 				
@@ -122,6 +132,8 @@ public class groundOpsController {
 				   status=refisuser.removeRefisUser_FromDb(req.getParameter("userinsubject"));
 				   model.put("status","User id :&nbsp;"+req.getParameter("userinsubject")+"&nbsp; Removed Successfully..");	
 				}
+				
+				
 				
 				
 				//-- Add new User--
