@@ -44,14 +44,6 @@ function update_user(accountid){
 
 
 
-function view_user_Profile(accountid){
-		      //document.refieUser.method="POST"
-			  //document.refieUser.action="stafflist?account="+accountid;
-		      //document.refieUser.submit();
-			  //return true;		
-		alert("View User Profile Under  Construction.."+accountid);
-
-} //-------- End Of Function 
 
 
 
@@ -120,9 +112,9 @@ $(".chosen").chosen({
 					<div class="col-xs-10">
 							<label> User Name </label>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-									<input type="text"  name="userid" readonly id="userid" class="form-control" value="${gopsuserdetail.username}">
-											
+								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
+										<input type="text"  name="userid" readonly id="userid" class="form-control" value="${gopsuserdetail.username}">					
+												
 							</div>
 				    </div>
 				    
@@ -189,9 +181,6 @@ $(".chosen").chosen({
 								<span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
 									    <select multiple class="form-control" name="airline" id="airline">
 									           ${listofairline}
-									      <option value="EIN">EIN   -   Air Lingus</option>
-									      <option value="BEA">BEA   -   FlyBe</option>
-									      
 									    </select>										
 							</div>
 			            </div>

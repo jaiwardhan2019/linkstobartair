@@ -63,7 +63,7 @@ public class manageRefisUserImp implements manageRefisUser  {
 	//---------- will show all Staff Travel users from the data base 
 	@Override
 	public List<refisUsers> showRefisUser() {			
-		   String sqlListRefis="SELECT * FROM link_user_master where internal_external_user='E'  order by first_name";			
+		   String sqlListRefis="SELECT * FROM link_user_master where internal_external_user='E'  order by gops_user_creation_date desc ,first_name";			
 		   List  refisUsers = jdbcTemplateRefis.query(sqlListRefis,new refisUsersRowmapper());			   
 		return refisUsers;
 	}
@@ -74,7 +74,7 @@ public class manageRefisUserImp implements manageRefisUser  {
 	@Override
 	public List<refisUsers> searchRefisUser(String name) {
 		
-		   String sqlListRefis="SELECT * FROM link_user_master where internal_external_user='E' and first_name like '%"+name+"%' order by first_name";
+		   String sqlListRefis="SELECT * FROM link_user_master where internal_external_user='E' and first_name like '%"+name+"%' order by  gops_user_creation_date desc ";
 		   List  refisUsers = jdbcTemplateRefis.query(sqlListRefis,new refisUsersRowmapper());			   
 
 		return refisUsers;
@@ -134,9 +134,10 @@ public class manageRefisUserImp implements manageRefisUser  {
 				  
 			   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 			   LocalDateTime currentdateandtime = LocalDateTime.now();		   
-			   Connection conn= dataSourcesqlservercp.getConnection();		   
-		
+			   Connection conn= dataSourcesqlservercp.getConnection();	
 			   String sqlinsert=null;
+			   
+			   
 			   
                //--- UPDATING link_user_master 			   
 			   String SQL_UPDATE = "UPDATE link_user_master SET first_name=? ,  active_status=? , gh_password=? , gops_user_creation_date=?,description=? "
@@ -150,6 +151,8 @@ public class manageRefisUserImp implements manageRefisUser  {
 					   pstm.setString(6,req.getParameter("userid").trim());	
 				   int rows = pstm.executeUpdate();
 				   pstm=null;   
+				   
+				   
 				   
 				   
 				   
@@ -200,21 +203,140 @@ public class manageRefisUserImp implements manageRefisUser  {
 	}
 
 
+	
+	
+	
+    // return status 0 -> error ,  1->success ,  2-> Duplicate entry 
+	@Override	
+	@Transactional(rollbackFor=Exception.class,propagation= Propagation.REQUIRES_NEW)
+	public int addnewGopsUserDetail(HttpServletRequest req) {
+		   try {
+				  
+			   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			   LocalDateTime currentdateandtime = LocalDateTime.now();		   
+			   Connection conn= dataSourcesqlservercp.getConnection();	
+			   String sqlinsert=null;
+			   PreparedStatement pstm =null;
+			   
+			   
+			   
+			   //--- Find the duplicate entry --
+			   String sqlforname="select first_name  from link_user_master where first_name='"+req.getParameter("userid").trim()+"' and internal_external_user='E'";
+			   SqlRowSet row1 =  jdbcTemplateRefis.queryForRowSet(sqlforname);
+			   if(row1.next()) { return 2;}
+			   
+			   
+			   
+			   
+			   
+			   String SQL_UPDATE ="INSERT INTO link_user_master (first_name ,  email_id, active_status ,admin_status, internal_external_user ,gh_password ,description, gops_user_creation_date )  VALUES " + 
+	          	   		"( ?,?,?,?,?,?,?,?)";
+	           pstm = conn.prepareStatement(SQL_UPDATE);
+				   pstm.setString(1,req.getParameter("userid"));
+				   pstm.setString(2,req.getParameter("userid"));
+				   pstm.setString(3,req.getParameter("status"));
+				   pstm.setString(4,"N");
+				   pstm.setString(5,"E");
+				   pstm.setString(6,Base64.encodeBase64(req.getParameter("userpassword").getBytes()).toString());
+				   pstm.setString(7,req.getParameter("description"));
+				   pstm.setString(8,currentdateandtime.toString());		
+				   	
+			       int rows = pstm.executeUpdate();
+			       pstm=null;   
+						   
+				   
+				   
+				   
+				//--- UPDATING Gops_Airline_Station_Access   AirLine Step 1(Remove All data) Step 2(Insert Station and Insert Airline)
+				
+				//-- Remove all AirLine && Station for this User   
+				SQL_UPDATE="DELETE FROM Gops_Airline_Station_Access WHERE USER_NAME='"+req.getParameter("userid")+"'";   
+				pstm = conn.prepareStatement(SQL_UPDATE);
+				rows = pstm.executeUpdate();
+				
+				
+				  if(req.getParameterValues("airline") != null) {
+						
+						//-- Inserting Airline Code   
+						String[] selectedprofile = req.getParameterValues("airline");
+					    List profilelist = Arrays.asList(selectedprofile);
+					    
+					    for(int i = 0; i < profilelist.size(); i++) {
+						    sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,airline_code,station_code)  VALUES('"+req.getParameter("userid")+"','"+profilelist.get(i)+"','NA')";	
+						    int statstatus=jdbcTemplateRefis.update(sqlinsert);	
+						 }// End of For Loop --- 
+						 
+				}
+			    
+				  
+					  
+				  if(req.getParameterValues("station") != null) {		  
+				    //-- Inserting Station Code  
+					String[] selectedprofile = req.getParameterValues("station");
+				    List profilelist = Arrays.asList(selectedprofile);
+				    for(int i = 0; i < profilelist.size(); i++) {
+				    	sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,station_code,airline_code)  VALUES('"+req.getParameter("userid")+"','"+profilelist.get(i)+"','NA')";	
+					    int statstatus=jdbcTemplateRefis.update(sqlinsert);					  
+					
+					 }// End of For Loop --- 
+			      }
+				  
+
+			    pstm = null;
+			    conn.close();
+				  
+			   }catch(Exception ex) {logger.error("While Adding Ground OPS USER :"+ex.toString()); return 0;}	
+				
+		   
+		   
+		   return 1;	
+	}
+	
+	
+	
+	
+	
+
 
 
 	@Override
 	public String getAllStationList(String userid) {
-		 
+		
+		
+		   //-- Pick the list of airport which is allready selected and built a string of that 
+		   String sql="SELECT station_code  FROM Gops_Airline_Station_Access where user_name='"+userid+"'";
+		   String selectedstation="";
+		   SqlRowSet rowst =  jdbcTemplateRefis.queryForRowSet(sql);
+		   while(rowst.next()) {
+			   selectedstation=selectedstation+","+rowst.getString("station_code").trim();				
+		   }//----------- END OF WHILE ---------- 
+		   rowst =null;
+		   
+		
+		   
+		   boolean  isFound =false;
+		   String stationlistwithcode = null;
+		   
 		   DateFormat dateFormat = new SimpleDateFormat("yyyy");
 		   Date date = new Date();
 		   String curent_year=dateFormat.format(date);		   
-		   String sql="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from pdcstobart.dbo.LEGS where DATOP like '"+curent_year+"%') order by STN";	       
+		   sql="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from pdcstobart.dbo.LEGS where DATOP like '"+curent_year+"%') order by STN";	       
 		   
-		   String stationlistwithcode = null;
 		   
-		   SqlRowSet rowst =  jdbcTemplatePdc.queryForRowSet(sql);
+		   
+		   rowst =  jdbcTemplatePdc.queryForRowSet(sql);
 		   while(rowst.next()) {
-				 stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("STN")+">"+rowst.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("NAME").trim()+"</option>";				
+			   
+			   isFound = selectedstation.toUpperCase().contains(rowst.getString("STN").toUpperCase());
+			   if(isFound) {
+			      stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("STN")+" selected>"+rowst.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("NAME").trim()+"</option>";				
+			   }
+			   else
+			   {
+  		          stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("STN")+">"+rowst.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("NAME").trim()+"</option>";				
+				   
+			   }
+			   
 		   }//----------- END OF WHILE ---------- 
 
 		   rowst=null;		   
@@ -229,10 +351,29 @@ public class manageRefisUserImp implements manageRefisUser  {
 
 	@Override
 	public String getAllAirlineList(String userid) {
-		// TODO Auto-generated method stub
-		return null;
+   
+		   String sql   ="select icao_code , iata_code , airline_name , status from AirlineMaster  where status='Enable' and  icao_code in(select airline_code from Gops_Airline_Station_Access where user_name='"+userid+"')";
+		   
+		   String airlinelist = null;
+		   
+		   SqlRowSet rowst =  jdbcTemplateRefis.queryForRowSet(sql);
+		   while(rowst.next()) {
+			   airlinelist=airlinelist+"<option value="+rowst.getString("icao_code")+" selected>"+rowst.getString("iata_code").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("airline_name").trim()+"</option>";				
+		   }//----------- END OF WHILE ---------- 
+		   rowst =null;
+		   
+		   sql   ="select icao_code , iata_code , airline_name , status from AirlineMaster  where status='Enable' and  icao_code not in(select airline_code from Gops_Airline_Station_Access where user_name='"+userid+"')";
+		   rowst =  jdbcTemplateRefis.queryForRowSet(sql);
+		   while(rowst.next()) {
+			   airlinelist=airlinelist+"<option value="+rowst.getString("icao_code")+">"+rowst.getString("iata_code").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("airline_name").trim()+"</option>";				
+		   }//----------- END OF WHILE ---------- 
+
+		   rowst=null;		   
+		   
+		   return airlinelist;
+
 	}
-	
-	
+
+
 
 }

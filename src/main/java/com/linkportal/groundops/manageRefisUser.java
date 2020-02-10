@@ -15,6 +15,8 @@ public interface manageRefisUser {
 	
 	public int  updateGopsUserDetail(HttpServletRequest req);
 	
+	public int  addnewGopsUserDetail(HttpServletRequest req);
+	
 	public int removeRefisUser_FromDb(String accountid);
 	
 	public String getAllStationList(String userid);

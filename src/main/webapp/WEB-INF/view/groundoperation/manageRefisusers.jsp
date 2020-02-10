@@ -80,6 +80,7 @@ function view_update_user_Profile(accountid){
 function add_new_user(){
 	
 	   document.refieUser.method="POST"
+	   document.refieUser.userinsubject.value="NEWUSER";
 	   document.refieUser.operation.value="addnew";
 	   document.refieUser.action="managegopssuser";
 	   document.refieUser.submit();

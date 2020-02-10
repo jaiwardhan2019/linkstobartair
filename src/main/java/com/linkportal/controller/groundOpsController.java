@@ -101,13 +101,9 @@ public class groundOpsController {
 				
 				//-- View  Ground Ops User --
 				if(req.getParameter("operation").equals("view")) {
-					System.out.println("View Update Selected");					
-					
-					model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim()));
-					
+					model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim()));					
 					model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 					model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
-					
 					return "groundoperation/viewUpdateRefisusers"; 
 				}
 				
@@ -127,7 +123,6 @@ public class groundOpsController {
 				   model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userid").trim()));
  				   model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 				   model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
-
 				   return "groundoperation/viewUpdateRefisusers"; 
 				}
 				
@@ -142,13 +137,35 @@ public class groundOpsController {
 				}
 				
 				
-				//-- Add new User--
+				
+				
+				//-- Add new User view page
 				if(req.getParameter("operation").equals("addnew")) {
 				  System.out.println("Add new is selected ");
-				  model.put("status","New Ground Handler Created Successfully..");
+				  model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
+				  model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));				 
+				  return "groundoperation/addNewRefisusers"; 
 				}
 				
 				
+				
+				//-- Add new User Create /  Add new entry to datebase 
+				if(req.getParameter("operation").equals("createuser")) {
+					int statusaddition=refisuser.addnewGopsUserDetail(req);
+					
+			   	   if(statusaddition == 1){
+						  model.put("status","User Created Successfully ..");
+					}
+				    if(statusaddition == 0){
+				    	model.put("status","User Not Updated Please check log file.");
+					}
+			   	    if(statusaddition == 2){
+						  model.put("status","User Allready Exist please choose different name.");
+					}
+			   	   
+	  		    }
+				
+					
 				
 			}//---------- End Of Account Removed Operation 
 			
@@ -164,6 +181,9 @@ public class groundOpsController {
 		    	model.put("refisAccountlist", refisuser.showRefisUser());
 		    }
 			
+		    
+		    
+		    
 		    
 		    
 		return "groundoperation/manageRefisusers";
