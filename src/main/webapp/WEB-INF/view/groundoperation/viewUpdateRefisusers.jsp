@@ -6,9 +6,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<link rel="stylesheet" href="css/prism.css">
+<link rel="stylesheet" href="css/chosen.css">
+
+
+
 <meta charset="ISO-8859-1">
+
 <title>Manage Ground Ops User Account </title>
 </head>
+
 
 
 
@@ -82,6 +90,7 @@ $(".chosen").chosen({
   <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" name="operation" id="operation" value="">
+  <input type="hidden" name="userinsubject" id="userinsubject"  value="${gopsuserdetail.username}">
 
   <table  border="0" style="width: 50%;" align="center"> 
 		     <tr>
@@ -93,9 +102,9 @@ $(".chosen").chosen({
 	
   </table>	
 
+      <table class="table table-striped table-bordered" border="1" style="width: 60%;background:rgba(255,255,255,0.5);" align="center">	
         
-     <table class="table table-striped table-bordered" border="1" style="width: 60%;" align="center">	    
-    		<tbody>				     
+     	     
 			     <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">
 					   <span style="color:white;"> <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> &nbsp;<b>
@@ -136,21 +145,10 @@ $(".chosen").chosen({
 	           
 	           
 	           
+          
 	           <tr>
-               
-	               <td align="left" bgcolor="white" width="50%">
-					  <div class="col-xs-10">
-					 		<label> Email Id </label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-									<input type="email"  name="useremail"  id="useremail" class="form-control" value="${gopsuserdetail.email}" aria-describedby="emailHelp" placeholder="Enter email">
-											
-							</div>
-				    </div>
-				    
-	               </td>	               
-	
-	               
+	           
+	                       
 	               <td align="left" bgcolor="white" width="50%">
 					     <div class="col-xs-12">
 							<label >Description </label>
@@ -160,11 +158,7 @@ $(".chosen").chosen({
 							</div>
 			            </div>
 	               </td>
-	               
-	           </tr>
-	           
-	           
-	           <tr>
+	
 		               
 	               <td align="left" bgcolor="white" width="50%">
 					     <div class="col-xs-10">
@@ -181,26 +175,7 @@ $(".chosen").chosen({
 	               
 	               </td>	               
 	 	           
-	           
-	    
-	              <td  align="left" bgcolor="white" >
-                          	               
-  				          
-					     <div class="col-xs-10">
-							<label >Email Notification  </label>
-							<div class="input-group">
-				              <input type="checkbox" id="enableforemail" name="enableforemail"  value="Active">&nbsp; Enable.</span>&nbsp; &nbsp; 
-							</div>	
-						</div>
-	               
-  				              
-  				              
-  						      
-					    </div>
-			    				  
-				  </td>
-				  
-					  
+						  
 	           </tr>
 	           
 	           
@@ -209,14 +184,13 @@ $(".chosen").chosen({
                  
 	               <td align="left" bgcolor="white" width="50%">
 					     <div class="col-xs-12">
-							<label> Eligible Air Line  </label>
+							<label> Access to Air Line  </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
 									    <select multiple class="form-control" name="airline" id="airline">
-									      <option>EI   -   AirLingus</option>
-									      <option>BE   -   FlyBe</option>
-									      <option>BA   -   British Air</option>
-									      <option>RE   -   StobartAir</option>
+									           ${listofairline}
+									      <option value="EIN">EIN   -   Air Lingus</option>
+									      <option value="BEA">BEA   -   FlyBe</option>
 									      
 									    </select>										
 							</div>
@@ -227,11 +201,21 @@ $(".chosen").chosen({
 	               <!--    https://harvesthq.github.io/chosen/  -->
 	              
 	               <td align="left" bgcolor="white" width="50%">
-					  <div class="col-xs-10">
-					 		<label> Airport Stations   </label>					 							 		
+					  <div class="col-xs-15">
+					 		<label> Access to Airport Stations   </label>					 							 		
 							<div class="input-group">							
-								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>							
-									<input type="text"  name="station"  id="station" class="form-control" value="DUB,DBX" readonly>
+								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
+								
+								
+														
+									<!-- <input type="text"  name="statio	n"  id="station" class="form-control" value="DUB,DBX" readonly>  -->
+									
+						<select  data-placeholder="Type Station Code or Name.." class="chosen-select form-control" multiple id="station" name="station">
+					            <option value=""></option>
+					                   ${listofstation}	
+						</select>						
+											
+									
 											
 							</div>
 				    </div>
@@ -254,7 +238,7 @@ $(".chosen").chosen({
  		 			     </td>
 				     </tr>
 	           	           
-       	   </tbody>             
+       	         
      </table>  	   
       
 
@@ -299,7 +283,11 @@ $(".chosen").chosen({
 </script>
   
  </form>
-  	 
+ <!-- Important Bottom Line Script-->  
+  <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <script src="js/chosen.jquery.js" type="text/javascript"></script>
+  <script src="js/prism.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/init.js" type="text/javascript" charset="utf-8"></script> 	 
 
 </body>
 </html>

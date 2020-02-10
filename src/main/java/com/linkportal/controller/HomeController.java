@@ -82,13 +82,13 @@ public class HomeController {
 	@Autowired
 	piechart chart;
 	
-
-	
-	
 	
 	
 	@Autowired
 	ReportMaster excel;
+
+	
+	
 	
 	
 	//-------------- reading application.properties file -----------------
@@ -102,8 +102,6 @@ public class HomeController {
 
 	
 	
-	
-
 		
 	public String useremailid;
 	

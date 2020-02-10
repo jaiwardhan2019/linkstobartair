@@ -140,14 +140,15 @@ function cal_groundops_home(usertype){
     
 		<ul class="nav navbar-nav navbar-right">
 		
-<!-- 			
+ 	<!-- 		
 		 <li class="dropdown">
 	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Link Home</a>
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Home</a>
 					  
 		</li>
- -->
  
+    -->
+    
          <!-- FIRST MENU -->		
 	     <li class="dropdown">
 		 
@@ -320,7 +321,9 @@ function cal_groundops_home(usertype){
 <div class="col-md-5 col-sm-5 col-xs-12" >
   
   <c:if test="${usertype == 'I'}">
-     <a onclick="cal_groundops_home('I');" href="javascript:void();"><span style="font-weight:600;font-size:13pt;color:white;">Ground Operations</span></a>     
+     <a onclick="cal_groundops_home('I');" href="javascript:void();"> <h5 style="font-weight:600;color:white;"><i class="fa fa-home"></i> Ground Ops</h5></a>
+     
+        
   </c:if>
   
   <c:if test="${usertype == 'E'}">

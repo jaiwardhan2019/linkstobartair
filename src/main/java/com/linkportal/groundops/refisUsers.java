@@ -1,5 +1,11 @@
 package com.linkportal.groundops;
 
+import java.security.spec.KeySpec;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+
 import org.apache.commons.codec.binary.Base64;
 
 
@@ -75,11 +81,8 @@ public class refisUsers {
 	   
 	 
 	public String getPasswordDecodeBase64() {
-		if (this.password != null){
-			return new String(Base64.decodeBase64(password.getBytes()));
-		} else {
-			return null;
-		}
+
+		return this.password;
 	}
 	
 		   

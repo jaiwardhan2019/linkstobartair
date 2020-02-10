@@ -16,8 +16,21 @@
 
 function updateUserAccess(ope,profileid){
 
-        if(confirm("Are you sure about this Change .?!")){
-        	  document.contractuser.operation.value=ope;
+    if(document.contractuser.department.value == 'ALL'){
+        alert("Please select Department.."); 
+        document.contractuser.department.focus();
+        return false; 
+    }
+
+    if(document.contractuser.subdepartment.value == 'ALL'){
+        alert("Please select Subdepartment as well.."); 
+        document.contractuser.subdepartment.focus();
+        return false; 
+      }
+  
+	
+        if(confirm("Are you sure about this Change .?!")){    
+              document.contractuser.operation.value=ope;
         	  document.contractuser.profileid.value=profileid;
       	      document.contractuser.method="POST";
     		  document.contractuser.action="showcontractaccessprofile";

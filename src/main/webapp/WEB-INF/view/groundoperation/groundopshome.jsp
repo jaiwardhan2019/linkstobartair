@@ -30,14 +30,14 @@
 			<!--Daily Punctuality Statistics -->
 		<div class="col-xs-3 col-md-3">
 			
-			<div class="panel pane-default panel-shadow">
+			<div class="panel pane-default panel-shadow" >
 				<div class="panel-body">                     	 
 					<p>
 						<span style="font-weight:600;font-size:12pt;color:#0071ba;"><b> Daily Punctuality Statistics   </b>&nbsp;<i class="fa fa-line-chart fa-lg" aria-hidden="true"></i></span>
 						 _________________________________________	 
 					</p>
 			    
-			    <table   style="width:100%;" align="center">	    
+			    <table   style="width:100%;" align="center" style="background:rgba(255,255,255,0.5);">	    
 			    	
 						
 						   <tr>

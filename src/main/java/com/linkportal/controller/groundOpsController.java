@@ -102,7 +102,12 @@ public class groundOpsController {
 				//-- View  Ground Ops User --
 				if(req.getParameter("operation").equals("view")) {
 					System.out.println("View Update Selected");					
+					
 					model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim()));
+					
+					model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
+					model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
+					
 					return "groundoperation/viewUpdateRefisusers"; 
 				}
 				
@@ -116,9 +121,13 @@ public class groundOpsController {
 				    }
 			   	   else
 			   	   {
-			   		model.put("status","User Not Updated check log file.");
+			   		model.put("status","User Not Updated Please check log file.");
 			   	   }
-				   model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userid").trim()));					
+			   	   
+				   model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userid").trim()));
+ 				   model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
+				   model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
+
 				   return "groundoperation/viewUpdateRefisusers"; 
 				}
 				
@@ -127,13 +136,10 @@ public class groundOpsController {
 				
 				
 				//-- Remove Ground Ops User --
-				if(req.getParameter("operation").equals("remove")) {
-				   System.out.println("Remove Operation is selected ");
+				if(req.getParameter("operation").equals("remove")) {				  
 				   status=refisuser.removeRefisUser_FromDb(req.getParameter("userinsubject"));
-				   model.put("status","User id :&nbsp;"+req.getParameter("userinsubject")+"&nbsp; Removed Successfully..");	
+				   model.put("status","User id :(&nbsp;&nbsp;"+req.getParameter("userinsubject")+"&nbsp;&nbsp;) Removed Successfully..");	
 				}
-				
-				
 				
 				
 				//-- Add new User--
@@ -141,7 +147,6 @@ public class groundOpsController {
 				  System.out.println("Add new is selected ");
 				  model.put("status","New Ground Handler Created Successfully..");
 				}
-				
 				
 				
 				

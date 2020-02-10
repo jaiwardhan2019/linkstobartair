@@ -152,7 +152,7 @@ function add_new_user(){
  </table>	
 	
  	<br>	 
-  <table class="table table-striped table-bordered" border="1" style="width: 80%;background-color:#FDFEFE;" align="center">	
+  <table class="table table-striped table-bordered" border="1" style="width: 80%;background:rgba(255,255,255,0.5);" align="center">	
 		
 	     <tr align="center">
 				    
@@ -268,7 +268,20 @@ function add_new_user(){
 
 </body>
 </html>
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
