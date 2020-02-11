@@ -1,18 +1,13 @@
 package com.linkportal.groundops;
 
-import java.security.spec.KeySpec;
+import org.springframework.stereotype.Service;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-
-import org.apache.commons.codec.binary.Base64;
-
+import com.linkportal.security.EncryptDecrypt;
 
 
 public class refisUsers {
-	
 
+	  
 	   private String username;
 	   private String password;
 	   private String description;
@@ -46,7 +41,7 @@ public class refisUsers {
 
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password =password;
 	}
 
 
@@ -78,26 +73,16 @@ public class refisUsers {
 	public void setEnabled(String enabled) {
 		this.enabled = enabled;
 	}
-	   
-	 
-	public String getPasswordDecodeBase64() {
 
-		return this.password;
-	}
 	
-		   
 
-	public void setPasswordDecodeBase64(String comments) {
-		if (comments != null) {
-			this.password = new String(Base64.encodeBase64(comments.getBytes()));
-		} else {
-			this.password = null;
-		}
+	@Override
+	public String toString() {
+		return "refisUsers [username=" + username + ", password=" + password + ", description=" + description
+				+ ", email=" + email + ", enabled=" + enabled + "]";
 	}
 	   
-	   
-	
-		
+
 		   
 	
 

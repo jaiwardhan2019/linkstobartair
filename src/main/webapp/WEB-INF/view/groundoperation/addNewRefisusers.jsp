@@ -36,29 +36,13 @@ function addnew_user(accountid){
 			   document.refieUser.submit();
 			   return true;				
 		}
-		alert("Under Construction.."+accountid);
-
+		
 } //-------- End Of Function 
 
 
 
 
 
-
-
-
-
-$(".chosen").chosen({
-    width: "300px",
-    enable_search_threshold: 10
-}).change(function(event)
-{
-    if(event.target == this)
-    {
-        var value = $(this).val();
-        $("#result").text(value);
-    }
-});
 
 
 

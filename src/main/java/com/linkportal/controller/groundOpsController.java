@@ -37,6 +37,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.dbripostry.linkUsers;
 import com.linkportal.groundops.manageRefisUser;
+import com.linkportal.groundops.refisUsers;
+import com.linkportal.security.EncryptDecrypt;
 
 
 @Controller
@@ -51,6 +53,9 @@ public class groundOpsController {
 	
 	@Autowired
 	manageStobartContract contract;
+	
+	@Autowired
+	EncryptDecrypt encdec;
 	
 	
 
@@ -98,10 +103,12 @@ public class groundOpsController {
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("operation") != null){	
 				
-				
 				//-- View  Ground Ops User --
 				if(req.getParameter("operation").equals("view")) {
-					model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim()));					
+					
+					refisUsers userobject = refisuser.viewGopsUserDetail(req.getParameter("userinsubject").trim());					
+					model.put("password",encdec.decrypt(userobject.getPassword()));
+					model.put("gopsuserdetail", userobject );					
 					model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 					model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
 					return "groundoperation/viewUpdateRefisusers"; 
@@ -119,8 +126,11 @@ public class groundOpsController {
 			   	   {
 			   		model.put("status","User Not Updated Please check log file.");
 			   	   }
-			   	   
-				   model.put("gopsuserdetail", refisuser.viewGopsUserDetail(req.getParameter("userid").trim()));
+				   
+			   	   refisUsers userobject = refisuser.viewGopsUserDetail(req.getParameter("userid").trim());					
+				   model.put("password",encdec.decrypt(userobject.getPassword()));			   	   
+				   
+				   model.put("gopsuserdetail", userobject);
  				   model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 				   model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
 				   return "groundoperation/viewUpdateRefisusers"; 
@@ -139,11 +149,11 @@ public class groundOpsController {
 				
 				
 				
-				//-- Add new User view page
+				//-- Add new User page
 				if(req.getParameter("operation").equals("addnew")) {
 				  System.out.println("Add new is selected ");
 				  model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
-				  model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));				 
+				  model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
 				  return "groundoperation/addNewRefisusers"; 
 				}
 				
@@ -156,11 +166,16 @@ public class groundOpsController {
 			   	   if(statusaddition == 1){
 						  model.put("status","User Created Successfully ..");
 					}
+			   	   
 				    if(statusaddition == 0){
 				    	model.put("status","User Not Updated Please check log file.");
 					}
+				    
 			   	    if(statusaddition == 2){
 						  model.put("status","User Allready Exist please choose different name.");
+						  model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
+						  model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));				 
+						  return "groundoperation/addNewRefisusers"; 
 					}
 			   	   
 	  		    }

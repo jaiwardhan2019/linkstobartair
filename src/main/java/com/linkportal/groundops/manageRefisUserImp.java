@@ -22,6 +22,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.linkportal.security.*;
+
+
 
 @Transactional
 @Repository
@@ -34,7 +37,11 @@ public class manageRefisUserImp implements manageRefisUser  {
 	@Autowired
 	DataSource dataSourcesqlserver;
 	
-
+	@Autowired
+	EncryptDecrypt encdec;
+	
+	
+	
 	JdbcTemplate jdbcTemplateRefis;
 	JdbcTemplate jdbcTemplatePdc;
 
@@ -88,31 +95,21 @@ public class manageRefisUserImp implements manageRefisUser  {
 	public int removeRefisUser_FromDb(String emailid) {
 		   int status=1;	
 		   
-		   try {				   
+		   try {			   
 				
-			   
-			   //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=0");
-	           
+			   //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=0");	           
 		       status = jdbcTemplateRefis.update("DELETE FROM  link_user_master WHERE internal_external_user='E' and email_id='"+emailid+"'");
 		       status = jdbcTemplateRefis.update("DELETE FROM link_user_profile_list WHERE user_email='"+emailid+"'");
 		       status = jdbcTemplateRefis.update("DELETE FROM Gops_Airline_Station_Access WHERE USER_NAME='"+emailid+"'");
-
-		       
-		      
-			   //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=1");
-		  
-		   
-		   }catch(Exception exp) {
-			   logger.error(exp);
-			   System.out.println(exp.toString());   
-		   
-		   }
+			   //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=1");		   
+		   }catch(Exception exp) { logger.error("Error While Removing Ground Handler User:"+exp);}
 		
 		   return status;
 	
 	}
 
 
+	
 
 
 	@Override
@@ -138,6 +135,11 @@ public class manageRefisUserImp implements manageRefisUser  {
 			   String sqlinsert=null;
 			   
 			   
+			   String passwordencripted= encdec.encrypt(req.getParameter("userpassword"));			   
+	
+			 
+		
+			   
 			   
                //--- UPDATING link_user_master 			   
 			   String SQL_UPDATE = "UPDATE link_user_master SET first_name=? ,  active_status=? , gh_password=? , gops_user_creation_date=?,description=? "
@@ -145,7 +147,7 @@ public class manageRefisUserImp implements manageRefisUser  {
 				   PreparedStatement pstm = conn.prepareStatement(SQL_UPDATE);
 					   pstm.setString(1,req.getParameter("userid"));
 					   pstm.setString(2,req.getParameter("status"));
-					   pstm.setString(3,Base64.encodeBase64(req.getParameter("userpassword").getBytes()).toString());
+					   pstm.setString(3,passwordencripted);
 					   pstm.setString(4,currentdateandtime.toString());
 					   pstm.setString(5,req.getParameter("description"));		
 					   pstm.setString(6,req.getParameter("userid").trim());	
@@ -225,8 +227,10 @@ public class manageRefisUserImp implements manageRefisUser  {
 			   SqlRowSet row1 =  jdbcTemplateRefis.queryForRowSet(sqlforname);
 			   if(row1.next()) { return 2;}
 			   
-			   
-			   
+			   //-- Encrypting password --
+			   String passwordencripted= encdec.encrypt(req.getParameter("userpassword"));
+			   System.out.println("EncriptedPass:"+passwordencripted);
+			 
 			   
 			   
 			   String SQL_UPDATE ="INSERT INTO link_user_master (first_name ,  email_id, active_status ,admin_status, internal_external_user ,gh_password ,description, gops_user_creation_date )  VALUES " + 
@@ -237,7 +241,7 @@ public class manageRefisUserImp implements manageRefisUser  {
 				   pstm.setString(3,req.getParameter("status"));
 				   pstm.setString(4,"N");
 				   pstm.setString(5,"E");
-				   pstm.setString(6,Base64.encodeBase64(req.getParameter("userpassword").getBytes()).toString());
+				   pstm.setString(6,passwordencripted);
 				   pstm.setString(7,req.getParameter("description"));
 				   pstm.setString(8,currentdateandtime.toString());		
 				   	

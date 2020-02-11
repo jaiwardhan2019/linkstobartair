@@ -36,7 +36,7 @@ function update_user(accountid){
 			   document.refieUser.submit();
 			   return true;				
 		}
-		alert("Under Construction.."+accountid);
+		
 
 } //-------- End Of Function 
 
@@ -128,7 +128,7 @@ $(".chosen").chosen({
 							<label  >Password </label>  
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
-										<input type="text"   name="userpassword" id="userpassword" class="form-control"  value="${gopsuserdetail.getPasswordDecodeBase64()}">										
+										<input type="text"   name="userpassword" id="userpassword" class="form-control"  value="${password}">										
 							</div>
 				    </div>
 		           </td>

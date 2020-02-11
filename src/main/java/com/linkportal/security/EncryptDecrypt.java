@@ -6,7 +6,12 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.poi.util.Beta;
+import org.springframework.stereotype.Repository;
 
+
+
+@Repository
 public class EncryptDecrypt {
 	
 	
@@ -23,7 +28,7 @@ public class EncryptDecrypt {
     
     
 
-    public EncryptDecrypt() throws Exception {
+	public EncryptDecrypt() throws Exception {
         myEncryptionKey = "ThisIsSpartaThisIsSparta";
         myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
         arrayBytes = myEncryptionKey.getBytes(UNICODE_FORMAT);
@@ -62,18 +67,29 @@ public class EncryptDecrypt {
     }
 
 
-		public void validate() throws Exception {
+    
+    
+    //---- Function will take string password and validated with the db stored encripted password
+	public boolean validatePassword(String rawinputpassword , String storedpassword) throws Exception {
 		    
-		    EncryptDecrypt td= new EncryptDecrypt();
-		
-		        String target="password@123";
-		     
-		        String encrypted=td.encrypt(target);
-		        String decrypted=td.decrypt(encrypted);  	
+		        //inputpassword="password@123";		     
+		        String encrypted=encrypt(rawinputpassword);
+		        String decrypted=decrypt(storedpassword);  	
 		        
-		        System.out.println("String To Encrypt: "+ target);
-		        System.out.println("Encrypted String: " + encrypted);
-		        System.out.println("Decrypted String: " + decrypted);
-		}
+		        //System.out.println("Input String To Encrypt: "+ inputpassword);
+		        //System.out.println("Encrypted String: " + encrypted);
+		        //System.out.println("Decrypted String: " + decrypted);
+		        if(encrypted.equalsIgnoreCase(storedpassword)) {return true; } else{return false;}
+		        
+	}
 
+	
+	public String Test_Message() {
+		
+		return "Hi this is test message";
+	}
+
+
+ 
+	
 }
