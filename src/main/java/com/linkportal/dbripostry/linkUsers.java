@@ -24,7 +24,7 @@ public interface linkUsers {
 	   
 	   
 	   
-	   public boolean Validate_External_User(String username);  
+	   public boolean Validate_External_User(String username, String password);  
 	   
          
 	   public  void UpdateUserpProfileAndActiveStatustoDataBase(String emailid,String activestatus,String adminstatus);

@@ -95,6 +95,17 @@ function cal_groundops_home(usertype){
 	return true;
 }
 
+
+
+function calFlightReport(reportname){
+	     alert(reportname);
+		 document.refisheader.method="POST";
+		 document.refisheader.action=reportname;
+	     document.refisheader.submit();
+		 return true;
+}
+
+
 </script>
 
 
@@ -157,7 +168,7 @@ function cal_groundops_home(usertype){
 				  <ul class="dropdown-menu">
 				        
 				        <c:if test="${profilelist.Flight_Report  == 'Y'}">   
-				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_mayFly_report?airportcode=ALL&airlineCode=ALL');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Flight Report (MayFly)</a></li>
+				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flightreport');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Flight Report (MayFly)</a></li>
 					    </c:if>
 					    <c:if test="${profilelist.Reliablity  == 'Y'}"> 
 					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityReportForm');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Report</a></li>

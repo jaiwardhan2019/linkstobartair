@@ -28,15 +28,47 @@
 
 
 function addnew_user(accountid){
-			
-		if(confirm("Are you sure about Updating detail.. ??")){			  
-			   document.refieUser.method="POST"
-			   document.refieUser.operation.value="createuser";			   
-			   document.refieUser.action="managegopssuser";
-			   document.refieUser.submit();
-			   return true;				
+
+	    var username    = document.getElementById("userid").value;
+	    var password    = document.getElementById("userpassword").value;
+	    var description = document.getElementById("description").value;
+	    
+		if(username == "" || username == " ") {
+			document.getElementById("userid").focus();
+			document.getElementById("fireModalWindow").click();
+			document.getElementById("error_message").innerHTML = "Please Enter User Name";
+			return false;
 		}
+
 		
+		if(password == "" || password == " ") {
+			document.getElementById("password").focus();
+			document.getElementById("fireModalWindow").click();
+			document.getElementById("error_message").innerHTML = "Please Enter Password";			
+			return false;
+		}
+
+		
+		if(description == "" || description == " ") {
+			document.getElementById("description").focus();
+			document.getElementById("fireModalWindow").click();
+			document.getElementById("error_message").innerHTML = "Please Enter Description";			
+			return false;
+		}
+		else
+		{
+
+
+			       document.refieUser.method="POST"
+				   document.refieUser.operation.value="createuser";			   
+				   document.refieUser.action="managegopssuser";
+				   document.refieUser.submit();
+				   return true;				
+	
+	    }
+
+	
+	
 } //-------- End Of Function 
 
 
@@ -129,7 +161,7 @@ function addnew_user(accountid){
 					     <div class="col-xs-12">
 							<label >Description </label>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
+								<span class="input-group-addon"><i class="fa fa-text-height fa-lg"  aria-hidden="true"></i></span>
 									<textarea rows="02" name="description"  id="description" value="${gopsuserdetail.description}" class="form-control" >${gopsuserdetail.description} </textarea>  										
 							</div>
 			            </div>
@@ -264,6 +296,32 @@ function addnew_user(accountid){
 
 </body>
 </html>
+
+
+
+<button style="display:none;" type="button" id="fireModalWindow" class="btn btn-info" data-toggle="modal" data-target="#errorModal">Open Modal</button>
+
+	<!-- ERROR Modal -->
+	<div id="errorModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog modal-dialog-centered">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title"><i class="fa fa-exclamation-triangle"></i> Error!</h4>
+		  </div>
+		  <div class="modal-body">
+			<p id="error_message" >Some text in the modal.</p>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+	
 
 <br>
 <br>

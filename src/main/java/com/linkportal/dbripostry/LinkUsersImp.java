@@ -25,6 +25,7 @@ import org.springframework.stereotype.Repository;
 
 import com.linkportal.datamodel.Users;
 import com.linkportal.datamodel.UsersRowmapper;
+import com.linkportal.security.EncryptDecrypt;
 
 
 
@@ -33,6 +34,8 @@ import com.linkportal.datamodel.UsersRowmapper;
 public class LinkUsersImp implements linkUsers{
        
 	
+	  @Autowired  
+	  EncryptDecrypt encdec;
 	  
 	  @Autowired
 	  DataSource dataSourcesqlservercp;
@@ -346,19 +349,19 @@ public class LinkUsersImp implements linkUsers{
 
 
 	@Override
-	public boolean Validate_External_User(String username) {		 
+	public boolean Validate_External_User(String username, String ghpassword) {		 
 		  try {
 			  
-		  String sqlForUser = "SELECT FIRST_NAME FROM  LINK_USER_MASTER where FIRST_NAME=?"; 		  
-		  String streetName = (String) jdbcTemplatSqlserver.queryForObject(sqlForUser, new Object[] { username }, String.class);	
-		  
-		  //???  Write code for the ground operation header profile object ....
+		  String sqlForUser = "SELECT gh_password FROM  LINK_USER_MASTER where FIRST_NAME=?"; 		  
+		  String password   = (String) jdbcTemplatSqlserver.queryForObject(sqlForUser, new Object[] { username }, String.class);			  
+		  String decrypted  = encdec.decrypt(password);
+		  if(decrypted.equals(ghpassword)) {return true;} else {return false;}
 		  
 		  }catch(Exception dbex) {					  
 			  logger.error("Ground Handler User Id:"+username+" is Not Validated:"+dbex.toString());
 			  return false;
 		  }
-		return true;
+		
 	}
 
 
@@ -382,8 +385,8 @@ public class LinkUsersImp implements linkUsers{
 			 
 		   
 		   
-		   String stringuserprofile="";
-		   String stringAllGopsProfile="";
+		   String stringuserprofile    ="";
+		   String stringAllGopsProfile ="";
 		   
 		   
 		   try {
@@ -428,7 +431,7 @@ public class LinkUsersImp implements linkUsers{
 
 
 
-    ////////  UPDATE GROUND OPS USER PROFILE FROM THE DATABASE 
+    ////////  UPDATE GROUND OPS USER PROFILE TO THE DATABASE 
 	@Override
 	public void UpdateGopsProfiletoDataBase(String emailid, List linkallprof) {
 		   

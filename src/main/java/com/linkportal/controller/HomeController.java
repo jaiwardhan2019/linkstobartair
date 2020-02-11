@@ -156,7 +156,7 @@ public class HomeController {
 		   // -- If Ground Handler,External User
 		   if(!isStobartUser) {			
 	
-			  if(dbusr.Validate_External_User(req.getParameter("emailid"))) {
+			  if(dbusr.Validate_External_User(req.getParameter("emailid"),req.getParameter("password"))) {
 				  
 				  model.addAttribute("emailid",req.getParameter("emailid"));
 				  model.addAttribute("password",req.getParameter("password"));

@@ -34,6 +34,19 @@ public interface flightReports {
 
 	
 	
+	//-------- For Flight Report -------------------
+    public List Populate_Flight_Report(String airline, String airport , String username,String date);
+ 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	//-------- For Daily Summary Report -------------------	

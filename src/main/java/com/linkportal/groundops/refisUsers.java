@@ -1,18 +1,15 @@
 package com.linkportal.groundops;
 
-import org.springframework.stereotype.Service;
-
-import com.linkportal.security.EncryptDecrypt;
-
 
 public class refisUsers {
 
-	  
+	   
 	   private String username;
 	   private String password;
 	   private String description;
 	   private String email;
 	   private String enabled;
+	   
 	   
 		   
 	   public refisUsers(String username, String password, String description, String email, String enabled) {
@@ -22,6 +19,7 @@ public class refisUsers {
 			this.description = description;
 			this.email = email;
 			this.enabled = enabled;
+	
 	   }
 
 
@@ -75,6 +73,7 @@ public class refisUsers {
 	}
 
 	
+
 
 	@Override
 	public String toString() {

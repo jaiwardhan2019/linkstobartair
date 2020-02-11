@@ -13,7 +13,7 @@ public class AirLineNameCodeRowmapper implements  RowMapper<AirLineNameCode> {
 	public AirLineNameCode mapRow(ResultSet rs, int rowNum) throws SQLException {		   
 		   		   
 		AirLineNameCode airline = new AirLineNameCode(
-				   rs.getString("name"),
+				   rs.getString("airline_name"),
 				   rs.getString("iata_code"),
 				   rs.getString("icao_code"));		   
 	       return airline;

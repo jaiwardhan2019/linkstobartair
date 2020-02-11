@@ -39,6 +39,9 @@ public class flightReportsImp implements flightReports{
     DataSource dataSourcesqlserver;
     
     @Autowired
+    DataSource dataSourcesqlservercp;
+    
+    @Autowired
     DataSource dataSourcemysql;
     
 
@@ -49,13 +52,13 @@ public class flightReportsImp implements flightReports{
 
     
 	JdbcTemplate jdbcTemplateSqlServer;	
-	JdbcTemplate jdbcTemplateMysql;	
+	JdbcTemplate jdbcTemplateCorp;	
 
 	
 	
-	flightReportsImp(DataSource dataSourcesqlserver,DataSource dataSourcemysql){ 
+	flightReportsImp(DataSource dataSourcesqlserver,DataSource dataSourcesqlservercp){ 
 		jdbcTemplateSqlServer      = new JdbcTemplate(dataSourcesqlserver);
-		jdbcTemplateMysql = new JdbcTemplate(dataSourcemysql);
+		jdbcTemplateCorp = new JdbcTemplate(dataSourcesqlservercp);
 	}
 
 
@@ -66,8 +69,8 @@ public class flightReportsImp implements flightReports{
 	@Override
 	public String Populate_Operational_Airline(String airlinecode){
 		   String airlinelistwithcode=null;	   
-		   String sql1="SELECT * FROM AirlineMaster where operational=1 order  by name";
-		   List<AirLineNameCode>  airlinelist = jdbcTemplateMysql.query(sql1,new AirLineNameCodeRowmapper());
+		   String sql1="SELECT * FROM AirlineMaster where status='Enable' order  by airline_name";
+		   List<AirLineNameCode>  airlinelist = jdbcTemplateCorp.query(sql1,new AirLineNameCodeRowmapper());
 		   for (AirLineNameCode namecode : airlinelist) {			   
 			   
 			     if(airlinecode.trim().equals(namecode.getAirlineiatacode().trim())) {			    	
@@ -150,7 +153,9 @@ public class flightReportsImp implements flightReports{
 	
 	
 	
-	
+		
+		
+		
 	
 	
 	
@@ -1158,6 +1163,16 @@ public class flightReportsImp implements flightReports{
 			    
 		    
 		return flightList;
+	}
+
+
+
+
+
+	@Override
+	public List Populate_Flight_Report(String airline, String airport, String username, String date) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

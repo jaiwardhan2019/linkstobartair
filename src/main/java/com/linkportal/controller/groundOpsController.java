@@ -12,8 +12,9 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
-
+import java.util.Calendar;
 import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -36,6 +37,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.dbripostry.linkUsers;
+import com.linkportal.fltreport.flightReports;
+import com.linkportal.graphreport.piechart;
 import com.linkportal.groundops.manageRefisUser;
 import com.linkportal.groundops.refisUsers;
 import com.linkportal.security.EncryptDecrypt;
@@ -57,7 +60,11 @@ public class groundOpsController {
 	@Autowired
 	EncryptDecrypt encdec;
 	
+	@Autowired
+	flightReports flt;
 	
+	@Autowired
+	piechart chart;
 
 	
 	
@@ -82,11 +89,55 @@ public class groundOpsController {
 	}//----------- End of Function 
 
 
+
+     //*********************** REPORT SECTION ***********************
+	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
+	@RequestMapping(value = "/flightreport",method = {RequestMethod.POST,RequestMethod.GET}) 
+	public String GroundOpsflightreport(HttpServletRequest req,ModelMap model) throws Exception{	
+		
+		model.put("airlinelist",flt.Populate_Operational_Airline("EIE"));		
+		model.put("airportlist",flt.Populate_Operational_Airport("DUB"));	
+	
+		//model.put("reportbody",flt.Populate_MayFly_Report_body("EI","DUB","TEL","datop"));	
+		//model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop"),0));		
+		
+		  
+	   //-------------- FOR GRAPH --------------------------------- 		     
+	    //String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlineCode"), req.getParameter("airportcode"),req.getParameter("datop"));
+	    //model.addAttribute("dataPoints",dataPoints); 
+	   	
+		
+		//model.addAttribute("airlinecode",req.getParameter("airlineCode").toLowerCase());
+		model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		model.addAttribute("emailid",req.getParameter("emailid"));
+		model.addAttribute("password",req.getParameter("password"));
+		
+		
+	    Date today = new Date();               
+	    SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+	    Calendar c = Calendar.getInstance();  
+	    String todaydate = (String)(formattedDate.format(c.getTime()));
+	    model.put("datop",todaydate);
+        
+	    if(req.getParameter("datop") != null) {
+	    	model.put("datop",req.getParameter("datop"));
+	    }
+		
+		logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
+		return "groundoperation/reports/flightreports"; 
+	}
+	
+		
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	//****************** GROUND OPS USER MANAGMENT ***********************************************
 	//-------THis Will be Called When Refis User Links is called from Ground Ops  
 	@RequestMapping(value = "/managegopssuser",method = {RequestMethod.POST,RequestMethod.GET})
 	public String groundopsuserlist(HttpServletRequest req, ModelMap model) throws Exception {	
