@@ -28,6 +28,7 @@ import com.linkportal.datamodel.delaycodeGroupMaster;
 import com.linkportal.datamodel.delaycodeGroupMasterRowmapper;
 import com.linkportal.datamodel.flightSectorLogRowmapper;
 import com.linkportal.datamodel.fligthSectorLog;
+import com.linkportal.sql.GroundOpsSqlBuilder;
 import com.linkportal.sql.dailySummarySqlBuilder;
 import com.linkportal.sql.linkPortalSqlBuilder;
 
@@ -58,7 +59,7 @@ public class flightReportsImp implements flightReports{
 	
 	flightReportsImp(DataSource dataSourcesqlserver,DataSource dataSourcesqlservercp){ 
 		jdbcTemplateSqlServer      = new JdbcTemplate(dataSourcesqlserver);
-		jdbcTemplateCorp = new JdbcTemplate(dataSourcesqlservercp);
+		jdbcTemplateCorp           = new JdbcTemplate(dataSourcesqlservercp);
 	}
 
 
@@ -67,10 +68,23 @@ public class flightReportsImp implements flightReports{
 	
 	//--------------- This will Generate All Operational Airline For Select Combobox-------------------------
 	@Override
-	public String Populate_Operational_Airline(String airlinecode){
-		   String airlinelistwithcode=null;	   
-		   String sql1="SELECT * FROM AirlineMaster where status='Enable' order  by airline_name";
-		   List<AirLineNameCode>  airlinelist = jdbcTemplateCorp.query(sql1,new AirLineNameCodeRowmapper());
+	public String Populate_Operational_Airline(String airlinecode, String useremail){
+		
+		   boolean isStobartUser      = useremail.indexOf("@stobartair.com") !=-1? true: false;		 
+		   String airlinelistwithcode = null;
+		   String sqlforoperationalairline="SELECT AirlineMaster.iata_code , AirlineMaster.airline_name  ,AirlineMaster.icao_code    \r\n" + 
+		   		"  FROM  AirlineMaster , Gops_Airline_Station_Access \r\n" + 
+		   		"  where Gops_Airline_Station_Access.airline_code=AirlineMaster.icao_code and  AirlineMaster.status='Enable'\r\n" + 
+		   		"  and Gops_Airline_Station_Access.user_name='"+useremail+"'";
+		   
+		   
+		   if(isStobartUser) {
+			   sqlforoperationalairline="SELECT * FROM AirlineMaster where status='Enable' order  by airline_name";
+	    	   airlinelistwithcode=airlinelistwithcode+"<option value='ALL' selected> All Airlines </option>";
+
+		   }
+		   
+		   List<AirLineNameCode>  airlinelist = jdbcTemplateCorp.query(sqlforoperationalairline,new AirLineNameCodeRowmapper());
 		   for (AirLineNameCode namecode : airlinelist) {			   
 			   
 			     if(airlinecode.trim().equals(namecode.getAirlineiatacode().trim())) {			    	
@@ -94,18 +108,46 @@ public class flightReportsImp implements flightReports{
 	
 	//--------------- This will Generate All Operational Airport For Select Combo Box-------------------------
 	@Override
-	public String Populate_Operational_Airport(String airportcode) throws Exception,NullPointerException {
-		 
+	public String Populate_Operational_Airport(String airportcode,String useremail) throws Exception,NullPointerException {
+		
+		   boolean isStobartUser = useremail.indexOf("@stobartair.com") !=-1? true: false;	
 		   DateFormat dateFormat = new SimpleDateFormat("yyyy");
-		   Date date = new Date();
-		   String curent_year=dateFormat.format(date);		   
-		   String sql="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from pdcstobart.dbo.LEGS where DATOP like '"+curent_year+"%') order by STN";	       
+		   Date date             = new Date();
+		   String curent_year    = dateFormat.format(date);		   
 		   
+		   	
 		   String stationlistwithcode = null;
+		   String sqlforoperationalairport="";
 		   
-		   SqlRowSet rowst =  jdbcTemplateSqlServer.queryForRowSet(sql);
+		   if(isStobartUser) {			   
+			  stationlistwithcode = "";  
+			  sqlforoperationalairport="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from pdcstobart.dbo.LEGS where DATOP like '"+curent_year+"%') order by STN";
+			  stationlistwithcode="<option value='ALL'>All Airport</option>"; 
+		   }
+		   else
+		   {
+			   
+			   //-- For Ground Handler Externale Pull list of assigned airport 
+			   String eligibleairportlist="";
+			   SqlRowSet rowst =  jdbcTemplateCorp.queryForRowSet("SELECT distinct station_code FROM Gops_Airline_Station_Access where user_name='"+useremail+"' and station_code != 'NA'");
+			   int counter=0;
+			   while(rowst.next()) {
+				   				   
+				   if(counter == 0) 
+				   {eligibleairportlist = "'"+rowst.getString("station_code")+"'";}
+				   else
+				   {eligibleairportlist = eligibleairportlist +",'"+ rowst.getString("station_code")+"'";}
+				   counter++;
+			   }
+			   sqlforoperationalairport ="select STN, NAME from PDCStobart.dbo.STATION where STN in("+eligibleairportlist+") order by STN"; 
+			   
+		   }
+			   
+		   
+		   
+	   
+		   SqlRowSet rowst =  jdbcTemplateSqlServer.queryForRowSet(sqlforoperationalairport);
 		   while (rowst.next()) {
-				 
 		 		 if(airportcode.trim().equals(rowst.getString("STN").trim())) {			    	
 					    stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("STN")+" selected>"+rowst.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("NAME").trim()+"</option>";
 				 }
@@ -1169,10 +1211,19 @@ public class flightReportsImp implements flightReports{
 
 
 
+
+
+
 	@Override
-	public List Populate_Flight_Report(String airline, String airport, String username, String date) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<fligthSectorLog> PopulateFlightReport(String airline, String airport, String shortby, String dateofoperation, String flightno) {
+		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();		   
+		   String builtsql             = gopssql.builtFlightReportSql(airline,airport,shortby,dateofoperation,flightno);			
+		   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
+		   gopssql   = null;
+		   builtsql  = null;
+		   
+		return flightseclog;
+
 	}
 
 

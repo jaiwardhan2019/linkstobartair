@@ -32,38 +32,59 @@ function addnew_user(accountid){
 	    var username    = document.getElementById("userid").value;
 	    var password    = document.getElementById("userpassword").value;
 	    var description = document.getElementById("description").value;
+	    var airline     = document.getElementById("airline").value;
+	    var station     = document.getElementById("station").value;
+
+
 	    
 		if(username == "" || username == " ") {
-			document.getElementById("userid").focus();
-			document.getElementById("fireModalWindow").click();
-			document.getElementById("error_message").innerHTML = "Please Enter User Name";
-			return false;
+		   alert("Please Enter User Name");
+		   document.getElementById("userid").focus();
+		   //document.getElementById("fireModalWindow").click();
+		   //document.getElementById("error_message").innerHTML = "Please Enter User Name";
+		   return false;
 		}
 
 		
 		if(password == "" || password == " ") {
-			document.getElementById("password").focus();
-			document.getElementById("fireModalWindow").click();
-			document.getElementById("error_message").innerHTML = "Please Enter Password";			
-			return false;
+		   alert("Please Enter Password");
+		   document.getElementById("userpassword").focus();
+		  return false;
 		}
 
 		
 		if(description == "" || description == " ") {
+			alert("Please Enter Description");
 			document.getElementById("description").focus();
-			document.getElementById("fireModalWindow").click();
-			document.getElementById("error_message").innerHTML = "Please Enter Description";			
 			return false;
 		}
+
+
+		if(airline == "" || airline == " ") {
+			alert("Please Select Airline..");
+			document.getElementById("airline").focus();
+			return false;
+		}
+
+
+		if(station == "" || station == " ") {
+			alert("Please Select Airport Station..");
+			document.getElementById("station").focus();
+			//document.getElementById("fireModalWindow").click();
+			//document.getElementById("error_message").innerHTML = "Please Enter Description";			
+			return false;
+		}
+		
 		else
 		{
 
-
-			       document.refieUser.method="POST"
-				   document.refieUser.operation.value="createuser";			   
-				   document.refieUser.action="managegopssuser";
-				   document.refieUser.submit();
-				   return true;				
+			   if(confirm("Are you Sure about Creating this User??")){
+		         document.refieUser.method="POST"
+			     document.refieUser.operation.value="createuser";			   
+			     document.refieUser.action="managegopssuser";
+			     document.refieUser.submit();
+			     return true;
+			   }				
 	
 	    }
 
@@ -129,7 +150,7 @@ function addnew_user(accountid){
 							<label> User Name </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
-										<input type="text"  name="userid" id="userid" class="form-control" value="${gopsuserdetail.username}">					
+										<input type="text"  name="userid" id="userid" class="form-control" value="${userid}">					
 												
 							</div>
 				    </div>
@@ -144,7 +165,7 @@ function addnew_user(accountid){
 							<label  >Password </label>  
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-strikethrough fa-lg" aria-hidden="true"></i></span>
-										<input type="text"   name="userpassword" id="userpassword" class="form-control"  value="${gopsuserdetail.getPasswordDecodeBase64()}">										
+										<input type="text"   name="userpassword" id="userpassword" class="form-control"  value="">										
 							</div>
 				    </div>
 		           </td>
@@ -162,7 +183,7 @@ function addnew_user(accountid){
 							<label >Description </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg"  aria-hidden="true"></i></span>
-									<textarea rows="02" name="description"  id="description" value="${gopsuserdetail.description}" class="form-control" >${gopsuserdetail.description} </textarea>  										
+									<textarea rows="02" name="description"  id="description" value="${description}" class="form-control" >${description} </textarea>  										
 							</div>
 			            </div>
 	               </td>
@@ -212,14 +233,12 @@ function addnew_user(accountid){
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
 								
 								
-														
-									<!-- <input type="text"  name="statio	n"  id="station" class="form-control" value="DUB,DBX" readonly>  -->
-									
-						<select  data-placeholder="Type Station Code or Name.." class="chosen-select form-control" multiple id="station" name="station">
-					            <option value=""></option>
-					                   ${listofstation}	
-						</select>						
 											
+								<select  data-placeholder="Type Station Code or Name.." class="chosen-select form-control" multiple id="station" name="station">
+							            <option value=""></option>
+							                   ${listofstation}	
+								</select>						
+													
 									
 											
 							</div>

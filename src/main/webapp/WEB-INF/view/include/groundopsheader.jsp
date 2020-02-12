@@ -98,9 +98,8 @@ function cal_groundops_home(usertype){
 
 
 function calFlightReport(reportname){
-	     alert(reportname);
 		 document.refisheader.method="POST";
-		 document.refisheader.action=reportname;
+		 document.refisheader.action=reportname+"?flightno=";
 	     document.refisheader.submit();
 		 return true;
 }
@@ -338,7 +337,7 @@ function calFlightReport(reportname){
   </c:if>
   
   <c:if test="${usertype == 'E'}">
-    <a onclick="cal_groundops_home('E');" href="javascript:void();"><span style="font-weight:600;font-size:13pt;color:white;">Ground Operations</span></a>     
+    <a onclick="cal_groundops_home('E');" href="javascript:void();"><span style="font-weight:600;font-size:13pt;color:white;"><i class="fa fa-home"></i> Ground Ops</h5></a> 
   </c:if>
   
 

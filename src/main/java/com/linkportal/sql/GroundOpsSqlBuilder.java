@@ -13,7 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
  * 
  */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
-public class linkPortalSqlBuilder implements Serializable{
+public class GroundOpsSqlBuilder implements Serializable{
 	
 
 	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -58,20 +58,6 @@ public class linkPortalSqlBuilder implements Serializable{
     
     
     	
-	
-	public String findCrewConnexUserInitialPassword(String emailid) {
-		   String[] FirstName_LastName=emailid.split("[@._]"); 
-		   String sql  = "select Initials, WebPassword  from CrewMember where  Namefirst like UPPER('"+FirstName_LastName[0].trim()+"%')  and Namelast like UPPER('"+FirstName_LastName[1].trim()+"')";
-		  return sql;
-	}// End of String function 
-	
-	
-	
-	public String findStobartairExternalUser(String userid , String password) {
-		   String sql  = "select * from ";
-		   return sql;
-	}// End of String function 
-	
 	
 	
 	
@@ -189,25 +175,15 @@ public class linkPortalSqlBuilder implements Serializable{
 	
 	
 	//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
-	public String builtMayFlightReportSql(String airline,String airport,String shortby,String ofdate,int num) throws NullPointerException{
-	       
-		     
-		    if(ofdate == null) {
-				//sql +=  " WHERE legs.datop=DATEADD(DAY,"+num+",'"+curent_date+"')";	
-			    sql +=  " WHERE legs.datop='"+curent_date+"' AND LEGS.STATUS='CNL'";	  
-	
-		    }else
-		    {
-				//sql +=  " WHERE legs.datop=DATEADD(DAY,"+num+",'"+curent_date+"')";	
-			    sql +=  " WHERE legs.datop='"+ofdate+"' AND LEGS.STATUS='CNL'";	  
-
-		    }
-		    
-		    
+	public String builtFlightReportSql(String airline,String airport,String shortby,String ofdate,String flightno) throws NullPointerException{
+ 		    if(ofdate.length()  > 0 ){ sql += "WHERE legs.datop='"+ofdate+"'"; }
+		    if(flightno.trim().length() > 0){ sql += "AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
 			if((airline != null) && (!airline.equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
 			if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }				
 			if(shortby != null){sql +=  " order by '"+shortby+"'";}else {sql +=  " order by ETD_DATE_TIME";}
-		    //System.out.println(sql);		
+		    
+			System.out.println(sql);
+			
 		return sql;
 	}//------------- End Of Myfly Report SQL --------------------------------
 

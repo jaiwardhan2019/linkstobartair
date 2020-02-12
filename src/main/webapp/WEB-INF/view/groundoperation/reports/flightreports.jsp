@@ -2,69 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-
-
-<jsp:include page="../include/header.jsp" >
-  <jsp:param name="emailid" value='<%=request.getParameter("emailid")%>' />
-  <jsp:param name="password" value='<%=request.getParameter("password")%>' />
-</jsp:include>
-
+<jsp:include page="../../include/groundopsheader.jsp" />
 
 <head>
-    <title> Dashboard | Flight Report | May Fly</title>    
+    <title> Dashboard | Flight Report </title>    
 </head>
 
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 <script type="text/javascript">
-
-
-//------------- FOR THE GRAPH DISPLAY ------------------ 
-window.onload = function() { 
-
-var chart = new CanvasJS.Chart("chartContainer",{
-	animationEnabled: true,
-	theme: "light2",   // "light1", "dark1", "dark2"
-	title: {
-		text: ""
-	},
-	subtitles: [{
-		text: ""
-	}],
-	data: [{
-		//type: "pie",
-		type: "doughnut",
-		yValueFormatString: "#,##0",
-		indexLabel: "{label}: {y}",
-		toolTipContent: "{y} Flights",
-		dataPoints : ${dataPoints}
-	}]
-});
-chart.render();
-
-	}
-
-
-function showmayFlyReport(){
-
-	   
-	    if(document.mayFlightReport.datop.value == ""){
-	       alert("Please Select Start Date");
-	       document.mayFlightReport.datop.focus();
-	       return false;
-		}
-		else
-        {
-
-		  search_progress();   
-	  	  document.mayFlightReport.method="POST";
-		  document.mayFlightReport.action="flight_mayFly_report";
-	      document.mayFlightReport.submit();
-		  return true;
-        } 
-		
-}//---------- End Of Function  ------------------
 
 
 
@@ -82,84 +29,78 @@ function search_progress() {
         e1.style.display = 'block';    
  }
 
+function showFlightReport(){
+	     document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
+	     //<input type="button"  class="btn btn-primary" value="Show Report" onclick="showFlightReport();" />        
+	     //search_progress();
+
+		 document.FlightReport.method="POST";
+		 document.FlightReport.action="flightreport";
+	     document.FlightReport.submit();
+	     return true;
+}	
 
 
 
-	
+
 </script>
-
-<style>
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-
-</style>
 
 
 	
 
 <body>
 
-   
- <br>
- <br>
- <br>
- <br>
- <br>
  
+ <form name="FlightReport" id="FlightReport">   
   
-   
+  <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
+  <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
+  <input type="hidden" name="usertype" value="${usertype}">
+    
+    
  <div class="container" align="center">
  
  
  
  <div class="col-md-12 col-sm-12 col-xs-12" align="left" >
  
- <form name="mayFlightReport" id="mayFlightReport">  
-  
-      <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
-      <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
-          <table class="table table-striped table-bordered" border="1" style="width: 35%;" align="left">	    
-    			<tbody>				     
-				     <tr align="center">
-					 <td  bgcolor="#0070BA">
+ 
+       
+  <table class="table table-striped table-bordered" border="1" style="width: 45%;background:rgba(255,255,255,0.5);" align="left">	
+   			<tbody>				     
+				 <tr align="center">
+					 <td  bgcolor="#0070BA" colspan="2">
 					   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
 					    Flight Report Parameter &nbsp;&nbsp;
 					   </b></span>					 
 					 </td>
-				     </tr>
+				 </tr>
 		            
-					<tr>
-					<td align="left" bgcolor="white" >
+			    <tr>
+					<td align="left" >
 					 
-					<div class="form-group">
-							<label for="airlineCode">Operating Airline:</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-plane"></i></span>							
-									
-										<select id="airlineCode" name="airlineCode" class="form-control">
-											
-						                            	 ${airlinelist}
-											
-										</select>
-							</div>
-						</div>
-					
+							<div class="col-xs-12">
+									<label for="airlineCode">Operating Airline:</label>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-plane"></i></span>
+												<select id="airlineCode" name="airlineCode" class="form-control">
+								                            	 ${airlinelist}
+												</select>
+									</div>
+								</div>
+							
 						</td>
 						
-				     </tr>	
-				     
-				    <tr align="left"> 
+		
 				     					
-						<td  bgcolor="white">
-								<div class="form-group">
+						<td>
+								<div class="col-xs-12">
 										<label for="airlineCode">Departure Airport:</label>
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fa fa-plane"></i></span>							
 												
 												<select id="airportcode" name="airportcode" class="form-control">
-											
+												
 													     ${airportlist}
 							                    </select>   
 									
@@ -172,9 +113,9 @@ tr:nth-child(even) {
 					 
 				  <tr align="left"> 
 				     					
-					<td  bgcolor="white">
+					<td  >
 				             
-		               <div class="form-group">
+		               <div class="col-xs-12">
 							<label for="startDate">Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
@@ -185,20 +126,38 @@ tr:nth-child(even) {
 								
 								
 				       </td>
+				       				
+					<td>
+							             
+							<div class="col-xs-12">
+										<label> Flight No </label>
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
+													<input type="text"  name="flightno" id="flightno" class="form-control" value="">					
+															
+										</div>
+							    </div>
+				    
+	    
+							
+				       </td>
+				       
+				       
+				       
 				     </tr>					 
 				     
 				  <tr align="left"> 
 				     					
-					<td  bgcolor="white">
+					<td >
 				             
 				             
-				         <div class="form-group">
+				         <div class="col-xs-12">
 							<label for="sortBy">Sort By:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></span>
 								<select id="sortby" name="sortby" class="form-control">
 									
-									   <option value="ETD_DATE_TIME">Expected Time Of Departure</option>
+									   <option value="ETD_DATE_TIME">Exp.Time Of Depart.</option>
 									   <option value="LONG_REG">Aircraft Reg</option>
 									
 								</select>
@@ -208,15 +167,13 @@ tr:nth-child(even) {
 								
 								
 				       </td>
-				     </tr>
-				     
-				    <tr align="center"> 
+	
 				     					
-						<td  bgcolor="white">
-						
-					        <span style="display:block" id="searchbutton">
-					           <input type="button"  class="btn btn-primary" value="Show Report" onclick="showmayFlyReport();" /> 
-					        </span>
+						<td align="center">
+						    <br>
+					       
+				          	    <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
+					           
 					        
 					        <span style="display:none" id="searchbutton1">
 					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
@@ -230,32 +187,15 @@ tr:nth-child(even) {
 							    
 				    </tbody>
 			</table>
-			 
-		
-		
-	
-		 	   
-		    <table  class="table table-striped table-bordered"  border="0" style="width: 40%;" align="center">	
-		   
-		             
-		           <div id="chartContainer" style="height: 370px; width: 50%;"></div>
-		   
-		    
-		    </table>
-		
-				
-		              <p align="center">    <img  src="images/${airlinecode}1.png"> </p>
-    	
-
-   </div>
+	  </div>
   
-
-
 </div>		
+</form>
+
 
 
 <br>
- 
+<br>
  
  
  <!-- FOR All / CANCEL FLIGHTS    -->
@@ -290,7 +230,7 @@ tr:nth-child(even) {
 
 <!-- TODAY BODY  -->		
 <div id="today" class="tab-pane fade in active" >
-    <table class="table table-striped table-bordered" border="1" style="width: 100%;" align="center">	  
+    <table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255,0.5);" align="center">	  
    
 		<tbody>
 	     <tr align="center">
@@ -420,10 +360,7 @@ tr:nth-child(even) {
 		       
 		       
 		 			 
-			     <tr align="center">
-		   
-		     
-		                            
+			     <tr align="center">                       
 		              <td>
 					    
 					     <span style="${colorcodestyle}">
@@ -1080,7 +1017,7 @@ tr:nth-child(even) {
 
 
 
-<%@include file="../include/footer.jsp" %>
+<%@include file="../../include/footer.jsp" %>
 
 
 

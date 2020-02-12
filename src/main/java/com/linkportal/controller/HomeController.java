@@ -150,7 +150,7 @@ public class HomeController {
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));
 		   
-		   boolean isStobartUser = req.getParameter("emailid").indexOf("stobartair") !=-1? true: false;
+		   boolean isStobartUser = req.getParameter("emailid").indexOf("@stobartair.com") !=-1? true: false;
 		 
 		   
 		   // -- If Ground Handler,External User
@@ -411,8 +411,8 @@ public class HomeController {
 	@RequestMapping(value = "/flight_mayFly_report",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String flight_mayFly_report(HttpServletRequest req,ModelMap model) throws Exception{	
 		
-		model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode")));		
-		model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode")));	
+		model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode"),req.getParameter("emailid")));		
+		model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"),req.getParameter("emailid")));	
 		
 		//model.put("reportbodyyesterday",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop"),-1));		
 		//model.put("reportbodytoday",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop"),0));		
@@ -460,8 +460,8 @@ public class HomeController {
 	//-------THis Will be Called When Relaiablity Report FORM link will be Called----------------- 
 	@RequestMapping(value = "/reliabilityReportForm",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String flight_Reliability_Report_Form(HttpServletRequest req,ModelMap model) throws Exception{
-		model.put("airlinelist",flt.Populate_Operational_Airline(("ALL")));		
-		model.put("airportlist",flt.Populate_Operational_Airport("ALL"));
+		model.put("airlinelist",flt.Populate_Operational_Airline("ALL",req.getParameter("emailid")));		
+		model.put("airportlist",flt.Populate_Operational_Airport("ALL",req.getParameter("emailid")));
 		model.addAttribute("emailid",req.getParameter("emailid"));
 		model.addAttribute("password",req.getParameter("password"));
 		
@@ -487,8 +487,8 @@ public class HomeController {
 	//-------THis Will be Called When Relaiablity Report BODY link will be Called FROM FORM ----------------- 
 	@RequestMapping(value = "/reliabilityReport",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String flight_Reliability_Report(HttpServletRequest req,ModelMap model) throws Exception{		
-		   model.addAttribute("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode")));
-		   model.addAttribute("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportCode")));		   
+		   model.addAttribute("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode"),req.getParameter("emailid")));
+		   model.addAttribute("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportCode"),req.getParameter("emailid")));		   
 		   model.addAttribute("airlinecode",req.getParameter("airlineCode").toLowerCase());
 		   model.addAttribute("startDate",req.getParameter("startDate"));
 		   model.addAttribute("endDate",req.getParameter("endDate"));		   
@@ -533,8 +533,8 @@ public class HomeController {
 	@RequestMapping(value = "/reliabilityAction",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String flight_Reliability_Action(HttpServletRequest req,ModelMap model) throws Exception{	
 		
-		  model.put("airlinelist",flt.Populate_Operational_Airline(("ALL")));		
-		  model.put("airportlist",flt.Populate_Operational_Airport("ALL"));
+		  model.put("airlinelist",flt.Populate_Operational_Airline(("ALL"),req.getParameter("emailid")));		
+		  model.put("airportlist",flt.Populate_Operational_Airport("ALL",req.getParameter("emailid")));
 		  model.addAttribute("emailid",req.getAttribute("emailid"));		
 		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
 		  model.put("profilelist",req.getSession().getAttribute("profilelist"));
@@ -550,8 +550,8 @@ public class HomeController {
 	//-------RELIABLITY ACTION REPORT BODY----------------- 
 	@RequestMapping(value = "/reliabilityActionReport",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String ReliabilityActionReport(HttpServletRequest req,ModelMap model) throws Exception{		
-		   model.addAttribute("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode")));
-		   model.addAttribute("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportCode")));		   
+		   model.addAttribute("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode"),req.getParameter("emailid")));
+		   model.addAttribute("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportCode"),req.getParameter("emailid")));		   
 		   model.addAttribute("airlinecode",req.getParameter("airlineCode").toLowerCase());
 		   model.addAttribute("startDate",req.getParameter("startDate"));
 		   model.addAttribute("endDate",req.getParameter("endDate"));		   
@@ -613,7 +613,7 @@ public class HomeController {
 	@RequestMapping(value = "/flight_daily_summary_report_form",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String flight_daily_summary_form(HttpServletRequest req, ModelMap model) throws Exception {	
 		   
-		   model.addAttribute("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode")));		  
+		   model.addAttribute("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlineCode"),req.getParameter("emailid")));		  
 		   model.addAttribute("emailid",req.getParameter("emailid"));	
 		   model.addAttribute("password",req.getParameter("password"));
 		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 

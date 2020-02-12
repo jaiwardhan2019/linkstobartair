@@ -94,11 +94,21 @@ public class groundOpsController {
 	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
 	@RequestMapping(value = "/flightreport",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String GroundOpsflightreport(HttpServletRequest req,ModelMap model) throws Exception{	
-		
-		model.put("airlinelist",flt.Populate_Operational_Airline("EIE"));		
-		model.put("airportlist",flt.Populate_Operational_Airport("DUB"));	
-	
-		//model.put("reportbody",flt.Populate_MayFly_Report_body("EI","DUB","TEL","datop"));	
+		   Date today = new Date();               
+		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+		   Calendar c = Calendar.getInstance();  
+		   String todaydate = (String)(formattedDate.format(c.getTime()));
+		   model.put("datop",todaydate);	        
+		   if(req.getParameter("datop") != null) {
+			   todaydate = req.getParameter("datop");
+			   model.put("datop",req.getParameter("datop"));
+		   }
+		   
+		 	   
+		   model.put("airlinelist",flt.Populate_Operational_Airline("ALL", req.getParameter("emailid")));		
+		   model.put("airportlist",flt.Populate_Operational_Airport("ALL", req.getParameter("emailid")));
+		   model.put("reportbody",flt. PopulateFlightReport(req.getParameter("airlineCode"), req.getParameter("airportcode"), req.getParameter("sortby"), todaydate,req.getParameter("flightno")));	
+		   
 		//model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop"),0));		
 		
 		  
@@ -108,23 +118,21 @@ public class groundOpsController {
 	   	
 		
 		//model.addAttribute("airlinecode",req.getParameter("airlineCode").toLowerCase());
-		model.put("profilelist",req.getSession().getAttribute("profilelist"));
-		model.addAttribute("emailid",req.getParameter("emailid"));
-		model.addAttribute("password",req.getParameter("password"));
 		
 		
-	    Date today = new Date();               
-	    SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
-	    Calendar c = Calendar.getInstance();  
-	    String todaydate = (String)(formattedDate.format(c.getTime()));
-	    model.put("datop",todaydate);
-        
-	    if(req.getParameter("datop") != null) {
-	    	model.put("datop",req.getParameter("datop"));
-	    }
 		
-		logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
-		return "groundoperation/reports/flightreports"; 
+		
+		
+			
+			
+			model.put("profilelist",req.getSession().getAttribute("profilelist"));
+			model.addAttribute("emailid",req.getParameter("emailid"));
+			model.addAttribute("password",req.getParameter("password"));
+			model.put("usertype",req.getParameter("usertype"));
+			
+			
+			logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
+			return "groundoperation/reports/flightreports"; 
 	}
 	
 		
@@ -212,7 +220,8 @@ public class groundOpsController {
 				
 				//-- Add new User Create /  Add new entry to datebase 
 				if(req.getParameter("operation").equals("createuser")) {
-					int statusaddition=refisuser.addnewGopsUserDetail(req);
+					
+				   int statusaddition = refisuser.addnewGopsUserDetail(req);
 					
 			   	   if(statusaddition == 1){
 						  model.put("status","User Created Successfully ..");
@@ -223,13 +232,20 @@ public class groundOpsController {
 					}
 				    
 			   	    if(statusaddition == 2){
-						  model.put("status","User Allready Exist please choose different name.");
-						  model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
-						  model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));				 
-						  return "groundoperation/addNewRefisusers"; 
+						 model.put("userid",req.getParameter("userid"));
+						 model.put("description",req.getParameter("description"));
+						 model.put("password",req.getParameter("userpassword"));
+						 model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
+						 model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));						 
+						 model.put("status","User Allready Exist please choose different name.");
+						 return "groundoperation/addNewRefisusers"; 
 					}
 			   	   
-	  		    }
+	  		    
+				
+				}
+				
+				
 				
 					
 				

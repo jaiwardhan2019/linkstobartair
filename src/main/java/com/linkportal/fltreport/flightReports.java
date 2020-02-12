@@ -12,8 +12,8 @@ import com.linkportal.datamodel.fligthSectorLog;
 
 public interface flightReports {
 	
-	public String Populate_Operational_Airport(String airportcode) throws Exception;	
-	public String Populate_Operational_Airline(String airlinecode) throws Exception;
+	public String Populate_Operational_Airport(String airportcode,String useremail) throws Exception;	
+	public String Populate_Operational_Airline(String airlinecode,String useremail) throws Exception;
 	
 	
 	//-------- For May Fly Report -------------------
@@ -34,9 +34,8 @@ public interface flightReports {
 
 	
 	
-	//-------- For Flight Report -------------------
-    public List Populate_Flight_Report(String airline, String airport , String username,String date);
- 
+	//-------- GOPS - FLIGHT REPORT -------------------
+    public List PopulateFlightReport(String airline, String airport, String shortby , String date , String flightno);
 	
 	
 	

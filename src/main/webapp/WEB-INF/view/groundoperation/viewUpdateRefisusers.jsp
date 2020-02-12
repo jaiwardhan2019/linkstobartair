@@ -30,33 +30,33 @@
 function update_user(accountid){
 
 
-    var username    = document.getElementById("userid").value;
-    var password    = document.getElementById("userpassword").value;
-    var description = document.getElementById("description").value;
-    
-	if(username == "" || username == " ") {
-		document.getElementById("userid").focus();
-		document.getElementById("fireModalWindow").click();
-		document.getElementById("error_message").innerHTML = "Please Enter User Name";
-		return false;
-	}
-
 	
 	if(password == "" || password == " ") {
-		document.getElementById("password").focus();
-		document.getElementById("fireModalWindow").click();
-		document.getElementById("error_message").innerHTML = "Please Enter Password";			
-		return false;
+	   alert("Please Enter Password");
+	   document.getElementById("userpassword").focus();
+	  return false;
 	}
 
 	
 	if(description == "" || description == " ") {
+		alert("Please Enter Description");
 		document.getElementById("description").focus();
-		document.getElementById("fireModalWindow").click();
-		document.getElementById("error_message").innerHTML = "Please Enter Description";			
 		return false;
-	}		
+	}
 
+
+	if(airline == "" || airline == " ") {
+		alert("Please Select Airline..");
+		document.getElementById("airline").focus();
+		return false;
+	}
+
+
+	if(station == "" || station == " ") {
+		alert("Please Select Airport Station..");
+		document.getElementById("station").focus();	
+		return false;
+	}
 	
 	if(confirm("Are you sure about Updating detail.. ??")){			  
 		   document.refieUser.method="POST"
