@@ -89,8 +89,9 @@ function calRefisReport(reportname){
 
 
 function cal_groundops_home(usertype){
-	document.refisheader.action="groundopsHomePage?usertype="+usertype;
-	//document.callive_well1.target="_blank"
+	
+	document.refisheader.method="POST";
+	document.refisheader.action="groundopsHomePage?usertype="+usertype;	
     document.refisheader.submit();
 	return true;
 }
