@@ -33,7 +33,7 @@
 			<div class="panel pane-default panel-shadow" >
 				<div class="panel-body">                     	 
 					<p>
-						<span style="font-weight:600;font-size:12pt;color:#0071ba;"><b> Daily Punctuality Statistics   </b>&nbsp;<i class="fa fa-line-chart fa-lg" aria-hidden="true"></i></span>
+						<span style="font-weight:600;font-size:12pt;color:#0071ba;"><b> Daily Punctuality Statistics   </b>&nbsp;<i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></span>
 						 _________________________________________	 
 					</p>
 			    

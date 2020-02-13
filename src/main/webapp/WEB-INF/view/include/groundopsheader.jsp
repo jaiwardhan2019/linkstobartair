@@ -99,7 +99,7 @@ function cal_groundops_home(usertype){
 
 function calFlightReport(reportname){
 		 document.refisheader.method="POST";
-		 document.refisheader.action=reportname+"?flightno=";
+		 document.refisheader.action=reportname;
 	     document.refisheader.submit();
 		 return true;
 }
@@ -109,7 +109,7 @@ function calFlightReport(reportname){
 
 
 
-<form name="refisheader" id="refisheader" method="POST">
+<form name="refisheader" id="refisheader">
     <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
     <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
     <input type="hidden" name="usertype" value="${usertype}">
@@ -167,7 +167,7 @@ function calFlightReport(reportname){
 				  <ul class="dropdown-menu">
 				        
 				        <c:if test="${profilelist.Flight_Report  == 'Y'}">   
-				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flightreport');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Flight Report (MayFly)</a></li>
+				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flightreport?airlinecode=ALL&airportcode=ALL&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Flight Report (MayFly)</a></li>
 					    </c:if>
 					    <c:if test="${profilelist.Reliablity  == 'Y'}"> 
 					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityReportForm');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Report</a></li>
@@ -337,7 +337,7 @@ function calFlightReport(reportname){
   </c:if>
   
   <c:if test="${usertype == 'E'}">
-    <a onclick="cal_groundops_home('E');" href="javascript:void();"><span style="font-weight:600;font-size:13pt;color:white;"><i class="fa fa-home"></i> Ground Ops</h5></a> 
+    <a onclick="cal_groundops_home('E');" href="javascript:void();"><h5 style="font-weight:600;color:white;"><i class="fa fa-home"></i> Ground Ops</h5></a> 
   </c:if>
   
 
@@ -367,17 +367,18 @@ function calFlightReport(reportname){
 <br>
 <br>
 
-
+ 
 <script>
 	var input = document.getElementById("myInput");
 	input.addEventListener("keyup", function(event) {
-	  if (event.keyCode === 13) {
+	  if (event.keyCode == 13) {
 	   event.preventDefault();
 	   document.getElementById("myBtn").click();
 	  }
 	});
 </script>
 
+ 
 <!-- jQuery -->
    <script src="js/jquery.min.js"></script>  
    <script src="js/bootstrap.min.js"></script>

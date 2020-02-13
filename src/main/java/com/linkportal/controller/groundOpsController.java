@@ -105,12 +105,12 @@ public class groundOpsController {
 		   }
 		   
 		 	   
-		   model.put("airlinelist",flt.Populate_Operational_Airline("ALL", req.getParameter("emailid")));		
-		   model.put("airportlist",flt.Populate_Operational_Airport("ALL", req.getParameter("emailid")));
-		   model.put("reportbody",flt. PopulateFlightReport(req.getParameter("airlineCode"), req.getParameter("airportcode"), req.getParameter("sortby"), todaydate,req.getParameter("flightno")));	
+		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
+		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
+		   model.put("reportbody",flt.PopulateFlightReport(req.getParameter("airlinecode"), req.getParameter("airportcode"), req.getParameter("sortby"), todaydate,req.getParameter("flightno"),req.getParameter("emailid")));	
+		   model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlinecode"),req.getParameter("airportcode"),req.getParameter("sortby"),todaydate,0));		
+				   
 		   
-		//model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop"),0));		
-		
 		  
 	   //-------------- FOR GRAPH --------------------------------- 		     
 	    //String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlineCode"), req.getParameter("airportcode"),req.getParameter("datop"));
@@ -129,8 +129,6 @@ public class groundOpsController {
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));
 			model.put("usertype",req.getParameter("usertype"));
-			
-			
 			logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
 			return "groundoperation/reports/flightreports"; 
 	}

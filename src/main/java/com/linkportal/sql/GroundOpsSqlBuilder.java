@@ -54,159 +54,33 @@ public class GroundOpsSqlBuilder implements Serializable{
     		" left join ( \r\n" + 
     		" select Distinct rtrim(AC_MISC.SHORT_REG) as \"SHORT_REG\", AC_MISC.LONG_REG, AC_MISC.DESCRIPTION, actype_versions_misc.actype, actype_Versions_misc.scr_seats, acreg_unit_map.acown as \"AIRCRAFT_OWNER_CODE\" from acreg_unit_map,ac_misc,ac_versions,actype_versions_misc where acreg_unit_map.acreg=ac_misc.ac and acreg_unit_map.actyp=actype_versions_misc.actype\r\n" + 
     		" and actype_versions_misc.version=ac_Versions.version and ac_versions.ac=ac_misc.ac\r\n" + 
-    		" )as \"AIRCRAFT_V\" on legs.ac=(CONCAT (AIRCRAFT_V.AIRCRAFT_OWNER_CODE, AIRCRAFT_V.actype, AIRCRAFT_V.SHORT_REG))";
+    		" )as \"AIRCRAFT_V\" on legs.ac=(CONCAT (AIRCRAFT_V.AIRCRAFT_OWNER_CODE, AIRCRAFT_V.actype, AIRCRAFT_V.SHORT_REG)) ";
     
     
-    	
 	
-	
-	
-	
-	//-------------- This Will Generate Sql For Reliablity Report Report FOR JSP VIEW  -------------------------------
-	public String builtReliabilityReportSQL(String airline,String airport,
-			String startDate,String endDate,String tolerance ,String delayCodeGroupCode) {
-		
-				sql += " WHERE LEGS.STATUS IN ('ATA') AND legs.datop  between '"+startDate+"' and '"+endDate+"'";
-				if((airline != null) && (!airline.equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
-				if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
-				sql +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) > "+tolerance+")";
-				sql +=  " order by  FLIGHT_DATE ,ETD_DATE_TIME";
-		        //System.out.println(sql);
-		  return sql;
-   }
-
-	
-   
-	//-------------- This Will Generate Sql For Reliablity Report Report FOR JSP VIEW  -------------------------------
-	public String builtReliabilityReportSQL_For_Calcle_Flights(String airline,String airport,
-			String startDate,String endDate,String tolerance) {		
-	
-			sql += " WHERE LEGS.STATUS IN ('CNL') AND legs.datop  between '"+startDate+"' and '"+endDate+"'";
-			if((airline != null) && (!airline.equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
-			if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
-			sql +=  " order by  FLIGHT_DATE ,ETD_DATE_TIME";
-            //System.out.println(sql);
-		  return sql;
-   }//------------- End Of builtDailySummaryFlightReport Report SQL --------------------------------
-
-
-
-	
-	
-
-	
-	
-	
-	
-	//-------------- This Will Generate Sql For EXCEL  Reliablity Report For ALL Flights -------------------------------
-	public String builtExcelReliabilityReportSQL(String airline,String airport,
-			String startDate,String endDate) {
-		
-			sql += " WHERE LEGS.STATUS IN ('ATA','CNL') AND legs.datop  between '"+startDate+"' and '"+endDate+"'";
-			if((airline != null) && (!airline.toUpperCase().equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
-			if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
-			sql +=  " order by  FLIGHT_DATE ,ETD_DATE_TIME"; 
-			//System.out.println(sql);
-		return sql;
-      }//------------- End Of builtDailySummaryFlightReport Report SQL --------------------------------
-	
-	  
-	
-	
-	
-	  
-	//-------------- This Will Generate Sql For EXCEL  Reliablity Report Delay 15 / 30 / 60 Minutes ----------------------
-		public String builtExcelReliabilityReportSQL_AsPerDelay(String airline,String airport,
-				String startDate,String endDate, int delayminutes) {
-			
-				sql += " WHERE LEGS.STATUS IN ('ATA') AND legs.datop  between '"+startDate+"' and '"+endDate+"'";
-				if((airline != null) && (!airline.toUpperCase().equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
-				if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
-				sql +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) >= "+delayminutes+")";
-				sql +=  " order by ETD_DATE_TIME ,  LEGS.FLTID";
-			return sql;
-	      }//------------- End Of builtDailySummaryFlightReport Report SQL --------------------------------
-		
-		
-		
-		
-	
-		//-------------- This Will Generate Sql For Cancle Flights Reliablity Report -------------------------------
-		public String builtExcelReliabilityReportSQL_AllCancel(String airline,String airport,
-				String startDate,String endDate) {
-			
-				sql += " WHERE LEGS.STATUS='CNL' AND legs.datop  between '"+startDate+"' and '"+endDate+"'";				
-				if((airline != null) && (!airline.toUpperCase().equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
-				if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
-			
-			
-			return sql;
-	    }//------------- End Of builtDailySummaryFlightReport Report SQL --------------------------------
-		
-		
-
-		
-		
-		
-		
-		
-		//-------------- This Will Generate Sql For EXCEL  Reliablity Report As Per Delay Code  -------------------------------
-		public String builtExcelReliabilityReportSQL_AllflightWithDelayCode(String airline,String airport,
-				String startDate,String endDate) {
-			
-				sql += " WHERE LEGS.STATUS='ATA' AND legs.datop  between '"+startDate+"' and '"+endDate+"'";				
-				if((airline != null) && (!airline.toUpperCase().equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
-				if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
-				sql +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) >= 1)";
-				
-			    sql +=  " order by ETD_DATE_TIME ,  LEGS.FLTID";
+		//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
+		public String builtFlightReportSql(String airline,String airport,String shortby,String ofdate,String flightno) throws NullPointerException{
+	 		    if(ofdate.length()  > 0 ){ sql += " WHERE legs.datop='"+ofdate+"'"; }
+			    if(flightno.trim().length() > 0){ sql += " AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
 			    
+				if((airline != null) && (!airline.equals("ALL"))){ 				    
+					if(airline.length() == 2) {sql += " AND SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')"; }else {sql += " AND SUBSTRING(LEGS.FLTID,1,3) in ("+airline+")"; }
+				}
+				
+				
+				if((airport != null) && (!airport.equals("ALL"))){ 
+				    if(airport.length() == 3) {sql += " AND LEGS.DEPSTN in ('"+airport+"')"; }else {sql += " AND LEGS.DEPSTN in ("+airport+")";}
+				}	
+				
+				if(shortby != null){sql +=  " order by '"+shortby+"'";}else {sql +=  " order by ETD_DATE_TIME";}
+			    
+				//System.out.println(sql);
+				
 			return sql;
-	    }//------------- End Of builtDailySummaryFlightReport Report SQL --------------------------------
+		}//------------- End Of Myfly Report SQL --------------------------------
+
 		
-			
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
-	public String builtFlightReportSql(String airline,String airport,String shortby,String ofdate,String flightno) throws NullPointerException{
- 		    if(ofdate.length()  > 0 ){ sql += "WHERE legs.datop='"+ofdate+"'"; }
-		    if(flightno.trim().length() > 0){ sql += "AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
-			if((airline != null) && (!airline.equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
-			if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }				
-			if(shortby != null){sql +=  " order by '"+shortby+"'";}else {sql +=  " order by ETD_DATE_TIME";}
-		    
-			System.out.println(sql);
-			
-		return sql;
-	}//------------- End Of Myfly Report SQL --------------------------------
 
-	
-
-	
-	public String builtMayFlightReportSql(String airline,String airport,String shortby,String ofdate) throws NullPointerException{
-		 if(ofdate == null) {
-			sql +=  " WHERE legs.datop='"+curent_date+"'";	
-		 }
-		 else
-		 {
-			 sql +=  " WHERE legs.datop='"+ofdate+"'"; 
-		 }
-			if((airline != null) && (!airline.equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
-			if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }				
-			if(shortby != null){sql +=  " order by '"+shortby+"'";}else {sql +=  " order by ETD_DATE_TIME";}
-		    //System.out.println(sql);		
-		return sql;
-	}//------------- End Of Myfly Report SQL --------------------------------
-
-	
-	
 	
 	
 	

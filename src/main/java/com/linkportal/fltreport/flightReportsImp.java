@@ -77,11 +77,9 @@ public class flightReportsImp implements flightReports{
 		   		"  where Gops_Airline_Station_Access.airline_code=AirlineMaster.icao_code and  AirlineMaster.status='Enable'\r\n" + 
 		   		"  and Gops_Airline_Station_Access.user_name='"+useremail+"'";
 		   
-		   
+		   airlinelistwithcode=airlinelistwithcode+"<option value='ALL' selected> All Airlines </option>";
 		   if(isStobartUser) {
 			   sqlforoperationalairline="SELECT * FROM AirlineMaster where status='Enable' order  by airline_name";
-	    	   airlinelistwithcode=airlinelistwithcode+"<option value='ALL' selected> All Airlines </option>";
-
 		   }
 		   
 		   List<AirLineNameCode>  airlinelist = jdbcTemplateCorp.query(sqlforoperationalairline,new AirLineNameCodeRowmapper());
@@ -116,13 +114,11 @@ public class flightReportsImp implements flightReports{
 		   String curent_year    = dateFormat.format(date);		   
 		   
 		   	
-		   String stationlistwithcode = null;
+		  
 		   String sqlforoperationalairport="";
-		   
-		   if(isStobartUser) {			   
-			  stationlistwithcode = "";  
-			  sqlforoperationalairport="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from pdcstobart.dbo.LEGS where DATOP like '"+curent_year+"%') order by STN";
-			  stationlistwithcode="<option value='ALL'>All Airport</option>"; 
+		  
+		   if(isStobartUser) {
+			  sqlforoperationalairport="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from pdcstobart.dbo.LEGS where DATOP like '"+curent_year+"%') order by STN";			  
 		   }
 		   else
 		   {
@@ -145,7 +141,7 @@ public class flightReportsImp implements flightReports{
 			   
 		   
 		   
-	   
+		   String stationlistwithcode ="<option value='ALL'>All Airport</option>"; 
 		   SqlRowSet rowst =  jdbcTemplateSqlServer.queryForRowSet(sqlforoperationalairport);
 		   while (rowst.next()) {
 		 		 if(airportcode.trim().equals(rowst.getString("STN").trim())) {			    	
@@ -166,6 +162,100 @@ public class flightReportsImp implements flightReports{
 	
 	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	//--------------- GROUND OPS Flight Report  -------------------------
+	 
+	@Override
+	public List<fligthSectorLog> PopulateFlightReport(String airline, String airport, String shortby, String dateofoperation, String flightno, String useremail) {
+
+		   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
+		   String builtsql             = null;
+		   
+		 //---- FOR STOBART USER----
+		   if(StobartUser) {
+			  builtsql= gopssql.builtFlightReportSql(airline,airport,shortby,dateofoperation,flightno);
+		   }
+		   
+		   //---- FOR GH ----
+		   if(!StobartUser) {
+			 System.out.println("Not a stobart user please built Air line and airport code");
+			 
+			   //-- For Ground Handler External Pull list of assigned airport 
+			   String eligibleairportlist="";
+			   SqlRowSet rowst =  jdbcTemplateCorp.queryForRowSet("SELECT distinct station_code FROM Gops_Airline_Station_Access where user_name='"+useremail+"' and station_code != 'NA'");
+			   int counter=0;
+			   while(rowst.next()) {
+				   				   
+				   if(counter == 0) 
+				   {eligibleairportlist = "'"+rowst.getString("station_code")+"'";}
+				   else
+				   {eligibleairportlist = eligibleairportlist +",'"+ rowst.getString("station_code")+"'";}
+				   counter++;
+			   }
+			   
+			   
+			   //-- For Ground Handler External Pull list of assigned Airline 
+			   String sqlforoperationalairline="SELECT AirlineMaster.iata_code , AirlineMaster.airline_name  ,AirlineMaster.icao_code    \r\n" + 
+				   		"  FROM  AirlineMaster , Gops_Airline_Station_Access \r\n" + 
+				   		"  where Gops_Airline_Station_Access.airline_code=AirlineMaster.icao_code and  AirlineMaster.status='Enable'\r\n" + 
+				   		"  and Gops_Airline_Station_Access.user_name='"+useremail+"'";
+
+			   String eligibleairlinelist="";
+			   rowst =  jdbcTemplateCorp.queryForRowSet(sqlforoperationalairline);
+			   counter=0;
+			   while(rowst.next()) {
+				   				   
+				   if(counter == 0) 
+				   {eligibleairlinelist = "'"+rowst.getString("iata_code")+"'";}
+				   else
+				   {eligibleairlinelist = eligibleairlinelist +",'"+ rowst.getString("iata_code")+"'";}
+				   counter++;
+			   }
+		 
+			 if(airline.equals("ALL")) {   	        	 
+				//--- When Search button click for the GH User -- 
+				airline=eligibleairlinelist;
+   	         }
+			 
+			 if(airport.equals("ALL")) {   	        	 
+				//--- When Search button click for the GH User --
+			    airport=eligibleairportlist;
+	   	     }	
+			 
+			 if(airport.equals("ALL") && airline.equals("ALL")) {
+				 airport=eligibleairportlist;
+				 airline=eligibleairlinelist;
+			 }
+			 
+			 builtsql = gopssql.builtFlightReportSql(airline,airport,shortby,dateofoperation,flightno);	
+				 
+		   }//end of if  FOR GH ----   
+			
+		   
+		   
+		   
+		   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
+		   gopssql   = null;
+		   builtsql  = null;
+		   
+		return flightseclog;
+
+	}
+
+
+
+	
+	
 	
 
 	   //--------------- May Fly Report Body Generator Functions -------------------------
@@ -1209,22 +1299,6 @@ public class flightReportsImp implements flightReports{
 
 
 
-
-
-
-
-
-	@Override
-	public List<fligthSectorLog> PopulateFlightReport(String airline, String airport, String shortby, String dateofoperation, String flightno) {
-		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();		   
-		   String builtsql             = gopssql.builtFlightReportSql(airline,airport,shortby,dateofoperation,flightno);			
-		   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
-		   gopssql   = null;
-		   builtsql  = null;
-		   
-		return flightseclog;
-
-	}
 
 
 

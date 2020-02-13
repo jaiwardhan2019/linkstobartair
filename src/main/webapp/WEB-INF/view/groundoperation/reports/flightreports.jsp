@@ -30,6 +30,7 @@ function search_progress() {
  }
 
 function showFlightReport(){
+	
 	     document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
 	     //<input type="button"  class="btn btn-primary" value="Show Report" onclick="showFlightReport();" />        
 	     //search_progress();
@@ -40,13 +41,9 @@ function showFlightReport(){
 	     return true;
 }	
 
-
-
-
 </script>
 
 
-	
 
 <body>
 
@@ -83,7 +80,7 @@ function showFlightReport(){
 									<label for="airlineCode">Operating Airline:</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-plane"></i></span>
-												<select id="airlineCode" name="airlineCode" class="form-control">
+												<select id="airlinecode" name="airlinecode" class="form-control">
 								                            	 ${airlinelist}
 												</select>
 									</div>
@@ -99,8 +96,7 @@ function showFlightReport(){
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fa fa-plane"></i></span>							
 												
-												<select id="airportcode" name="airportcode" class="form-control">
-												
+												<select id="airportcode" name="airportcode" class="form-control">												
 													     ${airportlist}
 							                    </select>   
 									
@@ -173,7 +169,8 @@ function showFlightReport(){
 						    <br>
 					       
 				          	    <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
-					           
+		                   
+			           
 					        
 					        <span style="display:none" id="searchbutton1">
 					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
@@ -626,7 +623,7 @@ function showFlightReport(){
 	<!-- START CANCEL  BODY  -->
 	<div id="tomorrow" class="tab-pane fade">
 		
-		  <table class="table table-striped table-bordered" border="1" style="width: 100%;" align="center">	  
+		  <table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255,0.5);" align="center">	  
    
 		<tbody>
 	     <tr align="center">
@@ -1012,6 +1009,18 @@ function showFlightReport(){
 			
 		<br>
 		<br>
+ 
+
+<script>
+var input = document.getElementById("flightno");
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode == 13) {
+   event.preventDefault();
+   showFlightReport();
+  }
+});
+</script>
+	
  
 </body>
 
