@@ -283,7 +283,7 @@ function calFlightReport(reportname){
 	  <c:set var="userid" value="<%=user_login_id %>"/>
 			
 
-		 <c:if test="${profilelist.admin  == 'Y'}"> 	
+		 <c:if test="${profilelist.gopsadmin  == 'Y'}"> 	
 				 <li class="dropdown">
 				 
 					  <a href="refisadmin" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-md" aria-hidden="true"></i>&nbsp;&nbsp;Admin <span class="caret"></span></a>

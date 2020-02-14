@@ -14,6 +14,37 @@
 <script type="text/javascript">
 
 
+//------------- FOR THE GRAPH DISPLAY ------------------ 
+//https://canvasjs.com/javascript-charts/json-data-api-ajax-chart/
+window.onload = function() { 
+
+var chart = new CanvasJS.Chart("chartContainer",{
+	
+	animationEnabled: true,
+	//theme: "light2",   // "light1", "dark1", "dark2" ,"light2"
+	title: {
+		text: ""
+	},
+	subtitles: [{
+		text: ""
+	}],
+	data: [{
+		//type: "pie",
+		//type: "doughnut",
+		type: "column",
+		yValueFormatString: "#,##0",
+		indexLabel: "{label}: {y}",
+		toolTipContent: "{y} Flights",
+		dataPoints : ${dataPoints}
+	}]
+  });
+
+  chart.render();
+
+}
+
+
+
 
 function search_progress() {
     var e = document.getElementById("searchbutton");
@@ -59,11 +90,11 @@ function showFlightReport(){
  
  
  
- <div class="col-md-12 col-sm-12 col-xs-12" align="left" >
+ <div class="col-md-7 col-sm-7 col-xs-7" align="left" >
  
  
        
-  <table class="table table-striped table-bordered" border="1" style="width: 45%;background:rgba(255,255,255,0.5);" align="left">	
+  <table class="table table-striped table-bordered" border="1" style="width:80%;background:rgba(255,255,255,0.5);" align="left">	
    			<tbody>				     
 				 <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">
@@ -185,12 +216,16 @@ function showFlightReport(){
 				    </tbody>
 			</table>
 	  </div>
-  
-</div>		
+	
 </form>
+ 
+		<div class="col-md-5 col-sm-5 col-xs-5" align="left" >
+		      
+		      <div id="chartContainer" style="height: 260px; width: 90%;"></div>
+		 
+		</div>
 
-
-
+</div>	
 <br>
 <br>
  
@@ -1024,9 +1059,10 @@ input.addEventListener("keyup", function(event) {
  
 </body>
 
+<br>
+<br>
 
-
-<%@include file="../../include/footer.jsp" %>
+<%@include file="../../include/gopsfooter.jsp" %>
 
 
 

@@ -98,7 +98,7 @@ public class LinkUsersImp implements linkUsers{
 					   		  + "and  LINK_USER_MASTER.EMAIL_ID= LINK_USER_PROFILE_LIST.USER_EMAIL  \r\n" + 
 					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'";
 	
-		   //System.out.println(profilesql);
+		   System.out.println(profilesql);
 		   
 		   //---------- THIS PART WILL COLLECT ALL USER PROFILE INTO A MAP WITH THE KEY AND VALUE----------
 	       Map<String, String> profileMap = new HashMap<String, String>();
@@ -138,7 +138,7 @@ public class LinkUsersImp implements linkUsers{
 								if(rs.getString("SUB_PROFILE").equals("ManageSmscontact")) {mapRet.put("ManageSmscontact", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("AirlineDataManager")) {mapRet.put("AirlineDataManager", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("CrewBrifingManager")) {mapRet.put("CrewBrifingManager", rs.getString("ACTIVE_STATUS"));}
-								
+							
 								
 								
 								

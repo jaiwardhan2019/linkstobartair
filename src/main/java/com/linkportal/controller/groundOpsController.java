@@ -93,11 +93,13 @@ public class groundOpsController {
      //*********************** REPORT SECTION ***********************
 	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
 	@RequestMapping(value = "/flightreport",method = {RequestMethod.POST,RequestMethod.GET}) 
-	public String GroundOpsflightreport(HttpServletRequest req,ModelMap model) throws Exception{	
-		   Date today = new Date();               
+	public String GroundOpsflightreport(HttpServletRequest req,ModelMap model) throws Exception{
+		
+		   //Formatting today date...
+		   Date today                     = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
-		   Calendar c = Calendar.getInstance();  
-		   String todaydate = (String)(formattedDate.format(c.getTime()));
+		   Calendar                     c = Calendar.getInstance();  
+		   String todaydate               = (String)(formattedDate.format(c.getTime()));
 		   model.put("datop",todaydate);	        
 		   if(req.getParameter("datop") != null) {
 			   todaydate = req.getParameter("datop");
@@ -112,19 +114,13 @@ public class groundOpsController {
 				   
 		   
 		  
-	   //-------------- FOR GRAPH --------------------------------- 		     
-	    //String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlineCode"), req.getParameter("airportcode"),req.getParameter("datop"));
-	    //model.addAttribute("dataPoints",dataPoints); 
+	      //-------------- FOR GRAPH --------------------------------- 		     
+	      String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlinecode"), req.getParameter("airportcode"),req.getParameter("datop"));
+	      model.addAttribute("dataPoints",dataPoints); 
 	   	
-		
-		//model.addAttribute("airlinecode",req.getParameter("airlineCode").toLowerCase());
-		
-		
-		
-		
-		
-			
-			
+		   
+		   
+		    model.addAttribute("airlinecode",req.getParameter("airlinecode").toLowerCase());
 			model.put("profilelist",req.getSession().getAttribute("profilelist"));
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));

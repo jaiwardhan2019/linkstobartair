@@ -198,10 +198,12 @@ public class piechartImp implements piechart{
 		   int totalflights=0;
 		   int NumFlown=0;
 		   int NumCancelled=0;
-		   int ontimeflights=0;		   
-		   int Late_morethen5minute=0;
+		   int ontimealldepart=0;		   
+		   int alldelay=0;
 		   int Late_morethen15Minute=0;
 		   int Late_morethen30Minute=0;	
+		   int NumAirborn=0;
+		   int ontimeallarival=0;	
 
 		   //------------ SQL TO PULL OFF DETAIL FROM PDC -------------
 		   
@@ -238,14 +240,16 @@ public class piechartImp implements piechart{
 		
 		 String sqlstrkpi="select sum(case when status != 'RTR' then 1 else 0 end ) as totalflights,\r\n" + 
 		  		"	   sum(case when status = 'ATA' then 1 else 0 end ) as NumFlown, \r\n" + 
+		  		"	   sum(case when status = 'DEP' then 1 else 0 end) as NumAirborn,\r\n" + 
 		  		"	   sum(case when status = 'CNL' then 1 else 0 end) as NumCancelled,\r\n" + 
-		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimeflights, \r\n" + 
+		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimealldepart, \r\n" + 
+		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimeallarival, \r\n" + 
 		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) > 0) then 1 else 0 end) as alldelay,\r\n" + 
 		  		"	   sum(case when status = 'ATA' then pax else 0 end) as Passenger_Carried_PAX,	\r\n" + 
 		  		"	   sum(VER.scr_seats) as Total_Available_Seat from LEGS , ACTYPE_VERSIONS_MISC VER \r\n" + 
 		  		"	   where legs.ACTYP = VER.actype and LEGS.VERSION = VER.version "+andstring;
 			
-		 //System.out.println(sqlstrkpi);
+		 System.out.println(sqlstrkpi);
 		
 		   Connection connection = dataSourcesqlserver.getConnection();
 		   Statement stac = connection.createStatement();
@@ -259,8 +263,9 @@ public class piechartImp implements piechart{
 		   			     totalflights         = Integer.parseInt(rsc.getString("totalflights"));
 		   			     NumFlown             = Integer.parseInt(rsc.getString("NumFlown"));
 		   			     NumCancelled         = Integer.parseInt(rsc.getString("NumCancelled"));
-		   			     ontimeflights        = Integer.parseInt(rsc.getString("ontimeflights"));		   
-		   			     Late_morethen5minute = Integer.parseInt(rsc.getString("alldelay"));
+		   			     ontimealldepart        = Integer.parseInt(rsc.getString("ontimealldepart"));		   
+		   			     alldelay = Integer.parseInt(rsc.getString("alldelay"));
+		   			     NumAirborn           = Integer.parseInt(rsc.getString("NumAirborn"));
 		   			    // Late_morethen15Minute= Integer.parseInt(rsc.getString("Late_morethen15Minute"));
 		   			    // Late_morethen30Minute   = Integer.parseInt(rsc.getString("Late_morethen30Minute"));	
 		   			     
@@ -275,48 +280,54 @@ public class piechartImp implements piechart{
 		   			    List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
 		   			     
 		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Total Flights"); 
+		   			    map1.put("label", "Scheduled"); 
 		   			    map1.put("y", totalflights); 
 		   			    list.add(map1);
 		   			    
+		   			    if(NumFlown > 0) {
 		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Total Flown"); 
+		   			    map1.put("label", "Landed"); 
 		   			    map1.put("y", NumFlown); 
 		   			    list.add(map1);
+		   			    }
 		   			    
+		   			    
+		   			   if(NumAirborn > 0) {
+		   			    map1 = new HashMap<Object,Object>(); 
+		   			    map1.put("label", "Airborn"); 
+		   			    map1.put("y", NumAirborn); 
+		   			    list.add(map1);
+		   			   }   
+
+		   			    //System.out.println("Cancelled Count:"+NumCancelled); 
+		   			    
+		   			   if(ontimealldepart > 0) { 
+		   			    map1 = new HashMap<Object,Object>(); 
+		   			    map1.put("label", "On Time Dep"); 
+		   			    map1.put("y", ontimealldepart); 
+		   			    list.add(map1);
+		   			   }    
+
+		   			   if(ontimeallarival > 0) { 
+			   			    map1 = new HashMap<Object,Object>(); 
+			   			    map1.put("label", "On Time Arri"); 
+			   			    map1.put("y", ontimeallarival); 
+			   			    list.add(map1);
+			   			   }    
+		   			  
+		   			   if(alldelay > 0) {  
+		   			    map1 = new HashMap<Object,Object>(); 
+		   			    map1.put("label", "All Delay"); 
+		   			    map1.put("y", alldelay); 
+		   			    list.add(map1);
+		   			  } 
+		   			   
+		   			  if(NumCancelled > 0) {   
 		   			    map1 = new HashMap<Object,Object>(); 
 		   			    map1.put("label", "Cancelled"); 
 		   			    map1.put("y",NumCancelled); 
 		   			    list.add(map1);
-
-		   			    //System.out.println("Cancelled Count:"+NumCancelled); 
-		   			    
-		   			    
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "On Time"); 
-		   			    map1.put("y", ontimeflights); 
-		   			    list.add(map1);
-		   			    
-		   			    
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "All Delay"); 
-		   			    map1.put("y", Late_morethen5minute); 
-		   			    list.add(map1);
-		   			    
-		   			    
-		   			    /*
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Delay More Then 5 Minutes"); 
-		   			    map1.put("y", Late_morethen5minute); 
-		   			    list.add(map1);
-		   			    
-		   			    
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Delay More Then 15 Minute"); 
-		   			    map1.put("y", Late_morethen15Minute); 
-		   			    list.add(map1);
-		   			    */
-		   			    
+		   			  }   
 		   			    
 		    		    graphstring = gsonObj.toJson(list);
 		   		   			
@@ -327,8 +338,9 @@ public class piechartImp implements piechart{
 	   	   totalflights=0;
 		   NumFlown=0;
 		   NumCancelled=0;
-		   ontimeflights=0;		   
-		   Late_morethen5minute=0;
+		   ontimeallarival=0;		
+		   ontimealldepart=0;
+		   alldelay=0;
 		   Late_morethen15Minute=0;
 		   Late_morethen30Minute=0;	
    

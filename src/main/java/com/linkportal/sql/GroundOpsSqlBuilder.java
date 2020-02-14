@@ -21,7 +21,7 @@ public class GroundOpsSqlBuilder implements Serializable{
 	private String curent_date    = dateFormat.format(date);
 	
 	
-    private String sql="select  (select top 1 CREW_NO from crewinfo where legs.fltid = crewinfo.fltid and legs.datop = crewinfo.datop and legs.legno = crewinfo.legno and position = 'CAPT') as Captain ,(select top 1 CREW_NO from crewinfo where legs.fltid = crewinfo.fltid and legs.datop = crewinfo.datop and legs.legno = crewinfo.legno and position = 'FO') as FirstOfficer,AIRCRAFT_V.SHORT_REG, STUFF(AIRCRAFT_V.LONG_REG,3,0,'-') as 'LONG_REG', AIRCRAFT_V.DESCRIPTION, LEGS.ACTYP, AIRCRAFT_V.SCR_SEATS, AIRCRAFT_V.AIRCRAFT_OWNER_CODE,\r\n" + 
+    private String sqlmaster="select  (select top 1 CREW_NO from crewinfo where legs.fltid = crewinfo.fltid and legs.datop = crewinfo.datop and legs.legno = crewinfo.legno and position = 'CAPT') as Captain ,(select top 1 CREW_NO from crewinfo where legs.fltid = crewinfo.fltid and legs.datop = crewinfo.datop and legs.legno = crewinfo.legno and position = 'FO') as FirstOfficer,AIRCRAFT_V.SHORT_REG, STUFF(AIRCRAFT_V.LONG_REG,3,0,'-') as 'LONG_REG', AIRCRAFT_V.DESCRIPTION, LEGS.ACTYP, AIRCRAFT_V.SCR_SEATS, AIRCRAFT_V.AIRCRAFT_OWNER_CODE,\r\n" + 
     		" LEGS.DEPSTN, LEGS.ARRSTN, SUBSTRING(LEGS.DATOP,0,12) as \"FLIGHT_DATE\", LEGS.AC, REPLACE(LEGS.FLTID, ' ', '') as FLTID, LEGS.LEGNO, LEGS.DEPSTN, LEGS.ARRSTN,\r\n" + 
     		" REPLACE(SUBSTRING(LEGS.ETD,11,6),'.', ':')  as \"ETD_DATE_TIME\",  REPLACE(SUBSTRING(LEGS.ETA,11,6),'.', ':')  as \"ETA_DATE_TIME\",\r\n" + 
     		" REPLACE(SUBSTRING(LEGS.STD,11,6),'.', ':') as \"STD_DATE_TIME\",   REPLACE(SUBSTRING(LEGS.STA,11,6),'.', ':')  as \"STA_DATE_TIME\",\r\n" + 
@@ -60,23 +60,23 @@ public class GroundOpsSqlBuilder implements Serializable{
 	
 		//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
 		public String builtFlightReportSql(String airline,String airport,String shortby,String ofdate,String flightno) throws NullPointerException{
-	 		    if(ofdate.length()  > 0 ){ sql += " WHERE legs.datop='"+ofdate+"'"; }
-			    if(flightno.trim().length() > 0){ sql += " AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
+	 		    if(ofdate.length()  > 0 ){ sqlmaster += " WHERE legs.datop='"+ofdate+"'"; }
+			    if(flightno.trim().length() > 0){ sqlmaster += " AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
 			    
 				if((airline != null) && (!airline.equals("ALL"))){ 				    
-					if(airline.length() == 2) {sql += " AND SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')"; }else {sql += " AND SUBSTRING(LEGS.FLTID,1,3) in ("+airline+")"; }
+					if(airline.length() == 2) {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')"; }else {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ("+airline+")"; }
 				}
 				
 				
 				if((airport != null) && (!airport.equals("ALL"))){ 
-				    if(airport.length() == 3) {sql += " AND LEGS.DEPSTN in ('"+airport+"')"; }else {sql += " AND LEGS.DEPSTN in ("+airport+")";}
+				    if(airport.length() == 3) {sqlmaster += " AND LEGS.DEPSTN in ('"+airport+"')"; }else {sqlmaster += " AND LEGS.DEPSTN in ("+airport+")";}
 				}	
 				
-				if(shortby != null){sql +=  " order by '"+shortby+"'";}else {sql +=  " order by ETD_DATE_TIME";}
+				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by ETD_DATE_TIME";}
 			    
-				//System.out.println(sql);
+				//System.out.println(sqlmaster);
 				
-			return sql;
+			return sqlmaster;
 		}//------------- End Of Myfly Report SQL --------------------------------
 
 		
