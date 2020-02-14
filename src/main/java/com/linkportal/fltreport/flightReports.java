@@ -17,8 +17,8 @@ public interface flightReports {
 	
 	
 	//-------- For May Fly Report -------------------
-    public List Populate_MayFly_Report_body(String airline, String airport, String shortby , String date, int no);
-    public List Populate_MayFly_Report_body(String airline, String airport, String shortby , String date);
+    public List Populate_MayFly_Report_body(String airline, String airport, String shortby , String date, int no, String emailid);
+    public List Populate_MayFly_Report_body(String airline, String airport, String shortby , String date,String emailid);
 	
 	
 	//-------- For Reliablity Report body Report -------------------

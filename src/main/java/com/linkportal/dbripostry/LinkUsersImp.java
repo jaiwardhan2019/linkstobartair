@@ -92,13 +92,13 @@ public class LinkUsersImp implements linkUsers{
 	@Override
 	public Map getUser_Profile_List_From_DataBase(String useremail) {
 		   
-		   String profilesql= "SELECT    LINK_USER_MASTER.ADMIN_STATUS, LINK_PROFILE_MASTER.PROFILE_ID , MAIN_PROFILE, SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
+		   String profilesql= "SELECT    LINK_USER_MASTER.ADMIN_STATUS, LINK_PROFILE_MASTER.PROFILE_ID , LINK_PROFILE_MASTER.MAIN_PROFILE, LINK_PROFILE_MASTER.SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
 					   		  "FROM  LINK_PROFILE_MASTER,  LINK_USER_PROFILE_LIST ,  LINK_USER_MASTER\r\n" + 
 					   		  "WHERE  LINK_PROFILE_MASTER.PROFILE_ID =   LINK_USER_PROFILE_LIST.PROFILE_ID "
 					   		  + "and  LINK_USER_MASTER.EMAIL_ID= LINK_USER_PROFILE_LIST.USER_EMAIL  \r\n" + 
-					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'";
+					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'  order by LINK_PROFILE_MASTER.MAIN_PROFILE";
 	
-		   System.out.println(profilesql);
+		   //System.out.println(profilesql);
 		   
 		   //---------- THIS PART WILL COLLECT ALL USER PROFILE INTO A MAP WITH THE KEY AND VALUE----------
 	       Map<String, String> profileMap = new HashMap<String, String>();

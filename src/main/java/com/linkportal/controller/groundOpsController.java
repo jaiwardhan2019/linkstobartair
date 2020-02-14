@@ -39,7 +39,7 @@ import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.dbripostry.linkUsers;
 import com.linkportal.fltreport.flightReports;
 import com.linkportal.graphreport.piechart;
-import com.linkportal.groundops.manageRefisUser;
+import com.linkportal.groundops.gopsAllapi;
 import com.linkportal.groundops.refisUsers;
 import com.linkportal.security.EncryptDecrypt;
 
@@ -52,7 +52,7 @@ public class groundOpsController {
 	linkUsers dbusr;
 	
 	@Autowired
-	manageRefisUser refisuser;
+	gopsAllapi refisuser;
 	
 	@Autowired
 	manageStobartContract contract;
@@ -110,12 +110,12 @@ public class groundOpsController {
 		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
 		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
 		   model.put("reportbody",flt.PopulateFlightReport(req.getParameter("airlinecode"), req.getParameter("airportcode"), req.getParameter("sortby"), todaydate,req.getParameter("flightno"),req.getParameter("emailid")));	
-		   model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlinecode"),req.getParameter("airportcode"),req.getParameter("sortby"),todaydate,0));		
+		   model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlinecode"),req.getParameter("airportcode"),req.getParameter("sortby"),todaydate,0,req.getParameter("emailid")));		
 				   
 		   
 		  
 	      //-------------- FOR GRAPH --------------------------------- 		     
-	      String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlinecode"), req.getParameter("airportcode"),req.getParameter("datop"));
+	      String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlinecode"), req.getParameter("airportcode"),req.getParameter("datop"),req.getParameter("emailid"));
 	      model.addAttribute("dataPoints",dataPoints); 
 	   	
 		   

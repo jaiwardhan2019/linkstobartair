@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface manageRefisUser {
+public interface gopsAllapi {
 	
 
 	public List<refisUsers> showRefisUser();
@@ -22,6 +22,11 @@ public interface manageRefisUser {
 	public String getAllStationList(String userid);
 	
 	public String getAllAirlineList(String userid);
+	
+	
+	public String getAllEligibleAirlineforGH(String userid);
+	
+	public String getAllEligibleAirportforGH(String stobartUser);
 	
 	
 	

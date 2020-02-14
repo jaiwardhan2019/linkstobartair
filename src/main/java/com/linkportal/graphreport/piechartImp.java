@@ -25,6 +25,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.linkportal.datamodel.delaycodeGroupMasterRowmapper;
+import com.linkportal.groundops.gopsAllapi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -35,6 +36,9 @@ public class piechartImp implements piechart{
 	
     @Autowired
     DataSource dataSourcesqlserver;
+    
+    @Autowired
+    gopsAllapi gopsobj;
     
   
 
@@ -183,7 +187,7 @@ public class piechartImp implements piechart{
 	
 	///////------------------- FOR THE FLIGHT REPORTS ----------
 	@Override
-	public String createPieChart_For_Flight_Report(String airline, String airportcode, String datop) throws Exception {
+	public String createPieChart_For_Flight_Report(String airline, String airportcode, String datop, String useremail) throws Exception {
 		   
 		
 		   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -206,50 +210,70 @@ public class piechartImp implements piechart{
 		   int ontimeallarival=0;	
 
 		   //------------ SQL TO PULL OFF DETAIL FROM PDC -------------
+			
+			 String sqlstrkpi="select sum(case when status != 'RTR' then 1 else 0 end ) as totalflights,\r\n" + 
+			  		"	   sum(case when status = 'ATA' then 1 else 0 end ) as NumFlown, \r\n" + 
+			  		"	   sum(case when status = 'DEP' then 1 else 0 end) as NumAirborn,\r\n" + 
+			  		"	   sum(case when status = 'CNL' then 1 else 0 end) as NumCancelled,\r\n" + 
+			  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimealldepart, \r\n" + 
+			  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimeallarival, \r\n" + 
+			  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) > 0) then 1 else 0 end) as alldelay,\r\n" + 
+			  		"	   sum(case when status = 'ATA' then pax else 0 end) as Passenger_Carried_PAX,	\r\n" + 
+			  		"	   sum(VER.scr_seats) as Total_Available_Seat from LEGS , ACTYPE_VERSIONS_MISC VER \r\n" + 
+			  		"	   where legs.ACTYP = VER.actype and LEGS.VERSION = VER.version ";
+				   
+		   
+		   
 		   
 		   String andstring="";  //<<== THis will be used for the Airline and Operation Selection 
-		   if((!airline.equals("ALL"))){ 
-		    	
-	    			andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; 
-	    	
-           }//----------- End Of If -------------- 
-	       
-		  
-		   
-		   if((!airportcode.equals("ALL"))){ 
-		    	
-   			      andstring += " AND LEGS.DEPSTN='"+airportcode+"'"; 
-   	
-           }//----------- End Of If -------------- 
-      
-  
 	   
 		     
 		    if(datop == null) {
-				
 		    	andstring +=  " AND DATOP='"+curent_date+"'";	  
-	
-		    }else
+		    }
+		    else
 		    {
-				//sql +=  " WHERE legs.datop=DATEADD(DAY,"+num+",'"+curent_date+"')";	
 		    	andstring +=  " AND DATOP='"+datop+"'";	  
-	
 		    }
 		    
+		    
+		    //-------- IF  GH USER is Selected then Populate their assign Airport /  Airline  
+		    boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		    if(!StobartUser) {		    	
+	    	  
+		      String eligibleAirportlist ="";  
+		      String eligibleAirlinelist ="";
+		      if(airline.equals("ALL")) {
+		    	 eligibleAirlinelist = gopsobj.getAllEligibleAirlineforGH(useremail);  
+		      }
+		      else
+		      {
+		    	  eligibleAirlinelist = "'"+airline+"'";
+		      }
+		      
+		      if(airportcode.equals("ALL")){
+		         eligibleAirportlist = gopsobj.getAllEligibleAirportforGH(useremail);  
+		      }
+		      else
+		      {
+		    	  eligibleAirportlist = "'"+airportcode+"'";
+		      }
+		      andstring += "AND SUBSTRING(LEGS.FLTID,1,3) in ("+eligibleAirlinelist+") AND LEGS.DEPSTN in ("+eligibleAirportlist+")";
+		      sqlstrkpi = sqlstrkpi + andstring; 
+		    }
+		   
+		    
+		    
+		   if(StobartUser) {
+			  if(!airline.equals("ALL"))     {andstring += " AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'";}
+			  if(!airportcode.equals("ALL")) { andstring += " AND LEGS.DEPSTN='"+airportcode+"'";}
+  		      sqlstrkpi = sqlstrkpi + andstring;
+		    }
+		    
+		    
 		  
-		
-		 String sqlstrkpi="select sum(case when status != 'RTR' then 1 else 0 end ) as totalflights,\r\n" + 
-		  		"	   sum(case when status = 'ATA' then 1 else 0 end ) as NumFlown, \r\n" + 
-		  		"	   sum(case when status = 'DEP' then 1 else 0 end) as NumAirborn,\r\n" + 
-		  		"	   sum(case when status = 'CNL' then 1 else 0 end) as NumCancelled,\r\n" + 
-		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimealldepart, \r\n" + 
-		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimeallarival, \r\n" + 
-		  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) > 0) then 1 else 0 end) as alldelay,\r\n" + 
-		  		"	   sum(case when status = 'ATA' then pax else 0 end) as Passenger_Carried_PAX,	\r\n" + 
-		  		"	   sum(VER.scr_seats) as Total_Available_Seat from LEGS , ACTYPE_VERSIONS_MISC VER \r\n" + 
-		  		"	   where legs.ACTYP = VER.actype and LEGS.VERSION = VER.version "+andstring;
 			
-		 System.out.println(sqlstrkpi);
+		   //System.out.println(sqlstrkpi);
 		
 		   Connection connection = dataSourcesqlserver.getConnection();
 		   Statement stac = connection.createStatement();
@@ -266,6 +290,7 @@ public class piechartImp implements piechart{
 		   			     ontimealldepart        = Integer.parseInt(rsc.getString("ontimealldepart"));		   
 		   			     alldelay = Integer.parseInt(rsc.getString("alldelay"));
 		   			     NumAirborn           = Integer.parseInt(rsc.getString("NumAirborn"));
+		   			     ontimeallarival= Integer.parseInt(rsc.getString("ontimeallarival"));
 		   			    // Late_morethen15Minute= Integer.parseInt(rsc.getString("Late_morethen15Minute"));
 		   			    // Late_morethen30Minute   = Integer.parseInt(rsc.getString("Late_morethen30Minute"));	
 		   			     
@@ -280,7 +305,7 @@ public class piechartImp implements piechart{
 		   			    List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
 		   			     
 		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Scheduled"); 
+		   			    map1.put("label", "Schedule"); 
 		   			    map1.put("y", totalflights); 
 		   			    list.add(map1);
 		   			    
@@ -303,14 +328,14 @@ public class piechartImp implements piechart{
 		   			    
 		   			   if(ontimealldepart > 0) { 
 		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "On Time Dep"); 
+		   			    map1.put("label", "OT Dep"); 
 		   			    map1.put("y", ontimealldepart); 
 		   			    list.add(map1);
 		   			   }    
 
 		   			   if(ontimeallarival > 0) { 
 			   			    map1 = new HashMap<Object,Object>(); 
-			   			    map1.put("label", "On Time Arri"); 
+			   			    map1.put("label", "OT Arr"); 
 			   			    map1.put("y", ontimeallarival); 
 			   			    list.add(map1);
 			   			   }    
@@ -324,7 +349,7 @@ public class piechartImp implements piechart{
 		   			   
 		   			  if(NumCancelled > 0) {   
 		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Cancelled"); 
+		   			    map1.put("label", "Canc"); 
 		   			    map1.put("y",NumCancelled); 
 		   			    list.add(map1);
 		   			  }   

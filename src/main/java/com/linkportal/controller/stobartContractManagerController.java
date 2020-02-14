@@ -36,7 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.dbripostry.linkUsers;
-import com.linkportal.groundops.manageRefisUser;
+import com.linkportal.groundops.gopsAllapi;
 
 
 @Controller
@@ -47,7 +47,7 @@ public class stobartContractManagerController {
 	linkUsers dbusr;
 	
 	@Autowired
-	manageRefisUser refisuser;
+	gopsAllapi refisuser;
 	
 	@Autowired
 	manageStobartContract contract;

@@ -419,13 +419,13 @@ public class HomeController {
 		//model.put("reportbodytomorrow",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop"),1));		
 		
 
-		model.put("reportbody",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop")));	
-		model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop"),0));		
+		model.put("reportbody",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop"),req.getParameter("emailid")));	
+		model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlineCode"),req.getParameter("airportcode"),req.getParameter("sortby"),req.getParameter("datop"),0,req.getParameter("emailid")));		
 		
 		  
 	   //-------------- FOR GRAPH --------------------------------- 
 		     
-	    String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlineCode"), req.getParameter("airportcode"),req.getParameter("datop"));
+	    String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlineCode"), req.getParameter("airportcode"),req.getParameter("datop"),req.getParameter("emailid"));
 	    model.addAttribute("dataPoints",dataPoints); 
 	   
 	

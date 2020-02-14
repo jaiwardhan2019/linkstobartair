@@ -28,6 +28,7 @@ import com.linkportal.datamodel.delaycodeGroupMaster;
 import com.linkportal.datamodel.delaycodeGroupMasterRowmapper;
 import com.linkportal.datamodel.flightSectorLogRowmapper;
 import com.linkportal.datamodel.fligthSectorLog;
+import com.linkportal.groundops.gopsAllapi;
 import com.linkportal.sql.GroundOpsSqlBuilder;
 import com.linkportal.sql.dailySummarySqlBuilder;
 import com.linkportal.sql.linkPortalSqlBuilder;
@@ -44,6 +45,10 @@ public class flightReportsImp implements flightReports{
     
     @Autowired
     DataSource dataSourcemysql;
+    
+    
+    @Autowired
+    gopsAllapi gopsobj;
     
 
     //---------- Logger Initializer------------------------------- 
@@ -86,11 +91,11 @@ public class flightReportsImp implements flightReports{
 		   for (AirLineNameCode namecode : airlinelist) {			   
 			   
 			     if(airlinecode.trim().equals(namecode.getAirlineiatacode().trim())) {			    	
-			    	 airlinelistwithcode=airlinelistwithcode+"<option value="+namecode.getAirlineiatacode()+" selected>"+namecode.getAirlineiatacode().trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+namecode.getAirlinename()+"</option>";
+			    	 airlinelistwithcode=airlinelistwithcode+"<option value='"+namecode.getAirlineiatacode()+"' selected>"+namecode.getAirlineiatacode().trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+namecode.getAirlinename()+"</option>";
 			     }
 			     else
 			     {
-			    	 airlinelistwithcode=airlinelistwithcode+"<option value="+namecode.getAirlineiatacode()+">"+namecode.getAirlineiatacode().trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+namecode.getAirlinename()+"</option>";				
+			    	 airlinelistwithcode=airlinelistwithcode+"<option value='"+namecode.getAirlineiatacode()+"'>"+namecode.getAirlineiatacode().trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+namecode.getAirlinename()+"</option>";				
 			 	 }		
 				
 			}//---------- End Of  For Loop ------------   
@@ -188,40 +193,13 @@ public class flightReportsImp implements flightReports{
 		   
 		   //---- FOR GH ----
 		   if(!StobartUser) {
-			 System.out.println("Not a stobart user please built Air line and airport code");
+			 //System.out.println("Not a stobart user please built Air line and airport code");
 			 
 			   //-- For Ground Handler External Pull list of assigned airport 
-			   String eligibleairportlist="";
-			   SqlRowSet rowst =  jdbcTemplateCorp.queryForRowSet("SELECT distinct station_code FROM Gops_Airline_Station_Access where user_name='"+useremail+"' and station_code != 'NA'");
-			   int counter=0;
-			   while(rowst.next()) {
-				   				   
-				   if(counter == 0) 
-				   {eligibleairportlist = "'"+rowst.getString("station_code")+"'";}
-				   else
-				   {eligibleairportlist = eligibleairportlist +",'"+ rowst.getString("station_code")+"'";}
-				   counter++;
-			   }
+			   String eligibleairportlist = gopsobj.getAllEligibleAirportforGH(useremail);
+			   String eligibleairlinelist = gopsobj.getAllEligibleAirlineforGH(useremail);
 			   
 			   
-			   //-- For Ground Handler External Pull list of assigned Airline 
-			   String sqlforoperationalairline="SELECT AirlineMaster.iata_code , AirlineMaster.airline_name  ,AirlineMaster.icao_code    \r\n" + 
-				   		"  FROM  AirlineMaster , Gops_Airline_Station_Access \r\n" + 
-				   		"  where Gops_Airline_Station_Access.airline_code=AirlineMaster.icao_code and  AirlineMaster.status='Enable'\r\n" + 
-				   		"  and Gops_Airline_Station_Access.user_name='"+useremail+"'";
-
-			   String eligibleairlinelist="";
-			   rowst =  jdbcTemplateCorp.queryForRowSet(sqlforoperationalairline);
-			   counter=0;
-			   while(rowst.next()) {
-				   				   
-				   if(counter == 0) 
-				   {eligibleairlinelist = "'"+rowst.getString("iata_code")+"'";}
-				   else
-				   {eligibleairlinelist = eligibleairlinelist +",'"+ rowst.getString("iata_code")+"'";}
-				   counter++;
-			   }
-		 
 			 if(airline.equals("ALL")) {   	        	 
 				//--- When Search button click for the GH User -- 
 				airline=eligibleairlinelist;
@@ -261,7 +239,7 @@ public class flightReportsImp implements flightReports{
 	   //--------------- May Fly Report Body Generator Functions -------------------------
 	   
 		@Override //-------- Display For Today Tomorrow and Yesterday  and Cancel flight 0 
-		public List<fligthSectorLog> Populate_MayFly_Report_body(String airline,String airport,String shortby,String dateofoperation,int num){		
+		public List<fligthSectorLog> Populate_MayFly_Report_body(String airline,String airport,String shortby,String dateofoperation,int num,String emailid){		
 			   linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();		   
 			   String builtsql = sqlb.builtMayFlightReportSql(airline,airport,shortby,dateofoperation,num);			   
 			   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
@@ -273,7 +251,7 @@ public class flightReportsImp implements flightReports{
 		
         
 		@Override //-------- Display For One date	  
-		public List<fligthSectorLog> Populate_MayFly_Report_body(String airline,String airport,String shortby,String dateofoperation){		
+		public List<fligthSectorLog> Populate_MayFly_Report_body(String airline,String airport,String shortby,String dateofoperation,String emailid){		
 			   linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();		   
 			   String builtsql = sqlb.builtMayFlightReportSql(airline,airport,shortby,dateofoperation);			
 			   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());

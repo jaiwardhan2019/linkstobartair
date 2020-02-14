@@ -28,7 +28,7 @@ import com.linkportal.security.*;
 
 @Transactional
 @Repository
-public class manageRefisUserImp implements manageRefisUser  {
+public class gopsAllapiImp implements gopsAllapi  {
 
 	 
 	@Autowired
@@ -49,14 +49,14 @@ public class manageRefisUserImp implements manageRefisUser  {
 		
 		
 		
-	    manageRefisUserImp(DataSource dataSourcesqlservercp,DataSource dataSourcesqlserver) {			
+	    gopsAllapiImp(DataSource dataSourcesqlservercp,DataSource dataSourcesqlserver) {			
 	    	jdbcTemplateRefis = new JdbcTemplate(dataSourcesqlservercp);
-	    	jdbcTemplatePdc = new JdbcTemplate(dataSourcesqlserver);
+	    	jdbcTemplatePdc   = new JdbcTemplate(dataSourcesqlserver);
 		}
 
 	    
 	    //---------- Logger Initializer------------------------------- 
-	    private Logger logger = Logger.getLogger(manageRefisUserImp.class);
+	    private Logger logger = Logger.getLogger(gopsAllapiImp.class);
 
 	
 	 
@@ -229,7 +229,7 @@ public class manageRefisUserImp implements manageRefisUser  {
 			   
 			   //-- Encrypting password --
 			   String passwordencripted= encdec.encrypt(req.getParameter("userpassword"));
-			   System.out.println("EncriptedPass:"+passwordencripted);
+			   //System.out.println("EncriptedPass:"+passwordencripted);
 			 
 			   
 			   
@@ -376,6 +376,54 @@ public class manageRefisUserImp implements manageRefisUser  {
 		   
 		   return airlinelist;
 
+	}
+
+
+
+
+	@Override
+	public String getAllEligibleAirlineforGH(String useremail) {
+		   
+		   //-- For Ground Handler External Pull list of assigned Airline 
+		   String sqlforoperationalairline="SELECT AirlineMaster.iata_code , AirlineMaster.airline_name  ,AirlineMaster.icao_code    \r\n" + 
+			   		"  FROM  AirlineMaster , Gops_Airline_Station_Access \r\n" + 
+			   		"  where Gops_Airline_Station_Access.airline_code=AirlineMaster.icao_code and  AirlineMaster.status='Enable'\r\n" + 
+			   		"  and Gops_Airline_Station_Access.user_name='"+useremail+"'";
+
+		   String eligibleairlinelist=null;
+		   SqlRowSet rowst =  jdbcTemplateRefis.queryForRowSet(sqlforoperationalairline);
+		   int counter=0;
+		   while(rowst.next()) {			   				   
+			   if(counter == 0) 
+			   {eligibleairlinelist = "'"+rowst.getString("iata_code")+"'";}
+			   else
+			   {eligibleairlinelist = eligibleairlinelist +",'"+ rowst.getString("iata_code")+"'";}
+			   counter++;
+		   }	 
+
+		return eligibleairlinelist;
+	}
+
+
+
+	
+	
+
+	@Override
+	public String getAllEligibleAirportforGH(String useremail) {
+		   //-- For Ground Handler External Pull list of assigned airport 
+		   String eligibleairportlist=null;;
+		   SqlRowSet rowst =  jdbcTemplateRefis.queryForRowSet("SELECT distinct station_code FROM Gops_Airline_Station_Access where user_name='"+useremail+"' and station_code != 'NA'");
+		   int counter=0;
+		   while(rowst.next()) {			   				   
+			   if(counter == 0) 
+			   {eligibleairportlist = "'"+rowst.getString("station_code")+"'";}
+			   else
+			   {eligibleairportlist = eligibleairportlist +",'"+ rowst.getString("station_code")+"'";}
+			   counter++;
+		   }		   
+
+		return eligibleairportlist;
 	}
 
 
