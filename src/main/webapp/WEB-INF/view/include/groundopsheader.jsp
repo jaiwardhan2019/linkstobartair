@@ -88,8 +88,7 @@ function calRefisReport(reportname){
 }
 
 
-function cal_groundops_home(usertype){
-	
+function cal_groundops_home(usertype){	
 	document.refisheader.method="POST";
 	document.refisheader.action="groundopsHomePage?usertype="+usertype;	
     document.refisheader.submit();
@@ -104,6 +103,21 @@ function calFlightReport(reportname){
 	     document.refisheader.submit();
 		 return true;
 }
+
+
+
+function calDocumentReport(reportname){
+		 document.refisheader.method="POST";
+		 document.refisheader.action=reportname;
+	     document.refisheader.submit();
+		 return true;
+}
+
+
+
+
+
+
 
 
 </script>
@@ -194,9 +208,19 @@ function calFlightReport(reportname){
 	  
 	   <c:if test="${profilelist.GCIGCMGCR  == 'Y'}">   
 		    <li class="dropdown">		 
-		  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;GCI GCM GCR</a>						  
+		  	    <a  style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;GCI /GCM /GCR&nbsp;<span class="caret"></span></a>
+		  	   	   <ul class="dropdown-menu">
+ 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gci');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Instructions.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gcm');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Memo.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gcr');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Reminders.</a></li>
+	             </ul>		  	   
+		  	   
+		  	    						  
 			</li>
 	    </c:if> 
+	    
+	    
+	    
 	  
 	  <c:if test="${profilelist.Manuals  == 'Y'}">  	
 	    <li class="dropdown">	 

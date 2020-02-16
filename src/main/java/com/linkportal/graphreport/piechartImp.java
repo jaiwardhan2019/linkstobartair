@@ -308,6 +308,15 @@ public class piechartImp implements piechart{
 		   			    map1.put("label", "Schedule"); 
 		   			    map1.put("y", totalflights); 
 		   			    list.add(map1);
+
+		   			    
+		   			    if(NumCancelled > 0) {   
+			   			    map1 = new HashMap<Object,Object>(); 
+			   			    map1.put("label", "Canc"); 
+			   			    map1.put("y",NumCancelled); 
+			   			    list.add(map1);
+			   			}   
+	   			    
 		   			    
 		   			    if(NumFlown > 0) {
 		   			    map1 = new HashMap<Object,Object>(); 
@@ -347,12 +356,6 @@ public class piechartImp implements piechart{
 		   			    list.add(map1);
 		   			  } 
 		   			   
-		   			  if(NumCancelled > 0) {   
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Canc"); 
-		   			    map1.put("y",NumCancelled); 
-		   			    list.add(map1);
-		   			  }   
 		   			    
 		    		    graphstring = gsonObj.toJson(list);
 		   		   			

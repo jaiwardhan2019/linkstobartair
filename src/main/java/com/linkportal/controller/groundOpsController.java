@@ -130,7 +130,30 @@ public class groundOpsController {
 	}
 	
 		
+
 	
+	
+	//****************** GROUND OPS USER MANAGMENT ***********************************************
+	//-------THis Will be Called When Refis User Links is called from Ground Ops  
+	@RequestMapping(value = "/listdocuments",method = {RequestMethod.POST,RequestMethod.GET})
+	public String groundopsdocumentlist(HttpServletRequest req, ModelMap model) throws Exception {	
+		   int status=0;
+		   
+
+		   
+		   
+		   
+		   
+			model.put("profilelist",req.getSession().getAttribute("profilelist"));
+			model.addAttribute("emailid",req.getParameter("emailid"));
+			model.addAttribute("password",req.getParameter("password"));
+			model.put("usertype",req.getParameter("usertype"));
+			logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
+
+		   return "groundoperation/gcigcmgcr/listalldocumentfromfolder";
+	
+		   
+	}		   
 	
 	
 	
