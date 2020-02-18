@@ -185,15 +185,15 @@ function calDocumentReport(reportname){
 				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flightreport?airlinecode=ALL&airportcode=ALL&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Flight Report (MayFly)</a></li>
 					    </c:if>
 					    <c:if test="${profilelist.Reliablity  == 'Y'}"> 
-					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityReportForm');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Report</a></li>
+					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Report</a></li>
 					    </c:if> 
 					    
-					    <c:if test="${profilelist.ReliablityAction  == 'Y'}"> 
-					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityAction');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Action</a></li>
+					    <c:if test="${profilelist.DelayReport  == 'Y'}"> 
+					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Delay Report</a></li>
 					    </c:if> 
 					    
 					     <c:if test="${profilelist.Daily_Summary  == 'Y'}"> 					     
-					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_daily_summary_report_form?airlineCode=ALL');"   style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Daily Summary Report</a></li>
+					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"   style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Daily Summary Report</a></li>
 					     </c:if> 
 					     
 					     <!-- 
@@ -224,7 +224,7 @@ function calDocumentReport(reportname){
 	  
 	  <c:if test="${profilelist.Manuals  == 'Y'}">  	
 	    <li class="dropdown">	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals</a>					  
+	  	    <a href="javascript:void();" onClick="alert('Under Construction');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals</a>					  
 		</li>
 	</c:if>	
 	
@@ -232,7 +232,7 @@ function calDocumentReport(reportname){
 	  <c:if test="${profilelist.safetycompliance  == 'Y'}"> 	
 	    <li class="dropdown">
 	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Safety Compliance.</a>
+	  	    <a href="javascript:void();" onClick="alert('Under Construction');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Safety Compliance.</a>
 					  
 		</li>
       </c:if>
@@ -242,7 +242,7 @@ function calDocumentReport(reportname){
 	 
 	    <li class="dropdown">
 	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Training.</a>
+	  	    <a href="javascript:void();" onClick="alert('Under Construction');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Training.</a>
 					  
 		</li>
 	</c:if>	
@@ -250,7 +250,7 @@ function calDocumentReport(reportname){
      <c:if test="${profilelist.weightstatement  == 'Y'}"> 			
 	    <li class="dropdown">
 	 
-		  <a href="" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Weight Statement</a>
+		  <a href="javascript:void();" onClick="alert('Under Construction');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Weight Statement</a>
 		  
 					  
 		</li>
@@ -265,17 +265,11 @@ function calDocumentReport(reportname){
 		  
 			   <ul class="dropdown-menu">
 
- 		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Cleaning </a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Compliance Monitoring</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;De-Icing Manuals</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
- 		    	
+ 		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Cleaning </a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Compliance Monitoring</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;De-Icing Manuals</a></li>
+	 		    	
 
 		       </ul>
 					  
@@ -290,10 +284,10 @@ function calDocumentReport(reportname){
 		  
 			   <ul class="dropdown-menu">
 			    
-			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Aer Lingus</a></li>
-			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;FlyBe</a></li>
-			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Stobart Air</a></li>
-			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Disruption Notices</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Aer Lingus</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;FlyBe</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Stobart Air</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Disruption Notices</a></li>
 			    
 			    </ul>
 					  
@@ -314,10 +308,10 @@ function calDocumentReport(reportname){
 					  
 						  <ul class="dropdown-menu">
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managegopssuser');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;REFIS User</a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;SMS Contacts Manager</a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Airline Data Manager</a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Briefing Manager </a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Flight Reports</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;SMS Contacts Manager</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Airline Data Manager</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Briefing Manager </a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Flight Reports</a></li>
 					      </ul>
 								  
 					</li>

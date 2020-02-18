@@ -153,7 +153,7 @@ public class groundOpsController {
 		   }
 		   
 	     
-		   System.out.println(req.getParameter("operation")); 
+		   //System.out.println(req.getParameter("operation")); 
 		   
 		   
 			model.put("profilelist",req.getSession().getAttribute("profilelist"));

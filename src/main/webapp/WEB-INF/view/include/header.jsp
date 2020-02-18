@@ -177,8 +177,8 @@ function calStaffTravelUsers(){
 					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityReportForm');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Reliability Report</a></li>
 					    </c:if> 
 					    
-					    <c:if test="${profilelist.ReliablityAction  == 'Y'}"> 
-					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityAction');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Reliability Action</a></li>
+					    <c:if test="${profilelist.DelayReport  == 'Y'}"> 
+					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityAction');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Delay Report</a></li>
 					    </c:if> 
 					    
 					     <c:if test="${profilelist.Daily_Summary  == 'Y'}"> 					     
