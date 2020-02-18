@@ -201,7 +201,7 @@ public class piechartImp implements piechart{
 		   //------------ REPORT ITEMS -------------------
 		   int totalflights=0;
 		   int NumFlown=0;
-		   int NumCancelled=0;
+		   int NumCancelled=00;
 		   int ontimealldepart=0;		   
 		   int alldelay=0;
 		   int Late_morethen15Minute=0;
@@ -310,19 +310,27 @@ public class piechartImp implements piechart{
 		   			    list.add(map1);
 
 		   			    
-		   			    if(NumCancelled > 0) {   
+		   			   if(NumCancelled > 0) {   
 			   			    map1 = new HashMap<Object,Object>(); 
 			   			    map1.put("label", "Canc"); 
 			   			    map1.put("y",NumCancelled); 
 			   			    list.add(map1);
-			   			}   
-	   			    
+			   			}  
+		   			   
+		   			   
+		   			   if(alldelay > 0) {  
+			   			    map1 = new HashMap<Object,Object>(); 
+			   			    map1.put("label", "All Delay"); 
+			   			    map1.put("y", alldelay); 
+			   			    list.add(map1);
+			   		   } 
+		 			    
 		   			    
 		   			    if(NumFlown > 0) {
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Landed"); 
-		   			    map1.put("y", NumFlown); 
-		   			    list.add(map1);
+			   			    map1 = new HashMap<Object,Object>(); 
+			   			    map1.put("label", "Landed"); 
+			   			    map1.put("y", NumFlown); 
+			   			    list.add(map1);
 		   			    }
 		   			    
 		   			    
@@ -349,12 +357,6 @@ public class piechartImp implements piechart{
 			   			    list.add(map1);
 			   			   }    
 		   			  
-		   			   if(alldelay > 0) {  
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "All Delay"); 
-		   			    map1.put("y", alldelay); 
-		   			    list.add(map1);
-		   			  } 
 		   			   
 		   			    
 		    		    graphstring = gsonObj.toJson(list);

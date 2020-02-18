@@ -137,11 +137,23 @@ public class groundOpsController {
 	//-------THis Will be Called When Refis User Links is called from Ground Ops  
 	@RequestMapping(value = "/listdocuments",method = {RequestMethod.POST,RequestMethod.GET})
 	public String groundopsdocumentlist(HttpServletRequest req, ModelMap model) throws Exception {	
+		   
 		   int status=0;
-		   
 
+		   if(req.getParameter("cat").equals("gci")) {
+			   model.put("foldername","Ground Crew Instructions");			   
+		   }
 		   
+		   if(req.getParameter("cat").equals("gcm")) {
+			   model.put("foldername","Ground Crew Memo");
+		   }
 		   
+		   if(req.getParameter("cat").equals("gcr")) {
+			   model.put("foldername","Ground Crew Reminder");
+		   }
+		   
+	     
+		   System.out.println(req.getParameter("operation")); 
 		   
 		   
 			model.put("profilelist",req.getSession().getAttribute("profilelist"));
@@ -149,7 +161,13 @@ public class groundOpsController {
 			model.addAttribute("password",req.getParameter("password"));
 			model.put("usertype",req.getParameter("usertype"));
 			logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
-
+			
+			if(req.getParameter("operation") != null) {
+				if(req.getParameter("operation").equals("update")) {return "groundoperation/gcigcmgcr/updatefolderdocuments";}
+				if(req.getParameter("operation").equals("read")) {return "groundoperation/gcigcmgcr/listalldocumentfromfolder";}
+				
+			}
+			
 		   return "groundoperation/gcigcmgcr/listalldocumentfromfolder";
 	
 		   

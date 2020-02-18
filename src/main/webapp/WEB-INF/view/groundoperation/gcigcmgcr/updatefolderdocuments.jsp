@@ -43,15 +43,12 @@ function showFlightReport(){
 
 
 
-
 function calDocumentUpdate(reportname){
 		 document.documentmaster.method="POST";
 		 document.documentmaster.action=reportname;
 	     document.documentmaster.submit();
 		 return true;
 }
-
-
 
 </script>
 
@@ -81,21 +78,13 @@ function calDocumentUpdate(reportname){
 				
 			   <c:if test="${profilelist.gopsadmin  == 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=gci&operation=update');">${foldername}</a>
-						    &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=gci&operation=read');">${foldername}</a>
+						    <i class="fa fa-eye" aria-hidden="true"></i>
 						
 						</h3>
 					</div>
 				</c:if>
 				
-				
-				
-			   <c:if test="${profilelist.gopsadmin  != 'Y'}">
-					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title">${foldername}				    
-						</h3>
-					</div>
-				</c:if>
 				
 				
 				
@@ -111,44 +100,64 @@ function calDocumentUpdate(reportname){
 								<th>Dated </th>
 								<th>Description</th>
 								<th>Category</th>
-								<th> </th>
+								<th> &nbsp</th>
 							</tr>
 						</thead>
 						
 						<tbody>
 							<tr>
-								<td width="3%">1.</td>
-								<td width="18%">10 Jan 2020</td>
-								<td width="70%"><img src="pdf.png">&nbsp;First File Name for the test the testthe testthe testthe testthe testthe testthe </td>
-								<td width="5%">GHB</td>
-							</tr>
-						<tr>
-								<td width="6%">2.</td>
-								<td width="18%">10 Jan 2020</td>
+								<td width="5%">1.</td>
+								<td width="15%">10 Jan 2020</td>
 								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="6%">GHB</td>
+								<td width="10%">GHB</td>
+							    <td width="10%" ><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</td>
+							</tr>
+
+							<tr>
+								<td width="5%">2.</td>
+								<td width="15%">10 Jan 2020</td>
+								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
+								<td width="10%">GHB</td>
+							    <td width="10%" ><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</td>
 							</tr>
 							<tr>
-								<td width="6%">3.</td>
-								<td width="18%">10 Jan 2020</td>
+								<td width="5%">3.</td>
+								<td width="15%">10 Jan 2020</td>
 								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="6%">GHB</td>
+								<td width="10%">GHB</td>
+							    <td width="10%" ><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</td>
 							</tr>
-						<tr>
-								<td width="6%">4.</td>
-								<td width="18%">10 Jan 2020</td>
+							<tr>
+								<td width="5%">4.</td>
+								<td width="15%">10 Jan 2020</td>
 								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="6%">GHB</td>
+								<td width="10%">GHB</td>
+							    <td width="10%" ><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</td>
 							</tr>
-						<tr>
-								<td width="6%">5.</td>
-								<td width="18%">10 Jan 2020</td>
-								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="6%">GHB</td>
-							</tr>
-		
-	
+				
 	 
+							<tr>
+								<td align="center" colspan="3">
+								    <br>
+									<div class="col-xs-05">
+										<div class="input-group"> 
+											<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;<b>Add New File</b></span>							
+												 <input type="file"  id="cfile"  name="cfile"   class="form-control"/>
+										 </div>
+										 									 
+										 
+							        </div>
+									</td>
+								
+								<td align="left" colspan="2" >
+								  <br>
+																 
+	                                 <span onClick="alert('Under Construction');" id="addnew" class="btn btn-primary" > &nbsp;Upload &nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
+
+										
+								</td>
+								
+							</tr>
 	
 							</tbody>
 					</table>

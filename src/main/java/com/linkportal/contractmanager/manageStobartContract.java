@@ -17,7 +17,7 @@ public interface manageStobartContract {
 
 	public stobartContract viewContract(String crefno, String useremail);
 	
-	public stobartContract renewContract(String crefno)throws SQLException;
+	public stobartContract renewContract(String crefno , String emailid)throws SQLException;
 	
 	public String populate_Department(String usremail ,String dept)throws SQLException;
 	

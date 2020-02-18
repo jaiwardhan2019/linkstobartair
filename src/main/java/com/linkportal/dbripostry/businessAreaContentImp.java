@@ -2,6 +2,7 @@ package com.linkportal.dbripostry;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -9,11 +10,8 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.linkportal.controller.HomeController;
 
 
 
@@ -29,15 +27,14 @@ public class businessAreaContentImp implements businessAreaContent {
 	   
 	
     @Autowired
-    DataSource dataSourcemysql;
+    DataSource dataSourcesqlservercp;
     
 	
 	JdbcTemplate jdbcTemplate;
 	
 	
-	public businessAreaContentImp(DataSource dataSourcemysql) {
-		super();
-		this.jdbcTemplate = new JdbcTemplate(dataSourcemysql);
+	public businessAreaContentImp(DataSource dataSourcesqlservercp) {
+		this.jdbcTemplate = new JdbcTemplate(dataSourcesqlservercp);
 	}
 
 	
@@ -49,12 +46,13 @@ public class businessAreaContentImp implements businessAreaContent {
 		
 		try{
 		
-		    String sql = "SELECT CONTENT FROM CORPORATE_PORTAL.BUSINESS_AREA_CONTENT_MASTER where bc_id=?";	  
+		    String sql = "SELECT CONTENT_DETAIL FROM  Business_Area_Content_Master where Bc_Id=?";	  
 		    String content = jdbcTemplate.queryForObject(sql, new Object[] { bcid }, String.class);
 		    return content;
 			    
 		 } catch(Exception ee) {
 			logger.error("While Reading Content Master DB:"+ee); 
+			
 			return null;
 		}
 		
@@ -65,24 +63,23 @@ public class businessAreaContentImp implements businessAreaContent {
 	
 
 	@Override
-	public int Update_Content(String content, int bcid, String emailid) {
+	public boolean Update_Content(String content, int bcid, String emailid) {
 		try{
+			 
+			 Connection conn= dataSourcesqlservercp.getConnection();	
 			
-			 Connection conn= dataSourcemysql.getConnection();
-			
-			String sqlUpdateContent="UPDATE CORPORATE_PORTAL.BUSINESS_AREA_CONTENT_MASTER SET CONTENT='"+content+"' , UPDATED_DATE_TIME='"+now+"' , USER='"+emailid+"' WHERE BC_ID="+bcid;
-			
-			sqlUpdateContent = "UPDATE CORPORATE_PORTAL.BUSINESS_AREA_CONTENT_MASTER SET CONTENT=? , UPDATED_DATE_TIME=?, USER=?  WHERE BC_ID=?";
-			
-			PreparedStatement pstm = conn.prepareStatement(sqlUpdateContent);
-			pstm.setString(1,content);
-			pstm.setString(2,now.toString()); 
-			pstm.setInt(3,bcid);
-			
-			
-			return jdbcTemplate.update(sqlUpdateContent);
+			 String sqlUpdateContent = "UPDATE Business_Area_Content_Master SET Content_Detail=?, Updated_Date_Time=?, User_Email=?  WHERE Bc_Id=?";
+		     PreparedStatement pstm = conn.prepareStatement(sqlUpdateContent);
+					   pstm.setString(1,content);
+					   pstm.setString(2,now.toString());
+					   pstm.setString(3,emailid);
+					   pstm.setInt(4,bcid);
+				   int rows = pstm.executeUpdate();
+				   pstm=null;   
+				
+			return (rows > 0);
 		
-	  }catch(Exception updateerror) {logger.error("While Updating  Content Master:"+updateerror.toString());return 0;}
+	  }catch(SQLException updateerror) {System.out.println(updateerror);  logger.error("While Updating  Content Master:"+updateerror.toString());return false;}
 		
 	}
 	

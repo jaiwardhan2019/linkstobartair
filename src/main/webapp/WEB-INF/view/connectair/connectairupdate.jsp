@@ -26,7 +26,7 @@
    <div  class="container-fluid" style="margin-top:60px;">	
 	
 		<div class="col-md-5 col-sm-5 col-xs-12" style="color:#005da8;">
-			&ensp;<span style="font-weight:600;font-size:13pt;color:#005da8;"> Connect Airways Business Update: >> </span>
+			&ensp;<span style="font-weight:600;font-size:13pt;color:#005da8;">Business Update: >> </span>
 	   </div> 
 	
   </div>
@@ -177,19 +177,3 @@ mobileHover();
 
 </body>
 <%@include file="../include/footer.jsp" %>
-
-
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-

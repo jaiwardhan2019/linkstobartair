@@ -94,7 +94,7 @@ function showFlightReport(){
  
  
        
-  <table class="table table-striped table-bordered" border="1" style="width:80%;background:rgba(255,255,255,0.5);" align="left">	
+  <table class="table table-striped table-bordered" border="1" style="width:80%;background:rgba(255,255,255);" align="left">	
    			<tbody>				     
 				 <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">

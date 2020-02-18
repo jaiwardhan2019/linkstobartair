@@ -207,7 +207,7 @@ public class stobartContractManagerController {
 					if(req.getParameter("event").equals("renew")){		
 						
 					    //------ Select Contract from database						
-						model.put("contractdetail", contract.renewContract(req.getParameter("refno")));
+						model.put("contractdetail", contract.renewContract(req.getParameter("refno"),req.getParameter("emailid")));
 						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("departmentselected").trim()));
 						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("departmentselected").trim(),req.getParameter("subdepartmentselected").trim()));
 						model.put("contractupdate","<br><p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> Contract Renewed .&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");

@@ -495,7 +495,7 @@ setTimeout(function(){window.location.href="index"},60000000);
    	<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
 				<div class="panel-body" style="color:#0071BA;">
-				   <i class="fa fa-sitemap fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">Business Updates </span>
+				   <i class="fa fa-sitemap fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">Business Areas </span>
 				</div>
 			</div>
 		</div>	
@@ -509,7 +509,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
 				<div class="panel-body" style="color:#0071BA;">
-				   <i class="fa fa-plane fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">Connect Airways </span>
+				   <i class="fa fa-info-circle fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">Business Updates </span>
 				</div>
 			</div>
 		</div>	
@@ -574,9 +574,8 @@ setTimeout(function(){window.location.href="index"},60000000);
 
 </c:if>
 	
-<c:if test="${profilelist.Contract  == 'Y'}">  							
-				 
-		
+	
+<c:if test="${profilelist.Contract  == 'Y'}">  			
 	 <form name="contract"  id="contract" method="POST">  	
 	       <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
 	        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
@@ -632,15 +631,14 @@ setTimeout(function(){window.location.href="index"},60000000);
 
 
 
-
-<!--Updated Area  For the Video Display ON Left side -->
+<!--Updated Area  For the Video Display ON Left side
 
 <div class="container-fluid" align="left">
 	
 
 	<div class="row">	
 	
-		<!--Left side video-->
+		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"  >
 			        <h6 class="post_title" ><b>A message from Mark Anderson, CEO Connect Airways</b></h6>
 					<video width="100%" controls controlsList="nodownload">
@@ -651,7 +649,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 		</div>
 		
 	
-		<!--Right side video-->
+		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="margin-left:10px;" >
 				   <h6 class="post_title" ><b>Mark Anderson, @ Dublin Townhall 9th July 2019</b></h6>
 					<video width="100%" controls controlsList="nodownload">
@@ -662,30 +660,21 @@ setTimeout(function(){window.location.href="index"},60000000);
 		</div>
 		
 		
-		<!-- 
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="margin-left:10px;">
+       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="margin-left:10px;">
 		       <h6 class="post_title" ><b>Today Flight Status</b></h6>
 		       <p id="top_x_div"> </p>
 	    </div>
-	   -->
-	  
-	  
 	  
 	  </div>
 	
 </div>	
 
-
-
-
-
-
-
-<!--END OF  Updated Area  For the Video Display -->
-
+ -->
+ 
 <br>
 
 
+<!--END OF  Updated Area  For the Video Display -->
 
 	
 		<!--Full Width text-->
@@ -702,16 +691,9 @@ setTimeout(function(){window.location.href="index"},60000000);
 			</div>
 			
 		</div>
-	</div>
-	
-		
-			
+
 	
 
-
-
-<br>
-<br>
 
 
 <div class="container-fluid" align="left">
@@ -824,7 +806,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 					<h5 class="post_title"><b>Careers</b></h5>
 					<p align="justify" class="my_discription">Our people are our key assets. Stobart Air is always looking for motivated, competent and responsible employees who are ready to give our customers the best service possible in the air and on the ground. We are always looking for.</p>
 										<br>
-					<br><br><a href="http://www.stobartair.com/careers/" target="_new" id="p3">Read More</a>
+					<br><br><a href="https://stobartair.com/careers/#open-positions" target="_new" id="p3">Read More</a>
 				</div>
 			</div>
 		</div>

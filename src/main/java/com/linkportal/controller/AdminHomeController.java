@@ -159,7 +159,7 @@ public class AdminHomeController {
 	//------------  Call FOR UPDATE CONTENT Button ------------
 	@RequestMapping(value = "/updatebusiness_area_content" , method = {RequestMethod.POST,RequestMethod.GET})
 	public String Update_BusinessAreaContent(HttpServletRequest req, ModelMap model){
-		   int update_status=bac.Update_Content(req.getParameter("content"),Integer.parseInt(req.getParameter("cat")),req.getParameter("emailid"));
+		   boolean update_status=bac.Update_Content(req.getParameter("content"),Integer.parseInt(req.getParameter("cat")),req.getParameter("emailid"));
 		   model.addAttribute("cat",req.getParameter("cat"));
 		   model.addAttribute("content",req.getParameter("content"));
 		   return "admin/contentmanagment/stobartairbusinessarea";
