@@ -115,6 +115,17 @@ function calDocumentReport(reportname){
 
 
 
+function Calqpulse(){		
+	
+	document.refisheader.action="loginqpulse"
+	document.refisheader.method="POST";
+	document.refisheader.target="_blank"
+	document.refisheader.submit();
+	return true;
+	
+}// End of function
+
+
 
 
 
@@ -126,8 +137,10 @@ function calDocumentReport(reportname){
 
 <form name="refisheader" id="refisheader">
     <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
-    <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
+    <input type="hidden" id="password" name="password" value="<%=request.getParameter("password")%>">
     <input type="hidden" name="usertype" value="${usertype}">
+    <!-- Will be user for the Qpulse -->
+    <input id="username" type="hidden" name="username" value="<%=FirstName_LastName[0]%>">
 </form>
 
 
@@ -369,15 +382,15 @@ function calDocumentReport(reportname){
       <span class="label label-primary">Menu 2</span>
       <span class="label label-success">Menu 3</span>
        -->
-      <a href=""><span class="label label-success"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;File A Report</span></a>&nbsp;&nbsp;&nbsp;
-      <a href=""><span class="label label-danger"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>&nbsp;Emergency Response</span></a>&nbsp;&nbsp;&nbsp;
-      <a href=""><span class="label label-info"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;Key Contacts</span></a> &nbsp;&nbsp;&nbsp;
+      <a href="javascript:void();" onClick="Calqpulse();"><span class="label label-success"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;File A Report</span></a>&nbsp;&nbsp;&nbsp;
+      <a href="emergencyresponseplan.pdf"  target="_blank"><span class="label label-danger"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>&nbsp;Emergency Response</span></a>&nbsp;&nbsp;&nbsp;
+      <a href="javascript:void();" onClick="alert('Under Construction');"><span class="label label-info"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;Key Contacts</span></a> &nbsp;&nbsp;&nbsp;
 	</span>
 	
  
       <input type="text"  id="myInput" placeholder="Search Document.." >
       <!-- <span id="searchbutton" onclick="manage_contract('search');" class="btn btn-primary btn-sm">&nbsp;&nbsp;<i class="fa fa-search  fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;</span> -->
-      <button type="submit"  id="myBtn" onclick="javascript:alert('Hello World!')"><i class="fa fa-search"></i></button>
+      <button type="submit"  id="myBtn" onclick="javascript:alert('Under Construction!')"><i class="fa fa-search"></i></button>
 	
  </div>
  
@@ -404,7 +417,7 @@ function calDocumentReport(reportname){
 
 
 <style>
-body1 {
+body {
   background-image: url('images/groundopsbackground.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;  
@@ -427,7 +440,7 @@ body1 {
 
 
 
-body {
+body1 {
   background-image: url('images/groundopsbackground.png');
   background-repeat: no-repeat;
   background-attachment: fixed;  

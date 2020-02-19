@@ -33,7 +33,6 @@ function showFlightReport(){
 	     document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
 	     //<input type="button"  class="btn btn-primary" value="Show Report" onclick="showFlightReport();" />        
 	     //search_progress();
-
 		 document.FlightReport.method="POST";
 		 document.FlightReport.action="flightreport";
 	     document.FlightReport.submit();
@@ -49,6 +48,7 @@ function calDocumentUpdate(reportname){
 	     document.documentmaster.submit();
 		 return true;
 }
+
 
 </script>
 
@@ -84,12 +84,6 @@ function calDocumentUpdate(reportname){
 						</h3>
 					</div>
 				</c:if>
-				
-				
-				
-				
-				
-				
 				
 				
 				<div class="panel-body">

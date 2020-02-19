@@ -196,8 +196,7 @@
 		</div> 
 	<!-- END OF DAILY PUNCT STATS DIV  -->	
 
-	
-	
+
 		<!--RECENT DOCUMENT UPDATE -->
 		<div class="col-xs-5 col-md-5" >
 			

@@ -205,7 +205,7 @@ public class groundOpsController {
 					model.put("gopsuserdetail", userobject );					
 					model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 					model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
-					return "groundoperation/viewUpdateRefisusers"; 
+					return "groundoperation/users/viewUpdateRefisusers"; 
 				}
 				
 				
@@ -227,7 +227,7 @@ public class groundOpsController {
 				   model.put("gopsuserdetail", userobject);
  				   model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 				   model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
-				   return "groundoperation/viewUpdateRefisusers"; 
+				   return "groundoperation/users/viewUpdateRefisusers"; 
 				}
 				
 				
@@ -248,7 +248,7 @@ public class groundOpsController {
 				  System.out.println("Add new is selected ");
 				  model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 				  model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
-				  return "groundoperation/addNewRefisusers"; 
+				  return "groundoperation/users/addNewRefisusers"; 
 				}
 				
 				
@@ -273,7 +273,7 @@ public class groundOpsController {
 						 model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 						 model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));						 
 						 model.put("status","User Allready Exist please choose different name.");
-						 return "groundoperation/addNewRefisusers"; 
+						 return "groundoperation/users/addNewRefisusers"; 
 					}
 			   	   
 	  		    
@@ -303,7 +303,7 @@ public class groundOpsController {
 		    
 		    
 		    
-		return "groundoperation/manageRefisusers";
+		return "groundoperation/users/manageRefisusers";
 	}
 	
 	
