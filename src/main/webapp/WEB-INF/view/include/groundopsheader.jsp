@@ -129,6 +129,20 @@ function Calqpulse(){
 
 
 
+function CalKeyContact(){		
+	
+	document.refisheader.action="groundopskeycontact"
+	document.refisheader.method="POST";
+	document.refisheader.submit();
+	return true;
+	
+}// End of function
+
+
+
+
+
+
 
 
 </script>
@@ -384,7 +398,7 @@ function Calqpulse(){
        -->
       <a href="javascript:void();" onClick="Calqpulse();"><span class="label label-success"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;File A Report</span></a>&nbsp;&nbsp;&nbsp;
       <a href="emergencyresponseplan.pdf"  target="_blank"><span class="label label-danger"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>&nbsp;Emergency Response</span></a>&nbsp;&nbsp;&nbsp;
-      <a href="javascript:void();" onClick="alert('Under Construction');"><span class="label label-info"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;Key Contacts</span></a> &nbsp;&nbsp;&nbsp;
+      <a href="javascript:void();" onClick="CalKeyContact();" ><span class="label label-info"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;Key Contacts</span></a> &nbsp;&nbsp;&nbsp;
 	</span>
 	
  

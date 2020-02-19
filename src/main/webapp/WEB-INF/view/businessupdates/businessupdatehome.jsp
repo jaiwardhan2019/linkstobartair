@@ -66,7 +66,8 @@ function calBusinessCategory(category){
                                     <li><a href="javascript:void();" onClick="calBusinessCategory('3');">Ground Operations</a></li>
 							        <li><a href="javascript:void();" onClick="calBusinessCategory('4');">Flight Operations</a></li>
 							        <li><a href="javascript:void();" onClick="calBusinessCategory('5');">Operations Control Centre</a></li>
-							        <li><a href="javascript:void();" onClick="calBusinessCategory('6');">Safety and Compliance</a></li>
+							       <!--  <li><a href="javascript:void();" onClick="calBusinessCategory('6');">Safety and Compliance</a></li>  -->
+							       <li><a href="javascript:void();" onClick="alert('Under Construction');">Safety and Compliance</a></li>
 								</ul>
 							
 							</li>
@@ -82,7 +83,8 @@ function calBusinessCategory(category){
 								
 						  </li>	
 						
-						<li><a href="javascript:void();" onClick="calBusinessCategory('9');">Maintenance & Engineering</a></li> 
+					<!-- 	<li><a href="javascript:void();" onClick="calBusinessCategory('9');">Maintenance & Engineering</a></li>  --> 
+					<li><a href="javascript:void();" onClick="alert('Under Construction');">Maintenance & Engineering</a></li>  
 						<li><a href="javascript:void();" onClick="calBusinessCategory('10');">Finance </a></li> 
 						
 						</ul>

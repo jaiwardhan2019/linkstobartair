@@ -89,6 +89,27 @@ public class groundOpsController {
 	}//----------- End of Function 
 
 
+	//------- This Part Will be Called from the Login Page index.jsp 
+	@RequestMapping(value = "/groundopskeycontact",method = {RequestMethod.POST,RequestMethod.GET}) 
+	public String GroundopsKeyContact(HttpServletRequest req,ModelMap model) throws Exception{
+	       
+		  if(req.getParameter("emailid") == null) {return "index";}
+		  model.addAttribute("emailid",req.getParameter("emailid"));
+		  model.addAttribute("password",req.getParameter("password"));			
+		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
+		  model.put("profilelist",req.getSession().getAttribute("profilelist")); 
+		  model.put("usertype",req.getParameter("usertype"));
+		  return "groundoperation/keycontacts";
+		  
+	}//----------- End of Function 
+
+
+	
+	
+	
+	
+	
+	
 
      //*********************** REPORT SECTION ***********************
 	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
@@ -174,13 +195,6 @@ public class groundOpsController {
 	}		   
 	
 	
-	
-	
-	
-	
-	
-	
-	//****************** GROUND OPS USER MANAGMENT ***********************************************
 	//-------THis Will be Called When Refis User Links is called from Ground Ops  
 	@RequestMapping(value = "/managegopssuser",method = {RequestMethod.POST,RequestMethod.GET})
 	public String groundopsuserlist(HttpServletRequest req, ModelMap model) throws Exception {	
@@ -298,8 +312,6 @@ public class groundOpsController {
 		    	model.put("refisAccountlist", refisuser.showRefisUser());
 		    }
 			
-		    
-		    
 		    
 		    
 		    
