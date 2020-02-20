@@ -94,7 +94,7 @@ function calDocumentUpdate(reportname){
 			   <c:if test="${profilelist.gopsadmin  != 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
 						<h3 class="panel-title">${foldername}	
-						     ${gopsfilelist}  			    
+						 		    
 						</h3>
 					</div>
 				</c:if>
