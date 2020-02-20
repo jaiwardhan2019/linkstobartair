@@ -1,38 +1,54 @@
 package com.linkportal.docmanager;
 
-import java.sql.Blob;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 
-@Entity
-@Table(name="Gops_Document_Master")
+
 public class DocumentEntity {
         
-	    @Column(name="doc_name")  
+	
+	
+	   
+	
+		private int     docId;
 		private String  docName;
-	    
-	    @Column(name="doc_description")
 	    private String  docDescription;
-	    
-	    @Column(name="doc_type")
 		private String  docType;
-	    
-	    @Column(name="doc_path")
-		private String  docPath;
-		
-	    @Column(name="doc_department")
+		private String  docPath;	    
 	    private String  docDepartment;
-	    
-	    @Column(name="doc_added_date")
+	    private String  docCategory;	    
 		private String  docAddedDate;
-	    
-	    @Column(name="doc_addedby_name")
 		private String  docAddedbyName;
 
-		public String getDocName() {
+		
+		   
+	    public DocumentEntity(int docId, String docName, String docDescription, String docType, String docPath,
+				String docDepartment, String docCategory, String docAddedDate, String docAddedbyName) {
+			super();
+			this.docId = docId;
+			this.docName = docName;
+			this.docDescription = docDescription;
+			this.docType = docType;
+			this.docPath = docPath;
+			this.docDepartment = docDepartment;
+			this.docCategory = docCategory;
+			this.docAddedDate = docAddedDate;
+			this.docAddedbyName = docAddedbyName;
+		}
+
+		public int getDocId() {
+		       return docId;
+	    }
+
+		public void setDocId(int docId) {
+			this.docId = docId;
+		}
+
+
+	    
+	    public String getDocName() {
 			return docName;
 		}
 
@@ -72,6 +88,18 @@ public class DocumentEntity {
 			this.docDepartment = docDepartment;
 		}
 
+		
+
+	   public String getDocCategory() {
+			return docCategory;
+		}
+
+		public void setDocCategory(String docCategory) {
+			this.docCategory = docCategory;
+		}
+
+
+
 		public String getDocAddedDate() {
 			return docAddedDate;
 		}
@@ -92,11 +120,11 @@ public class DocumentEntity {
 		
 		@Override
 		public String toString() {
-			return "DocumentEntity [docName=" + docName + ", docDescription=" + docDescription + ", docType=" + docType
-					+ ", docPath=" + docPath + ", docDepartment=" + docDepartment + ", docAddedDate=" + docAddedDate
-					+ ", docAddedbyName=" + docAddedbyName + "]";
+			return "DocumentEntity [docId=" + docId + ", docName=" + docName + ", docDescription=" + docDescription
+					+ ", docType=" + docType + ", docPath=" + docPath + ", docDepartment=" + docDepartment
+					+ ", docCategory=" + docCategory + ", docAddedDate=" + docAddedDate + ", docAddedbyName="
+					+ docAddedbyName + "]";
 		}
-
 
 		
 		

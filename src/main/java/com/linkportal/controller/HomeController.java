@@ -45,7 +45,7 @@ import com.linkportal.fltreport.flightReports;
 import com.linkportal.graphreport.piechart;
 import com.linkportal.reports.excel.ReportMaster;
 import com.linkportal.security.UserSecurityLdap;
-import com.linkportal.docmanager.pdfWordReportBuilder;
+import com.linkportal.docmanager.documentManager;
 
 import com.thoughtworks.xstream.io.path.Path;
 

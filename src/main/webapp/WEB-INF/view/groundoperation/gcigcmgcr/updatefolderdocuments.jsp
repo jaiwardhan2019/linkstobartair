@@ -30,7 +30,7 @@ function search_progress() {
 
 function showFlightReport(){
 	
-	     document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
+	     document.getElementById("addnew").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
 	     //<input type="button"  class="btn btn-primary" value="Show Report" onclick="showFlightReport();" />        
 	     //search_progress();
 		 document.FlightReport.method="POST";
@@ -50,6 +50,30 @@ function calDocumentUpdate(reportname){
 }
 
 
+
+
+function addDocument(category){
+
+	     var filename = document.getElementById("gfile");
+	     if(filename.value == ''){
+           alert("Please select file to be added");
+           filename.focus();
+           return false;           
+	     }
+	     
+	     document.getElementById("addnew").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Uploading..&nbsp;&nbsp;";
+	     
+	    
+		 document.documentmaster.method="POST";
+		 document.documentmaster.action="addfiletofolder?cat="+category;
+	     document.documentmaster.submit();
+		 return true;
+
+}
+
+
+
+
 </script>
 
 
@@ -57,11 +81,12 @@ function calDocumentUpdate(reportname){
 <body>
 
  
- <form name="documentmaster" id="documentmaster">   
+ <form name="documentmaster" id="documentmaster" enctype="multipart/form-data">   
   
   <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
   <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
+  <input type="hidden" id="cat" value="<%=request.getParameter("cat")%>">
  
  <br>
  <br>		
@@ -78,9 +103,9 @@ function calDocumentUpdate(reportname){
 				
 			   <c:if test="${profilelist.gopsadmin  == 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=gci&operation=read');">${foldername}</a>
+						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=read');">${foldername}</a>
 						    <i class="fa fa-eye" aria-hidden="true"></i>
-						
+						    &nbsp; &nbsp; &nbsp;${status}
 						</h3>
 					</div>
 				</c:if>
@@ -91,67 +116,77 @@ function calDocumentUpdate(reportname){
 						<thead>
 							<tr>
 								<th>Sr.</th>
-								<th>Dated </th>
 								<th>Description</th>
+								<th>Dated </th>
 								<th>Category</th>
 								<th> &nbsp</th>
 							</tr>
 						</thead>
+	
+	
+	
+	
+	   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
+       <c:if test = "${rowcount == 0}">
+          
+             <tr>
+             
+               <td colspan="5" align="center">
+                    <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
+                    
+              </td>
+             
+             </tr>
+       
+       </c:if>
+    
+    
+    <tbody>  
+    
+    
+    
+     <% 
+      int ctr=1;
+     %>
+	 <c:if test = "${rowcount > 0}">
 						
-						<tbody>
+			<c:forEach var="contract" items="${gopsfilelist}">    
 							<tr>
-								<td width="5%">1.</td>
-								<td width="15%">10 Jan 2020</td>
-								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="10%">GHB</td>
-							    <td width="10%" ><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</td>
+								<td width="4%"><%=ctr++%>.</td>
+								<td width="65%"><img src="${contract.docType}.png"> &nbsp; ${contract.docName}</td>
+								<td width="15%">${contract.docAddedDate}</td>
+								<td width="5%">${contract.docCategory}</td>
+							    <td  ><i class="fa fa-trash" aria-hidden="true"></i>Remove</td>
 							</tr>
-
-							<tr>
-								<td width="5%">2.</td>
-								<td width="15%">10 Jan 2020</td>
-								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="10%">GHB</td>
-							    <td width="10%" ><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</td>
-							</tr>
-							<tr>
-								<td width="5%">3.</td>
-								<td width="15%">10 Jan 2020</td>
-								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="10%">GHB</td>
-							    <td width="10%" ><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</td>
-							</tr>
-							<tr>
-								<td width="5%">4.</td>
-								<td width="15%">10 Jan 2020</td>
-								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="10%">GHB</td>
-							    <td width="10%" ><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</td>
-							</tr>
-				
+			</c:forEach>
+							
+       </c:if>
+       
+       
+       
 	 
-							<tr>
-								<td align="center" colspan="3">
-								    <br>
-									<div class="col-xs-05">
-										<div class="input-group"> 
-											<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;<b>Add New File</b></span>							
-												 <input type="file"  id="cfile"  name="cfile"   class="form-control"/>
-										 </div>
-										 									 
-										 
-							        </div>
-									</td>
+		<tr>
+					<td align="center" colspan="3">
+					    <br>
+						<div class="col-xs-05">
+							<div class="input-group"> 
+								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;<b>Add New File</b></span>							
+									 <input type="file"  id="gfile"  name="gfile"   class="form-control"/>
+							 </div>
+							 									 
+							 
+				        </div>
+						</td>
+						
+							<td align="left" colspan="2" >
+							  <br>
+															 
+                                 <span onClick="addDocument('<%=request.getParameter("cat")%>');" id="addnew" class="btn btn-primary" > &nbsp;Upload &nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
+                                    
+									
+							</td>
 								
-								<td align="left" colspan="2" >
-								  <br>
-																 
-	                                 <span onClick="alert('Under Construction');" id="addnew" class="btn btn-primary" > &nbsp;Upload &nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
-
-										
-								</td>
-								
-							</tr>
+				</tr>
 	
 							</tbody>
 					</table>

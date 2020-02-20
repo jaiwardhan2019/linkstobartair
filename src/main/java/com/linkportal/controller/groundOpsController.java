@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.dbripostry.linkUsers;
+import com.linkportal.docmanager.DocumentService;
 import com.linkportal.fltreport.flightReports;
 import com.linkportal.graphreport.piechart;
 import com.linkportal.groundops.gopsAllapi;
@@ -65,6 +66,10 @@ public class groundOpsController {
 	
 	@Autowired
 	piechart chart;
+	
+	
+	@Autowired
+	DocumentService  docserv;
 
 	
 	
@@ -111,7 +116,7 @@ public class groundOpsController {
 	
 	
 
-     //*********************** REPORT SECTION ***********************
+     //*********************** FLIGHT REPORT SECTION ***********************
 	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
 	@RequestMapping(value = "/flightreport",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String GroundOpsflightreport(HttpServletRequest req,ModelMap model) throws Exception{
@@ -154,13 +159,84 @@ public class groundOpsController {
 
 	
 	
-	//****************** GROUND OPS USER MANAGMENT ***********************************************
-	//-------THis Will be Called When Refis User Links is called from Ground Ops  
+	
+	//****************** GROUND OPS DOCUMENT REPORT AND MANAGMENT ***********************************************
+	//-------THis Will be Called When GCI GCM GCR called from Ground Ops  
 	@RequestMapping(value = "/listdocuments",method = {RequestMethod.POST,RequestMethod.GET})
 	public String groundopsdocumentlist(HttpServletRequest req, ModelMap model) throws Exception {	
 		   
 		   int status=0;
 
+		   if(req.getParameter("cat").equals("gci")) {
+			   model.put("foldername","Ground Crew Instructions");		
+			   
+		   }
+		   
+		   if(req.getParameter("cat").equals("gcm")) {
+			   model.put("foldername","Ground Crew Memo");
+		   }
+		   
+		   if(req.getParameter("cat").equals("gcr")) {
+			   model.put("foldername","Ground Crew Reminder");
+		   }
+
+		   
+		  //******* Pupulate List of File *******************
+		   model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+			 
+		
+		   
+		   
+		   
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
+		   model.put("usertype",req.getParameter("usertype"));
+			
+		   
+		   
+		   
+		   //-- This part will be called when Edit / View / Upload Event is called 
+		   if(req.getParameter("operation") != null) {			   
+			  //for view and edit mode 
+			  if(req.getParameter("operation").equals("update")) {return "groundoperation/gcigcmgcr/updatefolderdocuments";}
+			  if(req.getParameter("operation").equals("read"))   {return "groundoperation/gcigcmgcr/listalldocumentfromfolder";}
+				
+		   } // End of Operation Event.
+		   
+		   
+		   
+		   logger.info("User id:"+req.getParameter("emailid")+" Login to GCI - GCM - GCR Module");
+		   return "groundoperation/gcigcmgcr/listalldocumentfromfolder";
+	}		   
+
+
+	
+	
+	//-------THis Will be Called When Add File will be Called from the GCI - GCM  - GCR  edit Screen  
+	@RequestMapping(value = "/addfiletofolder",method = {RequestMethod.POST,RequestMethod.GET})
+	public String addfiletofolde(@RequestParam("gfile") MultipartFile file,HttpServletRequest req, ModelMap model) throws Exception {	
+		   
+		   int status=0;
+
+		   //*********WILL UPLOAD THE FILE************************
+		   if(docserv.addUploadFiletoDatabaseAndFolder(req,file)) {			   
+			   model.put("status","Successfully Added");	
+		   }
+		   else
+		   {
+			   model.put("status","Error while uploading !!!");
+			   
+		   }
+		   
+		   
+		   //******* Pupulate List of File *******************
+		   model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+		   
+		  
+		   
+		   
+		   
 		   if(req.getParameter("cat").equals("gci")) {
 			   model.put("foldername","Ground Crew Instructions");			   
 		   }
@@ -173,28 +249,42 @@ public class groundOpsController {
 			   model.put("foldername","Ground Crew Reminder");
 		   }
 		   
-	     
-		   //System.out.println(req.getParameter("operation")); 
 		   
-		   
-			model.put("profilelist",req.getSession().getAttribute("profilelist"));
-			model.addAttribute("emailid",req.getParameter("emailid"));
-			model.addAttribute("password",req.getParameter("password"));
-			model.put("usertype",req.getParameter("usertype"));
-			logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
+		   model.put("usertype",req.getParameter("usertype"));
 			
-			if(req.getParameter("operation") != null) {
-				if(req.getParameter("operation").equals("update")) {return "groundoperation/gcigcmgcr/updatefolderdocuments";}
-				if(req.getParameter("operation").equals("read")) {return "groundoperation/gcigcmgcr/listalldocumentfromfolder";}
-				
-			}
-			
-		   return "groundoperation/gcigcmgcr/listalldocumentfromfolder";
-	
 		   
+	   
+		   
+		   logger.info("User id:"+req.getParameter("emailid")+" Login to GCI - GCM - GCR Module");
+		   return "groundoperation/gcigcmgcr/updatefolderdocuments";
 	}		   
+
+		
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//****************** GROUND OPS EXTERNAL USER MANAGMENT ***********************************************
 	//-------THis Will be Called When Refis User Links is called from Ground Ops  
 	@RequestMapping(value = "/managegopssuser",method = {RequestMethod.POST,RequestMethod.GET})
 	public String groundopsuserlist(HttpServletRequest req, ModelMap model) throws Exception {	

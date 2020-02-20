@@ -65,6 +65,7 @@ function calDocumentUpdate(reportname){
   <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
   <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
+  <input type="hidden" id="cat" value="<%=request.getParameter("cat")%>">
  
  <br>
  <br>		
@@ -81,9 +82,9 @@ function calDocumentUpdate(reportname){
 				
 			   <c:if test="${profilelist.gopsadmin  == 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=gci&operation=update');">${foldername}</a>
+						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=update');">${foldername}</a>
 						    &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-						
+						    
 						</h3>
 					</div>
 				</c:if>
@@ -92,7 +93,8 @@ function calDocumentUpdate(reportname){
 				
 			   <c:if test="${profilelist.gopsadmin  != 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title">${foldername}				    
+						<h3 class="panel-title">${foldername}	
+						     ${gopsfilelist}  			    
 						</h3>
 					</div>
 				</c:if>
