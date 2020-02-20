@@ -92,7 +92,7 @@ public class documentManagerImp implements documentManager {
 	        
 	        //This Part will Upload File to into the folder  
 	        byte[] bytes = file.getBytes();
-	        Path path = Paths.get(groundopsRootFolder+"/"+req.getParameter("cat").toUpperCase()+"/"+file.getOriginalFilename().replaceAll("[\\\\/:*&?\"<>|]",""));
+	        Path path = Paths.get(groundopsRootFolder+"/"+req.getParameter("cat").toUpperCase()+"/"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));
 	        Files.write(path, bytes);	
 	        
 	       
@@ -111,7 +111,7 @@ public class documentManagerImp implements documentManager {
 			  try {
 				  
 			   // if file is exist then update time and added by email Otherwise Create new Entry in the Table  	  
-			   SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name from Gops_Document_Master where doc_name='"+file.getOriginalFilename()+"'");
+			   SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name from Gops_Document_Master where doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
 			   if(result.next()) {
 				   jdbcTemplate.execute("Update Gops_Document_Master set doc_addedby_name='"+addbyname+"' , doc_added_date='"+currentdateandtime.toString()+"' where doc_name='"+file.getOriginalFilename()+"'");
 			   }
@@ -123,8 +123,8 @@ public class documentManagerImp implements documentManager {
 				   
 				   PreparedStatement pstm = con1.prepareStatement(SQL_ADD);
 				       
-				       pstm.setString(1,file.getOriginalFilename());
-					   pstm.setString(2,file.getOriginalFilename());		
+				       pstm.setString(1,file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));
+					   pstm.setString(2,file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));		
 					   pstm.setString(3,extension);		
 					   pstm.setString(4,path.toString());		
 					   pstm.setString(5,"GOPS");	

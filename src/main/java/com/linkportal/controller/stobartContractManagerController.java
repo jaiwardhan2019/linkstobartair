@@ -415,7 +415,7 @@ public class stobartContractManagerController {
 					        
 			 	            // This Part will Upload File to into the folder  
 				            byte[] bytes = file.getBytes();
-				            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename().replaceAll("[\\\\/:*&?\"<>|]",""));
+				            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));
 				            Files.write(path, bytes);		    
 				            logger.info("Contract File Uploaded to the folder by:"+req.getParameter("emailid"));
 			

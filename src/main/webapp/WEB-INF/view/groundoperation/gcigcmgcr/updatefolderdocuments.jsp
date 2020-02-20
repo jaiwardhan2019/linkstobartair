@@ -153,10 +153,14 @@ function addDocument(category){
 			<c:forEach var="contract" items="${gopsfilelist}">    
 							<tr>
 								<td width="4%"><%=ctr++%>.</td>
-								<td width="65%"><img src="${contract.docType}.png"> &nbsp; ${contract.docName}</td>
+								<td width="60%"><img src="${contract.docType}.png"> &nbsp; ${contract.docName}</td>
 								<td width="15%">${contract.docAddedDate}</td>
-								<td width="5%">${contract.docCategory}</td>
-							    <td  ><i class="fa fa-trash" aria-hidden="true"></i>Remove</td>
+								<td width="8%">${contract.docCategory}</td>
+							    <td align="center"><i class="fa fa-trash" aria-hidden="true"></i>
+							    <span style="color:red;font-size:9pt;">
+							    Rem
+							    </span>
+							    </td>
 							</tr>
 			</c:forEach>
 							
