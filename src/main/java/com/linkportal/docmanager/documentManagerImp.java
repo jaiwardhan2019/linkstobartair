@@ -96,7 +96,7 @@ public class documentManagerImp implements documentManager {
 	        Files.write(path, bytes);	
 	        
 	       
-	        
+	        // Get File related Info into varriable 
             String filefullname = file.getOriginalFilename();            
             String extension    = "";
             int i = file.getOriginalFilename().lastIndexOf('.');
@@ -108,12 +108,12 @@ public class documentManagerImp implements documentManager {
  		    String addbyname                 = req.getParameter("emailid");
  		    
   	
-			  try {
+			try {
 				  
 			   // if file is exist then update time and added by email Otherwise Create new Entry in the Table  	  
 			   SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name from Gops_Document_Master where doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
 			   if(result.next()) {
-				   jdbcTemplate.execute("Update Gops_Document_Master set doc_addedby_name='"+addbyname+"' , doc_added_date='"+currentdateandtime.toString()+"' where doc_name='"+file.getOriginalFilename()+"'");
+				   jdbcTemplate.execute("Update Gops_Document_Master set doc_addedby_name='"+addbyname+"' , doc_added_date='"+currentdateandtime.toString()+"' where doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
 			   }
 			   else
 			   {
@@ -137,19 +137,35 @@ public class documentManagerImp implements documentManager {
 			   }
 			   
 
-			  }catch(SQLServerException ex) {
-				  System.out.println("While Adding Contract :"+ex.toString());
+			  }catch(SQLServerException ex) {				 
 				  logger.error("While Adding GCI GCM GCR File to DB :"+ex.toString());
 				  //Write Remove Document Code
 				  File ff = new File(path.toString());
 				  ff.delete();
 				  return false;
 			 }		   
-			
-		  
-     
+	 
         return true;
         
+	}
+
+
+
+
+	@Override
+	public boolean removeDocumentFromFolder(int docId) throws IOException, SQLException {
+			
+		//1.Fetch File detail from table
+   	    SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name , doc_path ,  doc_category from Gops_Document_Master where doc_id="+docId);
+		if(result.next()) {
+		     Path path = Paths.get(groundopsRootFolder+"/"+result.getString("doc_category")+"/"+result.getString("doc_name").replaceAll("['\\\\/:*&?\"<>|]",""));
+		     File ff = new File(path.toString());
+		     //2Once file is removed from folder remove entry from table
+		     if(ff.delete()){
+				jdbcTemplate.execute("delete from Gops_Document_Master where doc_id="+docId);
+		     }
+         }
+		return true;
 	}
 
 
@@ -185,10 +201,11 @@ public class documentManagerImp implements documentManager {
 	    File file = new File(filepath+useremail);
         if (!file.exists()) {
             if (file.mkdir()) {
-                System.out.println("Directory is created!");
+               
                 logger.info(filepath+useremail+" Directory  Created for the Report Files");
-            } else {
-                System.out.println("Failed to create directory!");
+            }
+            else
+            {  
                 logger.error("Failed to create directory name :"+filepath+useremail+"# Please Check Folder permissions");
             }
         }
@@ -269,6 +286,7 @@ public class documentManagerImp implements documentManager {
 		
 		
 	}//  End of Function 
+
 
 
 

@@ -74,7 +74,7 @@ function calDocumentUpdate(reportname){
 	<div class="row" align="center">
 	
 
-		<div  align="center" style="width:55%;">
+		<div  align="center" style="width:65%;">
 			
 			<div class="panel panel-primary" style="background:rgba(255,255,255);">
 		
@@ -110,47 +110,55 @@ function calDocumentUpdate(reportname){
 						<thead>
 							<tr>
 								<th>Sr.</th>
-								<th>Dated </th>
 								<th>Description</th>
+								<th>Dated</th>
 								<th>Category</th>
-								<th> </th>
+							
 							</tr>
-						</thead>
-						
-						<tbody>
-							<tr>
-								<td width="3%">1.</td>
-								<td width="18%">10 Jan 2020</td>
-								<td width="70%"><img src="pdf.png">&nbsp;First File Name for the test the testthe testthe testthe testthe testthe testthe </td>
-								<td width="5%">GHB</td>
-							</tr>
-						<tr>
-								<td width="6%">2.</td>
-								<td width="18%">10 Jan 2020</td>
-								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="6%">GHB</td>
-							</tr>
-							<tr>
-								<td width="6%">3.</td>
-								<td width="18%">10 Jan 2020</td>
-								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="6%">GHB</td>
-							</tr>
-						<tr>
-								<td width="6%">4.</td>
-								<td width="18%">10 Jan 2020</td>
-								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="6%">GHB</td>
-							</tr>
-						<tr>
-								<td width="6%">5.</td>
-								<td width="18%">10 Jan 2020</td>
-								<td width="55%"><img src="pdf.png">&nbsp;First File Name for the test</td>
-								<td width="6%">GHB</td>
-							</tr>
-		
 	
-	 
+			   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
+		       <c:if test = "${rowcount == 0}">
+		          
+		             <tr>
+		             
+		               <td colspan="4" align="center">
+		                    <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
+		                    
+		              </td>
+		             
+		             </tr>
+		       
+		       </c:if>
+		    
+		    
+    <tbody>  
+    
+	
+	  
+		     <% 
+		      int ctr=1;
+		     %>
+			 <c:if test = "${rowcount > 0}">
+								
+					<c:forEach var="contract" items="${gopsfilelist}">    
+									<tr>
+										<td width="4%"><%=ctr++%>.</td>
+										<td width="70%"><img src="${contract.docType}.png"> &nbsp; <a href="<%=request.getParameter("cat")%>/${contract.docName}" target="_new">
+										
+										
+										${contract.docName}
+										
+										
+										</a></td>
+										<td >${contract.docAddedDate}</td>
+										<td >${contract.docCategory}</td>
+									    
+									</tr>
+					</c:forEach>
+									
+		       </c:if>
+		       
+		        
 	
 							</tbody>
 					</table>

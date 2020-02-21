@@ -43,10 +43,36 @@ function showFlightReport(){
 
 
 function calDocumentUpdate(reportname){
-		 document.documentmaster.method="POST";
-		 document.documentmaster.action=reportname;
-	     document.documentmaster.submit();
-		 return true;
+
+		var str = reportname;
+		var re = /remove/i;
+
+		var str = reportname;
+		var pos = str.indexOf('remove');
+        if(pos != -1){
+		
+	       if(confirm("Are you sure about removing this file..??")){
+	    	 document.documentmaster.method="POST";
+	  		 document.documentmaster.action=reportname;
+	  	     document.documentmaster.submit();
+	  		 return true;
+		   }
+	       else
+		   {
+             return false;
+		   } 
+           
+	         
+	    }
+	    
+        document.documentmaster.method="POST";
+ 		document.documentmaster.action=reportname;
+ 	    document.documentmaster.submit();
+ 		return true;
+
+	    
+
+
 }
 
 
@@ -86,7 +112,7 @@ function addDocument(category){
   <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
   <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
-  <input type="hidden" id="cat" value="<%=request.getParameter("cat")%>">
+  <input type="hidden" name="cat" id="cat" value="<%=request.getParameter("cat")%>">
  
  <br>
  <br>		
@@ -95,7 +121,7 @@ function addDocument(category){
 	<div class="row" align="center">
 	
 
-		<div  align="center" style="width:55%;">
+		<div  align="center" style="width:65%;">
 			
 			<div class="panel panel-primary" style="background:rgba(255,255,255);">
 		
@@ -119,7 +145,6 @@ function addDocument(category){
 								<th>Description</th>
 								<th>Dated </th>
 								<th>Category</th>
-								<th> &nbsp</th>
 							</tr>
 						</thead>
 	
@@ -131,7 +156,7 @@ function addDocument(category){
           
              <tr>
              
-               <td colspan="5" align="center">
+               <td colspan="4" align="center">
                     <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
                     
               </td>
@@ -152,14 +177,19 @@ function addDocument(category){
 						
 			<c:forEach var="contract" items="${gopsfilelist}">    
 							<tr>
-								<td width="4%"><%=ctr++%>.</td>
-								<td width="60%"><img src="${contract.docType}.png"> &nbsp; ${contract.docName}</td>
-								<td width="15%">${contract.docAddedDate}</td>
-								<td width="8%">${contract.docCategory}</td>
-							    <td align="center"><i class="fa fa-trash" aria-hidden="true"></i>
-							    <span style="color:red;font-size:9pt;">
-							    Rem
-							    </span>
+								<td><%=ctr++%>.</td>
+								<td >
+								<img src="${contract.docType}.png"> &nbsp; <a href="<%=request.getParameter("cat")%>/${contract.docName}" target="_new">
+								
+											                   ${contract.docName}    
+								
+								</a></td>
+								
+								<td >${contract.docAddedDate}</td>
+								<td >${contract.docCategory} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fa fa-trash" aria-hidden="true"></i>
+							  		  <span style="font-size:9pt;">
+							   				 <a style="color:red;" href="javascript:void();" onClick="calDocumentUpdate('listdocuments?docid=${contract.docId}&operation=remove');">Rem </a>
+							   		 </span>
 							    </td>
 							</tr>
 			</c:forEach>
@@ -170,24 +200,22 @@ function addDocument(category){
        
 	 
 		<tr>
-					<td align="center" colspan="3">
+					<td align="right" colspan="3">
 					    <br>
 						<div class="col-xs-05">
 							<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;<b>Add New File</b></span>							
 									 <input type="file"  id="gfile"  name="gfile"   class="form-control"/>
 							 </div>
-							 									 
-							 
+								 
 				        </div>
+				    
 						</td>
 						
-							<td align="left" colspan="2" >
-							  <br>
-															 
+							<td align="left">
+							  <br>															 
                                  <span onClick="addDocument('<%=request.getParameter("cat")%>');" id="addnew" class="btn btn-primary" > &nbsp;Upload &nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
-                                    
-									
+                                  
 							</td>
 								
 				</tr>

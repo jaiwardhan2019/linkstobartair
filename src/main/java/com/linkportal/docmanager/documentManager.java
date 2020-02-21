@@ -13,9 +13,11 @@ public interface documentManager {
 	
 	
 	 //******** FOR THE GROUNDOPS  DOCUMENTS ********	
-	  public List<DocumentEntity> showAllDocumentsFromFolder(HttpServletRequest req,String foldername); 
+	  public List<DocumentEntity> showAllDocumentsFromFolder(HttpServletRequest req,String foldername);
 	  
 	  public boolean addDocumentToFolder(HttpServletRequest req,MultipartFile file)throws IOException, SQLException;
+	  
+	  public boolean removeDocumentFromFolder(int id)throws IOException, SQLException;
 	
 	 
 	

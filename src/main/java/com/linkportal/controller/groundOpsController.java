@@ -155,12 +155,69 @@ public class groundOpsController {
 			return "groundoperation/reports/flightreports"; 
 	}
 	
+	
+	
+	
+
+	
+
+    //*********************** FLIGHT REPORT SECTION ***********************
+	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
+	@RequestMapping(value = "/delayflightreport",method = {RequestMethod.POST,RequestMethod.GET}) 
+	public String GroundOpsDelayflightreport(HttpServletRequest req,ModelMap model) throws Exception{
 		
+		   //Formatting today date...
+		   Date today                     = new Date();               
+		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+		   Calendar                     c = Calendar.getInstance();  
+		   String todaydate               = (String)(formattedDate.format(c.getTime()));
+		   model.put("datop",todaydate);	        
+		   if(req.getParameter("datop") != null) {
+			   todaydate = req.getParameter("datop");
+			   model.put("datop",req.getParameter("datop"));
+		   }
+		   
+		 	   
+		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
+		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
+		   model.put("reportbody",flt.PopulateFlightReport(req.getParameter("airlinecode"), req.getParameter("airportcode"), req.getParameter("sortby"), todaydate,req.getParameter("flightno"),req.getParameter("emailid")));	
+		   //model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlinecode"),req.getParameter("airportcode"),req.getParameter("sortby"),todaydate,0,req.getParameter("emailid")));		
+				   
+		   
+		  
+	      //-------------- FOR GRAPH --------------------------------- 		     
+	      //String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlinecode"), req.getParameter("airportcode"),req.getParameter("datop"),req.getParameter("emailid"));
+	      //model.addAttribute("dataPoints",dataPoints); 
+	   	
+		   
+		   
+		    model.addAttribute("airlinecode",req.getParameter("airlinecode").toLowerCase());
+			model.put("profilelist",req.getSession().getAttribute("profilelist"));
+			model.addAttribute("emailid",req.getParameter("emailid"));
+			model.addAttribute("password",req.getParameter("password"));
+			model.put("usertype",req.getParameter("usertype"));
+			logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
+			return "groundoperation/reports/delayreport"; 
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	
 	
-	//****************** GROUND OPS DOCUMENT REPORT AND MANAGMENT ***********************************************
+	//****************** GROUND OPS DOCUMENT REPORT AND MANAGMENT GCI GCM GCR***********************************************
 	//-------THis Will be Called When GCI GCM GCR called from Ground Ops  
 	@RequestMapping(value = "/listdocuments",method = {RequestMethod.POST,RequestMethod.GET})
 	public String groundopsdocumentlist(HttpServletRequest req, ModelMap model) throws Exception {	
@@ -181,12 +238,6 @@ public class groundOpsController {
 		   }
 
 		   
-		  //******* Pupulate List of File *******************
-		   model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
-			 
-		
-		   
-		   
 		   
 		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   model.addAttribute("emailid",req.getParameter("emailid"));
@@ -198,19 +249,50 @@ public class groundOpsController {
 		   
 		   //-- This part will be called when Edit / View / Upload Event is called 
 		   if(req.getParameter("operation") != null) {			   
-			  //for view and edit mode 
-			  if(req.getParameter("operation").equals("update")) {return "groundoperation/gcigcmgcr/updatefolderdocuments";}
-			  if(req.getParameter("operation").equals("read"))   {return "groundoperation/gcigcmgcr/listalldocumentfromfolder";}
-				
-		   } // End of Operation Event.
+			  
+			   //for edit event  
+			  if(req.getParameter("operation").equals("update")) {
+				 model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+				 return "groundoperation/gcigcmgcr/updatefolderdocuments";
+			  }
+			  
+			  //for view event
+			  if(req.getParameter("operation").equals("read")){
+				 model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+				 return "groundoperation/gcigcmgcr/listalldocumentfromfolder";
+			  }
+			 
+			  // For Remove Event 
+			  if(req.getParameter("operation").equals("remove")) {
+				  
+				  if(docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))){
+					 model.put("status","Successfully Removed");
+				  }
+				  else
+				  {
+					 model.put("status","File not Removed please check with IT.");
+				  }	
+				  
+				  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));	
+				  logger.info("User id:"+req.getParameter("emailid")+" Removed Document ID:"+req.getParameter("docid"));
+				  return "groundoperation/gcigcmgcr/updatefolderdocuments";				  
+			  }// End of remove Event 
+			  
+	   } // End of Operation Event.
+	
 		   
 		   
 		   
+		   //******* Pupulate List of File *******************
+		   model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));			
 		   logger.info("User id:"+req.getParameter("emailid")+" Login to GCI - GCM - GCR Module");
 		   return "groundoperation/gcigcmgcr/listalldocumentfromfolder";
 	}		   
 
 
+	
+	
+	
 	
 	
 	//-------THis Will be Called When Add File will be Called from the GCI - GCM  - GCR  edit Screen  
