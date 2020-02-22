@@ -138,16 +138,9 @@ function addDocument(category){
 				
 				
 				<div class="panel-body">
-					<table class="table" align="center" style="background:rgba(255,255,255);">	    
-						<thead>
-							<tr>
-								<th>Sr.</th>
-								<th>Description</th>
-								<th>Dated </th>
-								<th>Category</th>
-							</tr>
-						</thead>
 	
+	
+					<table class="table" align="center" style="background:rgba(255,255,255);">	    
 	
 	
 	
@@ -174,6 +167,17 @@ function addDocument(category){
       int ctr=1;
      %>
 	 <c:if test = "${rowcount > 0}">
+						
+						
+					<thead>
+							<tr>
+								<th>Sr.</th>
+								<th>Description</th>
+								<th>Dated </th>
+								<th>Category</th>
+							</tr>
+						</thead>
+	
 						
 			<c:forEach var="contract" items="${gopsfilelist}">    
 							<tr>
@@ -204,7 +208,7 @@ function addDocument(category){
 					    <br>
 						<div class="col-xs-05">
 							<div class="input-group"> 
-								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;<b>Add New File</b></span>							
+								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;<b>Add New</b></span>							
 									 <input type="file"  id="gfile"  name="gfile"   class="form-control"/>
 							 </div>
 								 

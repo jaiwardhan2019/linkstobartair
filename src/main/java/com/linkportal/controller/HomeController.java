@@ -535,7 +535,7 @@ public class HomeController {
 		
 		  model.put("airlinelist",flt.Populate_Operational_Airline(("ALL"),req.getParameter("emailid")));		
 		  model.put("airportlist",flt.Populate_Operational_Airport("ALL",req.getParameter("emailid")));
-		  model.addAttribute("emailid",req.getAttribute("emailid"));		
+		  model.addAttribute("emailid",req.getParameter("emailid"));		
 		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
 		  model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		
@@ -564,21 +564,33 @@ public class HomeController {
 		         req.getParameter("airportCode"),req.getParameter("startDate"),req.getParameter("endDate"),
 		         req.getParameter("tolerance"),req.getParameter("delayCodeGroupCode")));
 	
-		   //--------- FOR CANCLE FLIGHTS--------------------- 
-		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlineCode"),
-			         req.getParameter("airportCode"),req.getParameter("startDate"),req.getParameter("endDate"),
-			         req.getParameter("tolerance")));
+	
 	
 		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));
+		   
+		   
+		   
+		   
+		   
+		   
+		   
 		   logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Report");
 		   return "flightreports/reliabilityActionReport";
 		   
 		   
 	}//--------------- End Of Function -------------
 			
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

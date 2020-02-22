@@ -340,7 +340,7 @@ public class groundOpsController {
 		   
 	   
 		   
-		   logger.info("User id:"+req.getParameter("emailid")+" Login to GCI - GCM - GCR Module");
+		   logger.info("User id:"+req.getParameter("emailid")+" Uploaded file to GCI - GCM - GCR Module");
 		   return "groundoperation/gcigcmgcr/updatefolderdocuments";
 	}		   
 

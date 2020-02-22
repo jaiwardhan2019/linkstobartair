@@ -106,39 +106,41 @@ function calDocumentUpdate(reportname){
 				
 				
 				<div class="panel-body">
-					<table class="table" align="center" style="background:rgba(255,255,255);">	    
-						<thead>
-							<tr>
-								<th>Sr.</th>
-								<th>Description</th>
-								<th>Dated</th>
-								<th>Category</th>
-							
-							</tr>
-	
-			   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
-		       <c:if test = "${rowcount == 0}">
-		          
-		             <tr>
-		             
-		               <td colspan="4" align="center">
-		                    <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
-		                    
-		              </td>
-		             
-		             </tr>
-		       
-		       </c:if>
-		    
-		    
-    <tbody>  
-    
+				
+				<table class="table" align="center" style="background:rgba(255,255,255);">	   
+				
+					   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
+					       <c:if test = "${rowcount == 0}">
+					          
+					             <tr>
+					             
+					               <td colspan="4" align="center">
+					                    <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
+					                    
+					              </td>
+					             
+					             </tr>
+					       
+					       </c:if>
+		    					
+		    					
 	
 	  
 		     <% 
 		      int ctr=1;
 		     %>
 			 <c:if test = "${rowcount > 0}">
+
+		    					
+					 
+				<thead>
+							<tr>
+								<th>Sr.</th>
+								<th>Description</th>
+								<th>Dated</th>
+								<th>Category</th>							
+							</tr>
+                 <tbody>
 								
 					<c:forEach var="contract" items="${gopsfilelist}">    
 									<tr>

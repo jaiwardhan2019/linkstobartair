@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
+<c:set var="userEmail" value='${userEmail}' scope="session" />
 
 <jsp:include page="../include/header.jsp" />
 
