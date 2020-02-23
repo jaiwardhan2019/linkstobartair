@@ -189,7 +189,7 @@ function addDocument(category){
 								
 								</a></td>
 								
-								<td >${contract.docAddedDate}</td>
+								<td >${contract.docAddedDate}&nbsp;&nbsp;&nbsp;&nbsp;</td>
 								<td >${contract.docCategory} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fa fa-trash" aria-hidden="true"></i>
 							  		  <span style="font-size:9pt;">
 							   				 <a style="color:red;" href="javascript:void();" onClick="calDocumentUpdate('listdocuments?docid=${contract.docId}&operation=remove');">Rem </a>
@@ -209,12 +209,16 @@ function addDocument(category){
 						<div class="col-xs-05">
 							<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;<b>Add New</b></span>							
-									 <input type="file"  id="gfile"  name="gfile"   class="form-control"/>
+									 <input type="file"  id="gfile"  name="gfile" multiple  class="form-control"/>
 							 </div>
 								 
 				        </div>
 				    
 						</td>
+		
+		
+		
+		
 						
 							<td align="left">
 							  <br>															 
@@ -222,7 +226,7 @@ function addDocument(category){
                                   
 							</td>
 								
-				</tr>
+		</tr>
 	
 							</tbody>
 					</table>

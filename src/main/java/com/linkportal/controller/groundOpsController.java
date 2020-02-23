@@ -297,11 +297,13 @@ public class groundOpsController {
 	
 	//-------THis Will be Called When Add File will be Called from the GCI - GCM  - GCR  edit Screen  
 	@RequestMapping(value = "/addfiletofolder",method = {RequestMethod.POST,RequestMethod.GET})
-	public String addfiletofolde(@RequestParam("gfile") MultipartFile file,HttpServletRequest req, ModelMap model) throws Exception {	
-		   
+	public String addfiletofolde(@RequestParam("gfile") MultipartFile[] files,HttpServletRequest req, ModelMap model) throws Exception {	
+		  
+		
+		   /*/
 		   int status=0;
 
-		   //*********WILL UPLOAD THE FILE************************
+		   //*********WILL UPLOAD SINGLE FILE************************
 		   if(docserv.addUploadFiletoDatabaseAndFolder(req,file)) {			   
 			   model.put("status","Successfully Added");	
 		   }
@@ -311,13 +313,26 @@ public class groundOpsController {
 			   
 		   }
 		   
+		  */   
+		   
+		
+		
+
+		 //*********WILL UPLOAD MULTIPLE FILE************************
+		
+		 int status=0;
+		 Arrays.asList(files).stream().forEach(file ->{
+		 try{
+			if(docserv.addUploadFiletoDatabaseAndFolder(req,file)) { model.put("status","Successfully Added"); }else{ model.put("status","Error while uploading !!!");}
+	       } catch (IOException | SQLException e) {e.printStackTrace();logger.error("While Uploading file :"+e.toString());}
+		
+		 });
+		 
+		 
 		   
 		   //******* Pupulate List of File *******************
 		   model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
-		   
-		  
-		   
-		   
+			   
 		   
 		   if(req.getParameter("cat").equals("gci")) {
 			   model.put("foldername","Ground Crew Instructions");			   

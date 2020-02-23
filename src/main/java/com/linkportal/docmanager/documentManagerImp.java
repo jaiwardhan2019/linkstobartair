@@ -81,8 +81,9 @@ public class documentManagerImp implements documentManager {
 	@Override
 	public boolean addDocumentToFolder(HttpServletRequest req, MultipartFile file) throws IOException, SQLException {
 
+	  
 		   
-	        //This Part of Code Will Create Main Folder (stobart_contract) if not exist 
+	        //This Part of Code Will Create Category Folder GCI / GCM / GCR if not exist 
 	        File uploadDir = new File(groundopsRootFolder+req.getParameter("cat").toUpperCase()+"/");
 	        if(!uploadDir.exists()) {
 	            uploadDir.mkdir();
