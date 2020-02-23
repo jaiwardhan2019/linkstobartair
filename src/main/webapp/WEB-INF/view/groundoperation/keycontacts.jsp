@@ -26,7 +26,109 @@
 	
 <br>
 <br>
+
+<div class="row" align="center">
+	
+		<div  align="center" style="width:75%;">
 		
+	
+		<div class="col-md-3 col-sm-3 col-xs-12" align="center">
+			<div class="panel panel-info panel-shadow" style="background-color:rgb(255,255,255) !important; background:url('include/images/contact/hgo.png');background-repeat:no-repeat;background-position: 115% 100%;">
+				<div class="panel-body">
+					<font style="font-weight:600;color:#0065a7;">Head of Ground Operations</font>
+					<hr style="margin-top:3px;margin-down:3px;"/>
+					<font style="color:black;font-weight:600;">Alison Smith</font>
+					<br>
+					<font style="font-size:9pt;color:black;"><i class="fa fa-envelope-o fa-fw"></i> Alison.Smith@stobartair.com</font>
+					<br><font style="font-size:9pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i>+353 868127370</font>
+				
+				</div>
+			</div>
+		</div>
+		
+		
+		
+	  <div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="panel panel-info panel-shadow" style="background-color:rgb(255,255,255) !important; background:url('include/images/contact/gos.png');background-repeat:no-repeat;background-position: 115% 100%;">
+				<div class="panel-body">
+					<font style="font-weight:600;color:#0065a7;">Ground Operations Supervisor</font>
+					<hr style="margin-top:3px;margin-down:3px;"/>
+					<font style="color:black;font-weight:600;">Niamh Clarke</font>
+					<br>
+					<font style="font-size:9pt;color:black;"><i class="fa fa-envelope-o fa-fw"></i>Niamh.clarke@stobartair.com</font>
+					<br><font style="font-size:9pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i> +353 1 844 7673</font>
+				</div>
+			</div>
+		</div>
+	
+		
+		
+		
+		<div class="col-md-3 col-sm-3 col-xs-12" align="center">
+			<div class="panel panel-info panel-shadow" style="background-color:rgb(255,255,255) !important; background:url('include/images/contact/gosm.png');background-repeat:no-repeat;background-position: 115% 100%;">
+				<div class="panel-body" >
+					<font style="font-weight:600;color:#0065a7;">Safety Manager</font>
+					<hr style="margin-top:8px;margin-down:8px;"/>
+					<font style="color:black;align:left;font-weight:600;">Rachel Crampton</font>
+					<br /><font style="font-size:9pt;color:black;"><i class="fa fa-envelope-o fa-fw"></i>Rachel.Crampton@stobartair.com</font>
+					<br /><font style="font-size:9pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i> +353 86 778 7473</font>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-md-3 col-sm-3 col-xs-12" align="center">
+			<div class="panel panel-info panel-shadow" style="background-color:rgb(255,255,255) !important; background:url('include/images/contact/gosm.png');background-repeat:no-repeat;background-position: 115% 100%;">
+				<div class="panel-body" >
+					<font style="font-weight:600;color:#0065a7;">Dublin Airport Duty Manager</font>
+					<hr style="margin-top:8px;margin-down:8px;"/>
+					<font style="color:black;align:left;font-weight:600;">Duty Manager</font>
+					<br /><font style="font-size:9pt;color:black;"><i class="fa fa-envelope-o fa-fw"></i> Dub.Dutymanager@stobartair.com</font>
+					<br /><font style="font-size:9pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i> +353 86 838 5092</font>
+				</div>
+			</div>
+		</div>
+
+ </div>
+</div>
+
+<div class="row" align="center">
+	
+		<div  align="center" style="width:75%;">
+		
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="panel panel-info panel-shadow" style="background-color:rgb(255,255,255) !important; background:url('include/images/contact/gom.png');background-repeat:no-repeat;background-position: 104% 100%;">
+				<div class="panel-body">
+					<font style="font-weight:600;color:#0065a7;">Ground Operations Managers</font>
+					<hr style="margin-top:8px;margin-down:8px;"/>
+					
+					<div class="row">
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<font style="color:black;align:left;font-weight:600;">John Dillon</font>
+							<br /><font style="font-size:9pt;color:black;"><i class="fa fa-envelope-o fa-fw"></i> John.Dillon@stobartair.com</font>
+							<br /><font style="font-size:9pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i>+353 86 140 1522</font>
+						</div>
+					
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<font style="color:black;align:left;font-weight:600;">Katherine Doogan </font>
+							<br /><font style="font-size:9pt;color:black;"><i class="fa fa-envelope-o fa-fw"></i>Katherine.Doogan@stobartair.com</font>
+							<br /><font style="font-size:9pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i> +353 86 600 2086</font>
+						</div>
+						
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<font style="color:black;align:left;font-weight:600;">Dan Evans </font>
+							<br /><font style="font-size:9pt;color:black;"><i class="fa fa-envelope-o fa-fw"></i>Dan.Evans@stobartair.com</font>
+							<br /><font style="font-size:9pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i> +44 7720 953 292</font>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+
+<!-- 	
 			
 	<div class="row" align="center">
 	
@@ -102,8 +204,7 @@
  </div>
  
  
- 
-<!-- Modal ------- 
+ <!--  
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
   Launch demo modal
 </button>
@@ -131,6 +232,10 @@
 
 
 
+
+<br>
+
+<br>
 <br>
 <br>
 

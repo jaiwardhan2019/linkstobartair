@@ -181,8 +181,17 @@ function calDocumentUpdate(reportname){
 <br>
 <br>
 <br>
-<br>
-<br>
+<c:if test = "${rowcount <= 5}">	
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>  
+</c:if>
 
 <%@include file="../../include/gopsfooter.jsp" %>
 

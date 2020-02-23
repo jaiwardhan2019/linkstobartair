@@ -101,7 +101,17 @@ public class ScheduledTasks {
     } // ------- END OF FUNCTION 
        
     
-    
+	
+	/*
+	
+	@Scheduled(cron = "0 * * * * ?")
+    public void Test() {
+    	  
+		   System.out.println("Hi there this is testing ");
+  		   
+    } // ------- END OF FUNCTION 
+   
+    */
     
     
 }

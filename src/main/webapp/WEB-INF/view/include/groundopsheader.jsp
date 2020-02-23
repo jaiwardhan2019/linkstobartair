@@ -396,9 +396,9 @@ function CalKeyContact(){
       <span class="label label-primary">Menu 2</span>
       <span class="label label-success">Menu 3</span>
        -->
-      <a href="javascript:void();" onClick="Calqpulse();"><span class="label label-success"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;File A Report</span></a>&nbsp;&nbsp;&nbsp;
-      <a href="emergencyresponseplan.pdf"  target="_blank"><span class="label label-danger"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>&nbsp;Emergency Response</span></a>&nbsp;&nbsp;&nbsp;
-      <a href="javascript:void();" onClick="CalKeyContact();" ><span class="label label-info"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;Key Contacts</span></a> &nbsp;&nbsp;&nbsp;
+      <a href="javascript:void();" onClick="Calqpulse();"><span class="label label-success"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;File A Report</span></a>&nbsp;&nbsp;
+      <a href="emergencyresponseplan.pdf"  target="_blank"><span class="label label-danger"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>&nbsp;Emergency Response</span></a>&nbsp;&nbsp;
+      <a href="javascript:void();" onClick="CalKeyContact();" ><span class="label label-info"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;Key Contacts</span></a> &nbsp;&nbsp;
 	</span>
 	
  
