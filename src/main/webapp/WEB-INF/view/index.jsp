@@ -114,7 +114,7 @@ function myFunction(){
 									
 									<div class="row">
 										<div class="col-md-12 col-sm-12 col-xs-12">
-											<h5 class="" style="font-weight:600;color:#468499;">LOGIN TO PROCEED</h5>
+											<h5 class="" style="font-weight:600;color:#468499;">LOGIN TO LINK PORTAL</h5>
 											<hr />
 										</div>
 									</div>

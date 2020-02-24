@@ -98,6 +98,7 @@ function cal_groundops_home(usertype){
 
 
 function calFlightReport(reportname){
+	   
 		 document.refisheader.method="POST";
 		 document.refisheader.action=reportname;
 	     document.refisheader.submit();
@@ -212,11 +213,11 @@ function CalKeyContact(){
 				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flightreport?airlinecode=ALL&airportcode=ALL&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Flight Report (MayFly)</a></li>
 					    </c:if>
 					    <c:if test="${profilelist.Reliablity  == 'Y'}"> 
-					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Report</a></li>
+					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliablityflightreport?airlinecode=ALL&airportcode=ALL&delayCodeGroupCode=ALL&tolerance=0&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Report</a></li>
 					    </c:if> 
 					    
 					    <c:if test="${profilelist.DelayReport  == 'Y'}"> 
-					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('delayflightreport?airlinecode=ALL&airportcode=ALL&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Delay Report</a></li>
+					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('delayflightreport?airlinecode=ALL&airportcode=ALL&tolerance=0&delayCodeGroupCode=ALL&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Delay Report</a></li>
 					    </c:if> 
 					    
 					     <c:if test="${profilelist.Daily_Summary  == 'Y'}"> 					     

@@ -466,7 +466,6 @@ function showFlightReport(){
 					      					 
 					 </td>
 					 
-					 
 					 <td>
 					    <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="ATD | Airborne Time" data-content="${fltleg.atd} | ${fltleg.airborn}"> 
 					   
@@ -658,7 +657,7 @@ function showFlightReport(){
 	<!-- START CANCEL  BODY  -->
 	<div id="tomorrow" class="tab-pane fade">
 		
-		  <table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255,0.5);" align="center">	  
+		  <table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255);" align="center">	  
    
 		<tbody>
 	     <tr align="center">

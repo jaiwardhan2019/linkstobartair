@@ -310,20 +310,7 @@ tr:nth-child(even) {
 							      </div>   
 					        </span>
 					  
-		
-				       
-				       
-				       
-				       
-				       
-				       
-				       
-				       
-				       
-				       
-				       
-				       
-				       
+		    
 				       
 				       
 				       

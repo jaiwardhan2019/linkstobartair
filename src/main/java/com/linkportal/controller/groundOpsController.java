@@ -151,18 +151,64 @@ public class groundOpsController {
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));
 			model.put("usertype",req.getParameter("usertype"));
-			logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
+			logger.info("User id:"+req.getParameter("emailid")+" Login to flightreports Report");
 			return "groundoperation/reports/flightreports"; 
+	}
+
+
+
+	//-------THis Will be Called When Reliablity Flight  Report  link is called from the Home Page ----------------- 
+	@RequestMapping(value = "/reliablityflightreport",method = {RequestMethod.POST,RequestMethod.GET}) 
+	public String GroundOpsReliablityflightreport(HttpServletRequest req,ModelMap model) throws Exception{
+		
+		   //Formatting today date...
+		   Date today                     = new Date();               
+		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+		   Calendar                     c = Calendar.getInstance();  
+		   String todaydate               = (String)(formattedDate.format(c.getTime()));
+		   model.put("startdate",todaydate);
+		   model.put("enddate",todaydate);	
+		   if(req.getParameter("startdate") != null) {			  
+			   model.put("startdate",req.getParameter("startdate"));
+			   model.put("enddate",req.getParameter("enddate"));
+			   
+		   }
+		   model.put("tolerance",req.getParameter("tolerance"));
+		 	   
+		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
+		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
+		   
+		   
+		 //--------- FOR GENERAL FLIGHTS---------------------------- 
+		   model.put("reportbody",flt.Populate_Reliablity_Report_body(req.getParameter("airlinecode"),
+		         req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("enddate"),
+		         req.getParameter("tolerance"),req.getParameter("delayCodeGroupCode")));
+	
+		   //--------- FOR CANCLE FLIGHTS--------------------- 
+		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
+			         req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("enddate"),
+			         req.getParameter("tolerance")));
+		   
+		   
+		   
+		 
+			model.put("profilelist",req.getSession().getAttribute("profilelist"));
+			model.addAttribute("emailid",req.getParameter("emailid"));
+			model.addAttribute("password",req.getParameter("password"));
+			model.put("usertype",req.getParameter("usertype"));
+			logger.info("User id:"+req.getParameter("emailid")+" Login to reliablity flight Report");
+			return "groundoperation/reports/reliablity";
+			
+			
 	}
 	
 	
 	
 	
-
 	
 
-    //*********************** FLIGHT REPORT SECTION ***********************
-	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
+
+	//-------THis Will be Called When Delay  Flight  Report  link is called from the Home Page ----------------- 
 	@RequestMapping(value = "/delayflightreport",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String GroundOpsDelayflightreport(HttpServletRequest req,ModelMap model) throws Exception{
 		
@@ -171,33 +217,35 @@ public class groundOpsController {
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar                     c = Calendar.getInstance();  
 		   String todaydate               = (String)(formattedDate.format(c.getTime()));
-		   model.put("datop",todaydate);	        
-		   if(req.getParameter("datop") != null) {
-			   todaydate = req.getParameter("datop");
-			   model.put("datop",req.getParameter("datop"));
+		   model.put("startdate",todaydate);
+		  
+		   if(req.getParameter("startdate") != null) {			  
+			   model.put("startdate",req.getParameter("startdate"));
+			   todaydate=req.getParameter("startdate");
 		   }
-		   
 		 	   
 		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
 		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
-		   model.put("reportbody",flt.PopulateFlightReport(req.getParameter("airlinecode"), req.getParameter("airportcode"), req.getParameter("sortby"), todaydate,req.getParameter("flightno"),req.getParameter("emailid")));	
-		   //model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlinecode"),req.getParameter("airportcode"),req.getParameter("sortby"),todaydate,0,req.getParameter("emailid")));		
-				   
-		   
-		  
-	      //-------------- FOR GRAPH --------------------------------- 		     
-	      //String dataPoints =chart.createPieChart_For_Flight_Report(req.getParameter("airlinecode"), req.getParameter("airportcode"),req.getParameter("datop"),req.getParameter("emailid"));
-	      //model.addAttribute("dataPoints",dataPoints); 
-	   	
 		   
 		   
-		    model.addAttribute("airlinecode",req.getParameter("airlinecode").toLowerCase());
+		   //--------- FOR GENERAL FLIGHTS---------------------------- 
+		   model.put("reportbody",flt.PopulateFlightReport(req.getParameter("airlinecode"), req.getParameter("airportcode"), "ETD_DATE_TIME",todaydate,req.getParameter("flightno"),req.getParameter("emailid")));	
+	
+		   //--------- FOR CANCLE FLIGHTS--------------------- 
+		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
+			         req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("startdate"),
+			         "0"));
+		   
+		   
+		   
+		 
 			model.put("profilelist",req.getSession().getAttribute("profilelist"));
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));
 			model.put("usertype",req.getParameter("usertype"));
-			logger.info("User id:"+req.getParameter("emailid")+" Login to flight Report");
-			return "groundoperation/reports/delayreport"; 
+			logger.info("User id:"+req.getParameter("emailid")+" Login to DELAY Flight Report");			
+			return "groundoperation/reports/delayreport";
+			
 	}
 	
 	

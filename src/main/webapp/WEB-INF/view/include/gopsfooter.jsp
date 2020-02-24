@@ -1,4 +1,30 @@
-				
+	<!----------- Tooltip & popover initialization ------->
+	<script>
+		$(document).ready(function(){
+			$('[data-toggle="tooltip"]').tooltip(); 
+			$('[data-toggle="popover"]').popover();
+
+			
+			//--Enable HTML inside POPOVER Content 
+			$(function(){
+				$('[rel="popover"]').popover({
+					container: 'body',
+					html: true,
+					content: function () {
+						var clone = $($(this).data('popover-content')).clone(true).removeClass('hide');
+						return clone;
+					}
+				}).click(function(e) {
+					e.preventDefault();
+				});
+			});
+		});
+
+
+	
+	 
+		
+	</script>				
    
 	<footer class="text-center" style="padding-top:0px;">
    

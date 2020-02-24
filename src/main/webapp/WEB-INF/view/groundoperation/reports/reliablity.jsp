@@ -6,8 +6,6 @@
 
 <head>
     <title> Dashboard |Delay Flight Report </title>    
-    <link rel="stylesheet" href="css/prism.css">
-    <link rel="stylesheet" href="css/chosen.css">
 </head>
 
 
@@ -15,20 +13,6 @@
 
 <script type="text/javascript">
 
-
-
-
-$(".chosen").chosen({
-    width: "300px",
-    enable_search_threshold: 10
-}).change(function(event)
-{
-    if(event.target == this)
-    {
-        var value = $(this).val();
-        $("#result").text(value);
-    }
-});
 
 
 
@@ -48,14 +32,16 @@ function search_progress() {
  }
 
 function showFlightReport(){
-	
-	     document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
-	     //<input type="button"  class="btn btn-primary" value="Show Report" onclick="showFlightReport();" />        
-	     //search_progress();
-		 document.DelayFlighReport.method="POST";
-		 document.DelayFlighReport.action="delayflightreport";
-	     document.DelayFlighReport.submit();
-	     return true;
+
+			 if(document.DelayFlighReport.tolerance.value == ""){document.DelayFlighReport.tolerance.value=0}
+		     document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
+		     //<input type="button"  class="btn btn-primary" value="Show Report" onclick="showFlightReport();" />        
+		     //search_progress();
+			 document.DelayFlighReport.method="POST";
+			 document.DelayFlighReport.action="reliablityflightreport";
+		     document.DelayFlighReport.submit();
+		     return true;
+
 }	
 
 </script>
@@ -72,7 +58,6 @@ function showFlightReport(){
   <input type="hidden" name="usertype" value="${usertype}">
 
     
-    
  <div class="container" align="center">
  
  
@@ -86,7 +71,7 @@ function showFlightReport(){
 				 <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">
 					   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
-					    Delay Flights Report &nbsp;&nbsp;
+					    Reliablity Report  &nbsp;&nbsp;
 					   </b></span>					 
 					 </td>
 				 </tr>
@@ -113,11 +98,10 @@ function showFlightReport(){
 										<label for="airlineCode">Departure Airport:</label>
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fa fa-plane"></i></span>							
-											<select  data-placeholder="Type Station Code or Name.." class="chosen-select form-control" multiple id="airportcode" name="airportcode">
-									            <option value=""></option>
-									                   ${airportlist}	
-										</select>						
-															
+												
+												<select id="airportcode" name="airportcode" class="form-control">												
+													     ${airportlist}
+							                    </select>   
 									
 									</div>
 								</div>
@@ -131,7 +115,7 @@ function showFlightReport(){
 					<td>
 				             
 		               <div class="col-xs-12">
-							<label for="startDate">Flight Date:</label>
+							<label for="startDate">Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
 								<input type="date" id="startDate" name="startdate" class="form-control datepicker" maxlength="12"
@@ -141,13 +125,13 @@ function showFlightReport(){
 								
 								
 				       </td>
-	       				
+	<!-- 		       				
 					<td>
 							             
 							<div class="col-xs-12">
 										<label> Flight No </label>
 										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>	
+											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
 													<input type="text"  name="flightno" id="flightno" class="form-control" value="">					
 															
 										</div>
@@ -156,11 +140,65 @@ function showFlightReport(){
 	    
 							
 				       </td>
+		-->
+		
+							<td>
+				             
+		               <div class="col-xs-12">
+							<label for="startDate">End Date:</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
+								<input type="date" id="endDate" name="enddate" class="form-control datepicker" maxlength="12"
+								    value="${enddate}" placeholder="(DD/MM/YYYY)"/>
+							</div>	
+						</div>
+								
+								
+				       </td>
 				       
 				       
 				       
 				     </tr>					 
 				     
+				  <tr align="left"> 
+				  
+				     
+				  
+				     					
+					<td >
+				             
+				             
+				         <div class="col-xs-12">
+							<label for="sortBy">Delay Code Group:</label> 
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-text-height" aria-hidden="true"></i></span>
+								<select id="delayCodeGroupCode" name="delayCodeGroupCode" class="form-control">
+								<option value="ALL">All Delay Codes</option>
+									
+										<option value="A1" >Ground Ops</option>
+									
+										<option value="AX" >Stobart Attributable Delays</option>
+									
+										<option value="AY" >Non Stobart Delays</option>
+	
+									
+								</select>
+							</div>
+						</div>
+				       </td>
+				       
+				       			  
+	                <td bgcolor="white">
+				     	<label for="delayGroupCode">Tolerance:</label>&nbsp; <span style="font-size:80%;color:green;font-weight: 700;"> >=  Minutes</span>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-hand-stop-o"></i></span>
+								<input type="text" id="tolerance" name="tolerance"  class="form-control" maxlength="9" value="${tolerance}" /> 
+								
+						</div>
+				          
+		          </td>			         
+	
+	 </tr>
 	 
 	 <tr >
 				     					
@@ -193,7 +231,6 @@ function showFlightReport(){
 </div>	
 <br>
 <br>
- 
  
  
  
@@ -233,7 +270,12 @@ function showFlightReport(){
 					    Flt. No	
 					     </b></span>					 
 					 </td>
-				 <td bgcolor="#0070BA">
+					 <td bgcolor="#0070BA">
+					   <span style="color:white;"> <b> 
+					    Type	
+					     </b></span>					 
+					 </td>
+					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
 					      Aircraft Reg	
 					     </b></span>					 
@@ -249,6 +291,22 @@ function showFlightReport(){
 					     STA	
 					     </b></span>					 
 					 </td>
+					 <td bgcolor="#0070BA">
+					   <span style="color:white;"> <b> 
+					     ATD	
+					     </b></span>					 
+					 </td>
+					 <td bgcolor="#0070BA">
+					   <span style="color:white;"> <b> 
+					      ATA	
+					     </b></span>					 
+					 </td>
+					 
+					 <td bgcolor="#0070BA">
+					   <span style="color:white;"> <b> 
+					     ATA - ATD
+					     </b></span>					 
+					 </td>
 					 
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
@@ -260,10 +318,15 @@ function showFlightReport(){
 					      ARR	
 					     </b></span>					 
 					 </td>
+					 <td bgcolor="#0070BA">
+					   <span style="color:white;"> <b> 
+					       TOB
+					     </b></span>					 
+					 </td>
 					 
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					    IATA Delay Code Group	
+					     Delay Group	
 					     </b></span>					 
 					 </td>
 					 
@@ -283,46 +346,6 @@ function showFlightReport(){
 					     Delay Remark 
 					     </b></span>					 
 					 </td>
-					 
-					 <td bgcolor="#0070BA">
-					   <span style="color:white;"> <b> 
-					     Action   
-					     </b></span>					 
-					 </td>
-					 
-					 <td bgcolor="#0070BA">
-					   <span style="color:white;"> <b> 
-					     Status 
-					     </b></span>					 
-					 </td>
-	
-					 <td bgcolor="#0070BA">
-					   <span style="color:white;"> <b> 
-					     Comment  
-					     </b></span>					 
-					 </td>
-					 <td bgcolor="#0070BA">
-					   <span style="color:white;"> <b> 
-					     Days Open 
-					     </b></span>					 
-					 </td>
-	
-					 <td bgcolor="#0070BA">
-					   <span style="color:white;"> <b> 
-					     Date Close 
-					     </b></span>					 
-					 </td>
-					 
-					 
-					 <td bgcolor="#0070BA">
-					   <span style="color:white;"> <b> 
-					     &nbsp;
-					     </b></span>					 
-					 </td>
-					 
-					 
-	
-					 
 				 </tr>
 				 
 				 
@@ -357,42 +380,95 @@ function showFlightReport(){
 				
 					 <td>
 					    
-					        ${fltleg.aircraftReg} 
+					      ${fltleg.aircraftType} 
 					      					 
 					 </td>
 					 
 					 <td>
 					    
-					        ${fltleg.std}					 
+					         ${fltleg.aircraftReg} 
+									    
+					        <c:set var = "ftlreg" scope = "session" value = "${fltleg.aircraftReg}"/>
+						      <c:if test = "${ftlreg == null}">
+						           <b> <span style="color:red;"> <c:out value = "CANC-"/>${fltleg.aircraftType}</span></b>
+						      </c:if>
+					      					 
 					 </td>
 
 					 <td>
-					     ${fltleg.sta} 
-					  
+					    
+					    ${fltleg.std}
 					      					 
 					 </td>
 					 
 					 <td>
 					    
-					      ${fltleg.from}	 
+					    
+					    ${fltleg.sta} 
+					    
+					 
+					      					 
 					 </td>
 					 
 					 <td>
 					        
-						    ${fltleg.to}   
+					        <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover" 
+					             title="ATD | Airborne Time" data-content="${fltleg.atd} | ${fltleg.airborn}">  
+					             ${fltleg.atd}
+					        </a>
+					     
+					      					 
+					 </td>
+					 
+					 <td>
+					    
+					     <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Landing Time | ATA" data-content="${fltleg.touchdown} | ${fltleg.ata}">${fltleg.ata}</a>
+					      					 
+					 </td>
+					 
+					 		 
+					 <td>
+	                       
+	                         ${fltleg.getAtaMinusAtd()}
+		                
+					 
+					 </td>
+					 
+			
+					 
+					 <td>
+					    
+					        ${fltleg.from}
+					      					 
+					 </td>
+					 
+					 <td>
+					    
+					       ${fltleg.to}
+					      					 
+					 </td>
+					 
+					 <td>
+					        ${fltleg.totalOnBoard}
 					      					 
 					 </td>
 					 
 					 <td align="left">
-				 
+					 
                          <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Detail - Group" data-content="${fltleg.IATA_DelCodeGroup()}">
+			              
 			               <c:set var="string1" value="${fltleg.IATA_DelCodeGroup()}"/>
-                            <c:set var="string2" value="${fn:substring(string1, 0,18)}" />
+                            <c:set var="string2" value="${fn:substring(string1, 0,16)}" />
 			                   ${string2}
 			             </a>
-			     	 </td>
+			     
+					      					 
+					 </td>
 					 
-					 		 
+					 
+					 
+					 
+	 
 					 <td align="left">
 					     
 					   <c:set var = "delaycode"  value = "${fn:length(fltleg.delayCode1)}"/>   
@@ -443,22 +519,22 @@ function showFlightReport(){
 					        
 					      </c:if>
 	      				      					 
-		                       
-	                      
-					 
 					 </td>
-					 
-			
+				  
 					 
 					 <td>
-					    
-					       ${fltleg.getTotalDelayTime()}
+					      ${fltleg.getTotalDelayTime()}
 					      					 
 					 </td>
 					 
-					 <td>
-					    
-					    				   
+					 
+					 
+					 
+					 
+					 
+					 <td>		
+						      
+						   
 						         
 						       <c:if test="${fn:length(fltleg.getFlightNoteRemarks()) > 0}">
 						           	
@@ -476,47 +552,12 @@ function showFlightReport(){
 						                     %>
 								  </c:if>	
 									      
-					
-					     
-					      					 
-					 </td>
-					 
-					 <td>
-					        ?????
-					      					 
-					 </td>
-					 
-					 <td align="left">
-					 
-					    ???
-					      					 
-					 </td>
-					 
-					 
-					 
-					 
-	 
-					 <td align="left">
-				       ???
-				    </td>
-				  
-					 
-					 <td>
-					     
-					     ??
-					      					 
-					 </td>
-					 
-					 
-					 <td>		
-						      
-		                    Close Date
+					      
 					 </td>
 				 
-			     <td>
-				     	   <a href="javascript:void();"><span class="label label-success"  onClick="update_contract();" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>  Comment </b></span></a>
-				     
-				     </td>
+
+				 
+				 
 				  
 				  
 				  
@@ -550,7 +591,7 @@ function showFlightReport(){
    <!-- SECOND TAB FOR THE CANCLE FLIGHTS  -->
    	<div id="menu2" class="tab-pane fade"> 
    	
- 	<table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255);" align="left">	
+ 	<table class="table table-striped table-bordered" border="1" style="width: 100%;" align="left">	
 		
 	     <tr align="center">
 				     
@@ -829,17 +870,16 @@ function showFlightReport(){
  
 
 <script>
-var input = document.getElementById("flightno");
+var input = document.getElementById("tolerance");
 input.addEventListener("keyup", function(event) {
   if (event.keyCode == 13) {
    event.preventDefault();
+   if(document.DelayFlighReport.tolerance.value == ""){document.DelayFlighReport.tolerance.value=0}
    showFlightReport();
   }
 });
 </script>
-  <script src="js/chosen.jquery.js" type="text/javascript"></script>
-  <script src="js/prism.js" type="text/javascript" charset="utf-8"></script>
-  <script src="js/init.js" type="text/javascript" charset="utf-8"></script> 
+ 
 </body>
 
 <br>

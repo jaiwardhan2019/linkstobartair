@@ -146,7 +146,7 @@ public class flightReportsImp implements flightReports{
 			   
 		   
 		   
-		   String stationlistwithcode ="<option value='ALL'>All Airport</option>"; 
+		   String stationlistwithcode ="<option value='ALL' selected>All Airport</option>"; 
 		   SqlRowSet rowst =  jdbcTemplateSqlServer.queryForRowSet(sqlforoperationalairport);
 		   while (rowst.next()) {
 		 		 if(airportcode.trim().equals(rowst.getString("STN").trim())) {			    	
@@ -275,10 +275,9 @@ public class flightReportsImp implements flightReports{
 
 	@Override
 	public List<fligthSectorLog> Populate_Reliablity_Report_body(String airline, String airport,
-		   String startDate, String endDate, String tolerance, String delayCodeGroupCode) {
+		   String startDate, String endDate, String tolerance, String delayCodeGroupCode) {	
 		   linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();
 		   String sql=sqlb.builtReliabilityReportSQL(airline,airport,startDate,endDate,tolerance,delayCodeGroupCode);
-		  
 		   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(sql,new flightSectorLogRowmapper());		
 		   sql=null;
 		   sqlb=null;
