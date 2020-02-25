@@ -8,7 +8,7 @@
     <title> Dashboard |Delay Flight Report </title>    
 </head>
 
-<script src="https://code.jquery.com/jquery-1.6.2.min.js"> </script>	
+
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 

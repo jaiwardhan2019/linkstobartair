@@ -216,7 +216,7 @@ function showFlightReport(){
    
    <div id="menu1" class="tab-pane fade in active">					
 
-  	<table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255,0.5);" align="left">	
+  	<table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255);" align="left">	
 		      
   
  
@@ -280,7 +280,7 @@ function showFlightReport(){
 
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					     Delay Remark 
+					     Remark 
 					     </b></span>					 
 					 </td>
 					 
@@ -383,7 +383,7 @@ function showFlightReport(){
 					      					 
 					 </td>
 					 
-					 <td align="left">
+					 <td align="left" width="12%">	
 				 
                          <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Detail - Group" data-content="${fltleg.IATA_DelCodeGroup()}">
 			               <c:set var="string1" value="${fltleg.IATA_DelCodeGroup()}"/>
@@ -508,13 +508,13 @@ function showFlightReport(){
 					 </td>
 					 
 					 
-					 <td>		
+					 <td width="7%">		
 						      
 		                    Close Date
 					 </td>
 				 
 			     <td>
-					           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"> <i   class="fa fa-pencil-square-o" aria-hidden="true" ></i> Comment</button>
+					           <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"> <i   class="fa fa-pencil-square-o" aria-hidden="true" ></i></button>
 
 
 
