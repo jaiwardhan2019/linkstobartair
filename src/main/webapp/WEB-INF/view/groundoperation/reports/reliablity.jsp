@@ -8,6 +8,7 @@
     <title> Dashboard |Delay Flight Report </title>    
 </head>
 
+<script src="https://code.jquery.com/jquery-1.6.2.min.js"> </script>	
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
@@ -44,6 +45,46 @@ function showFlightReport(){
 
 }	
 
+
+
+
+//*** Here this function will update data in the form to database and write back to the DIV 
+function Download_ExcelReport(){
+
+	  document.getElementById("downloading").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Downloading..&nbsp;&nbsp;";
+      var urldetail ="CreateExcelReliabilityReport?airlinecode="+document.getElementById("airlinecode").value; 
+      urldetail = urldetail +"&airportcode="+document.getElementById("airportcode").value;
+      urldetail = urldetail +"&startdate="+document.getElementById("startdate").value;		
+      urldetail = urldetail +"&enddate="+document.getElementById("enddate").value;	
+      urldetail = urldetail +"&emailid="+document.getElementById("emailid").value;		
+	
+      $.ajax({
+          
+ 		  url : urldetail,
+		  type:"POST",
+		  success : function(result)
+		  {
+				//document.getElementById("downloadstatus").style.display = "none";
+          	    document.getElementById("downloading").innerHTML = "<i class='fa fa-file-excel-o' aria-hidden='true'></i>&nbsp;&nbsp;<b>Download Excel Report</b>&nbsp;&nbsp;";
+          	    window.location = document.getElementById("emailid").value+"/viewExcelReliabilityReportFlights.xls";	           
+                          
+			}// ------ END OF SUCCESS ----  
+
+   }); //----- END OF AJAX FUNCTION ------- 
+
+
+
+	
+
+}//-------- END OF FUNCTION ---------------
+
+
+
+
+
+
+
+
 </script>
 
 
@@ -51,9 +92,9 @@ function showFlightReport(){
 <body>
 
  
- <form name="DelayFlighReport" id="DelayFlighReport">   
+ <form name="DelayFlighReport" id="DelayFlighReport" method="POST">   
   
-  <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
+  <input type="hidden" id="emailid" name="emailid" value="<%=request.getParameter("emailid")%>">
   <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
 
@@ -118,7 +159,7 @@ function showFlightReport(){
 							<label for="startDate">Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="startDate" name="startdate" class="form-control datepicker" maxlength="12"
+								<input type="date" id="startdate" name="startdate" class="form-control datepicker" maxlength="12"
 								    value="${startdate}" placeholder="(DD/MM/YYYY)"/>
 							</div>	
 						</div>
@@ -148,7 +189,7 @@ function showFlightReport(){
 							<label for="startDate">End Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="endDate" name="enddate" class="form-control datepicker" maxlength="12"
+								<input type="date" id="enddate" name="enddate" class="form-control datepicker" maxlength="12"
 								    value="${enddate}" placeholder="(DD/MM/YYYY)"/>
 							</div>	
 						</div>
@@ -205,6 +246,8 @@ function showFlightReport(){
 			<td align="center" colspan="2">
 						   
 				 <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
+		         &nbsp;
+		         <button type="button" onClick="Download_ExcelReport();" class="btn btn-success" id="downloading"><b>Download Excel Report</b>&nbsp;&nbsp;<i class="fa fa-file-excel-o" aria-hidden="true"></i>	</button>	
 		                     
 				    <span style="display:none" id="searchbutton1">
 					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">

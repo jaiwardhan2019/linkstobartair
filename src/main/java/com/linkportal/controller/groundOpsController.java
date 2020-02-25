@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +46,7 @@ import com.linkportal.fltreport.flightReports;
 import com.linkportal.graphreport.piechart;
 import com.linkportal.groundops.gopsAllapi;
 import com.linkportal.groundops.refisUsers;
+import com.linkportal.reports.excel.ReportMaster;
 import com.linkportal.security.EncryptDecrypt;
 
 
@@ -71,7 +76,12 @@ public class groundOpsController {
 	@Autowired
 	DocumentService  docserv;
 
-	
+
+	@Autowired
+	ReportMaster excel;
+
+
+	@Value("${spring.operations.excel.reportsfileurl}") String filepath;
 	
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);
@@ -206,6 +216,50 @@ public class groundOpsController {
 	
 	
 	
+	//--------- THIS PART WILL DO DB UPDATE FROM THE AJAX  
+	@RequestMapping(value = "/CreateExcelReliabilityReport",method = {RequestMethod.POST,RequestMethod.GET}) 
+	public void CreateExcelReliabilityReport(ModelMap model,HttpServletRequest req,HttpServletResponse res) throws Exception{
+
+	 	   
+		excel.Populate_Reliablity_Report_ExcelFormat(req.getParameter("airlinecode"),
+				req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("enddate"),
+				req.getParameter("tolerance"),req.getParameter("delayCodeGroupCode"),req.getParameter("emailid"));	
+		   
+		        
+        
+	//----------------------- Here Below is the File  Download Code --------------------
+	        /*
+		     String filename="viewExcelReliabilityReportFlights.xls";
+		 	  res.setContentType("text/html");  
+		      PrintWriter out = res.getWriter();  
+		         
+
+		      res.setContentType("APPLICATION/OCTET-STREAM");   
+		      res.setHeader("Content-Disposition","attachment; filename=\"" + filename.trim() + "\"");
+		      FileInputStream fileInputStream = new FileInputStream(filepath +req.getParameter("emailid")+"/"+filename.trim());  
+		      int i;   
+		      while ((i=fileInputStream.read()) != -1) { out.write(i); }
+		      fileInputStream.close();   
+		      out.close();
+		      */   
+		      logger.info(req.getParameter("emailid")+" : Have Download the Reliablity Report on:"+ new Date()); 
+	      
+    
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 	//-------THis Will be Called When Delay  Flight  Report  link is called from the Home Page ----------------- 
@@ -233,8 +287,7 @@ public class groundOpsController {
 	
 		   //--------- FOR CANCLE FLIGHTS--------------------- 
 		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
-			         req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("startdate"),
-			         "0"));
+			         req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("startdate"),"0"));
 		   
 		   
 		   

@@ -6,7 +6,7 @@
 <title>Ajax in Spring MVC</title>
 	
 	
-<script   src="https://code.jquery.com/jquery-1.6.2.min.js"> </script>	
+<script src="https://code.jquery.com/jquery-1.6.2.min.js"> </script>	
 	
 	
 <script type="text/javascript">

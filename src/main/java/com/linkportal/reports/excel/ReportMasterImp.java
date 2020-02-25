@@ -179,7 +179,11 @@ public class ReportMasterImp implements ReportMaster {
 		//------------- Here Writing Body of the Report -------------------
 		row = sheet.createRow( rowNumber++ ) ;
         linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();
-	    String firstsheetsql=sqlb.builtExcelReliabilityReportSQL(airline.toUpperCase(), airport, startDate, endDate);
+        
+       
+        String firstsheetsql=sqlb.builtExcelReliabilityReportSQL(airline.toUpperCase(), airport, startDate, endDate);
+	    
+        
 	    List<fligthSectorLog>  flightsec = jdbcTemplate.query(firstsheetsql,new flightSectorLogRowmapper());	
 		    
 	   

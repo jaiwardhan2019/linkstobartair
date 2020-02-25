@@ -514,8 +514,11 @@ function showFlightReport(){
 					 </td>
 				 
 			     <td>
-				     	   <a href="javascript:void();"><span class="label label-success"  onClick="update_contract();" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>  Comment </b></span></a>
-				     
+					           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"> <i   class="fa fa-pencil-square-o" aria-hidden="true" ></i> Comment</button>
+
+
+
+				          
 				     </td>
 				  
 				  
@@ -848,5 +851,44 @@ input.addEventListener("keyup", function(event) {
 <%@include file="../../include/gopsfooter.jsp" %>
 
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Flight No : EI 3245</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Status:</label>
+
+				<div class="form-check">
+				  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+				
+				    Open
+				
+				  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+				    Close
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
