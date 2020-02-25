@@ -304,7 +304,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 			  <a  title="HR Management System." onClick="CalHrManagement();" >
 			 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 						<div class="panel panel-info btn-default panel-shadow">
-							<div class="panel-body" style="color:#0071BA;">
+							<div class="panel-body"  style="color:green">
 							<i class="fa fa-handshake-o fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">Cascade</span>
 							
 							</div>

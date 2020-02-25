@@ -145,7 +145,7 @@ function calDocumentUpdate(reportname){
 					<c:forEach var="contract" items="${gopsfilelist}">    
 									<tr>
 										<td width="4%"><%=ctr++%>.</td>
-										<td width="70%"><img src="${contract.docType}.png"> &nbsp; <a href="<%=request.getParameter("cat")%>/${contract.docName}" target="_new">
+										<td width="70%"><img src="${contract.docType}.png"> &nbsp; <a href="<%=request.getParameter("cat").toUpperCase()%>/${contract.docName}" target="_new">
 										
 										
 										${contract.docName}

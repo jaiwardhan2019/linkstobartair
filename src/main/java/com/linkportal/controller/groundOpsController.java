@@ -227,7 +227,7 @@ public class groundOpsController {
 		   
 		        
         
-	//----------------------- Here Below is the File  Download Code --------------------
+	//----------------------- Here Below is the File  Download Code not working with the AJAX cal --------------------
 	        /*
 		     String filename="viewExcelReliabilityReportFlights.xls";
 		 	  res.setContentType("text/html");  
@@ -368,14 +368,16 @@ public class groundOpsController {
 				  
 				  if(docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))){
 					 model.put("status","Successfully Removed");
+					 logger.info("User id:"+req.getParameter("emailid")+" Removed Document ID:"+req.getParameter("docid"));
 				  }
 				  else
 				  {
 					 model.put("status","File not Removed please check with IT.");
+					 logger.error("User id:"+req.getParameter("emailid")+"Couldnt Removed Document ID:"+req.getParameter("docid"));
 				  }	
 				  
 				  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));	
-				  logger.info("User id:"+req.getParameter("emailid")+" Removed Document ID:"+req.getParameter("docid"));
+				  
 				  return "groundoperation/gcigcmgcr/updatefolderdocuments";				  
 			  }// End of remove Event 
 			  

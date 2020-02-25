@@ -183,7 +183,7 @@ function addDocument(category){
 							<tr>
 								<td><%=ctr++%>.</td>
 								<td >
-								<img src="${contract.docType}.png"> &nbsp; <a href="<%=request.getParameter("cat")%>/${contract.docName}" target="_new">
+								<img src="${contract.docType}.png"> &nbsp; <a href="<%=request.getParameter("cat").toUpperCase()%>/${contract.docName}" target="_new">
 								
 											                   ${contract.docName}    
 								

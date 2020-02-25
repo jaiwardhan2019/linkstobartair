@@ -154,19 +154,23 @@ public class documentManagerImp implements documentManager {
 
 
 	@Override
-	public boolean removeDocumentFromFolder(int docId) throws IOException, SQLException {
-			
-		//1.Fetch File detail from table
+	public boolean removeDocumentFromFolder(int docId) throws IOException  {
+		
+		try {
+		
+		  //1.Fetch File detail from table
    	    SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name , doc_path ,  doc_category from Gops_Document_Master where doc_id="+docId);
 		if(result.next()) {
-		     Path path = Paths.get(groundopsRootFolder+"/"+result.getString("doc_category")+"/"+result.getString("doc_name").replaceAll("['\\\\/:*&?\"<>|]",""));
-		     File ff = new File(path.toString());
-		     //2Once file is removed from folder remove entry from table
+		     Path path = Paths.get(groundopsRootFolder+"/"+result.getString("doc_category")+"/"+result.getString("doc_name"));
+			     File ff = new File(path.toString());
+		     //2 Once file is removed from folder remove entry from table
 		     if(ff.delete()){
 				jdbcTemplate.execute("delete from Gops_Document_Master where doc_id="+docId);
 		     }
          }
 		return true;
+		
+		}catch (Exception e) {e.printStackTrace();logger.error("While Removing file :"+e.toString());return false;}  
 	}
 
 
