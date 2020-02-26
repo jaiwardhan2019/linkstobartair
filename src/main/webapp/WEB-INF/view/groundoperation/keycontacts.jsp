@@ -97,7 +97,7 @@
 		<div  align="center" style="width:75%;">
 		
 
-		<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="col-md-8 col-sm-8 col-xs-12">
 			<div class="panel panel-info panel-shadow" style="background-color:rgb(255,255,255) !important; background:url('include/images/contact/gom.png');background-repeat:no-repeat;background-position: 104% 100%;">
 				<div class="panel-body">
 					<font style="font-weight:600;color:#0065a7;">Ground Operations Managers</font>
@@ -125,6 +125,38 @@
 				</div>
 			</div>
 		</div>
+		
+		
+		
+		
+		
+		<div class="col-md-4 col-sm-4 col-xs-12" align="center">
+			<div class="panel panel-info panel-shadow" style="background-color:rgb(255,255,255) !important; background:url('include/images/contact/gosm.png');background-repeat:no-repeat;background-position: 115% 100%;">
+				<div class="panel-body" >
+					<font style="font-weight:600;color:#0065a7;">Some Usefull Contacts</font>
+					<hr style="margin-top:8px;margin-down:8px;"/>
+					<font style="color:black;align:left;font-weight:300;">Ops. Controller : </font><font style="font-size:10pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i>+353-1-8447617</font>
+					<br/>
+					<font style="color:black;align:left;font-weight:300;">Ops. Supervisor : </font><font style="font-size:10pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i>+353-1-8447602</font>
+					<br/>
+					<font style="color:black;align:left;font-weight:300;">C.H. Co-ordinator : </font><font style="font-size:10pt;color:black;"><i class="fa fa-volume-control-phone fa-fw"></i>+353-1-8447618</font>
+					<br/>
+					
+					
+					
+					</div>
+			</div>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	</div>	
 </div>
 
@@ -235,6 +267,7 @@
 
 <br>
 
+<br>
 <br>
 <br>
 <br>

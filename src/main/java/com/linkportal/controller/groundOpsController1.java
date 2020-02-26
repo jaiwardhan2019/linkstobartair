@@ -51,7 +51,7 @@ import com.linkportal.security.EncryptDecrypt;
 
 
 @Controller
-public class groundOpsController {
+public class groundOpsController1 {
 
 	
 	@Autowired
