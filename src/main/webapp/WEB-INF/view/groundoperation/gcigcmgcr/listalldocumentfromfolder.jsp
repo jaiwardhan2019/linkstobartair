@@ -80,7 +80,7 @@ function calDocumentUpdate(reportname){
 		
 				
 				
-			   <c:if test="${profilelist.gopsadmin  == 'Y'}">
+			   <c:if test="${profilelist.docmanager  == 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
 						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=update');">${foldername}</a>
 						    &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -91,7 +91,7 @@ function calDocumentUpdate(reportname){
 				
 				
 				
-			   <c:if test="${profilelist.gopsadmin  != 'Y'}">
+			   <c:if test="${profilelist.docmanager  != 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
 						<h3 class="panel-title">${foldername}	
 						 		    
@@ -138,7 +138,7 @@ function calDocumentUpdate(reportname){
 								<th>Sr.</th>
 								<th>Description</th>
 								<th>Dated</th>
-								<th>Category</th>							
+								<th align="center">Category</th>							
 							</tr>
                  <tbody>
 								
@@ -153,7 +153,7 @@ function calDocumentUpdate(reportname){
 										
 										</a></td>
 										<td >${contract.docAddedDate}</td>
-										<td >${contract.docCategory}</td>
+										<td align="center">${contract.docCategory}</td>
 									    
 									</tr>
 					</c:forEach>

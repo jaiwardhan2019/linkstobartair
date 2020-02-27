@@ -127,7 +127,7 @@ function addDocument(category){
 		
 				
 				
-			   <c:if test="${profilelist.gopsadmin  == 'Y'}">
+			   <c:if test="${profilelist.docmanager  == 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
 						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=read');">${foldername}</a>
 						    <i class="fa fa-eye" aria-hidden="true"></i>
@@ -173,7 +173,7 @@ function addDocument(category){
 							<tr>
 								<th>Sr.</th>
 								<th>Description</th>
-								<th>Dated </th>
+								<th >Dated </th>
 								<th>Category</th>
 							</tr>
 						</thead>
@@ -181,7 +181,7 @@ function addDocument(category){
 						
 			<c:forEach var="contract" items="${gopsfilelist}">    
 							<tr>
-								<td><%=ctr++%>.</td>
+								<td width="3%"><%=ctr++%>.</td>
 								<td >
 								<img src="${contract.docType}.png"> &nbsp; <a href="<%=request.getParameter("cat").toUpperCase()%>/${contract.docName}" target="_new">
 								

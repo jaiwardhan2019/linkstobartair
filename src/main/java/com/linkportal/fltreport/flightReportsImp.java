@@ -278,6 +278,9 @@ public class flightReportsImp implements flightReports{
 		   String startDate, String endDate, String tolerance, String delayCodeGroupCode) {	
 		   linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();
 		   String sql=sqlb.builtReliabilityReportSQL(airline,airport,startDate,endDate,tolerance,delayCodeGroupCode);
+		   
+		
+		   
 		   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(sql,new flightSectorLogRowmapper());		
 		   sql=null;
 		   sqlb=null;

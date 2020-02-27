@@ -146,7 +146,9 @@ public class LinkUsersImp implements linkUsers{
 								if(rs.getString("SUB_PROFILE").equals("StaffTravel")) {mapRet.put("StaffTravel", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Contract")) {mapRet.put("Contract", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Refis")) {mapRet.put("Refis", rs.getString("ACTIVE_STATUS"));}
-								if(rs.getString("ADMIN_STATUS").equals("Y")) {mapRet.put("admin","Y");}	  	
+								if(rs.getString("ADMIN_STATUS").equals("Y")) {mapRet.put("admin","Y");}	 
+								if(rs.getString("SUB_PROFILE").equals("docmanager")) {mapRet.put("docmanager", rs.getString("ACTIVE_STATUS"));}
+								
 							    
 							    
 							}//------ End of While 

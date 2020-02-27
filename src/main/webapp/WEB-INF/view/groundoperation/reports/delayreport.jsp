@@ -514,9 +514,10 @@ function showFlightReport(){
 					 </td>
 				 
 			     <td>
-					           <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"> <i   class="fa fa-pencil-square-o" aria-hidden="true" ></i></button>
-
-
+					          
+					          <input  type="button" onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.getFlightDatop()}','${fltleg.from}','${fltleg.to}');" value="Open ">
+					         
+                                    
 
 				          
 				     </td>
@@ -845,50 +846,135 @@ input.addEventListener("keyup", function(event) {
   <script src="js/init.js" type="text/javascript" charset="utf-8"></script> 
 </body>
 
+
+<script>
+
+  function open_model_toAdd_Comment(flightid,datop,fromstn,tostn){
+
+	  document.getElementById("flightid").innerHTML = flightid+"   ("+fromstn+" - "+tostn+")";
+	  document.getElementById("fromstn").innerHTML = " Date: "+datop;
+
+	  
+	  
+	  document.getElementById("flightmodelbutton").click();
+  }
+
+
+</script>
+
+
+
 <br>
 <br>
 
 <%@include file="../../include/gopsfooter.jsp" %>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+
+<button style="display:none;" id="flightmodelbutton" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="exampleModalLabel">Flight No : EI 3245</h2>
+      
+       
+      <div class="modal-header" >
+        <h2 class="modal-title" style="color:#0070BA;" id="flightid"></h2> 
+         <h4 style="color:black;" class="modal-title" id="fromstn"></h4>
+        
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      
       <div class="modal-body">
+      
+          <table class="table table-striped table-bordered" border="1" style="width:100%;background:rgba(255,255,255);" align="left">	
+	         <tr>
+		           <td bgcolor="#0070BA" width="12%"> <span style="color:white;"> <b>Date</b></span></td>
+		           <td bgcolor="#0070BA"  ><span style="color:white;"> <b>Feedback </b></span></td>
+		           <td bgcolor="#0070BA" width="15%"> <span style="color:white;"> <b> Added By</b></span></td>           
+	         </tr>
+	         <tr >
+	         <td >  20-Jan-2020</td>
+	         <td >  
+	                 <span style="font-size: 11px;">
+	                 Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment..
+	                 Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment..
+	                 </span>
+	         </td>
+	         <td > Jai.wardhan@stobartair.com</td>
+	         
+	         </tr>
+	         <tr >
+	         <td >  20-Jan-2020</td>
+	         <td >  Some Comment.. Some Comment.. Some Comment.. 
+	         </td>
+	         <td > Jai.wardhan@stobartair.com</td>
+	         
+	         </tr>
+		         <tr >
+	         <td >  20-Jan-2020</td>
+	         <td >  Some Comment.. Some Comment.. Some Comment..
+	         </td>
+	         <td > Jai.wardhan@stobartair.com</td>
+	         
+	         </tr>
+		         
+	         
+	         
+         </table>
+        <br>
+      		  
+      
         <form>
-          <div class="form-group">
+        
+
+        
+         <div class="form-group">
             <label for="recipient-name" class="col-form-label">Status:</label>
 
 				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-				
+				  <input class="form-check-input" type="radio" name="exampleRadios" id="Status" value="open" checked>				
 				    Open
-				
-				  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+				  <input class="form-check-input" type="radio" name="exampleRadios" id="Status" value="close">
 				    Close
           </div>
+        </div>  
+           
+          
+           
+       <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Action:</label>
+				<div  >
+				    <select id="action" class="form-control">
+			           <option selected>Choose...</option>
+			           <option value="Taken"> Taken</option>
+			           <option value="Ongoing"> Ongoing</option>
+			         </select>
+			   </div>
+      </div>      
+
           <div class="form-group">
             <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <textarea class="form-control" id="messagetext" rows="06"></textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
+        <button type="button" class="btn btn-primary" onClick="alert('Under Construction..');">Update</button>
       </div>
+      
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
 
 

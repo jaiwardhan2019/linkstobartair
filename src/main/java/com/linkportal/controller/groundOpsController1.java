@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -40,6 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.linkportal.contractmanager.manageStobartContract;
+import com.linkportal.datamodel.fligthSectorLog;
 import com.linkportal.dbripostry.linkUsers;
 import com.linkportal.docmanager.DocumentService;
 import com.linkportal.fltreport.flightReports;
@@ -283,8 +285,11 @@ public class groundOpsController1 {
 		   
 		   
 		   //--------- FOR GENERAL FLIGHTS---------------------------- 
-		   model.put("reportbody",flt.PopulateFlightReport(req.getParameter("airlinecode"), req.getParameter("airportcode"), "ETD_DATE_TIME",todaydate,req.getParameter("flightno"),req.getParameter("emailid")));	
-	
+		   model.put("reportbody",flt.Populate_Reliablity_Report_body(req.getParameter("airlinecode"),
+			         req.getParameter("airportcode"),todaydate,todaydate,"1","ALL"));
+		   
+		   
+		   
 		   //--------- FOR CANCLE FLIGHTS--------------------- 
 		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
 			         req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("startdate"),"0"));
