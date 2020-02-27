@@ -16,10 +16,10 @@ public class flightDelayCommentRowmapper implements  RowMapper<flightDelayCommen
 				   rs.getString("Flight_No"),
 				   rs.getString("Flight_Date"),
 				   rs.getString("Status"),
-				   rs.getString("Action_Status]"),
+				   rs.getString("Action_Status"),
 				   rs.getString("Comment"),
 				   rs.getString("Entry_Date_Time"),
-				   rs.getString("Entery_By"));		   
+				   rs.getString("Entery_By"));	
 	       return delcomment;
 	}
 	

@@ -316,7 +316,7 @@ public class groundOpsController1 {
 		   
 		   if(refisuser.addDelayFeedback(req)) {
 			   model.put("status","Feedback updated");
-			   // Trigger emial notification to all User
+			   // Trigger Email Notification to all User
 			   return 1;	
 		   }
 		   else

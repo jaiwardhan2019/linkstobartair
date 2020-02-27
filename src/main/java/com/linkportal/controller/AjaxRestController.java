@@ -114,7 +114,7 @@ public class AjaxRestController {
 			System.out.println("Inside Controller "); 
 			ProductModel productModel = new ProductModel();
 			ResponseEntity<List<flightDelayComment>> responseEntity = new ResponseEntity<List<flightDelayComment>>(gopsobj.showAllComment(req),HttpStatus.OK);
-			
+			System.out.println(responseEntity.toString()); 
 			return responseEntity;
 		
 		} catch (Exception e) {

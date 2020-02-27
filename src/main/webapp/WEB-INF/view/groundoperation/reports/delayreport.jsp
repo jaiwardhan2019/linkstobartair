@@ -870,6 +870,16 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 	       document.getElementById("tostn").value    = tostn;
 	       document.getElementById("addedby").value  = emailid;
 
+
+
+	   	   var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='12%'> <span style='font-size: 12px;color:white;'> <b>Date</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
+	       //var tablebody   ="<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+datop+"</td><td style='font-size: 12px;'>"+feedback+"</td><td style='font-size: 12px;'>"+addedby+"</td></tr>";
+	       var footervar   ="</table>"; 
+	               
+
+
+
+	       
          //--- Fetch Datafrom DB 
          
          $.ajax({
@@ -878,15 +888,18 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 				dataType : 'json',
 				contentType : 'application/json',				
 				success : function(result) {
-					var s = '';
+					var s = tableheader;
 					for (var i = 0; i < result.length; i++) {
-						s += '<br/>Id: ' + result[i].value;
-						s += '<br/>Name: ' + result[i].first_name;
-						s += '<br/>Price: ' + result[i].first_name;
-						s += '<br/>___________________________';
+						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].flightDate+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
 						
-					
-					}				 
+						/*
+						s += '<br/>Id: ' + result[i].flightNumber;
+						s += '<br/>Name: ' + result[i].flightNumber;
+						s += '<br/>Price: ' + result[i].flightNumber;
+						s += '<br/>___________________________';
+						*/
+					}	
+					s += "</table>";			 
 					$('#displaydata').html(s);
 				}
 			});  
@@ -895,6 +908,61 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 
            //-- Click and Open Model
 	       document.getElementById("flightmodelbutton").click();
+  }
+
+
+
+//-------- This will Open Model Where Feedback will be Entered ----------------
+function open_model_toAdd_Comment1(flightid,datop,fromstn,tostn,emailid){
+
+          //- Display of the  Model  
+	      document.getElementById("flightid").innerHTML = flightid+"   ("+fromstn+" - "+tostn+")";
+	      document.getElementById("datopdisplay").innerHTML = " Date: "+datop;
+
+          //-- Add value to the hidden form         
+	       document.getElementById("flightno").value = flightid;
+	       document.getElementById("datop").value    = datop;
+	       document.getElementById("fromstn").value  = fromstn;
+	       document.getElementById("tostn").value    = tostn;
+	       document.getElementById("addedby").value  = emailid;
+
+
+
+	   	   var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='12%'> <span style='font-size: 12px;color:white;'> <b>Date</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
+	       //var tablebody   ="<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+datop+"</td><td style='font-size: 12px;'>"+feedback+"</td><td style='font-size: 12px;'>"+addedby+"</td></tr>";
+	       var footervar   ="</table>"; 
+	               
+
+
+
+	       
+         //--- Fetch Datafrom DB 
+         
+         $.ajax({
+				type : 'GET',
+				url : 'ajaxrest/getflightcomment',
+				dataType : 'json',
+				contentType : 'application/json',				
+				success : function(result) {
+					var s = tableheader;
+					for (var i = 0; i < result.length; i++) {
+						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].flightDate+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
+						
+						/*
+						s += '<br/>Id: ' + result[i].flightNumber;
+						s += '<br/>Name: ' + result[i].flightNumber;
+						s += '<br/>Price: ' + result[i].flightNumber;
+						s += '<br/>___________________________';
+						*/
+					}	
+					s += "</table>";			 
+					$('#displaydata').html(s);
+				}
+			});  
+
+
+
+
   }
 
 
@@ -958,6 +1026,9 @@ function ajaxUpdate(){
 			  success: function(data)
 			  {
 
+				  open_model_toAdd_Comment1(flightno,datop,fromstn,tostn,addedby);
+				  
+								  /*
 				    document.getElementById("displaydata").innerHTML = feedback;
 					if(data == 1)
 					{
@@ -972,10 +1043,10 @@ function ajaxUpdate(){
 						//document.getElementById("generate_fees_message").innerHTML = data;
 						document.getElementById("displaydata").innerHTML = "<div class='alert alert-danger' style='font-size:9pt;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Oh Snap!</strong> There is an error while submitting your request. As your initiative is very much valuable to us, can you please post your details once again?</div>";
 					}
-
+*/
 				}// ------ END OF SUCCESS ----  
 	
-  }); //----- END OF AJAX FUNCTION ------- 
+         }); //----- END OF AJAX FUNCTION ------- 
   
 
   }//-------- END OF FUNCTION ---------------
