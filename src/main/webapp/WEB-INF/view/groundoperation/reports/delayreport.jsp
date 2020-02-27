@@ -515,7 +515,7 @@ function showFlightReport(){
 				 
 			     <td>
 					          
-					          <input  type="button" onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.getFlightDatop()}','${fltleg.from}','${fltleg.to}');" value="Open ">
+					          <input  type="button" onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.getFlightDatop()}','${fltleg.from}','${fltleg.to}','<%=request.getParameter("emailid")%>');" value="Open ">
 					         
                                     
 
@@ -844,23 +844,6 @@ input.addEventListener("keyup", function(event) {
   <script src="js/chosen.jquery.js" type="text/javascript"></script>
   <script src="js/prism.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/init.js" type="text/javascript" charset="utf-8"></script> 
-</body>
-
-
-<script>
-
-  function open_model_toAdd_Comment(flightid,datop,fromstn,tostn){
-
-	  document.getElementById("flightid").innerHTML = flightid+"   ("+fromstn+" - "+tostn+")";
-	  document.getElementById("fromstn").innerHTML = " Date: "+datop;
-
-	  
-	  
-	  document.getElementById("flightmodelbutton").click();
-  }
-
-
-</script>
 
 
 
@@ -868,6 +851,165 @@ input.addEventListener("keyup", function(event) {
 <br>
 
 <%@include file="../../include/gopsfooter.jsp" %>
+
+
+<script>
+
+
+//-------- This will Open Model Where Feedback will be Entered ----------------
+function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
+
+          //- Display of the  Model  
+	      document.getElementById("flightid").innerHTML = flightid+"   ("+fromstn+" - "+tostn+")";
+	      document.getElementById("datopdisplay").innerHTML = " Date: "+datop;
+
+          //-- Add value to the hidden form         
+	       document.getElementById("flightno").value = flightid;
+	       document.getElementById("datop").value    = datop;
+	       document.getElementById("fromstn").value  = fromstn;
+	       document.getElementById("tostn").value    = tostn;
+	       document.getElementById("addedby").value  = emailid;
+
+         //--- Fetch Datafrom DB 
+         
+         $.ajax({
+				type : 'GET',
+				url : 'ajaxrest/getflightcomment',
+				dataType : 'json',
+				contentType : 'application/json',				
+				success : function(result) {
+					var s = '';
+					for (var i = 0; i < result.length; i++) {
+						s += '<br/>Id: ' + result[i].value;
+						s += '<br/>Name: ' + result[i].first_name;
+						s += '<br/>Price: ' + result[i].first_name;
+						s += '<br/>___________________________';
+						
+					
+					}				 
+					$('#displaydata').html(s);
+				}
+			});  
+
+
+
+           //-- Click and Open Model
+	       document.getElementById("flightmodelbutton").click();
+  }
+
+
+
+
+//*** Here this function will update data in the form to database and write back to the DIV 
+function ajaxUpdate(){
+
+
+	 
+	var feedback  = document.getElementById("feedback").value;
+	var flightno  = document.getElementById("flightno").value;
+	var datop     = document.getElementById("datop").value;
+	var fromstn   = document.getElementById("fromstn").value;
+	var tostn     = document.getElementById("tostn").value;
+	var addedby   = document.getElementById("addedby").value;
+	var status    = document.getElementById("status").value;
+	var astatus    = document.getElementById("astatus").value;
+
+
+
+	
+	var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='12%'> <span style='font-size: 12px;color:white;'> <b>Date</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
+
+    var tablebody   ="<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+datop+"</td><td style='font-size: 12px;'>"+feedback+"</td><td style='font-size: 12px;'>"+addedby+"</td></tr>";
+     
+    var footervar   ="</table>"; 
+
+   
+    
+
+
+
+	
+
+    //Validate form
+    if (feedback == null || feedback == "" || feedback == " " || feedback > 200){
+    		alert("Please Write your feedback...");
+    		document.getElementById("feedback").focus();
+    		return false;
+    }
+
+    document.getElementById("displaydata").innerHTML = tableheader +"<tr><td align='center'><i class='fa fa-spinner fa-spin'></i> Loading... </td></tr>"+footervar;
+
+      
+  
+    $.ajax({
+			  url:'delayaction',
+			  type:"POST",
+			  data:{
+				  feedback:feedback,
+				  flightno:flightno,
+				  datop   :datop,
+				  fromstn :fromstn,
+				  tostn   :tostn,
+				  addedby :addedby,
+				  status  :status,
+				  astatus :astatus,
+				  
+			   },
+			  success: function(data)
+			  {
+
+				    document.getElementById("displaydata").innerHTML = feedback;
+					if(data == 1)
+					{
+						
+						//document.getElementById("displaydata").innerHTML = feedback;
+						document.getElementById("displaydata").innerHTML = tableheader + tablebody + footervar;							
+						
+					}
+				     else
+					{
+						//alert(data);
+						//document.getElementById("generate_fees_message").innerHTML = data;
+						document.getElementById("displaydata").innerHTML = "<div class='alert alert-danger' style='font-size:9pt;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Oh Snap!</strong> There is an error while submitting your request. As your initiative is very much valuable to us, can you please post your details once again?</div>";
+					}
+
+				}// ------ END OF SUCCESS ----  
+	
+  }); //----- END OF AJAX FUNCTION ------- 
+  
+
+  }//-------- END OF FUNCTION ---------------
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form id="modelform">
+
+
+<input type="hidden" id="flightno" value="">
+<input type="hidden" id="datop"    value="">
+<input type="hidden" id="fromstn"  value="">
+<input type="hidden" id="tostn"    value="">
+<input type="hidden" id="addedby"  value="">
+
 
 
 
@@ -880,7 +1022,7 @@ input.addEventListener("keyup", function(event) {
        
       <div class="modal-header" >
         <h2 class="modal-title" style="color:#0070BA;" id="flightid"></h2> 
-         <h4 style="color:black;" class="modal-title" id="fromstn"></h4>
+         <h4 style="color:black;" class="modal-title" id="datopdisplay"></h4>
         
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -889,38 +1031,22 @@ input.addEventListener("keyup", function(event) {
       
       <div class="modal-body">
       
-          <table class="table table-striped table-bordered" border="1" style="width:100%;background:rgba(255,255,255);" align="left">	
+          <table id="displaydata" class="table table-striped table-bordered" border="1" style="width:100%;background:rgba(255,255,255);" align="left">	
 	         <tr>
-		           <td bgcolor="#0070BA" width="12%"> <span style="color:white;"> <b>Date</b></span></td>
-		           <td bgcolor="#0070BA"  ><span style="color:white;"> <b>Feedback </b></span></td>
-		           <td bgcolor="#0070BA" width="15%"> <span style="color:white;"> <b> Added By</b></span></td>           
+		           <td bgcolor="#0070BA" width="12%"> <span style="font-size: 12px;color:white;"> <b>Date</b></span></td>
+		           <td bgcolor="#0070BA"  ><span style="font-size: 12px;color:white;"> <b>Feedback </b></span></td>
+		           <td bgcolor="#0070BA" width="15%"><span style="font-size: 12px;color:white;"> <b> Added By</b></span></td>           
 	         </tr>
 	         <tr >
-	         <td >  20-Jan-2020</td>
-	         <td >  
-	                 <span style="font-size: 11px;">
+	         <td style="font-size: 12px;">  20-Jan-2020</td>
+	         <td style="font-size: 12px;">  
+	           
 	                 Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment..
 	                 Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment..
-	                 </span>
-	         </td>
-	         <td > Jai.wardhan@stobartair.com</td>
+	           </td>
+	         <td style="font-size: 12px;"> Jai.wardhan@stobartair.com</td>
 	         
-	         </tr>
-	         <tr >
-	         <td >  20-Jan-2020</td>
-	         <td >  Some Comment.. Some Comment.. Some Comment.. 
-	         </td>
-	         <td > Jai.wardhan@stobartair.com</td>
-	         
-	         </tr>
-		         <tr >
-	         <td >  20-Jan-2020</td>
-	         <td >  Some Comment.. Some Comment.. Some Comment..
-	         </td>
-	         <td > Jai.wardhan@stobartair.com</td>
-	         
-	         </tr>
-		         
+		     </tr>    
 	         
 	         
          </table>
@@ -935,9 +1061,9 @@ input.addEventListener("keyup", function(event) {
             <label for="recipient-name" class="col-form-label">Status:</label>
 
 				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="exampleRadios" id="Status" value="open" checked>				
+				  <input class="form-check-input" type="radio" name="exampleRadios" id="status" value="open">				
 				    Open
-				  <input class="form-check-input" type="radio" name="exampleRadios" id="Status" value="close">
+				  <input class="form-check-input" type="radio" name="exampleRadios" id="status" value="close">
 				    Close
           </div>
         </div>  
@@ -947,34 +1073,34 @@ input.addEventListener("keyup", function(event) {
        <div class="form-group">
             <label for="recipient-name" class="col-form-label">Action:</label>
 				<div  >
-				    <select id="action" class="form-control">
+				    <select id="astatus" class="form-control">
 			           <option selected>Choose...</option>
-			           <option value="Taken"> Taken</option>
-			           <option value="Ongoing"> Ongoing</option>
+			           <option value="taken"> Taken</option>
+			           <option value="ongoing"> Ongoing</option>
 			         </select>
 			   </div>
       </div>      
 
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="messagetext" rows="06"></textarea>
+            <label for="feedback" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="feedback" rows="06"></textarea>
           </div>
-        </form>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onClick="alert('Under Construction..');">Update</button>
+        <button type="button" class="btn btn-primary" onClick="ajaxUpdate();">Update</button>
       </div>
       
     </div>
   </div>
 </div>
 
+  </form>
 
 
 
-
-
+</body>
 
 
 

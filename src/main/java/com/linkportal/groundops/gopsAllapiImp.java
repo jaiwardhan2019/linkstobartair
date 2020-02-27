@@ -22,6 +22,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.linkportal.datamodel.flightDelayComment;
+import com.linkportal.datamodel.flightDelayCommentRowmapper;
 import com.linkportal.security.*;
 
 
@@ -39,6 +41,9 @@ public class gopsAllapiImp implements gopsAllapi  {
 	
 	@Autowired
 	EncryptDecrypt encdec;
+	
+	
+
 	
 	
 	
@@ -427,5 +432,60 @@ public class gopsAllapiImp implements gopsAllapi  {
 	}
 
 
+
+	  
+	
+	/// For the  Delay Feedbac ---
+	@Override
+	public boolean addDelayFeedback(HttpServletRequest req) {
+		   try {
+			
+	
+			   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			   LocalDateTime currentdateandtime = LocalDateTime.now();		   
+			   Connection conn        = dataSourcesqlservercp.getConnection();
+			   PreparedStatement pstm = null;
+			   
+			   
+			   String sqlinsert ="INSERT INTO Flight_Delay_Comment_Master ( Flight_No ,  Flight_Date , Status , Action_Status , Comment ,Entry_Date_Time, Entery_By )  VALUES " + 
+	          	   		"( ?,?,?,?,?,?,?)";
+			   
+	           pstm = conn.prepareStatement(sqlinsert);
+				   pstm.setString(1,req.getParameter("flightno"));
+				   pstm.setString(2,req.getParameter("datop"));
+				   pstm.setString(3,req.getParameter("status"));
+				   pstm.setString(4,req.getParameter("astatus"));
+				   pstm.setString(5,req.getParameter("feedback"));
+				   pstm.setString(6,currentdateandtime.toString());
+				   pstm.setString(7,req.getParameter("addedby"));
+			
+				   	
+			       int rows = pstm.executeUpdate();
+			       pstm=null;   
+			
+			    pstm = null;
+			    conn.close();
+		
+			   }catch(Exception ex) {logger.error("While Adding Deley Comment on Delay  Report BY Ground Handler  :"+ex.toString()); return false;}	
+				
+		
+		return false;
+	}
+
+
+
+
+	@Override
+	public List<flightDelayComment> showAllComment(HttpServletRequest req) {
+		   System.out.println("Inside Service function");
+		   String sqlListRefis="SELECT * FROM Flight_Delay_Comment_Master";			
+		   List  DelayComment = jdbcTemplateRefis.query(sqlListRefis,new flightDelayCommentRowmapper());
+		   System.out.println(DelayComment.size());
+		   
+		return DelayComment;
+	}
+
+	
+	
 
 }

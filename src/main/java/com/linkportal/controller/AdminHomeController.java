@@ -62,8 +62,6 @@ public class AdminHomeController {
 	@Autowired
 	linkUsers lkuser;
 	
-	@Autowired
-	flightReports flt1;
 	
 	
 	@Autowired

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.linkportal.datamodel.flightDelayComment;
+
 public interface gopsAllapi {
 	
 
@@ -27,6 +29,11 @@ public interface gopsAllapi {
 	public String getAllEligibleAirlineforGH(String userid);
 	
 	public String getAllEligibleAirportforGH(String stobartUser);
+	
+	
+	public boolean addDelayFeedback(HttpServletRequest req);
+	
+	public List<flightDelayComment> showAllComment(HttpServletRequest req);
 	
 	
 	

@@ -62,8 +62,6 @@ public class groundOpsController1 {
 	@Autowired
 	gopsAllapi refisuser;
 	
-	@Autowired
-	manageStobartContract contract;
 	
 	@Autowired
 	EncryptDecrypt encdec;
@@ -306,6 +304,29 @@ public class groundOpsController1 {
 			
 	}
 	
+	
+	
+	
+
+
+	//--------- THIS PART WILL DO DB UPDATE FROM THE AJAX  
+	@ResponseBody
+	@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET}, value="/delayaction")
+	public int delayAction(ModelMap model,HttpServletRequest req) {
+		   
+		   if(refisuser.addDelayFeedback(req)) {
+			   model.put("status","Feedback updated");
+			   // Trigger emial notification to all User
+			   return 1;	
+		   }
+		   else
+		   {
+			   model.put("status","Not updated plz check log.");
+			   return 0;	
+		   }
+		   
+		    
+	}
 	
 	
 	
