@@ -312,8 +312,7 @@ public class groundOpsController1 {
 	//--------- THIS PART WILL DO DB UPDATE FROM THE AJAX  
 	@ResponseBody
 	@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET}, value="/delayaction")
-	public int delayAction(ModelMap model,HttpServletRequest req) {
-		   
+	public int delayAction(ModelMap model,HttpServletRequest req) {		   
 		   if(refisuser.addDelayFeedback(req)) {
 			   model.put("status","Feedback updated");
 			   // Trigger Email Notification to all User
@@ -326,7 +325,7 @@ public class groundOpsController1 {
 		   }
 		   
 		    
-	}
+	 }
 	
 	
 	

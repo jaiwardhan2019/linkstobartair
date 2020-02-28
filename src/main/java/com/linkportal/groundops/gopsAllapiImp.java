@@ -478,12 +478,10 @@ public class gopsAllapiImp implements gopsAllapi  {
 	@Override
 	public List<flightDelayComment> showAllComment(HttpServletRequest req) {
 		List  DelayComment =null;
-		   try {		 
-			    String sqlListRefis="SELECT * FROM Flight_Delay_Comment_Master where Flight_No='"+req.getParameter("flightno")+"' and Flight_Date='"+req.getParameter("datop")+"'";		
-			    sqlListRefis="SELECT * FROM Flight_Delay_Comment_Master";		
-	     
-			    DelayComment = jdbcTemplateRefis.query(sqlListRefis,new flightDelayCommentRowmapper());
-		 
+		   try {	
+			   
+			    String sqlListRefis="SELECT * FROM Flight_Delay_Comment_Master where Flight_No='"+req.getParameter("flightno")+"' and Flight_Date='"+req.getParameter("datop")+"' order by Entry_Date_Time";		
+			     DelayComment = jdbcTemplateRefis.query(sqlListRefis,new flightDelayCommentRowmapper());
 		   }catch(Exception eee) {logger.error(eee.toString());return DelayComment;}
 		   
 		return DelayComment;

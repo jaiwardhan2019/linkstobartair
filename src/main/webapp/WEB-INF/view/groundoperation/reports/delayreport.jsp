@@ -18,21 +18,6 @@
 
 
 
-$(".chosen").chosen({
-    width: "300px",
-    enable_search_threshold: 10
-}).change(function(event)
-{
-    if(event.target == this)
-    {
-        var value = $(this).val();
-        $("#result").text(value);
-    }
-});
-
-
-
-
 function search_progress() {
     var e = document.getElementById("searchbutton");
     if(e.style.display == 'block')
@@ -46,6 +31,7 @@ function search_progress() {
      else
         e1.style.display = 'block';    
  }
+
 
 function showFlightReport(){
 	
@@ -882,9 +868,11 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 	       
          //--- Fetch Datafrom DB 
          
+         var callingurl="ajaxrest/getflightcomment?flightno="+flightid+"&datop="+datop;
+         
          $.ajax({
 				type : 'GET',
-				url : 'ajaxrest/getflightcomment',
+				url : callingurl,
 				dataType : 'json',
 				contentType : 'application/json',				
 				success : function(result) {
@@ -912,8 +900,10 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 
 
 
+
+
 //-------- This will Open Model Where Feedback will be Entered ----------------
-function open_model_toAdd_Comment1(flightid,datop,fromstn,tostn,emailid){
+function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid){
 
           //- Display of the  Model  
 	      document.getElementById("flightid").innerHTML = flightid+"   ("+fromstn+" - "+tostn+")";
@@ -934,26 +924,18 @@ function open_model_toAdd_Comment1(flightid,datop,fromstn,tostn,emailid){
 	               
 
 
-
+	       var callingurl="ajaxrest/getflightcomment?flightno="+flightid+"&datop="+datop;
 	       
-         //--- Fetch Datafrom DB 
-         
+         //--- Fetch Datafrom DB
          $.ajax({
 				type : 'GET',
-				url : 'ajaxrest/getflightcomment',
+				url : callingurl,
 				dataType : 'json',
 				contentType : 'application/json',				
 				success : function(result) {
 					var s = tableheader;
 					for (var i = 0; i < result.length; i++) {
 						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].flightDate+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
-						
-						/*
-						s += '<br/>Id: ' + result[i].flightNumber;
-						s += '<br/>Name: ' + result[i].flightNumber;
-						s += '<br/>Price: ' + result[i].flightNumber;
-						s += '<br/>___________________________';
-						*/
 					}	
 					s += "</table>";			 
 					$('#displaydata').html(s);
@@ -968,7 +950,7 @@ function open_model_toAdd_Comment1(flightid,datop,fromstn,tostn,emailid){
 
 
 
-//*** Here this function will update data in the form to database and write back to the DIV 
+//*** Here this function will update data in to database and write back to the DIV 
 function ajaxUpdate(){
 
 
@@ -980,34 +962,37 @@ function ajaxUpdate(){
 	var tostn     = document.getElementById("tostn").value;
 	var addedby   = document.getElementById("addedby").value;
 	var status    = document.getElementById("status").value;
-	var astatus    = document.getElementById("astatus").value;
+	var astatus   = document.getElementById("astatus").value;
+
+    if (feedback == null || feedback == "" || feedback == " ")
+    {
+  		alert("Please fill this form");  		
+  		document.getElementById("feedback").focus();
+  		return false;
+    }
+    
+    if(astatus == "ALL")
+    {
+  		alert("Please Select Status..");  		
+  		document.getElementById("astatus").focus();
+  		return false;
+    }
 
 
+  
+    
 
+    if(confirm("Are you sure about this feedback??")){	
+  		
+   
 	
 	var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='12%'> <span style='font-size: 12px;color:white;'> <b>Date</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
-
     var tablebody   ="<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+datop+"</td><td style='font-size: 12px;'>"+feedback+"</td><td style='font-size: 12px;'>"+addedby+"</td></tr>";
-     
     var footervar   ="</table>"; 
 
    
-    
 
-
-
-	
-
-    //Validate form
-    if (feedback == null || feedback == "" || feedback == " " || feedback > 200){
-    		alert("Please Write your feedback...");
-    		document.getElementById("feedback").focus();
-    		return false;
-    }
-
-    document.getElementById("displaydata").innerHTML = tableheader +"<tr><td align='center'><i class='fa fa-spinner fa-spin'></i> Loading... </td></tr>"+footervar;
-
-      
+       
   
     $.ajax({
 			  url:'delayaction',
@@ -1026,35 +1011,23 @@ function ajaxUpdate(){
 			  success: function(data)
 			  {
 
-				  open_model_toAdd_Comment1(flightno,datop,fromstn,tostn,addedby);
-				  
-								  /*
-				    document.getElementById("displaydata").innerHTML = feedback;
-					if(data == 1)
-					{
-						
-						//document.getElementById("displaydata").innerHTML = feedback;
-						document.getElementById("displaydata").innerHTML = tableheader + tablebody + footervar;							
-						
-					}
-				     else
-					{
-						//alert(data);
-						//document.getElementById("generate_fees_message").innerHTML = data;
-						document.getElementById("displaydata").innerHTML = "<div class='alert alert-danger' style='font-size:9pt;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Oh Snap!</strong> There is an error while submitting your request. As your initiative is very much valuable to us, can you please post your details once again?</div>";
-					}
-*/
+                   // This will display the comment in the same Model 
+				   open_model_toAdd_Comment_After_Add(flightno,datop,fromstn,tostn,addedby);
+	
 				}// ------ END OF SUCCESS ----  
 	
          }); //----- END OF AJAX FUNCTION ------- 
-  
+
+
+    } //--- End of are you sure if function 
+
+
+
+    
 
   }//-------- END OF FUNCTION ---------------
 
-
 </script>
-
-
 
 
 
@@ -1108,66 +1081,97 @@ function ajaxUpdate(){
 		           <td bgcolor="#0070BA"  ><span style="font-size: 12px;color:white;"> <b>Feedback </b></span></td>
 		           <td bgcolor="#0070BA" width="15%"><span style="font-size: 12px;color:white;"> <b> Added By</b></span></td>           
 	         </tr>
-	         <tr >
-	         <td style="font-size: 12px;">  20-Jan-2020</td>
-	         <td style="font-size: 12px;">  
-	           
-	                 Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment..
-	                 Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment.. Some Comment..
-	           </td>
-	         <td style="font-size: 12px;"> Jai.wardhan@stobartair.com</td>
-	         
-		     </tr>    
-	         
-	         
+	              
          </table>
         <br>
       		  
-      
-        <form>
-        
+ 
 
-        
-         <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Status:</label>
-
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="exampleRadios" id="status" value="open">				
-				    Open
+  <div class="form-row">
+  
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <label >Status:</label>
+      			<div class="form-check">
+				  <input class="form-check-input" type="radio" name="exampleRadios" id="status" value="open" checked>				
+				    Open &nbsp;&nbsp;&nbsp;
 				  <input class="form-check-input" type="radio" name="exampleRadios" id="status" value="close">
 				    Close
-          </div>
-        </div>  
-           
-          
-           
-       <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Action:</label>
-				<div  >
+          </div>    
+    </div>
+    
+    
+    <div class="col-md-6 col-sm-6 col-xs-12">
+    
+          <label for="recipient-name" class="col-form-label">Action:</label>
+				<div >
 				    <select id="astatus" class="form-control">
-			           <option selected>Choose...</option>
+			           <option value="ALL" selected>Choose...</option>
 			           <option value="taken"> Taken</option>
 			           <option value="ongoing"> Ongoing</option>
 			         </select>
 			   </div>
-      </div>      
+			   
+	</div>
+	   
+   
+			   
+  </div>	   
+  
 
-          <div class="form-group">
+  <div class="form-row">
+  
+    <div class="col-md-12 col-sm-12 col-xs-12">
+   
             <label for="feedback" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="feedback" rows="06"></textarea>
-          </div>
+            <textarea class="form-control" id="feedback" rows="06" maxlength="500" onkeyup="textCounter()"></textarea>
+    </div>
+  </div>  
+<br>
 
-      </div>
+<div class="form-row">  
+    <div class="col-md-12 col-sm-12 col-xs-12">
+          <div>
+              <input type="text" id="textcount" value="0" size="1">/500<p style="color:red;font-size:12px;" id="errormessage"></p>
+           </div>
+
+</div>
+</div>
+
+
+
+      
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" onClick="ajaxUpdate();">Update</button>
       </div>
+      
+      
+      
+      
       
     </div>
   </div>
 </div>
 
   </form>
+
+
+<script>
+
+  function textCounter() {
+	  var x = document.getElementById("feedback");
+	  var count = document.getElementById("feedback").value.length;		
+ 	  document.getElementById("textcount").value=count;
+ 	  if(count > 500){
+ 		 errormessage.textContent = "Not More then 500 Char";
+ 		 //document.getElementById("textcount").focus();
+ 	  }
+ 	  else{	errormessage.textContent = "";  }
+	}
+
+</script>
+
 
 
 

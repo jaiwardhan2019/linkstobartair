@@ -107,26 +107,14 @@ public class AjaxRestController {
 	
 
 	//---  FOR DELAY REPORT FETCH FLIGHT COMMENT DATE FROM DB 
-	@RequestMapping(value = "getflightcomment", method = RequestMethod.GET, produces = { MimeTypeUtils.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "getflightcomment", method = {RequestMethod.POST,RequestMethod.GET}, produces = { MimeTypeUtils.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<flightDelayComment>> getflightcomment(HttpServletRequest req) {
-		try {
-		
-			System.out.println("Inside Controller "); 
-			ProductModel productModel = new ProductModel();
+		try {	
 			ResponseEntity<List<flightDelayComment>> responseEntity = new ResponseEntity<List<flightDelayComment>>(gopsobj.showAllComment(req),HttpStatus.OK);
-			System.out.println(responseEntity.toString()); 
-			return responseEntity;
-		
-		} catch (Exception e) {
-			return new ResponseEntity<List<flightDelayComment>>(HttpStatus.BAD_REQUEST);
-		}
+			return responseEntity;	
+		} catch (Exception e) {return new ResponseEntity<List<flightDelayComment>>(HttpStatus.BAD_REQUEST);}
+	
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	
