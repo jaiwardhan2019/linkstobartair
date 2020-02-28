@@ -255,7 +255,7 @@ function update_contract(contractref,department,subdepartment){
 							%>
 							 <c:forEach var="filelist" items="${filelist}">       
 							<tr> 
-								<td align="left" width="80%"><b><%=filecount++%></b>.&nbsp; <img  src="page_white_acrobat.png">&nbsp;&nbsp; 
+								<td align="left" width="80%"><b><%=filecount++%></b>.&nbsp; <img  src="pdf.png">&nbsp;&nbsp; 
 								
 								 <b> <a href="${contractdetail.refrence_no}/${filelist}"  target="_blank">  ${filelist}  </a> </b>
 								  

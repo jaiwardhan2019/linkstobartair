@@ -267,9 +267,54 @@ function Download_ExcelReport(){
  
 		<div class="col-md-5 col-sm-5 col-xs-5" align="left" >
 		      
-		      <div id="chartContainer" style="height: 260px; width: 90%;"></div>
+		      <!-- <div id="chartContainer" style="height: 260px; width: 90%;"></div>-->
+		      				
+		    <table  class="table table-striped table-bordered"  border="0" style="width: 100%;" align="center">	
+				    
+				
+				   <tr align="center">
+					 <td  bgcolor="#0070BA">
+					     <span style="color:white;"> <b>Useful Phone Numbers </b></span>					 
+					 </td>
+				     </tr>
+		          
+				    <tr>
+				        <td bgcolor="white"> 
+				           <br>
+				          <ul>
+				             <li> 
+				                <i class="fa fa-phone" aria-hidden="true"></i>  <span style="color:black;"> Ops. Controller :  +353-1-8447617 </span>
+				             </li>
+				             
+				             <li> 
+				                <i class="fa fa-phone" aria-hidden="true"></i> <span style="color:black;"> Ops. Supervisor :  +353-1-8447602 </span>
+				             </li>
+				            
+				             <li> 
+				                <i class="fa fa-phone" aria-hidden="true"></i> <span style="color:black;">Customer & Handling Co-ordinator +353-1-8447618 </span>
+				             </li>
+				             
+				                    
+				             <li> 
+				                  <i class="fa fa-clock-o" aria-hidden="true"></i> <b> <span style="color:black;">Please note that the below are Zulu times. </span> </b>
+				             </li>
+				   
+				             
+				          </ul>             
+                              
+		
+							   <p align="center">    <img  src="images/${airlinecode}1.png"> </p> 
+				        
+				        </td>
+				    </tr>
+		
+			
+			</table>
+		      
+		     
 		 
 		</div>
+
 
 </div>	
 <br>

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
@@ -441,11 +442,10 @@ public class gopsAllapiImp implements gopsAllapi  {
 		   try {
 			
 	
-			   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-			   LocalDateTime currentdateandtime = LocalDateTime.now();		   
+			    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
+			    Date date = new Date();
 			   Connection conn        = dataSourcesqlservercp.getConnection();
 			   PreparedStatement pstm = null;
-			   
 			   
 			   String sqlinsert ="INSERT INTO Flight_Delay_Comment_Master ( Flight_No ,  Flight_Date , Status , Action_Status , Comment ,Entry_Date_Time, Entery_By )  VALUES " + 
 	          	   		"( ?,?,?,?,?,?,?)";
@@ -456,10 +456,8 @@ public class gopsAllapiImp implements gopsAllapi  {
 				   pstm.setString(3,req.getParameter("status"));
 				   pstm.setString(4,req.getParameter("astatus"));
 				   pstm.setString(5,req.getParameter("feedback"));
-				   pstm.setString(6,currentdateandtime.toString());
-				   pstm.setString(7,req.getParameter("addedby"));
-			
-				   	
+				   pstm.setString(6,formatter.format(date).toString());
+				   pstm.setString(7,req.getParameter("addedby"));	   	
 			       int rows = pstm.executeUpdate();
 			       pstm=null;   
 			

@@ -222,8 +222,12 @@ function showFlightReport(){
 		<div class="col-md-5 col-sm-5 col-xs-5" align="left" >
 		      
 		      <div id="chartContainer" style="height: 260px; width: 90%;"></div>
+		      <br>
+		       <p align="center">    <img  src="images/${airlinecode}1.png"> </p>
+		      
 		 
 		</div>
+		 
 
 </div>	
 <br>

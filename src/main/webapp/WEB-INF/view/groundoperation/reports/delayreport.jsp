@@ -169,12 +169,58 @@ function showFlightReport(){
 	  </div>
 	
 </form>
- 
+
 		<div class="col-md-5 col-sm-5 col-xs-5" align="left" >
 		      
-		      <div id="chartContainer" style="height: 260px; width: 90%;"></div>
+		      <!-- <div id="chartContainer" style="height: 260px; width: 90%;"></div>-->
+		      				
+		    <table  class="table table-striped table-bordered"  border="0" style="width: 100%;" align="center">	
+				    
+				
+				   <tr align="center">
+					 <td  bgcolor="#0070BA">
+					     <span style="color:white;"> <b>Useful Phone Numbers </b></span>					 
+					 </td>
+				     </tr>
+		          
+				    <tr>
+				        <td bgcolor="white"> 
+				           <br>
+				          <ul>
+				             <li> 
+				                <i class="fa fa-phone" aria-hidden="true"></i>  <span style="color:black;"> Ops. Controller :  +353-1-8447617 </span>
+				             </li>
+				             
+				             <li> 
+				                <i class="fa fa-phone" aria-hidden="true"></i> <span style="color:black;"> Ops. Supervisor :  +353-1-8447602 </span>
+				             </li>
+				            
+				             <li> 
+				                <i class="fa fa-phone" aria-hidden="true"></i> <span style="color:black;">Customer & Handling Co-ordinator +353-1-8447618 </span>
+				             </li>
+				             
+				                    
+				             <li> 
+				                  <i class="fa fa-clock-o" aria-hidden="true"></i> <b> <span style="color:black;">Please note that the below are Zulu times. </span> </b>
+				             </li>
+				   
+				             
+				          </ul>             
+                              
+		
+							   <p align="center">    <img  src="images/${airlinecode}1.png"> </p> 
+				        
+				        </td>
+				    </tr>
+		
+			
+			</table>
+		      
+		     
 		 
 		</div>
+
+
 
 </div>	
 <br>
@@ -302,7 +348,7 @@ function showFlightReport(){
 					 
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					     &nbsp;
+					     Feed Back<i class="fa fa-commenting-o" aria-hidden="true"></i>
 					     </b></span>					 
 					 </td>
 					 
@@ -501,9 +547,9 @@ function showFlightReport(){
 				 
 			     <td>
 					          
-					          <input  type="button" onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.getFlightDatop()}','${fltleg.from}','${fltleg.to}','<%=request.getParameter("emailid")%>');" value="Open ">
-					         
-                                    
+						         
+                                 <a href="javascript:void();"><span class="label label-success"  onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.getFlightDatop()}','${fltleg.from}','${fltleg.to}','<%=request.getParameter("emailid")%>');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>Comment. </b></span></a>
+	               
 
 				          
 				     </td>
@@ -858,7 +904,7 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 
 
 
-	   	   var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='12%'> <span style='font-size: 12px;color:white;'> <b>Date</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
+	   	   var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='14%'> <span style='font-size: 12px;color:white;'> <b> Comment On</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
 	       //var tablebody   ="<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+datop+"</td><td style='font-size: 12px;'>"+feedback+"</td><td style='font-size: 12px;'>"+addedby+"</td></tr>";
 	       var footervar   ="</table>"; 
 	               
@@ -877,8 +923,9 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 				contentType : 'application/json',				
 				success : function(result) {
 					var s = tableheader;
-					for (var i = 0; i < result.length; i++) {
-						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].flightDate+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
+					var i = 0;
+					for (i = 0; i < result.length; i++) {
+						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].dateTimeEntered+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
 						
 						/*
 						s += '<br/>Id: ' + result[i].flightNumber;
@@ -889,6 +936,7 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 					}	
 					s += "</table>";			 
 					$('#displaydata').html(s);
+					if(i == 0){$('#displaydata').html("");}
 				}
 			});  
 
@@ -918,7 +966,7 @@ function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid
 
 
 
-	   	   var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='12%'> <span style='font-size: 12px;color:white;'> <b>Date</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
+	   	   var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='14%'> <span style='font-size: 12px;color:white;'> <b> Comment On</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
 	       //var tablebody   ="<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+datop+"</td><td style='font-size: 12px;'>"+feedback+"</td><td style='font-size: 12px;'>"+addedby+"</td></tr>";
 	       var footervar   ="</table>"; 
 	               
@@ -935,7 +983,7 @@ function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid
 				success : function(result) {
 					var s = tableheader;
 					for (var i = 0; i < result.length; i++) {
-						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].flightDate+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
+						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].dateTimeEntered+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
 					}	
 					s += "</table>";			 
 					$('#displaydata').html(s);
@@ -986,7 +1034,7 @@ function ajaxUpdate(){
   		
    
 	
-	var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='12%'> <span style='font-size: 12px;color:white;'> <b>Date</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
+	var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='12%'> <span style='font-size: 12px;color:white;'> <b>Comment Date</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
     var tablebody   ="<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+datop+"</td><td style='font-size: 12px;'>"+feedback+"</td><td style='font-size: 12px;'>"+addedby+"</td></tr>";
     var footervar   ="</table>"; 
 
@@ -1163,7 +1211,7 @@ function ajaxUpdate(){
 	  var x = document.getElementById("feedback");
 	  var count = document.getElementById("feedback").value.length;		
  	  document.getElementById("textcount").value=count;
- 	  if(count > 500){
+ 	  if(count == 500){
  		 errormessage.textContent = "Not More then 500 Char";
  		 //document.getElementById("textcount").focus();
  	  }

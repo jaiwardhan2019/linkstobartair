@@ -201,7 +201,7 @@ public class groundOpsController1 {
 		   
 		   
 		   
-		 
+		    model.addAttribute("airlinecode",req.getParameter("airlinecode").toLowerCase());
 			model.put("profilelist",req.getSession().getAttribute("profilelist"));
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));
@@ -294,7 +294,7 @@ public class groundOpsController1 {
 		   
 		   
 		   
-		 
+		    model.addAttribute("airlinecode",req.getParameter("airlinecode").toLowerCase());
 			model.put("profilelist",req.getSession().getAttribute("profilelist"));
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));
