@@ -237,9 +237,6 @@ function showFlightReport(){
    		<ul class="nav nav-pills">
 						<li class="active"><a data-toggle="pill" href="#menu1"><b>${reportbody.stream().distinct().count()}</b> - Flights</a></li>
 						<li><a data-toggle="pill" href="#menu2"><b>${reportbody_C.stream().distinct().count()}</b> - Cancelled </a></li>                    		    	
-	                   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		               <i class="fa fa-clock-o" aria-hidden="true"></i> <span style="color:black;font-weight:bold;"> ZULU Time. </span>
-	                    
 	                        
 	    </ul>
 					
@@ -1037,13 +1034,9 @@ function ajaxUpdate(){
 	var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='12%'> <span style='font-size: 12px;color:white;'> <b>Comment Date</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
     var tablebody   ="<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+datop+"</td><td style='font-size: 12px;'>"+feedback+"</td><td style='font-size: 12px;'>"+addedby+"</td></tr>";
     var footervar   ="</table>"; 
-
-   
-
-       
   
     $.ajax({
-			  url:'delayaction',
+			  url :'delayaction',
 			  type:"POST",
 			  data:{
 				  feedback:feedback,

@@ -74,7 +74,7 @@ public class GroundOpsSqlBuilder implements Serializable{
 				
 				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by ETD_DATE_TIME";}
 			    
-				//System.out.println(sqlmaster);
+				System.out.println(sqlmaster);
 				
 			return sqlmaster;
 		}//------------- End Of Myfly Report SQL --------------------------------

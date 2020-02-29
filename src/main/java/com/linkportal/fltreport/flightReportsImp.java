@@ -231,6 +231,72 @@ public class flightReportsImp implements flightReports{
 	}
 
 
+   	   @Override  //jai  Will be Called for the delay Flight Report 
+	   public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate , String flightno, String useremail){
+		   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
+		   String builtsql             = null;
+		   
+		 //---- FOR STOBART USER----
+		   if(StobartUser) {
+			  builtsql= gopssql.builtFlightReportSql(airline,airport,null,fltdate,flightno);
+		   }
+		   
+		   //---- FOR GH ----
+		   if(!StobartUser) {
+			 //System.out.println("Not a stobart user please built Air line and airport code");
+			 
+			   //-- For Ground Handler External Pull list of assigned airport 
+			   String eligibleairportlist = gopsobj.getAllEligibleAirportforGH(useremail);
+			   String eligibleairlinelist = gopsobj.getAllEligibleAirlineforGH(useremail);
+			   
+			   
+			 if(airline.equals("ALL")) {   	        	 
+				//--- When Search button click for the GH User -- 
+				airline=eligibleairlinelist;
+   	         }
+			 
+			 if(airport.equals("ALL")) {   	        	 
+				//--- When Search button click for the GH User --
+			    airport=eligibleairportlist;
+	   	     }	
+			 
+			 if(airport.equals("ALL") && airline.equals("ALL")) {
+				 airport=eligibleairportlist;
+				 airline=eligibleairlinelist;
+			 }
+			 
+			 builtsql = gopssql.builtFlightReportSql(airline,airport,null,fltdate,flightno);	
+				 
+		   }//end of if  FOR GH ----   
+		   
+		   
+		   List<fligthSectorLog>  flightseclog1 = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
+		   gopssql   = null;
+		   builtsql  = null;
+	
+		   
+		   return flightseclog1;	 
+		   
+		   
+	
+	   }//  End of Function 
+		
+		
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	
@@ -278,9 +344,6 @@ public class flightReportsImp implements flightReports{
 		   String startDate, String endDate, String tolerance, String delayCodeGroupCode) {	
 		   linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();
 		   String sql=sqlb.builtReliabilityReportSQL(airline,airport,startDate,endDate,tolerance,delayCodeGroupCode);
-		   
-		
-		   
 		   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(sql,new flightSectorLogRowmapper());		
 		   sql=null;
 		   sqlb=null;
@@ -1042,19 +1105,12 @@ public class flightReportsImp implements flightReports{
 	   		} //------ END OF AIR LINGUS SELECTION ---------- 		
 	   	//********************** IF AIR- LINGUS IS SELECTED THEN  NEED TO POPULATE ALL MAZOR STATION ***************************
 	   		 
-  		
-    	 	   
-    	   
-    	   
-    	   
+  		   
     	   
     	   
     	   
     
 	   		return reportbody;
-	
-			
-		
 		
 	}
 	//**************** END OF FUNCTION ************************************
@@ -1195,11 +1251,6 @@ public class flightReportsImp implements flightReports{
 	}
 
 
-	
-	
-	
-	
-	
 	
 	
 	

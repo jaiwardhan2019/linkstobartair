@@ -182,15 +182,13 @@ function addDocument(category){
 			<c:forEach var="contract" items="${gopsfilelist}">    
 							<tr>
 								<td width="3%"><%=ctr++%>.</td>
-								<td >
-								<img src="${contract.docType}.png"> &nbsp; <a href="<%=request.getParameter("cat").toUpperCase()%>/${contract.docName}" target="_new">
-								
-											                   ${contract.docName}    
-								
-								</a></td>
-								
-								<td >${contract.docAddedDate}&nbsp;&nbsp;&nbsp;&nbsp;</td>
-								<td >${contract.docCategory} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fa fa-trash" aria-hidden="true"></i>
+								<td width="70%">
+								    <img src="${contract.docType}.png"> &nbsp; <a href="<%=request.getParameter("cat").toUpperCase()%>/${contract.docName}" target="_new">
+								                  ${contract.docName}    								
+								    </a>
+								</td>								
+								<td>${contract.docAddedDate}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+								<td>${contract.docCategory} &nbsp;&nbsp;&nbsp;<i  class="fa fa-trash" aria-hidden="true"></i>
 							  		  <span style="font-size:9pt;">
 							   				 <a style="color:red;" href="javascript:void();" onClick="calDocumentUpdate('listdocuments?docid=${contract.docId}&operation=remove');">Rem </a>
 							   		 </span>

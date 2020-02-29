@@ -283,8 +283,8 @@ public class groundOpsController1 {
 		   
 		   
 		   //--------- FOR GENERAL FLIGHTS---------------------------- 
-		   model.put("reportbody",flt.Populate_Reliablity_Report_body(req.getParameter("airlinecode"),
-			         req.getParameter("airportcode"),todaydate,todaydate,"1","ALL"));
+		   model.put("reportbody",flt.PopulateDelayFlightReport(req.getParameter("airlinecode"),
+			         req.getParameter("airportcode"),todaydate,req.getParameter("flightno") ,req.getParameter("emailid") ));
 		   
 		   
 		   
