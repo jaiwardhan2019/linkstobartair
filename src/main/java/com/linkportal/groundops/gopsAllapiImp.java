@@ -179,7 +179,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 					    List profilelist = Arrays.asList(selectedprofile);
 					    
 					    for(int i = 0; i < profilelist.size(); i++) {
-						    sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,airline_code,station_code)  VALUES('"+req.getParameter("userid")+"','"+profilelist.get(i)+"','NA')";	
+						    sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,airline_code,station_code,added_date,added_by)  VALUES('"+req.getParameter("userid")+"','"+profilelist.get(i)+"','NA','"+currentdateandtime+"','"+req.getParameter("emailid")+"')";	
 						    int statstatus=jdbcTemplateRefis.update(sqlinsert);	
 						 }// End of For Loop --- 
 						 
@@ -192,7 +192,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 					String[] selectedprofile = req.getParameterValues("station");
 				    List profilelist = Arrays.asList(selectedprofile);
 				    for(int i = 0; i < profilelist.size(); i++) {
-				    	sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,station_code,airline_code)  VALUES('"+req.getParameter("userid")+"','"+profilelist.get(i)+"','NA')";	
+				    	sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,station_code,airline_code,added_date,added_by)  VALUES('"+req.getParameter("userid")+"','"+profilelist.get(i)+"','NA','"+currentdateandtime+"','"+req.getParameter("emailid")+"')";	
 					    int statstatus=jdbcTemplateRefis.update(sqlinsert);					  
 					
 					 }// End of For Loop --- 
@@ -239,8 +239,8 @@ public class gopsAllapiImp implements gopsAllapi  {
 			 
 			   
 			   
-			   String SQL_UPDATE ="INSERT INTO link_user_master (first_name ,  email_id, active_status ,admin_status, internal_external_user ,gh_password ,description, gops_user_creation_date )  VALUES " + 
-	          	   		"( ?,?,?,?,?,?,?,?)";
+			   String SQL_UPDATE ="INSERT INTO link_user_master (first_name ,  email_id, active_status ,admin_status, internal_external_user ,gh_password ,description, gops_user_creation_date , created_by )  VALUES " + 
+	          	   		"( ?,?,?,?,?,?,?,?,?)";
 	           pstm = conn.prepareStatement(SQL_UPDATE);
 				   pstm.setString(1,req.getParameter("userid"));
 				   pstm.setString(2,req.getParameter("userid"));
@@ -249,8 +249,8 @@ public class gopsAllapiImp implements gopsAllapi  {
 				   pstm.setString(5,"E");
 				   pstm.setString(6,passwordencripted);
 				   pstm.setString(7,req.getParameter("description"));
-				   pstm.setString(8,currentdateandtime.toString());		
-				   	
+				   pstm.setString(8,currentdateandtime.toString());
+				   pstm.setString(9, req.getParameter("emailid"));				   	
 			       int rows = pstm.executeUpdate();
 			       pstm=null;   
 						   

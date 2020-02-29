@@ -73,8 +73,8 @@ public class LinkUsersImp implements linkUsers{
 		   }
 		   else
 		   {
-          	   sql="INSERT INTO LINK_USER_MASTER (FIRST_NAME,LAST_NAME,EMAIL_ID,ADMIN_STATUS,LOGIN_COUNT,LAST_LOGIN_DATE_TIME,ACTIVE_STATUS,INTERNAL_EXTERNAL_USER) "
-         	 		+ "VALUES ('"+FirstName_LastName[0]+"', '"+FirstName_LastName[1]+"','"+useremail+"', 'N', '1','"+now+"','Active','I')";
+          	   sql="INSERT INTO LINK_USER_MASTER (FIRST_NAME,LAST_NAME,EMAIL_ID,ADMIN_STATUS,LOGIN_COUNT,LAST_LOGIN_DATE_TIME,ACTIVE_STATUS,INTERNAL_EXTERNAL_USER,gops_user_creation_date,created_by) "
+         	 		+ "VALUES ('"+FirstName_LastName[0]+"', '"+FirstName_LastName[1]+"','"+useremail+"', 'N', '1','"+now+"','Active','I','"+now+"','LDAP')";
           	    jdbcTemplatSqlserver.execute(sql);
 		   }
 		   
