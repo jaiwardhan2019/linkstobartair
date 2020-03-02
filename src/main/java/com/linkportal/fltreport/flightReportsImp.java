@@ -239,7 +239,7 @@ public class flightReportsImp implements flightReports{
 		   
 		 //---- FOR STOBART USER----
 		   if(StobartUser) {
-			  builtsql= gopssql.builtFlightReportSql(airline,airport,null,fltdate,flightno);
+			  builtsql= gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,flightno);
 		   }
 		   
 		   //---- FOR GH ----
@@ -266,9 +266,9 @@ public class flightReportsImp implements flightReports{
 				 airline=eligibleairlinelist;
 			 }
 			 
-			 builtsql = gopssql.builtFlightReportSql(airline,airport,null,fltdate,flightno);	
+			 builtsql = gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,flightno);	
 				 
-		   }//end of if  FOR GH ----   
+		   }//end of if  FOR GH ---- jai  
 		   
 		   
 		   List<fligthSectorLog>  flightseclog1 = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());

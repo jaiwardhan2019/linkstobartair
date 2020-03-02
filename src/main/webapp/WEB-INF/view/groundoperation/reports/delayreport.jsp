@@ -539,7 +539,7 @@ function showFlightReport(){
 					 
 					 <td width="7%">		
 						      
-		                    Close Date
+		                    ?????
 					 </td>
 				 
 			     <td>
@@ -889,7 +889,7 @@ input.addEventListener("keyup", function(event) {
 function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 
           //- Display of the  Model  
-	      document.getElementById("flightid").innerHTML = flightid+"   ("+fromstn+" - "+tostn+")";
+	      document.getElementById("flightid").innerHTML = flightid+"&nbsp;&nbsp;("+fromstn+")<img src='flightarrow.png'>("+tostn+")";
 	      document.getElementById("datopdisplay").innerHTML = " Date: "+datop;
 
           //-- Add value to the hidden form         
@@ -951,7 +951,7 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid){
 
           //- Display of the  Model  
-	      document.getElementById("flightid").innerHTML = flightid+"   ("+fromstn+" - "+tostn+")";
+	      document.getElementById("flightid").innerHTML = flightid+"&nbsp;&nbsp;("+fromstn+")<img src='flightarrow.png'>("+tostn+")";
 	      document.getElementById("datopdisplay").innerHTML = " Date: "+datop;
 
           //-- Add value to the hidden form         
@@ -1105,9 +1105,9 @@ function ajaxUpdate(){
     <div class="modal-content">
       
        
-      <div class="modal-header" >
-        <h2 class="modal-title" style="color:#0070BA;" id="flightid"></h2> 
-         <h4 style="color:black;" class="modal-title" id="datopdisplay"></h4>
+      <div class="modal-header"  >
+        <h3 class="modal-title" style="color:black;" id="flightid"></h3> 
+         <h5 style="color:black;" class="modal-title" id="datopdisplay"></h5>
         
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -1116,7 +1116,7 @@ function ajaxUpdate(){
       
       <div class="modal-body">
       
-          <table id="displaydata" class="table table-striped table-bordered" border="1" style="width:100%;background:rgba(255,255,255);" align="left">	
+          <table id="displaydata" class="table table-striped table-bordered" border="1" style="width:100%;background:rgba(255,255,255);">	
 	         <tr>
 		           <td bgcolor="#0070BA" width="12%"> <span style="font-size: 12px;color:white;"> <b>Date</b></span></td>
 		           <td bgcolor="#0070BA"  ><span style="font-size: 12px;color:white;"> <b>Feedback </b></span></td>
@@ -1194,7 +1194,7 @@ function ajaxUpdate(){
     </div>
   </div>
 </div>
-
+</div>
   </form>
 
 

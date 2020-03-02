@@ -60,8 +60,28 @@ public class GroundOpsSqlBuilder implements Serializable{
 	
 		//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
 		public String builtFlightReportSql(String airline,String airport,String shortby,String ofdate,String flightno) throws NullPointerException{
-	 		    if(ofdate.length()  > 0 ){ sqlmaster += " WHERE legs.datop='"+ofdate+"'"; }
-			    if(flightno.trim().length() > 0){ sqlmaster += " AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
+	 		    
+			    if(ofdate.length()  > 0 ){ sqlmaster += " WHERE legs.datop='"+ofdate+"'"; }
+	 		    if(flightno.trim().length() > 0){ sqlmaster += " AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
+				if((airline != null) && (!airline.equals("ALL"))){ 				    
+					if(airline.length() == 2) {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')"; }else {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ("+airline+")"; }
+				}
+				if((airport != null) && (!airport.equals("ALL"))){ 
+				    if(airport.length() == 3) {sqlmaster += " AND LEGS.DEPSTN in ('"+airport+"')"; }else {sqlmaster += " AND LEGS.DEPSTN in ("+airport+")";}
+				}	
+				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by ETD_DATE_TIME";}				
+			return sqlmaster;
+		}//------------- End Of Myfly Report SQL --------------------------------
+
+		
+		
+
+		//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
+		public String builtDelayFlightReportSql(String airline,String airport,String shortby,String ofdate,String flightno) throws NullPointerException{
+	 		    
+			    if(ofdate.length()  > 0 ){ sqlmaster += " WHERE legs.datop='"+ofdate+"'"; }
+			   
+	 		    if(flightno.trim().length() > 0){ sqlmaster += " AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
 			    
 				if((airline != null) && (!airline.equals("ALL"))){ 				    
 					if(airline.length() == 2) {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')"; }else {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ("+airline+")"; }
@@ -72,14 +92,16 @@ public class GroundOpsSqlBuilder implements Serializable{
 				    if(airport.length() == 3) {sqlmaster += " AND LEGS.DEPSTN in ('"+airport+"')"; }else {sqlmaster += " AND LEGS.DEPSTN in ("+airport+")";}
 				}	
 				
+				sqlmaster +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) > 0)";
+
+				//sqlmaster +="\n AND  (DUR1+DUR2+DUR3+DUR4 > 0)";
+
 				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by ETD_DATE_TIME";}
 			    
-				System.out.println(sqlmaster);
+				//System.out.println(sqlmaster);
 				
 			return sqlmaster;
 		}//------------- End Of Myfly Report SQL --------------------------------
-
-		
 
 	
 	

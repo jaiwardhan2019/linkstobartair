@@ -56,14 +56,15 @@ function Load_Dept_Subdept(){
 }//-------- End Of Function ---------
 
 
-function remove_user_Profile(){
+function remove_user_Profile(ope,profileid){
 			
 		if(confirm("Are you sure about Removing Access from this User.. ??")){
-			  document.contractuser.operation.value=REM;
-		      document.contractuser.method="POST"
-			  document.contractuser.action="showcontractaccessprofile";
-		      document.contractuser.submit();
-			  return true;
+	          document.contractuser.operation.value=ope;
+        	  document.contractuser.profileid.value=profileid;
+      	      document.contractuser.method="POST";
+    		  document.contractuser.action="showcontractaccessprofile";
+    	      document.contractuser.submit();
+    	  return true;
 		
 		 }
 		
@@ -381,7 +382,7 @@ tr:nth-child(even) {
 			    
 				<td align="left" width="12%">
 				   <span style="font-weight:600;font-size:9pt;color:red">
-				        <i class="fa fa-trash-o" aria-hidden="true"></i><a  href="javascript:updateUserAccess('REM','${contractprofile.profileid}')">&nbsp;Remove</a>
+				        <i class="fa fa-trash-o" aria-hidden="true"></i><a  href="javascript:remove_user_Profile('REM','${contractprofile.profileid}')">&nbsp;Remove</a>
 				    </span>  
 				 </td>
 			</tr>

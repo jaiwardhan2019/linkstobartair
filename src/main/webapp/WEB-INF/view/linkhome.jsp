@@ -234,7 +234,7 @@ function callive_well(){
 
 
 function cal_refis(){
-	document.refis.action="groundopsHomePage?usertype=I";
+	document.refis.action="groundopsHomePage?usertype=I&cat=home";
 	//document.callive_well1.target="_blank"
     document.refis.submit();
 	return true;

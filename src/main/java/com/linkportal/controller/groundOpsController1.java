@@ -97,6 +97,9 @@ public class groundOpsController1 {
 		  model.addAttribute("emailid",req.getParameter("emailid"));
 		  model.addAttribute("password",req.getParameter("password"));			
 		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
+		  
+		  model.put("gopsfilelist",docserv.getAllDocuments(req,"home"));
+		  
 		  model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 		  model.put("usertype",req.getParameter("usertype"));
 		  return "groundoperation/groundopshome";

@@ -76,13 +76,13 @@ public class linkBatchJobImp implements linkBatchJob{
 		
 	   
 	   @Autowired
-	   DataSource dataSourcemysql;		
+	   DataSource dataSourcesqlservercp;		
 	
 	   JdbcTemplate jdbcTempBatch;	
 			
 	
-	   public linkBatchJobImp(DataSource dataSourcemysql) {
-		      jdbcTempBatch = new JdbcTemplate(dataSourcemysql);			   
+	   public linkBatchJobImp(DataSource dataSourcesqlservercp) {
+		      jdbcTempBatch = new JdbcTemplate(dataSourcesqlservercp);			   
 	   }
 
 
