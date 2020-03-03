@@ -36,6 +36,10 @@ public interface gopsAllapi {
 	public List<flightDelayComment> showAllComment(HttpServletRequest req);
 	
 	
+	//public String getPuncStaticforGroundOpsHomePage(String date);
+	
+	
+	
 	
 
 }

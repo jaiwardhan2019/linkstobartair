@@ -52,7 +52,7 @@ function showFlightReport(){
 function Download_ExcelReport(){
 
 	  document.getElementById("downloading").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Downloading..&nbsp;&nbsp;";
-      var urldetail ="CreateExcelReliabilityReport?airlinecode="+document.getElementById("airlinecode").value; 
+      var urldetail ="CreateExcelReliabilityReport?delay=no&airlinecode="+document.getElementById("airlinecode").value; 
       urldetail = urldetail +"&airportcode="+document.getElementById("airportcode").value;
       urldetail = urldetail +"&startdate="+document.getElementById("startdate").value;		
       urldetail = urldetail +"&enddate="+document.getElementById("enddate").value;	

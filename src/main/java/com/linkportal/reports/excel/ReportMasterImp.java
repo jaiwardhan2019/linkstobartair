@@ -79,7 +79,7 @@ public class ReportMasterImp implements ReportMaster {
 													"Landing Time", "Fuel Used", "Dep Fuel", "Arr Fuel", "Fuel Uplift",
 													"Captain ", "First Officer " };
 	
-	
+
 	private static short[] standardWidthsList = {3000, 2500, 3000, 2500, 
 												2000, 2000, 2500, 2500,
 												2500, 2500, 2500, 2500, 
@@ -93,6 +93,8 @@ public class ReportMasterImp implements ReportMaster {
 	
 	
 	
+	
+		
 
 	private static String[] cancelledTitlesList = {"Flight Date", "Flight No.", "A/C Type", "A/C Reg.", 
 													"STD", "STA", "SCH DEP", "SCH ARR","ACT DEP", "ACT ARR",
@@ -179,17 +181,9 @@ public class ReportMasterImp implements ReportMaster {
 		//------------- Here Writing Body of the Report -------------------
 		row = sheet.createRow( rowNumber++ ) ;
         linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();
-        
-       
         String firstsheetsql=sqlb.builtExcelReliabilityReportSQL(airline.toUpperCase(), airport, startDate, endDate);
-	    
-        
 	    List<fligthSectorLog>  flightsec = jdbcTemplate.query(firstsheetsql,new flightSectorLogRowmapper());	
-		    
-	   
-	  
-	   
-	    
+		
 	    for(fligthSectorLog flt:flightsec){  
 	    	
 	     	createCell(row, 0, flt.getFlightDatop());
@@ -312,7 +306,15 @@ public class ReportMasterImp implements ReportMaster {
 		logger.info("EXCEL Format Reliablity Report Creation Finished at:"+ new Date());	
 		
 		return 0;
+	
+	
 	} //------------------------ End of Function Populate_Reliablity_Report_ExcelFormat  
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -558,6 +560,129 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 		sheet.setAutobreaks(true);   
 		ps.setLandscape(true);		//set landscape
 		
+	}
+
+
+
+
+	
+	
+	
+
+
+
+	@Override
+	public int Populate_Delay_Report_ExcelFormat(String airline, String airport, String flightdate , String useremail)
+			throws IOException, ParseException, Exception {
+
+		
+		    String[] delayFlightReportTitlesList = {"Flight Date", "Flight No.","A/C Reg.",
+				"STD", "STA", "ACT DEP", "ACT ARR","IATA Delay Code Groups","Delay Code1", "Total Delay",
+				"Delay Remarks","Status","Action","Comment"};
+
+		
+		    short[] delayFlightReportTitlesWidthsList = {3000, 2500, 3000, 2000, 
+				2000, 3000, 3000, 8500,2000, 2500, 2500, 2500,3000,10000};
+
+
+		
+		 ClassLoader classLoader = this.getClass().getClassLoader();
+		 File configFile         = new File(classLoader.getResource("delaycodegroup.properties").getFile());
+		 FileReader reader       = new FileReader(configFile);
+		 Properties p            = new Properties(); 
+		 p.load(reader);
+	
+		
+		
+		String delaycodegroup="";
+	   	
+		
+	    logger.info("Delay Flight Report  Creation Started at:"+ new Date());	
+        
+		HSSFWorkbook workbook = new HSSFWorkbook();	
+		HSSFRow row = null;
+		int rowNumber = 0;
+	
+		
+		//HSSFSheet sheet =  workbook.createSheet( "Delay Flight Report -  All Flights" );
+		//setPrintSetup(sheet);
+		
+		//row = sheet.createRow(rowNumber++);
+		//row=sheet.getRow(0);
+		
+		
+		
+		// Create a new font and alter it.
+	    HSSFFont font = workbook.createFont();
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setFontName("Arial");
+	    //  Create Style sheet with the above font 	
+		CellStyle style = workbook.createCellStyle();
+		style.setFillBackgroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+		style.setFillPattern(CellStyle.LESS_DOTS);
+	    style.setFont(font);
+		
+ 
+	    
+	    
+	    //------------------ This Will Create Report Sheet for All Delay Flight  ---------------
+	    linkPortalSqlBuilder sqlb5 = new linkPortalSqlBuilder(); 
+	    String delayflightsql      = sqlb5.builtExcelReliabilityReportSQL_AllflightWithDelayCode(airline, airport, flightdate,flightdate);	    
+	    rowNumber = 0;
+		createDelayFlightSheet(style,workbook,rowNumber,delayflightsql,p);
+	    logger.info("Delay Flight List is Created :");
+	    
+	    
+	    
+    
+	    
+	    //------------------ This Will Create Report Sheet for All Flight Which is Cancel  ---------------
+	    linkPortalSqlBuilder sqlb4 = new linkPortalSqlBuilder(); 
+	    String cancleflightsql=sqlb4.builtExcelReliabilityReportSQL_AllCancel(airline, airport, flightdate, flightdate);	    
+	    rowNumber=0;
+	    createCancleFlightSheet(style,workbook,rowNumber,cancleflightsql,p);
+	    logger.info("Cancle Flight List is Created :");
+	   
+	    
+	    
+	    
+	    
+	   
+	    
+	    //------ CREATE FOLDER FOR THE SPECIFIC USER 
+	    File file = new File(filepath+useremail);
+        if (!file.exists()) {
+            if (file.mkdir()) {
+                
+                logger.info(filepath+useremail+" Directory  Created for the Report Files");
+            } else {
+                
+                logger.error("Failed to create directory name :"+filepath+useremail+"# Please Check Folder permissions");
+            }
+        }
+	    
+	    
+	    
+	    
+	    
+		//--------------- Creating File And Writing into it ----------------------
+		try (FileOutputStream outputStream = new FileOutputStream(filepath+useremail+"/delayFlightReport.xls")) {
+		    workbook.write(outputStream);			    
+		} catch (IOException ioe){logger.error(ioe);}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		logger.info("EXCEL Format Delay Flight Report Creation Finished at:"+ new Date());	
+		
+		
+		return 0;
 	}
 	
 	

@@ -42,7 +42,51 @@ function showFlightReport(){
 		 document.DelayFlighReport.action="delayflightreport";
 	     document.DelayFlighReport.submit();
 	     return true;
-}	
+}
+
+
+
+
+//*** Here this function will update data in the form to database and write back to the DIV 
+function Download_ExcelReport(){
+
+	document.getElementById("downloading").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Downloading..&nbsp;&nbsp;";
+	//search_progress();
+    var urldetail ="CreateExcelReliabilityReport?delay=yes&airlinecode="+document.getElementById("airlinecode").value; 
+    urldetail = urldetail +"&airportcode="+document.getElementById("airportcode").value;
+    urldetail = urldetail +"&startdate="+document.getElementById("startdate").value;		
+    urldetail = urldetail +"&enddate="+document.getElementById("startdate").value;	
+    urldetail = urldetail +"&emailid="+document.getElementById("emailid").value;  
+	
+    $.ajax({
+        
+		  url : urldetail,
+		  type:"POST",
+		  success : function(result)
+		  {
+				//document.getElementById("downloadstatus").style.display = "none";
+        	    document.getElementById("downloading").innerHTML = "<i class='fa fa-file-excel-o' aria-hidden='true'></i>&nbsp;&nbsp;Excel Report&nbsp;&nbsp;";
+        	    window.location = document.getElementById("emailid").value+"/delayFlightReport.xls";	           
+                        
+			}// ------ END OF SUCCESS ----  
+
+ }); //----- END OF AJAX FUNCTION ------- 
+
+
+
+	
+
+}//-------- END OF FUNCTION ---------------
+
+
+
+
+
+
+
+
+
+
 
 </script>
 
@@ -53,7 +97,7 @@ function showFlightReport(){
  
  <form name="DelayFlighReport" id="DelayFlighReport">   
   
-  <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
+  <input type="hidden" id="emailid" name="emailid" value="<%=request.getParameter("emailid")%>">
   <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
 
@@ -120,7 +164,7 @@ function showFlightReport(){
 							<label for="startDate">Flight Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="startDate" name="startdate" class="form-control datepicker" maxlength="12"
+								<input type="date" id="startdate" name="startdate" class="form-control datepicker" maxlength="12"
 								    value="${startdate}" placeholder="(DD/MM/YYYY)"/>
 							</div>	
 						</div>
@@ -159,6 +203,15 @@ function showFlightReport(){
 							         <b>Searching..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
 							      </div>   
 					        </span>
+					        &nbsp;
+		         <button type="button"  class="btn btn-success" onClick="Download_ExcelReport();"  id="downloading">Excel Report&nbsp;&nbsp;<i class="fa fa-file-excel-o" aria-hidden="true"></i>	</button>	
+		           
+				    <span style="display:none" id="searchbutton1">
+					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+							         <b>Searching..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
+							      </div>   
+					        </span>
+					        
 					  
 				 </td>
 			</tr>		    

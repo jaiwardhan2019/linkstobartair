@@ -223,13 +223,23 @@ public class groundOpsController1 {
 	@RequestMapping(value = "/CreateExcelReliabilityReport",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public void CreateExcelReliabilityReport(ModelMap model,HttpServletRequest req,HttpServletResponse res) throws Exception{
 
-	 	   
-		excel.Populate_Reliablity_Report_ExcelFormat(req.getParameter("airlinecode"),
-				req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("enddate"),
-				req.getParameter("tolerance"),req.getParameter("delayCodeGroupCode"),req.getParameter("emailid"));	
-		   
 		        
+		        if(req.getParameter("delay").equals("no")){
+				   excel.Populate_Reliablity_Report_ExcelFormat(req.getParameter("airlinecode"),
+						req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("enddate"),
+						req.getParameter("tolerance"),req.getParameter("delayCodeGroupCode"),req.getParameter("emailid"));	
+		        } 
+		        
+	 	   
+		        if(req.getParameter("delay").equals("yes")) {		        	
+		           excel.Populate_Delay_Report_ExcelFormat(req.getParameter("airlinecode"),
+							req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("emailid"));				     
+		        	
+		        }
         
+				
+				
+				
 	//----------------------- Here Below is the File  Download Code not working with the AJAX cal --------------------
 	        /*
 		     String filename="viewExcelReliabilityReportFlights.xls";
@@ -323,7 +333,7 @@ public class groundOpsController1 {
 		   }
 		   else
 		   {
-			   model.put("status","Not updated plz check log.");
+			   model.put("status","Not updated plz check log. Or contact IT on it@stobartair.com");
 			   return 0;	
 		   }
 		   
