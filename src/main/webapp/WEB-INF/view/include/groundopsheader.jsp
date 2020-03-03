@@ -213,6 +213,8 @@ function CalGopsSmsUserManager(){
  
     -->
     
+    
+    <c:if test="${profilelist.Flight_Report  == 'Y'}">   
          <!-- FIRST MENU -->		
 	     <li class="dropdown">
 		 
@@ -244,6 +246,10 @@ function CalGopsSmsUserManager(){
 			     </ul>	 
 			      
 		</li>
+		
+	</c:if>	
+		
+		
 	  
 	   <c:if test="${profilelist.GCIGCMGCR  == 'Y'}">   
 		    <li class="dropdown">		 

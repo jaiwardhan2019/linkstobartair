@@ -83,7 +83,7 @@ public class documentManagerImp implements documentManager {
 				   		"      , doc_addedby_name  from Gops_Document_Master where doc_department='"+foldername+"' and doc_category='"+req.getParameter("cat").toUpperCase()+"' order by doc_added_date";
 		   }
 		   
-		   System.out.println(sqlListDocs);
+		   //System.out.println(sqlListDocs);
 		   
 		   List  documentList   = jdbcTemplate.query(sqlListDocs,new DocumentEntityRowmapper());	
 		   return documentList;

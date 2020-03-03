@@ -380,7 +380,7 @@ public class groundOpsController1 {
 	
 		   
 		   
-		   //--- FROM GROUND OPS HOME PAGE
+		   //--- FROM GROUND OPS HOME PAGE 
 		   if(req.getParameter("cat").equals("home")) {
 			   model.put("foldername","All Latest Documents");
 			   
