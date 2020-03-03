@@ -232,12 +232,12 @@ function CalGopsSmsUserManager(){
 					    <c:if test="${profilelist.DelayReport  == 'Y'}"> 
 					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('delayflightreport?airlinecode=ALL&airportcode=ALL&tolerance=0&delayCodeGroupCode=ALL&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Delay Report</a></li>
 					    </c:if> 
-					    
+				    <!-- 	    
 					     <c:if test="${profilelist.Daily_Summary  == 'Y'}"> 					     
 					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"   style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Daily Summary Report</a></li>
 					     </c:if> 
 					     
-					     <!-- 
+					 
 					 
 					     <c:if test="${profilelist.Voyager  == 'Y'}">  
 					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('voyagerReport?airlineCode=ALL');" style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Voyager Report</a></li>
