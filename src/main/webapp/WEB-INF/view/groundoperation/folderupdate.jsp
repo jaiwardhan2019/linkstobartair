@@ -112,7 +112,7 @@ function addDocument(category){
   <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
   <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
-  <input type="hidden" name="cat" id="cat" value="<%=request.getParameter("cat")%>">
+  <input type="hidden" name="cat" id="cat" value="GEN">
  
  <br>
  <br>		
@@ -129,7 +129,7 @@ function addDocument(category){
 				
 			   <c:if test="${profilelist.docmanager  == 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=read');">${foldername}</a>
+						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=home&operation=view');">${foldername}</a>
 						    <i class="fa fa-eye" aria-hidden="true"></i>
 						    &nbsp; &nbsp; &nbsp;${status}
 						</h3>
@@ -190,7 +190,7 @@ function addDocument(category){
 								<td>${contract.docAddedDate}&nbsp;&nbsp;&nbsp;&nbsp;</td>
 								<td>${contract.docCategory} &nbsp;&nbsp;&nbsp;<i  class="fa fa-trash" aria-hidden="true"></i>
 							  		  <span style="font-size:9pt;">
-							   				 <a style="color:red;" href="javascript:void();" onClick="calDocumentUpdate('listdocuments?docid=${contract.docId}&operation=remove');">Rem </a>
+							   				 <a style="color:red;" href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=GEN&docid=${contract.docId}&operation=remove');">Rem </a>
 							   		 </span>
 							    </td>
 							</tr>
@@ -199,8 +199,7 @@ function addDocument(category){
        </c:if>
        
        
-       
-	 
+   
 		<tr>
 					<td align="right" colspan="3">
 					    <br>
@@ -220,11 +219,15 @@ function addDocument(category){
 						
 							<td align="left">
 							  <br>															 
-                                 <span onClick="addDocument('<%=request.getParameter("cat")%>');" id="addnew" class="btn btn-primary" > &nbsp;Upload &nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
+                                 <span onClick="addDocument('GEN');" id="addnew" class="btn btn-primary" > &nbsp;Upload &nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
                                   
 							</td>
 								
 		</tr>
+	
+	
+
+	
 	
 							</tbody>
 					</table>

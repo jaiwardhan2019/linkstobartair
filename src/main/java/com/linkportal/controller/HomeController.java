@@ -45,6 +45,7 @@ import com.linkportal.fltreport.flightReports;
 import com.linkportal.graphreport.piechart;
 import com.linkportal.reports.excel.ReportMaster;
 import com.linkportal.security.UserSecurityLdap;
+import com.linkportal.docmanager.DocumentService;
 import com.linkportal.docmanager.documentManager;
 
 import com.thoughtworks.xstream.io.path.Path;
@@ -86,6 +87,9 @@ public class HomeController {
 	
 	@Autowired
 	ReportMaster excel;
+	
+	@Autowired
+	DocumentService  docobj;
 
 	
 	
@@ -163,6 +167,8 @@ public class HomeController {
 				  dbusr.updateUser_detail_LastLoginDateTime(req.getParameter("emailid"));
 				  req.getSession().setAttribute("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 				  model.put("usertype","E");
+				  model.put("gopsfilelist",docobj.getAllDocuments(req,"home"));
+				  
 				  return "groundoperation/groundopshome";
 			  }
 			  else 

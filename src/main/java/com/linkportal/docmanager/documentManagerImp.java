@@ -69,17 +69,21 @@ public class documentManagerImp implements documentManager {
 	@Override
 	public List<DocumentEntity> showAllDocumentsFromFolder(HttpServletRequest req,String foldername) {
 		   
-		   String sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
-		   		"      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
-		   		"      , doc_addedby_name  from Gops_Document_Master where doc_department='"+foldername+"' and doc_category='"+req.getParameter("cat").toUpperCase()+"' order by doc_added_date desc";
+		   String sqlListDocs = "";
 		   
-		   if(foldername.equals("home")) {
-			  sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
+		   if(foldername.equals("home") || foldername.equals("HOME") || req.getParameter("cat").toUpperCase().equals("GEN")) {
+			  sqlListDocs = " SELECT  doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
 				   		"    , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
-				   		"    , doc_addedby_name  from Gops_Document_Master where doc_department='"+foldername+"' and doc_category='"+req.getParameter("cat").toUpperCase()+"' order by doc_added_date desc";
-			   
+				   		"    , doc_addedby_name  from Gops_Document_Master  order by doc_added_date";
+		   }
+		   else
+		   {
+			   sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
+				   		"      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
+				   		"      , doc_addedby_name  from Gops_Document_Master where doc_department='"+foldername+"' and doc_category='"+req.getParameter("cat").toUpperCase()+"' order by doc_added_date";
 		   }
 		   
+		   System.out.println(sqlListDocs);
 		   
 		   List  documentList   = jdbcTemplate.query(sqlListDocs,new DocumentEntityRowmapper());	
 		   return documentList;

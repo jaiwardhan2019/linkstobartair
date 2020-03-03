@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../include/groundopsheader.jsp" />
 
 <!--  
@@ -13,6 +15,7 @@
 <script type="text/javascript">
 
 //https://codepen.io/yemon/pen/pWoROm   <<-- For the Text Annimation 
+
 
 
 </script>
@@ -207,283 +210,72 @@
 						<span  style="font-weight:600;font-size:12pt;color:#0071ba;"><b>Recent Documents Update</b>&nbsp;<i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></span>	 				  
 					________________________________________________________________________	 
 					</p>
-                      <table class="table"  style="width:100%;" align="center">	    
-			    
-						
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
+                      <table class="table"  style="width:100%;" align="center">	  
+                      
+                        
+				   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
+					       <c:if test = "${rowcount == 0}">
 					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-							   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-								   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-								   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-								   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-								   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-								   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-								   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-								   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-						   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="25%">
-											<span style="font-size:09pt"> 10 Jan 2020 </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="65%">
-			                       <span style="font-size:09pt">  
-			                         First File Name for the test 
-			                          First File Name for the test 
-			                         
-			                       </span>
-					          </td>
-					          
-					         <td align="left" bgcolor="white" width="10%">
-			                       <span style="font-size:09pt;font-weight:600;">
-			                           GHB
-			                       </span>
-					          </td>
-	
-			      	                
-				           </tr>
-					          
-	
-					       <tr>
+					             <tr>
+					             
+					                <td colspan="3" align="center">
+					                    <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
+					                    
+					              </td>
+					             
+					             </tr>
+					       
+					       </c:if>
+	  
+		     <% 
+		      int ctr=1;
+		     %>
+					    
+		  <c:if test = "${rowcount > 0}">
+		  			
+		  			
+		  			<c:forEach begin="0" end="12" var="contract" items="${gopsfilelist}">  
+							<tr style="font-size:09pt">									
+									<td width="75%"><img src="${contract.docType}.png"> &nbsp; 
+									<a href="${contract.docCategory}/${contract.docName}" target="_new">									     
+								            <c:set var="string1" value=" ${contract.docName}"/>
+                                                    <c:set var="string2" value="${fn:substring(string1, 0,70)}" />
+			                                            ${string2}
+			                              </a>									      
+									</td>
+									
+									<td width="15%"> ${contract.docAddedDate}</td>
+									<td align="center"><b>${contract.docCategory}</b></td>
+								    
+								</tr>
+	  			
+	  			
+		  			</c:forEach>
+		  			
+						   			           
+			</c:if>	           
+				           
+				           
+			   <c:if test="${profilelist.docmanager  != 'Y'}">
+					  <tr>
 					       <td colspan="3" align="right">
 					       <br>
-					       <span class="label label-primary">Show All</span>
+					        <a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=home&operation=view');"> <span class="label label-primary">Show All</span></a>
 					       </td>
-					       </tr>   
+					   </tr>   
 				          						          			
-		
+		       </c:if>  
+
+				           
+			   <c:if test="${profilelist.docmanager  == 'Y'}">
+					  <tr>
+					       <td colspan="3" align="right">
+					       <br>
+					       <a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=home&operation=update');"><span class="label label-success">Update <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>&nbsp;&nbsp;<a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=home&operation=view');"><span class="label label-primary">Show All&nbsp;<i class="fa fa-eye" aria-hidden="true"></i></span></a>
+					       </td>
+					   </tr>   
+				          						          			
+		       </c:if>
 		         
 		      </table>     
 		     

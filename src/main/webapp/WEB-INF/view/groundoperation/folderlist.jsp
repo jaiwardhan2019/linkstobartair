@@ -82,7 +82,7 @@ function calDocumentUpdate(reportname){
 				
 			   <c:if test="${profilelist.docmanager  == 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=update');">${foldername}</a>
+						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=home&operation=update');">${foldername}</a>
 						    &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 						    
 						</h3>
@@ -93,7 +93,7 @@ function calDocumentUpdate(reportname){
 				
 			   <c:if test="${profilelist.docmanager  != 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title">${foldername}	
+						<h3 class="panel-title">${foldername}
 						 		    
 						</h3>
 					</div>

@@ -350,7 +350,14 @@ public class groundOpsController1 {
 	//-------THis Will be Called When GCI GCM GCR called from Ground Ops  
 	@RequestMapping(value = "/listdocuments",method = {RequestMethod.POST,RequestMethod.GET})
 	public String groundopsdocumentlist(HttpServletRequest req, ModelMap model) throws Exception {	
+
+           model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
+		   model.put("usertype",req.getParameter("usertype"));
+			
 		   
+
 		   int status=0;
 
 		   if(req.getParameter("cat").equals("gci")) {
@@ -366,15 +373,57 @@ public class groundOpsController1 {
 			   model.put("foldername","Ground Crew Reminder");
 		   }
 
+		   if(req.getParameter("cat").equals("GEN")) {
+			   model.put("foldername","All Latest Documents");
+		   }
+
+	
 		   
 		   
-		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
-		   model.addAttribute("emailid",req.getParameter("emailid"));
-		   model.addAttribute("password",req.getParameter("password"));
-		   model.put("usertype",req.getParameter("usertype"));
-			
+		   //--- FROM GROUND OPS HOME PAGE
+		   if(req.getParameter("cat").equals("home")) {
+			   model.put("foldername","All Latest Documents");
+			   
+			   if(req.getParameter("operation") != null){
+				   
+				   if(req.getParameter("operation").equals("update")) { 
+					 model.put("gopsfilelist",docserv.getAllDocuments(req,"home"));
+				     return "groundoperation/folderupdate";
+				   }
+				   if(req.getParameter("operation").equals("view")) {
+					   model.put("gopsfilelist",docserv.getAllDocuments(req,"home"));
+					   return "groundoperation/folderlist";
+				   }
+				  
+				   if(req.getParameter("operation").equals("remove")) {
+					   
+					   if(docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))){
+							 model.put("status","Successfully Removed");
+							 logger.info("User id:"+req.getParameter("emailid")+" Removed Document ID:"+req.getParameter("docid"));
+						}
+						else
+						{
+							 model.put("status","File not Removed please check with IT.");
+							 logger.error("User id:"+req.getParameter("emailid")+"Couldnt Removed Document ID:"+req.getParameter("docid"));
+						}	
+						  
+				
+					   model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+					   return "groundoperation/folderupdate";
+				   }
+					   
+			   }
+			   return "groundoperation/folderlist";
+		   }
 		   
 		   
+		  
+		   
+		   
+		   
+		   
+		   
+			   
 		   
 		   //-- This part will be called when Edit / View / Upload Event is called 
 		   if(req.getParameter("operation") != null) {			   
@@ -430,6 +479,10 @@ public class groundOpsController1 {
 	@RequestMapping(value = "/addfiletofolder",method = {RequestMethod.POST,RequestMethod.GET})
 	public String addfiletofolde(@RequestParam("gfile") MultipartFile[] files,HttpServletRequest req, ModelMap model) throws Exception {	
 		  
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
+		   model.put("usertype",req.getParameter("usertype"));
 		
 		   /*/
 		   int status=0;
@@ -477,14 +530,11 @@ public class groundOpsController1 {
 			   model.put("foldername","Ground Crew Reminder");
 		   }
 		   
+		   if(req.getParameter("cat").equals("home")) {
+			   model.put("foldername","All Latest Documents");
+			   return "groundoperation/folderupdate";
+		   }
 		   
-		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
-		   model.addAttribute("emailid",req.getParameter("emailid"));
-		   model.addAttribute("password",req.getParameter("password"));
-		   model.put("usertype",req.getParameter("usertype"));
-			
-		   
-	   
 		   
 		   logger.info("User id:"+req.getParameter("emailid")+" Uploaded file to GCI - GCM - GCR Module");
 		   return "groundoperation/gcigcmgcr/updatefolderdocuments";
