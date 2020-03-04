@@ -271,7 +271,7 @@ function showFlightReport(){
 		<tbody>
 	     <tr align="center">
 	        
-	                <td bgcolor="#0070BA" width="7%">
+	                <td bgcolor="#0070BA" width="8%">
 					   <span style="color:white;"> <b> 
 					    Flight Date	
 					     </b></span>					 

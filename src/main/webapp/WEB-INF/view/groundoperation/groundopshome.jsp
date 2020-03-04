@@ -244,7 +244,7 @@
 			                              </a>									      
 									</td>
 									
-									<td width="15%"> ${contract.docAddedDate}</td>
+									<td width="17%"> ${contract.docAddedDate}</td>
 									<td align="center"><b>${contract.docCategory}</b></td>
 								    
 								</tr>

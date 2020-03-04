@@ -347,7 +347,7 @@ function Download_ExcelReport(){
  
 	     <tr align="center">
 				    
-				     <td bgcolor="#0070BA" width="7%">
+				      <td bgcolor="#0070BA" width="8%">
 					   <span style="color:white;" > <b> 
 					    Flt. Date	
 					     </b></span>					 
