@@ -77,9 +77,9 @@ public class GroundOpsSqlBuilder implements Serializable{
 		
 
 		//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
-		public String builtDelayFlightReportSql(String airline,String airport,String shortby,String ofdate,String flightno) throws NullPointerException{
+		public String builtDelayFlightReportSql(String airline,String airport,String shortby,String ofdate,String todate,String flightno) throws NullPointerException{
 	 		    
-			    if(ofdate.length()  > 0 ){ sqlmaster += " WHERE legs.datop='"+ofdate+"'"; }
+			    if(ofdate.length()  > 0 ){ sqlmaster += " WHERE legs.datop between '"+ofdate+"' and '"+todate+"'"; }  	
 			   
 	 		    if(flightno.trim().length() > 0){ sqlmaster += " AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
 			    

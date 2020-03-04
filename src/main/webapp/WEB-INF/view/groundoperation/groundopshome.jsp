@@ -193,10 +193,16 @@
 				
 					
 				</div>
+				
+			
 				 
 			</div>
 			
+		   <a href="javascript:void();" onClick="Calqpulse();"><img src="qpulse.png" width="100%"></a>	
+			
 		</div> 
+		
+			
 	<!-- END OF DAILY PUNCT STATS DIV  -->	
 
 

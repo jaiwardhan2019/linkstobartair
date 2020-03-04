@@ -232,14 +232,14 @@ public class flightReportsImp implements flightReports{
 
 
    	   @Override  //jai  Will be Called for the delay Flight Report 
-	   public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate , String flightno, String useremail){
+	   public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
 		   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
 		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
 		   String builtsql             = null;
 		   
 		 //---- FOR STOBART USER----
 		   if(StobartUser) {
-			  builtsql= gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,flightno);
+			  builtsql= gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);
 		   }
 		   
 		   //---- FOR GH ----
@@ -266,7 +266,7 @@ public class flightReportsImp implements flightReports{
 				 airline=eligibleairlinelist;
 			 }
 			 
-			 builtsql = gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,flightno);	
+			 builtsql = gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);	
 				 
 		   }//end of if  FOR GH ---- jai  
 		   

@@ -99,16 +99,17 @@ public class gopsAllapiImp implements gopsAllapi  {
 	@Override	
 	@Transactional(rollbackFor=Exception.class,propagation= Propagation.REQUIRES_NEW)
 	public int removeRefisUser_FromDb(String emailid) {
-		   int status=1;	
-		   
-		   try {			   
-				
+		   int status=0;			   
+		   try {	
 			   //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=0");	           
-		       status = jdbcTemplateRefis.update("DELETE FROM  link_user_master WHERE internal_external_user='E' and email_id='"+emailid+"'");
+		       
+			   status = jdbcTemplateRefis.update("DELETE FROM  link_user_master WHERE internal_external_user='E' and email_id='"+emailid+"'");
 		       status = jdbcTemplateRefis.update("DELETE FROM link_user_profile_list WHERE user_email='"+emailid+"'");
 		       status = jdbcTemplateRefis.update("DELETE FROM Gops_Airline_Station_Access WHERE USER_NAME='"+emailid+"'");
-			   //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=1");		   
-		   }catch(Exception exp) { logger.error("Error While Removing Ground Handler User:"+exp);}
+		       
+		       //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=1");		
+		       
+		   }catch(Exception exp) {logger.error("Error While Removing Ground Handler User:"+exp.toString());}
 		
 		   return status;
 	

@@ -671,26 +671,86 @@ setTimeout(function(){window.location.href="index"},60000000);
 
  -->
  
+ 
+ 
+ 	<!--Covid 
+	<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12" >
+			
+			<div class="panel pane-default panel-shadow">
+				<div class="panel-body" >
+				
+				<table class="table bordered" style="border-color:black;">	 
+				
+				
+				
+				 <thead>
+				 <tr align="center">
+				 <td align="center" style="background:#F1C40F"> 
+				            <span style="color:black;font-size:15px;font-weight:600;">Corona Virus Latest Update</span>  
+				 </td>
+				 </tr>
+				 </thead>
+				 
+				    <tr>
+				          <td>
+				              <i class="fa fa-chevron-circle-right"></i>&nbsp;&nbsp;<a href="AllStaffCoronavirusInformation12Feb002.pdf"  target="_blank">&nbsp; <b> General info for All Staff.</b> 
+                          &nbsp;</a> <img  src="images/page_white_acrobat.png"> 
+  
+				          </td>
+				    
+				    </tr>
+				
+				
+				   <tr>
+				          <td>
+				          					  <i class="fa fa-chevron-circle-right"></i>&nbsp;&nbsp;<a href="GuidanceonCOVID19forworkers.pdf"  target="_blank">&nbsp; <b>  HSE Guidance on COVID-19.</b> 
+                          &nbsp;</a> <img  src="images/page_white_acrobat.png"> 
+  
+				          </td>
+				    
+				    </tr>
+				    
+				    <tr>
+				          <td>
+				          	  <i class="fa fa-chevron-circle-right"></i>&nbsp;&nbsp;<a href="https://www.dfa.ie/travel/travel-advice/coronavirus/"  target="_blank">&nbsp; <b> Travel Advise.</b> 
+                          &nbsp;</a> <img  src="images/page_white_acrobat.png"> 
+  
+				          </td>
+				    
+				    </tr>
+				
+				
+				
+				</table>
+
+	
+				</div>
+			</div>
+			
+		</div>
+  --> 
+ 
+ 
 <br>
 
 
 <!--END OF  Updated Area  For the Video Display -->
 
 	
-		<!--Full Width text-->
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			
-			<div class="panel pane-default panel-shadow">
-				<div class="panel-body">
+	<!--Full Width text-->
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		
+		<div class="panel pane-default panel-shadow">
+			<div class="panel-body">
 
-					<p align="justify" class="my_discription">
-						<b>Welcome to Stobart Air Link </b>, our internal information portal for Stobart Air employees. The primary purpose of this site is to provide ease of access to Company information and systems.  By logging in just once and then clicking through on the tiles below you can access your work email,  our existing crew website and staff travel.  In addition, through this single entry point you can click into various other information systems which you may use for work purposes, including Q-Pulse and Pelesys Training.  We have also populated the site with links to our Company policies and benefit information, updates to which will be communicated here.
-						Stobart Air Link is our platform to share Company news and developments with you.  Please visit Link regularly to ensure you keep up to date on news, developments, and opportunities.  
-					</p>
-				</div>
+				<p align="justify" class="my_discription">
+					<b>Welcome to Stobart Air Link </b>, our internal information portal for Stobart Air employees. The primary purpose of this site is to provide ease of access to Company information and systems.  By logging in just once and then clicking through on the tiles below you can access your work email,  our existing crew website and staff travel.  In addition, through this single entry point you can click into various other information systems which you may use for work purposes, including Q-Pulse and Pelesys Training.  We have also populated the site with links to our Company policies and benefit information, updates to which will be communicated here.
+					Stobart Air Link is our platform to share Company news and developments with you.  Please visit Link regularly to ensure you keep up to date on news, developments, and opportunities.  
+				</p>
 			</div>
-			
 		</div>
+		
+	</div>
 
 	
 

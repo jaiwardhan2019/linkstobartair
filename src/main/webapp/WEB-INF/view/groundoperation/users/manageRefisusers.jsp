@@ -45,7 +45,6 @@ function searchUser(){
 function remove_user_Profile(accountid){
 			
 		if(confirm("Are you sure about Removing This User ??")){
-
 			   document.refieUser.method="POST";
 			   document.refieUser.operation.value="remove";
 			   document.refieUser.userinsubject.value=accountid;

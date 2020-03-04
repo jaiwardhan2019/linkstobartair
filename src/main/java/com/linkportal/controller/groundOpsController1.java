@@ -223,39 +223,43 @@ public class groundOpsController1 {
 	@RequestMapping(value = "/CreateExcelReliabilityReport",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public void CreateExcelReliabilityReport(ModelMap model,HttpServletRequest req,HttpServletResponse res) throws Exception{
 
-		        
-		        if(req.getParameter("delay").equals("no")){
+		   String filename="";
+		   
+		   if(req.getParameter("delay").equals("no")){
 				   excel.Populate_Reliablity_Report_ExcelFormat(req.getParameter("airlinecode"),
 						req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("enddate"),
 						req.getParameter("tolerance"),req.getParameter("delayCodeGroupCode"),req.getParameter("emailid"));	
-		        } 
+				   
+				   filename="viewExcelReliabilityReportFlights.xls";
+		    } 
 		        
 	 	   
-		        if(req.getParameter("delay").equals("yes")) {		        	
+		    if(req.getParameter("delay").equals("yes")) {		        	
 		           excel.Populate_Delay_Report_ExcelFormat(req.getParameter("airlinecode"),
 							req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("emailid"));				     
-		        	
-		        }
+		           filename="delayFlightReport.xls";
+		     }
         
 				
 				
 				
-	//----------------------- Here Below is the File  Download Code not working with the AJAX cal --------------------
-	        /*
-		     String filename="viewExcelReliabilityReportFlights.xls";
-		 	  res.setContentType("text/html");  
-		      PrintWriter out = res.getWriter();  
-		         
-
-		      res.setContentType("APPLICATION/OCTET-STREAM");   
-		      res.setHeader("Content-Disposition","attachment; filename=\"" + filename.trim() + "\"");
-		      FileInputStream fileInputStream = new FileInputStream(filepath +req.getParameter("emailid")+"/"+filename.trim());  
-		      int i;   
-		      while ((i=fileInputStream.read()) != -1) { out.write(i); }
-		      fileInputStream.close();   
-		      out.close();
-		      */   
-		      logger.info(req.getParameter("emailid")+" : Have Download the Reliablity Report on:"+ new Date()); 
+	         /*----------------------- Here Below is the File  Download Code not working with the AJAX cal --------------------
+		     res.setContentType("text/html");
+		     PrintWriter out = res.getWriter();
+		     
+		     System.out.println(filepath +req.getParameter("emailid")+"/"+filename.trim());
+		     
+		     res.setContentType("APPLICATION/OCTET-STREAM");   
+		     res.setHeader("Content-Disposition","attachment; filename=\"" + filename.trim() + "\"");
+		     FileInputStream fileInputStream = new FileInputStream(filepath +req.getParameter("emailid")+"/"+filename.trim());  
+		     //FileInputStream fileInputStream = new FileInputStream("C:/data/operations/jai.wardhan@stobartair.com/delayFlightReport.xls");
+		     int i;   
+		     while ((i=fileInputStream.read()) != -1) { System.out.println(i);out.write(i); }
+		     fileInputStream.close();   
+		     out.close();
+		     */
+	
+		     logger.info(req.getParameter("emailid")+" : Have Download the Reliablity Report on:"+ new Date()); 
 	      
     
 	}
@@ -283,12 +287,16 @@ public class groundOpsController1 {
 		   Date today                     = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar                     c = Calendar.getInstance();  
-		   String todaydate               = (String)(formattedDate.format(c.getTime()));
-		   model.put("startdate",todaydate);
-		  
-		   if(req.getParameter("startdate") != null) {			  
-			   model.put("startdate",req.getParameter("startdate"));
-			   todaydate=req.getParameter("startdate");
+		   String fromdate                = (String)(formattedDate.format(c.getTime()));
+		   String todate                  = fromdate;
+		   model.put("startdate",fromdate);
+		   model.put("enddate",todate);	
+		   
+		   if(req.getParameter("startdate") != null) {	
+			   fromdate  = req.getParameter("startdate");
+			   todate    = req.getParameter("enddate");
+			   model.put("startdate",req.getParameter("startdate"));			   
+			   model.put("enddate",req.getParameter("enddate"));			   
 		   }
 		 	   
 		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
@@ -296,10 +304,11 @@ public class groundOpsController1 {
 		   
 		   
 		   //--------- FOR GENERAL FLIGHTS---------------------------- 
-		   model.put("reportbody",flt.PopulateDelayFlightReport(req.getParameter("airlinecode"),
-			         req.getParameter("airportcode"),todaydate,req.getParameter("flightno") ,req.getParameter("emailid") ));
+		    model.put("reportbody",flt.PopulateDelayFlightReport(req.getParameter("airlinecode"),
+		         req.getParameter("airportcode"),fromdate,todate,req.getParameter("flightno") ,req.getParameter("emailid") ));
 		   
-		   
+		
+			
 		   
 		   //--------- FOR CANCLE FLIGHTS--------------------- 
 		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
@@ -628,16 +637,22 @@ public class groundOpsController1 {
 				
 				//-- Remove Ground Ops User --
 				if(req.getParameter("operation").equals("remove")) {				  
-				   status=refisuser.removeRefisUser_FromDb(req.getParameter("userinsubject"));
-				   model.put("status","User id :(&nbsp;&nbsp;"+req.getParameter("userinsubject")+"&nbsp;&nbsp;) Removed Successfully..");	
+				   status = refisuser.removeRefisUser_FromDb(req.getParameter("userinsubject"));
+				   if(status > 0) {
+					   model.put("status","User id :(&nbsp;&nbsp;"+req.getParameter("userinsubject")+"&nbsp;&nbsp;) Removed Successfully..");	   
+				   }				  
+				   else
+				   {
+					   model.put("status","User id :(&nbsp;&nbsp;"+req.getParameter("userinsubject")+"&nbsp;&nbsp;) Not Removed Please contact IT..");	
+				   }
+				   
 				}
 				
 				
 				
 				
 				//-- Add new User page
-				if(req.getParameter("operation").equals("addnew")) {
-				  System.out.println("Add new is selected ");
+				if(req.getParameter("operation").equals("addnew")) {				  
 				  model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 				  model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
 				  return "groundoperation/users/addNewRefisusers"; 

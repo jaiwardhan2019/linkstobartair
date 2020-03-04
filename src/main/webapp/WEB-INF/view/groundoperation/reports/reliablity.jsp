@@ -341,7 +341,7 @@ function Download_ExcelReport(){
    
    <div id="menu1" class="tab-pane fade in active">					
 
-  	<table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255,0.5);" align="left">	
+  	<table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255);" align="left">	
 		      
   
  

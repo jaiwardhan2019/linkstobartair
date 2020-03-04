@@ -266,7 +266,7 @@ function showFlightReport(){
 
 <!-- TODAY BODY  -->		
 <div id="today" class="tab-pane fade in active" >
-    <table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255,0.5);" align="center">	  
+    <table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255);" align="center">	  
    
 		<tbody>
 	     <tr align="center">

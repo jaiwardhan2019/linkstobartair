@@ -61,7 +61,7 @@ function Download_ExcelReport(){
     $.ajax({
         
 		  url : urldetail,
-		  type:"POST",
+		  type:"GET",
 		  success : function(result)
 		  {
 				//document.getElementById("downloadstatus").style.display = "none";
@@ -161,7 +161,7 @@ function Download_ExcelReport(){
 					<td>
 				             
 		               <div class="col-xs-12">
-							<label for="startDate">Flight Date:</label>
+							<label for="startDate">Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
 								<input type="date" id="startdate" name="startdate" class="form-control datepicker" maxlength="12"
@@ -173,7 +173,26 @@ function Download_ExcelReport(){
 				       </td>
 	       				
 					<td>
-							             
+					
+					
+				    <div class="col-xs-12">
+							<label for="startDate">End Date:</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
+								<input type="date" id="enddate" name="enddate" class="form-control datepicker" maxlength="12"
+								    value="${enddate}" placeholder="(DD/MM/YYYY)"/>
+							</div>	
+						</div>
+								
+							
+				       </td>
+				       
+				       
+				       
+				     </tr>
+				     					 
+				    <tr>
+				    <td>		             
 							<div class="col-xs-12">
 										<label> Flight No </label>
 										<div class="input-group">
@@ -183,38 +202,34 @@ function Download_ExcelReport(){
 										</div>
 							    </div>
 				    
-	    
-							
-				       </td>
-				       
-				       
-				       
-				     </tr>					 
+				    </td>
+				    
+				     <td align="center">
+				                <br>
+				     		 <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
+		                     &nbsp;&nbsp;<button type="button"  class="btn btn-success" onClick="Download_ExcelReport();"  id="downloading">Excel Report&nbsp;&nbsp;<i class="fa fa-file-excel-o" aria-hidden="true"></i>	</button>	
+		 
+					     
+				     </td>
+				    
+				    
+				    </tr>
+				    
 				     
-	 
-	 <tr >
-				     					
-			<td align="center" colspan="2">
-						   
-				 <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
-		                     
-				    <span style="display:none" id="searchbutton1">
-					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							         <b>Searching..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
-							      </div>   
-					        </span>
-					        &nbsp;
-		         <button type="button"  class="btn btn-success" onClick="Download_ExcelReport();"  id="downloading">Excel Report&nbsp;&nbsp;<i class="fa fa-file-excel-o" aria-hidden="true"></i>	</button>	
-		           
+	
+				     
+		  <tr>
+		  <td colspan="2">
 				    <span style="display:none" id="searchbutton1">
 					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
 							         <b>Searching..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
 							      </div>   
 					        </span>
 					        
-					  
-				 </td>
-			</tr>		    
+				
+		  </td>
+		  </tr>		     
+				     
 				     
 							    
 				    </tbody>
