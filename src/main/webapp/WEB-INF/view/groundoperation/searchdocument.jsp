@@ -84,7 +84,7 @@ function calDocumentUpdate(reportname){
 				
 		
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title">${foldername}
+						<h3 class="panel-title"> Documents with name :->  &nbsp; ${docname} 
 						 		    
 						</h3>
 					</div>
@@ -135,15 +135,11 @@ function calDocumentUpdate(reportname){
 					<c:forEach var="contract" items="${gopsfilelist}">    
 									<tr>
 										<td width="4%"><%=ctr++%>.</td>
-										<td width="70%"><img src="${contract.docType}.png"> &nbsp; 
-										
-										<a href="${contract.docCategory}/${contract.docName}" target="_new">
-										
-										
-										${contract.docName}
-										
-										
-										</a></td>
+										<td width="70%"><img src="${contract.docType}.png"> &nbsp;
+										   <a href="${contract.docCategory}/${contract.docName}" target="_new">
+										    ${contract.docName}
+										    </a>
+										</td>
 										<td >${contract.docAddedDate}</td>
 										<td align="center">${contract.docCategory}</td>
 									    

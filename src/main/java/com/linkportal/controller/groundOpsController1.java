@@ -365,16 +365,17 @@ public class groundOpsController1 {
 	
 	
 	
-	//****************** GROUND OPS DOCUMENT REPORT AND MANAGMENT GCI GCM GCR***********************************************
+	//****************** GROUND OPS DOCUMENT SEARCH ***********************************************
 	//-------THis Will be Called from header search document TOP Right.  
 	@RequestMapping(value = "/searchdocuments",method = {RequestMethod.POST,RequestMethod.GET})
 	public String groundopsdocumentsearch(HttpServletRequest req, ModelMap model) throws Exception {	
-
            model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));
 		   model.put("usertype",req.getParameter("usertype"));		   
 		   model.put("gopsfilelist",docserv.seachDocuments(req.getParameter("myInput")));
+		   model.put("docname", req.getParameter("myInput"));
+		   
 		   return "groundoperation/searchdocument";  
 	}
 	
@@ -394,19 +395,16 @@ public class groundOpsController1 {
 	//-------THis Will be Called When GCI GCM GCR called from Ground Ops  
 	@RequestMapping(value = "/listdocuments",method = {RequestMethod.POST,RequestMethod.GET})
 	public String groundopsdocumentlist(HttpServletRequest req, ModelMap model) throws Exception {	
-
-           model.put("profilelist",req.getSession().getAttribute("profilelist"));
+           
+		   model.put("profilelist",req.getSession().getAttribute("profilelist"));
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));
 		   model.put("usertype",req.getParameter("usertype"));
-			
-		   
 
 		   int status=0;
-
+		   
 		   if(req.getParameter("cat").equals("gci")) {
 			   model.put("foldername","Ground Crew Instructions");		
-			   
 		   }
 		   
 		   if(req.getParameter("cat").equals("gcm")) {

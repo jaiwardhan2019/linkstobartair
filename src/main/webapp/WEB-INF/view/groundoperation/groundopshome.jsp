@@ -60,15 +60,19 @@
 				
 				               ${DailyPunctStatistics}
 					     
+				           <tr>
+					          <td colspan="2" align="right" height="30px"><br>
+		                            <a href="javascript:void();" onClick="cal_groundops_home('${usertype}');"> <span class="label label-primary"> Refresh &nbsp;<i class="fa fa-refresh" aria-hidden="true"></i></span></a>
+				 
+					          </td>
+				          </tr>
 				
 			        
 		      </table>   					
 				
 					
 				</div>
-				
-			
-				 
+				    
 			</div>
 			
 		   <a href="javascript:void();" onClick="Calqpulse();"><img src="qpulse.png" width="100%"></a>	

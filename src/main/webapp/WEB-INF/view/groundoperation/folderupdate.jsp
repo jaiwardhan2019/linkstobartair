@@ -198,7 +198,7 @@ function addDocument(category){
 							
        </c:if>
        
-       
+      <!--  
    
 		<tr>
 					<td align="right" colspan="3">
@@ -224,7 +224,7 @@ function addDocument(category){
 							</td>
 								
 		</tr>
-	
+	 -->
 	
 
 	
