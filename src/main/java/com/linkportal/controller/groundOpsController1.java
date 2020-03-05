@@ -76,6 +76,9 @@ public class groundOpsController1 {
 	@Autowired
 	DocumentService  docserv;
 
+	
+	@Autowired
+	gopsAllapi  gopsobj; 
 
 	@Autowired
 	ReportMaster excel;
@@ -86,7 +89,7 @@ public class groundOpsController1 {
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);
 	
-		
+	
 
 
 	//------- This Part Will be Called from the Login Page index.jsp 
@@ -98,7 +101,14 @@ public class groundOpsController1 {
 		  model.addAttribute("password",req.getParameter("password"));			
 		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); //<<-- Populate Profile List with the map object 
 		  
-		  model.put("gopsfilelist",docserv.getAllDocuments(req,"home"));
+		//--- Show today Punctuality Status    
+		  model.put("DailyPunctStatistics",gopsobj.getPuncStaticforGroundOpsHomePage());
+		  
+		  //--- List top 10 document 
+		  model.put("gopsfilelist",docserv.getAllDocuments(req,"home"));	
+		  
+		  
+		  
 		  
 		  model.put("profilelist",req.getSession().getAttribute("profilelist")); 
 		  model.put("usertype",req.getParameter("usertype"));
@@ -178,29 +188,31 @@ public class groundOpsController1 {
 		   Date today                     = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar                     c = Calendar.getInstance();  
-		   String todaydate               = (String)(formattedDate.format(c.getTime()));
-		   model.put("startdate",todaydate);
-		   model.put("enddate",todaydate);	
-		   if(req.getParameter("startdate") != null) {			  
-			   model.put("startdate",req.getParameter("startdate"));
+		   String fromdate               = (String)(formattedDate.format(c.getTime()));
+		   String todate                 = fromdate;
+				   
+		   model.put("startdate",fromdate);
+		   model.put("enddate",todate);	
+		   if(req.getParameter("startdate") != null) {	
+			   fromdate  = req.getParameter("startdate");
+			   todate    = req.getParameter("enddate");
+			   model.put("startdate",req.getParameter("startdate"));			   
 			   model.put("enddate",req.getParameter("enddate"));
-			   
 		   }
-		   model.put("tolerance",req.getParameter("tolerance"));
-		 	   
+		   
+		   model.put("tolerance",req.getParameter("tolerance"));		 	   
 		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
 		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
 		   
 		   
 		 //--------- FOR GENERAL FLIGHTS---------------------------- 
 		   model.put("reportbody",flt.Populate_Reliablity_Report_body(req.getParameter("airlinecode"),
-		         req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("enddate"),
+		         req.getParameter("airportcode"),fromdate,todate,
 		         req.getParameter("tolerance"),req.getParameter("delayCodeGroupCode")));
 	
 		   //--------- FOR CANCLE FLIGHTS--------------------- 
 		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
-			         req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("enddate"),
-			         req.getParameter("tolerance")));
+			         req.getParameter("airportcode"),fromdate,todate,req.getParameter("tolerance")));
 		   
 		   
 		   
@@ -312,7 +324,7 @@ public class groundOpsController1 {
 		   
 		   //--------- FOR CANCLE FLIGHTS--------------------- 
 		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
-			         req.getParameter("airportcode"),req.getParameter("startdate"),req.getParameter("startdate"),"0"));
+			         req.getParameter("airportcode"),fromdate,todate,"0"));
 		   
 		   
 		   
@@ -331,7 +343,7 @@ public class groundOpsController1 {
 	
 
 
-	//--------- THIS PART WILL DO DB UPDATE FROM THE AJAX  
+	//--------- THIS PART WILL DO DB UPDATE FROM THE AJAX  CALL FROM DELAY FLIGHT REPORT 
 	@ResponseBody
 	@RequestMapping(method = {RequestMethod.POST,RequestMethod.GET}, value="/delayaction")
 	public int delayAction(ModelMap model,HttpServletRequest req) {		   
@@ -352,6 +364,19 @@ public class groundOpsController1 {
 	
 	
 	
+	
+	//****************** GROUND OPS DOCUMENT REPORT AND MANAGMENT GCI GCM GCR***********************************************
+	//-------THis Will be Called from header search document TOP Right.  
+	@RequestMapping(value = "/searchdocuments",method = {RequestMethod.POST,RequestMethod.GET})
+	public String groundopsdocumentsearch(HttpServletRequest req, ModelMap model) throws Exception {	
+
+           model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   model.addAttribute("password",req.getParameter("password"));
+		   model.put("usertype",req.getParameter("usertype"));		   
+		   model.put("gopsfilelist",docserv.seachDocuments(req.getParameter("myInput")));
+		   return "groundoperation/searchdocument";  
+	}
 	
 	
 	

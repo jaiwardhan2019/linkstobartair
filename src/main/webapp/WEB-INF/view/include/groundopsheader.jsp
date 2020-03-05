@@ -167,7 +167,7 @@ function CalGopsSmsUserManager(){
     <input type="hidden" name="usertype" value="${usertype}">
     <!-- Will be user for the Qpulse -->
     <input id="username" type="hidden" name="username" value="<%=FirstName_LastName[0]%>">
-</form>
+
 
 
 
@@ -232,6 +232,12 @@ function CalGopsSmsUserManager(){
 					    <c:if test="${profilelist.DelayReport  == 'Y'}"> 
 					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('delayflightreport?airlinecode=ALL&airportcode=ALL&tolerance=0&delayCodeGroupCode=ALL&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Delay Report</a></li>
 					    </c:if> 
+					    
+					     <c:if test="${profilelist.OtpReport  == 'Y'}"> 					     
+					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"   style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;OTP Report</a></li>
+					     </c:if> 
+					     
+					    
 				    <!-- 	    
 					     <c:if test="${profilelist.Daily_Summary  == 'Y'}"> 					     
 					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"   style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Daily Summary Report</a></li>
@@ -420,13 +426,13 @@ function CalGopsSmsUserManager(){
 	</span>
 	
  
-      <input type="text"  id="myInput" placeholder="Search Document.." >
+      <input type="text"  id="myInput" name="myInput" placeholder="Search Document.." >
       <!-- <span id="searchbutton" onclick="manage_contract('search');" class="btn btn-primary btn-sm">&nbsp;&nbsp;<i class="fa fa-search  fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;</span> -->
-      <button type="submit"  id="myBtn" onclick="javascript:alert('Under Construction!')"><i class="fa fa-search"></i></button>
+      <button type="submit"  id="myBtn" onclick="calDocumentReport('searchdocuments')"><i class="fa fa-search"></i></button>
 	
  </div>
  
- 
+ </form>
 <br>
 <br>
 <br>

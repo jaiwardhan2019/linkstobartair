@@ -43,6 +43,7 @@ import com.linkportal.dbripostry.linkUsers;
 import com.linkportal.dbripostry.staffTravelUser;
 import com.linkportal.fltreport.flightReports;
 import com.linkportal.graphreport.piechart;
+import com.linkportal.groundops.gopsAllapi;
 import com.linkportal.reports.excel.ReportMaster;
 import com.linkportal.security.UserSecurityLdap;
 import com.linkportal.docmanager.DocumentService;
@@ -91,7 +92,8 @@ public class HomeController {
 	@Autowired
 	DocumentService  docobj;
 
-	
+	@Autowired
+	gopsAllapi  gopsobj; 
 	
 	
 	
@@ -167,6 +169,7 @@ public class HomeController {
 				  dbusr.updateUser_detail_LastLoginDateTime(req.getParameter("emailid"));
 				  req.getSession().setAttribute("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
 				  model.put("usertype","E");
+				  model.put("DailyPunctStatistics",gopsobj.getPuncStaticforGroundOpsHomePage());
 				  model.put("gopsfilelist",docobj.getAllDocuments(req,"home"));
 				  
 				  return "groundoperation/groundopshome";

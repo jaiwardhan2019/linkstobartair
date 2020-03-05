@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -485,6 +486,130 @@ public class gopsAllapiImp implements gopsAllapi  {
 		   
 		return DelayComment;
 	}
+
+
+
+	
+	
+	
+	
+	
+
+	@Override
+	public String getPuncStaticforGroundOpsHomePage() {
+		
+		try {
+		  Date today                     = new Date();               
+		  SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+		  Calendar                     c = Calendar.getInstance();  
+		  String dateofoperation               = (String)(formattedDate.format(c.getTime()));	
+		   
+		  String sqlforpunctuality="select sum(case when status != 'RTR' then 1 else 0 end )  as totalflights ,"+
+		   		"      sum(case when status = 'ATA' then 1 else 0 end) as NumFlownsofar ,      \r\n"+
+		   		"      sum(case when status = 'CNL' then 1 else 0 end) as cancelledsofar ," + 
+		   		"      sum(case when status = 'DEP' then 1 else 0 end) as totalairborn ," + 
+		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) <= 0) then 1 else 0 end) as ontimedep , " + 
+		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) <= 15) then 1 else 0 end)  as lessthen15minutesdep, " +
+		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) <= 0) then 1 else 0 end) as ontimearr, " + 
+		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) <= 15) then 1 else 0 end) as lessthen15minutesarr " + 
+		   		"	   from LEGS where DATOP = '"+dateofoperation+"'";
+		   
+		  //System.out.println(sqlforpunctuality);
+		   
+		  
+		   int ontimedep            = 0;
+		   int lessthen15minutesdep = 0;
+		   
+		   int ontimearr            = 0;
+		   int lessthen15minutesarr = 0;
+		   
+		   int totalflights         = 0;
+		   int NumFlownsofar        = 0;
+		   int cancelledsofar       = 0;
+		   int totalairborn         = 0;
+		   String reportbody        = "";	   
+			  
+			   
+			   	
+			   
+		   SqlRowSet rsc =  jdbcTemplatePdc.queryForRowSet(sqlforpunctuality);  
+		   if(rsc.next()){				
+		    		   
+		    		   if(rsc.getString("NumFlownsofar") != null) {
+		    	
+								  
+						   ontimedep            =Integer.parseInt(rsc.getString("ontimedep"));
+						   lessthen15minutesdep =Integer.parseInt(rsc.getString("lessthen15minutesdep"));
+						   
+						   ontimearr            =Integer.parseInt(rsc.getString("ontimearr"));
+						   lessthen15minutesarr =Integer.parseInt(rsc.getString("lessthen15minutesarr"));
+						   
+						   totalflights         =Integer.parseInt(rsc.getString("totalflights"));
+						   NumFlownsofar        =Integer.parseInt(rsc.getString("NumFlownsofar"));
+						   cancelledsofar       =Integer.parseInt(rsc.getString("cancelledsofar"));
+						   totalairborn         =Integer.parseInt(rsc.getString("totalairborn"));
+				           try {
+				        	   ontimedep             = (ontimedep * 100)/NumFlownsofar;
+				        	   lessthen15minutesdep  = (lessthen15minutesdep * 100)/NumFlownsofar;
+				        	   ontimearr             = (ontimearr * 100)/NumFlownsofar;
+				        	   lessthen15minutesarr  = (lessthen15minutesarr * 100)/NumFlownsofar;
+				           }catch (ArithmeticException er){logger.error("Error in Ground Ops Home Page Punctuality Calculation:"+er.toString());}
+						   
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> On Time Date </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+ontimedep + 
+						   		      " %</span></td></tr>";
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Within 15 Minutes. </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+lessthen15minutesdep + 
+						   		      " %</span></td></tr>";
+
+						   reportbody = reportbody+"<tr><td colspan='2' align='left' height='30px'><u><span style='font-size:09pt;font-weight:600;'> Destination</span></u></td> </tr>"; 
+						   							          
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> On Time Date </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+ontimearr + 
+						   		      " %</span></td></tr>";
+	
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Within 15 Minutes. </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+lessthen15minutesarr + 
+						   		      " %</span></td></tr>";
+
+						   reportbody = reportbody+"<tr><td colspan='2' align='left' height='30px'><u><span style='font-size:09pt;font-weight:600;'> No of Flights</span></u></td> </tr>"; 
+						   							          
+							
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Schedule for Today . </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+totalflights + 
+						   		      " </span></td></tr>";
+					   		
+
+							
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Completed So Far. </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;color:green;'>"+NumFlownsofar + 
+						   		      " </span></td></tr>";
+					   		
+
+							
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Cancelled. </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;color:red;'>"+cancelledsofar + 
+						   		      " </span></td></tr>";
+					   		
+							
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Air Born. </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+totalairborn + 
+						   		      " </span></td></tr>";
+
+						   
+		    		   }          
+			      }	   
+
+		  
+		return reportbody;
+		
+		}catch(Exception ex) {			
+			logger.error("Error in Ground Ops Home Page Punctuality:"+ex.toString());
+			return "";
+		}
+		
+	}
+	//-------- END OF FUNCTION ---------------
 
 	
 	

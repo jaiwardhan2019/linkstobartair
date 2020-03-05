@@ -38,6 +38,11 @@ public class DocumentService {
 		   return repository.removeDocumentFromFolder(id);
 	} 
 	
+
+	public List<DocumentEntity> seachDocuments(String documentname){		
+		   List<DocumentEntity> result =  repository.searchDocumentsFromFolder(documentname);
+		   return result;
+	}
 		
 	
 

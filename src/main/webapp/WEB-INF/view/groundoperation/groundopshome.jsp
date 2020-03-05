@@ -46,13 +46,11 @@
 						   <tr>
 			                
 			                  <td  align="center" bgcolor="white" width="60%" colspan="2">
-			                               
-											<span style="font-size:09pt;font-weight:600;"> </span> &nbsp;
-											<span style="font-size:10pt;font-weight:600;">   10 Jan 2020   </span>	
-																				
+			                    	<span style="font-size:10pt;font-weight:600;"> <%= (new java.util.Date()).toLocaleString()%>	   </span>
 				              </td>
 			      	                
 				           </tr>
+				           
 				          
 				          <tr>
 					          <td colspan="2" align="left" height="30px">
@@ -60,135 +58,10 @@
 					          </td>
 				          </tr>
 				
-				
-					   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="60%">
-											<span style="font-size:09pt;font-weight:300;"> On Time Date </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                          54% 
-			                       </span>
-					          </td>
-			      	                
-				         </tr>
-				          
+				               ${DailyPunctStatistics}
 					     
-					     
-					     <tr>			                
-			                  <td align="left" bgcolor="white" width="60%">
-											<span style="font-size:09pt;font-weight:300;"> Within 15 Minutes. </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                          78% 
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-				           
-				           
-			          <tr>
-					          <td colspan="2" align="left" height="30px">
-					            <u><span style="font-size:09pt;font-weight:600;"> Destination</span></u>				          
-					          </td>
-				          </tr>
 				
-				
-					   <tr>
-			                
-			                  <td align="left" bgcolor="white" width="60%">
-											<span style="font-size:09pt;font-weight:300;"> On Time Date </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                          67% 
-			                       </span>
-					          </td>
-			      	                
-				         </tr>
-				          
-					     
-					     
-					     <tr>			                
-			                  <td align="left" bgcolor="white" width="60%">
-									<span style="font-size:09pt;font-weight:300;"> Within 15 Minutes. </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                          88% 
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-				           
-			            <tr>
-					          <td colspan="2" align="left" height="30px"><br>
-					            <u><span style="font-size:09pt;font-weight:600;"> No of Flights </span></u>				          
-					          </td>
-				          </tr>
-				
-				        <tr>			                
-			                  <td align="left" bgcolor="white" width="60%">
-									<span style="font-size:09pt;font-weight:300;"> Schedule for Today . </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt;font-weight:600;">  
-			                           112
-			                       </span>
-					          </td>
-			      	                
-				           </tr>
-
-				        <tr>			                
-			                  <td align="left" bgcolor="white" width="60%">
-									<span style="font-size:09pt;font-weight:300;"> Completed So Far. </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt;font-weight:600;color:green;">  
-			                           18
-			                       </span>
-					          </td>
-			      	                
-				        </tr>
-
-				        <tr>			                
-			                  <td align="left" bgcolor="white" width="60%">
-									<span style="font-size:09pt;font-weight:300;"> Cancelled. </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt;color:red;font-weight:600;">  
-			                           3
-			                       </span>
-					          </td>
-			      	                
-				        </tr>
-				        
-				        <tr>			                
-			                  <td align="left" bgcolor="white" width="60%">
-									<span style="font-size:09pt;font-weight:300;"> Air Born. </span>
-				              </td>
-							            
-				              <td align="left" bgcolor="white" width="40%" >
-			                       <span style="font-size:09pt;color:black;font-weight:600;">  
-			                           6
-			                       </span>
-					          </td>
-			      	                
-				        </tr>
-					           
-					
-					   <tr>
-				          
-		        
+			        
 		      </table>   					
 				
 					

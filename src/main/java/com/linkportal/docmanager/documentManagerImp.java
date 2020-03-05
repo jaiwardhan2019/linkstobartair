@@ -91,6 +91,23 @@ public class documentManagerImp implements documentManager {
 
 
 
+	@Override
+	public List<DocumentEntity> searchDocumentsFromFolder(String documentname) {		   
+		   
+		   String	qlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
+				   		         " , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
+				   		         " , doc_addedby_name  from Gops_Document_Master  where doc_description like '%"+documentname+"%' order by doc_added_date";
+		   //System.out.println(qlListDocs);
+		   
+		   List  documentList   = jdbcTemplate.query(qlListDocs,new DocumentEntityRowmapper());	
+		   return documentList;
+	}
+
+	
+	
+	
+	
+
 
 	@Override
 	public boolean addDocumentToFolder(HttpServletRequest req, MultipartFile file) throws IOException, SQLException {

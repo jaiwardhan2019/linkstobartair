@@ -121,7 +121,9 @@ public class LinkUsersImp implements linkUsers{
 							 	if(rs.getString("SUB_PROFILE").equals("Flight_Report")) {mapRet.put("Flight_Report", rs.getString("ACTIVE_STATUS"));} 
 								if(rs.getString("SUB_PROFILE").equals("Reliablity")) {mapRet.put("Reliablity", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("DelayReport")) {mapRet.put("DelayReport", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("OtpReport")) {mapRet.put("OtpReport", rs.getString("ACTIVE_STATUS"));}
 
+								
 								if(rs.getString("SUB_PROFILE").equals("Daily_Summary")) {mapRet.put("Daily_Summary", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Flybe_Today")) {mapRet.put("Flybe_Today", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Voyager")) {mapRet.put("Voyager", rs.getString("ACTIVE_STATUS"));}
