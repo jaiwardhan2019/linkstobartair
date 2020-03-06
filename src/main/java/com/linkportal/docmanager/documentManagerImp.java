@@ -71,19 +71,19 @@ public class documentManagerImp implements documentManager {
 		   
 		   String sqlListDocs = "";
 		   
-		   if(foldername.equals("home") || foldername.equals("HOME") || req.getParameter("cat").toUpperCase().equals("GEN")) {
+		   if(foldername.toUpperCase().equals("HOME") || req.getParameter("cat").toUpperCase().equals("HOME")) {
 			  sqlListDocs = " SELECT  doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
 				   		"    , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
-				   		"    , doc_addedby_name  from Gops_Document_Master  order by doc_added_date";
+				   		"    , doc_addedby_name  from Gops_Document_Master  order by doc_added_date desc";
 		   }
 		   else
 		   {
 			   sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
 				   		"      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
-				   		"      , doc_addedby_name  from Gops_Document_Master where doc_department='"+foldername+"' and doc_category='"+req.getParameter("cat").toUpperCase()+"' order by doc_added_date";
+				   		"      , doc_addedby_name  from Gops_Document_Master where doc_category='"+req.getParameter("cat").toUpperCase()+"' and doc_department='"+foldername+"'  order by doc_added_date desc";
 		   }
 		   
-		   //System.out.println(sqlListDocs);
+		   System.out.println(sqlListDocs);
 		   
 		   List  documentList   = jdbcTemplate.query(sqlListDocs,new DocumentEntityRowmapper());	
 		   return documentList;

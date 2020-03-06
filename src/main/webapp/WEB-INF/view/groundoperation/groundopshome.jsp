@@ -75,7 +75,7 @@
 				    
 			</div>
 			
-		   <a href="javascript:void();" onClick="Calqpulse();"><img src="qpulse.png" width="100%"></a>	
+		   <a href="javascript:void();" onClick="Calqpulse();"><img src="safety.png" width="100%"></a>	
 			
 		</div> 
 		
@@ -128,7 +128,7 @@
 									</td>
 									
 									<td width="17%"> ${contract.docAddedDate}</td>
-									<td align="center"><b>${contract.docCategory}</b></td>
+									<td align="center">${contract.docCategory}</td>
 								    
 								</tr>
 	  			

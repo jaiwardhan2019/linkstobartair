@@ -19,12 +19,7 @@
 
 
 function search_progress() {
-    var e = document.getElementById("searchbutton");
-    if(e.style.display == 'block')
-       e.style.display = 'none';
-    else
-       e.style.display = 'block';
-
+  
     var e1 = document.getElementById("searchbutton1");
     if(e1.style.display == 'block')
         e1.style.display = 'none';
@@ -37,7 +32,7 @@ function showFlightReport(){
 	
 	     document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
 	     //<input type="button"  class="btn btn-primary" value="Show Report" onclick="showFlightReport();" />        
-	     //search_progress();
+	     search_progress();
 		 document.DelayFlighReport.method="POST";
 		 document.DelayFlighReport.action="delayflightreport";
 	     document.DelayFlighReport.submit();
@@ -51,7 +46,7 @@ function showFlightReport(){
 function Download_ExcelReport(){
 
 	document.getElementById("downloading").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Downloading..&nbsp;&nbsp;";
-	//search_progress();
+	search_progress();
     var urldetail ="CreateExcelReliabilityReport?delay=yes&airlinecode="+document.getElementById("airlinecode").value; 
     urldetail = urldetail +"&airportcode="+document.getElementById("airportcode").value;
     urldetail = urldetail +"&startdate="+document.getElementById("startdate").value;		
@@ -64,7 +59,7 @@ function Download_ExcelReport(){
 		  type:"GET",
 		  success : function(result)
 		  {
-				//document.getElementById("downloadstatus").style.display = "none";
+				document.getElementById("searchbutton1").style.display = "none";
         	    document.getElementById("downloading").innerHTML = "<i class='fa fa-file-excel-o' aria-hidden='true'></i>&nbsp;&nbsp;Excel Report&nbsp;&nbsp;";
         	    window.location = document.getElementById("emailid").value+"/delayFlightReport.xls";	           
                         
@@ -222,7 +217,7 @@ function Download_ExcelReport(){
 		  <td colspan="2">
 				    <span style="display:none" id="searchbutton1">
 					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							         <b>Searching..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
+							         . 
 							      </div>   
 					        </span>
 					        

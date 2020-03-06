@@ -15,12 +15,7 @@
 
 
 function search_progress() {
-    var e = document.getElementById("searchbutton");
-    if(e.style.display == 'block')
-       e.style.display = 'none';
-    else
-       e.style.display = 'block';
-
+ 
     var e1 = document.getElementById("searchbutton1");
     if(e1.style.display == 'block')
         e1.style.display = 'none';
@@ -86,8 +81,8 @@ function addDocument(category){
            filename.focus();
            return false;           
 	     }
-	     
-	     document.getElementById("addnew").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Uploading..&nbsp;&nbsp;";
+	     search_progress();
+	     document.getElementById("addnew").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>Uploading..";
 	     
 	    
 		 document.documentmaster.method="POST";
@@ -112,7 +107,7 @@ function addDocument(category){
   <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
   <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
-  <input type="hidden" name="cat" id="cat" value="GEN">
+  <input type="hidden" name="cat" id="cat" value="<%=request.getParameter("cat")%>">
  
  <br>
  <br>		
@@ -129,7 +124,7 @@ function addDocument(category){
 				
 			   <c:if test="${profilelist.docmanager  == 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=home&operation=view');">${foldername}</a>
+						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=view');">${foldername}</a>
 						    <i class="fa fa-eye" aria-hidden="true"></i>
 						    &nbsp; &nbsp; &nbsp;${status}
 						</h3>
@@ -149,7 +144,7 @@ function addDocument(category){
           
              <tr>
              
-               <td colspan="4" align="center">
+               <td colspan="5" align="center">
                     <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
                     
               </td>
@@ -175,22 +170,27 @@ function addDocument(category){
 								<th>Description</th>
 								<th >Dated </th>
 								<th>Category</th>
+								<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Del</th>
 							</tr>
 						</thead>
 	
 						
 			<c:forEach var="contract" items="${gopsfilelist}">    
 							<tr>
-								<td width="3%"><%=ctr++%>.</td>
+								<td ><%=ctr++%>.</td>
 								<td width="70%">
-								    <img src="${contract.docType}.png"> &nbsp; 	<a href="${contract.docCategory}/${contract.docName}" target="_new">
+								    <img src="${contract.docType}.png"> &nbsp; <a href="${contract.docCategory}/${contract.docName}" target="_new">
 								                  ${contract.docName}    								
 								    </a>
 								</td>								
-								<td>${contract.docAddedDate}&nbsp;&nbsp;&nbsp;&nbsp;</td>
-								<td>${contract.docCategory} &nbsp;&nbsp;&nbsp;<i  class="fa fa-trash" aria-hidden="true"></i>
+								<td width="10%">${contract.docAddedDate}</td>
+								<td >&nbsp;&nbsp;${contract.docCategory}
+								</td>
+								
+								<td>&nbsp;&nbsp;&nbsp;
+								  <i  class="fa fa-trash" aria-hidden="true"></i>
 							  		  <span style="font-size:9pt;">
-							   				 <a style="color:red;" href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=GEN&docid=${contract.docId}&operation=remove');">Rem </a>
+							   				 <a style="color:red;" href="javascript:void();" onClick="calDocumentUpdate('listdocuments?docid=${contract.docId}&operation=remove');">Rem </a>
 							   		 </span>
 							    </td>
 							</tr>
@@ -198,10 +198,11 @@ function addDocument(category){
 							
        </c:if>
        
-      <!--  
-   
+       
+   <c:if test="${param.cat != 'home'}">    
+	 
 		<tr>
-					<td align="right" colspan="3">
+					<td align="right" colspan="4">
 					    <br>
 						<div class="col-xs-05">
 							<div class="input-group"> 
@@ -219,15 +220,28 @@ function addDocument(category){
 						
 							<td align="left">
 							  <br>															 
-                                 <span onClick="addDocument('GEN');" id="addnew" class="btn btn-primary" > &nbsp;Upload &nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
+                                 <span onClick="addDocument('<%=request.getParameter("cat")%>');" id="addnew" class="btn btn-primary" >&nbsp;Upload&nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
                                   
 							</td>
 								
-		</tr>
-	 -->
-	
-
-	
+	     	</tr>
+	     	
+	       <tr>
+		    <td colspan="5">
+					    <span style="display:none" id="searchbutton1">
+					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+							        In Progress Please wait... 
+							      </div>   
+					        </span>
+		   </td>
+		</tr>	     	
+	     	
+	    </c:if> 	
+	     	
+	     	
+	     	
+	     	
+	     	
 	
 							</tbody>
 					</table>
@@ -255,6 +269,8 @@ function addDocument(category){
 	<br>
 	<br>
 	<br>  
+	<br>
+	<br> 
 </c:if>
 
 <%@include file="../include/gopsfooter.jsp" %>

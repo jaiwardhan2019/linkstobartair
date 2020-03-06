@@ -261,9 +261,9 @@ function CalGopsSmsUserManager(){
 		    <li class="dropdown">		 
 		  	    <a  style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;GCI /GCM /GCR&nbsp;<span class="caret"></span></a>
 		  	   	   <ul class="dropdown-menu">
- 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gci');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Instructions.</a></li>
-		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gcm');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Memo.</a></li>
-		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gcr');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Reminders.</a></li>
+ 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gci&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Instructions.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gcm&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Memo.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gcr&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Reminders.</a></li>
 	             </ul>		  	   
 		  	   
 		  	    						  
@@ -275,16 +275,28 @@ function CalGopsSmsUserManager(){
 	  
 	  <c:if test="${profilelist.Manuals  == 'Y'}">  	
 	    <li class="dropdown">	 
-	  	    <a href="javascript:void();" onClick="alert('Under Construction');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals</a>					  
+	  	    <a style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals&nbsp;<span class="caret"></span></a>
+	  	   	   <ul class="dropdown-menu">
+ 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=mand&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;De-Icing Manuals.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=mang&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Ops Manual.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=mans&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Safety Manual.</a></li>
+	             </ul>		  	   
 		</li>
 	</c:if>	
 	
 	
 	  <c:if test="${profilelist.safetycompliance  == 'Y'}"> 	
-	    <li class="dropdown">
-	 
-	  	    <a href="javascript:void();" onClick="alert('Under Construction');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Safety Compliance.</a>
-					  
+	    <li class="dropdown">	 
+	  	    <a style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Training &nbsp;<span class="caret"></span></a>
+	  	   	   <ul class="dropdown-menu">
+ 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=trd&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Dispatch and Load Control.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=trbg&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Baggage Tracing General.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=tras&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Air Lingus Airport Service Guide.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=trac&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Air Lingus Checking and Boarding.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=trar&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Air Lingus Reservations.</a></li>
+		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=trs&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Stobart Air Traning Modules.</a></li>
+
+	             </ul>		  	   
 		</li>
       </c:if>
       

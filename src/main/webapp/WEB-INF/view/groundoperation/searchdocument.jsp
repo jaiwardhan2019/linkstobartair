@@ -79,20 +79,12 @@ function calDocumentUpdate(reportname){
 			<div class="panel panel-primary" style="background:rgba(255,255,255);">
 		
 				
-					
-				
-				
-		
+			
 					<div class="panel-heading" style="background:#0070BA;">
 						<h3 class="panel-title"> Documents with name :->  &nbsp; ${docname} 
 						 		    
 						</h3>
 					</div>
-				
-				
-				
-				
-				
 				
 				
 				<div class="panel-body">

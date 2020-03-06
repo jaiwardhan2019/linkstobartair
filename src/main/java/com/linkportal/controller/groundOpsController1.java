@@ -401,7 +401,13 @@ public class groundOpsController1 {
 		   model.addAttribute("password",req.getParameter("password"));
 		   model.put("usertype",req.getParameter("usertype"));
 
-		   int status=0;
+		   int status              = 0;
+		   String readviewstring   = "groundoperation/folderlist";
+		   String updateviewstring = "groundoperation/folderupdate";
+
+		   if(req.getParameter("cat").equals("home")) {
+			   model.put("foldername","All Latest Documents");
+		   }
 		   
 		   if(req.getParameter("cat").equals("gci")) {
 			   model.put("foldername","Ground Crew Instructions");		
@@ -415,30 +421,42 @@ public class groundOpsController1 {
 			   model.put("foldername","Ground Crew Reminder");
 		   }
 
-		   if(req.getParameter("cat").equals("GEN")) {
-			   model.put("foldername","All Latest Documents");
+	    
+		   if(req.getParameter("cat").equals("mand")) {
+			   model.put("foldername","De-Icing Manuals"); 
+		   }
+		   
+		   if(req.getParameter("cat").equals("mang")) {
+			   model.put("foldername","Ground Ops Manual"); 
+		   }
+		   
+		   if(req.getParameter("cat").equals("mans")) {
+			   model.put("foldername","Safety Manual"); 
 		   }
 
-	
 		   
+		   if(req.getParameter("cat").equals("saf")) {
+			   model.put("foldername","Safety Compliance"); 
+		   }
+
 		   
-		   //--- FROM GROUND OPS HOME PAGE 
-		   if(req.getParameter("cat").equals("home")) {
-			   model.put("foldername","All Latest Documents");
-			   
-			   if(req.getParameter("operation") != null){
-				   
+		   if(req.getParameter("cat").equals("trd")) {
+			   model.put("foldername","Dispatch and Load Control."); 
+		   }
+
+            
+
+		   if(req.getParameter("operation") != null){
 				   if(req.getParameter("operation").equals("update")) { 
-					 model.put("gopsfilelist",docserv.getAllDocuments(req,"home"));
-				     return "groundoperation/folderupdate";
-				   }
-				   if(req.getParameter("operation").equals("view")) {
-					   model.put("gopsfilelist",docserv.getAllDocuments(req,"home"));
-					   return "groundoperation/folderlist";
-				   }
-				  
-				   if(req.getParameter("operation").equals("remove")) {
-					   
+					  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+					  return updateviewstring;
+				    }
+				   if(req.getParameter("operation").equals("view")) { 
+					  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+					  return readviewstring;
+				    }
+				   
+				   if(req.getParameter("operation").equals("remove")) { 
 					   if(docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))){
 							 model.put("status","Successfully Removed");
 							 logger.info("User id:"+req.getParameter("emailid")+" Removed Document ID:"+req.getParameter("docid"));
@@ -447,69 +465,17 @@ public class groundOpsController1 {
 						{
 							 model.put("status","File not Removed please check with IT.");
 							 logger.error("User id:"+req.getParameter("emailid")+"Couldnt Removed Document ID:"+req.getParameter("docid"));
-						}	
-						  
-				
-					   model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
-					   return "groundoperation/folderupdate";
-				   }
-					   
-			   }
-			   return "groundoperation/folderlist";
-		   }
+						}
+					  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+					  return updateviewstring;
+				   
+				   }// End of Remove
+				   
+			}//End of Operation 
 		   
+		   return readviewstring;
 		   
-		  
-		   
-		   
-		   
-		   
-		   
-			   
-		   
-		   //-- This part will be called when Edit / View / Upload Event is called 
-		   if(req.getParameter("operation") != null) {			   
-			  
-			   //for edit event  
-			  if(req.getParameter("operation").equals("update")) {
-				 model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
-				 return "groundoperation/gcigcmgcr/updatefolderdocuments";
-			  }
-			  
-			  //for view event
-			  if(req.getParameter("operation").equals("read")){
-				 model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
-				 return "groundoperation/gcigcmgcr/listalldocumentfromfolder";
-			  }
-			 
-			  // For Remove Event 
-			  if(req.getParameter("operation").equals("remove")) {
-				  
-				  if(docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))){
-					 model.put("status","Successfully Removed");
-					 logger.info("User id:"+req.getParameter("emailid")+" Removed Document ID:"+req.getParameter("docid"));
-				  }
-				  else
-				  {
-					 model.put("status","File not Removed please check with IT.");
-					 logger.error("User id:"+req.getParameter("emailid")+"Couldnt Removed Document ID:"+req.getParameter("docid"));
-				  }	
-				  
-				  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));	
-				  
-				  return "groundoperation/gcigcmgcr/updatefolderdocuments";				  
-			  }// End of remove Event 
-			  
-	   } // End of Operation Event.
-	
-		   
-		   
-		   
-		   //******* Pupulate List of File *******************
-		   model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));			
-		   logger.info("User id:"+req.getParameter("emailid")+" Login to GCI - GCM - GCR Module");
-		   return "groundoperation/gcigcmgcr/listalldocumentfromfolder";
-	}		   
+	}// End of Ground Ops Document List Function 		   
 
 
 	
@@ -558,7 +524,11 @@ public class groundOpsController1 {
 		   
 		   //******* Pupulate List of File *******************
 		   model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
-			   
+		   
+		   if(req.getParameter("cat").equals("home")) {
+			   model.put("foldername","All Latest Documents");
+			   return "groundoperation/folderupdate";
+		   }			   
 		   
 		   if(req.getParameter("cat").equals("gci")) {
 			   model.put("foldername","Ground Crew Instructions");			   
@@ -572,14 +542,30 @@ public class groundOpsController1 {
 			   model.put("foldername","Ground Crew Reminder");
 		   }
 		   
-		   if(req.getParameter("cat").equals("home")) {
-			   model.put("foldername","All Latest Documents");
-			   return "groundoperation/folderupdate";
+		    
+		   if(req.getParameter("cat").equals("mand")) {
+			   model.put("foldername","De-Icing Manuals"); 
 		   }
 		   
+		   if(req.getParameter("cat").equals("mang")) {
+			   model.put("foldername","Ground Ops Manual"); 
+		   }
 		   
-		   logger.info("User id:"+req.getParameter("emailid")+" Uploaded file to GCI - GCM - GCR Module");
-		   return "groundoperation/gcigcmgcr/updatefolderdocuments";
+		   if(req.getParameter("cat").equals("mans")) {
+			   model.put("foldername","Safety Manual"); 
+		   }
+
+		   if(req.getParameter("cat").equals("saf")) {
+			   model.put("foldername","Safety Compliance"); 
+		   }
+
+		   if(req.getParameter("cat").equals("trd")) {
+			   model.put("foldername","Dispatch and Load Control."); 
+		   }
+      
+		   
+		   logger.info("User id:"+req.getParameter("emailid")+" File Updated to the Folder :"+req.getParameter("cat"));
+		   return "groundoperation/folderupdate";
 	}		   
 
 		
