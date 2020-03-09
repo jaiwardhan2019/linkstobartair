@@ -53,6 +53,12 @@ function manage_contract(event){
         document.addcontract.cdescription.focus();
         return false;
  	}
+
+    if(document.addcontract.department.value == "00"){
+    	alert("Pelase select Department"); 
+    	document.addcontract.department.focus();
+    	return false;
+    }
  	
     if(document.addcontract.startDate.value == ""){
         alert("Please Select Contract Start Date");
@@ -102,13 +108,14 @@ function manage_contract(event){
 
 
 function Load_Subdepartment(){
-	  
-	    document.addcontract.departmentselected.value=document.addcontract.department.value;	
-	    document.addcontract.event.value="addnew";  
-        document.addcontract.method="POST";
-	    document.addcontract.action="contractManager";
-        document.addcontract.submit();
-	    return true;
+        
+		    document.addcontract.departmentselected.value=document.addcontract.department.value;	
+		    document.addcontract.event.value="addnew";  
+	        document.addcontract.method="POST";
+		    document.addcontract.action="contractManager";
+	        document.addcontract.submit();
+		    return true;
+	
 
 }
 
@@ -207,7 +214,8 @@ function Load_Subdepartment(){
 							<label >Department </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control" onchange="Load_Subdepartment();">	
+										<select id="department" name="department" class="form-control" onchange="Load_Subdepartment();">
+										    <option value="00"> -- All -- </option>	
 		                                          ${departmentlist}						
 										</select>
 							</div>	
@@ -276,7 +284,7 @@ function Load_Subdepartment(){
 							<label  >Contractor Company Name </label>
 							<div class="input-group col-xs-12" >
 								<span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
-									<textarea rows="03" name="ccompany"  id="ccompany" class="form-control">${ccompany}</textarea>  										
+									<textarea rows="03" maxlength="300" name="ccompany"  id="ccompany" class="form-control">${ccompany}</textarea>  										
 							</div>
 				    </div>
 				    				  
@@ -285,16 +293,13 @@ function Load_Subdepartment(){
 				  </td>
 	           
 				  
-				  
-				  
-				  
 				  <td align="left" bgcolor="white" width="50%">
 				    <div class="col-xs-12">
 							<label  >Contractor Contact </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i>
 								 <br><br><i class="fa fa-phone-square" aria-hidden="true"></i></span>
-										<textarea rows="03" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com">${ccontract}</textarea>										
+										<textarea rows="03" maxlength="550" name="ccontract"  id="ccontract" class="form-control" placeholder="fullname@email.com">${ccontract}</textarea>										
 							</div>
 				    </div>						
 				  

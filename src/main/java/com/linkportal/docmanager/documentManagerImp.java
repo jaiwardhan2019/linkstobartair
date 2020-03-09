@@ -127,7 +127,6 @@ public class documentManagerImp implements documentManager {
 	        Path path = Paths.get(groundopsRootFolder+"/"+req.getParameter("cat").toUpperCase()+"/"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));
 	        Files.write(path, bytes);	
 	        
-	        System.out.println("File Folder Uploaded");    
 	       
 	        // Get File related Info into varriable 
             String filefullname = file.getOriginalFilename();            
@@ -144,8 +143,6 @@ public class documentManagerImp implements documentManager {
   	
 			try {
 				
-				 System.out.println("File Folder Uploaded 2"); 
-				  
 			   // if file is exist then update time and added by email Otherwise Create new Entry in the Table  	  
 			   SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name from Gops_Document_Master where doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
 			   if(result.next()) {
@@ -154,7 +151,6 @@ public class documentManagerImp implements documentManager {
 			   else
 			   {
 				   
-				   System.out.println("File Folder Uploaded 3"); 
 				   java.sql.Connection con1= dataSourcesqlservercp.getConnection();
 				   String SQL_ADD = " INSERT INTO  Gops_Document_Master (doc_name , doc_description , doc_type , doc_path , doc_department , doc_category ,doc_added_date , doc_addedby_name) "
 					   		      + " values (?,?,?,?,?,?,?,?)";

@@ -297,7 +297,7 @@ public class manageStobartContractImp implements manageStobartContract{
 	       pstm=null;
 	       con1.close();
 	
-		  }catch(SQLServerException ex) {System.out.println("While Adding Contract :"+ex.toString());logger.error("While Adding Contract :"+ex.toString());}		   
+		  }catch(Exception ex) {logger.error("While Adding Contract :"+ex.toString());}		   
 		
 		  return rows;
 	}
