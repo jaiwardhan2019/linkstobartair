@@ -313,10 +313,10 @@ function CalGopsSmsUserManager(){
 		</li>
     	</c:if>	
 			
-     <c:if test="${profilelist.weightstatement  == 'Y'}"> 			
+     <c:if test="${profilelist.weightstatement  == 'Y'}"> 			  
 	    <li class="dropdown">
 	 
-		  <a href="javascript:void();" onClick="alert('Under Construction');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Weight Statement</a>
+		  <a href="javascript:void();" onClick="calDocumentReport('wtstatement?airlinecode=ALL&airlinereg=ALL');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Weight Statement</a>
 		  
 					  
 		</li>
@@ -331,12 +331,9 @@ function CalGopsSmsUserManager(){
 		  
 			   <ul class="dropdown-menu">
 
- 		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Cleaning </a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Compliance Monitoring</a></li>
-		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;De-Icing Manuals</a></li>
-	 		    	
-
+ 		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=dchm&operation=view&alfresco=YES');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=dcle&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Cleaning </a></li>
+		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=dcom&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Compliance Monitoring</a></li>
 		       </ul>
 					  
 		</li>
@@ -471,6 +468,13 @@ function CalGopsSmsUserManager(){
 
 <style>
 body {
+  background-image: url('bodyback2.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+}
+
+body1 {
   background-image: url('images/groundopsbackground.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;  

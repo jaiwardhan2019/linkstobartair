@@ -447,10 +447,44 @@ public class groundOpsController1 {
 		   if(req.getParameter("cat").equals("scm")) {
 			   model.put("foldername","Safety Compliance Monitoring."); 
 		   }
+		   
+		   if(req.getParameter("cat").equals("sgo")) {
+			   model.put("foldername","Ground Ops Statistics."); 
+		   }
 	
-            
+		   if(req.getParameter("cat").equals("ssb")) {
+			   model.put("foldername","Safety Bulletins."); 
+		   }
+		   if(req.getParameter("cat").equals("ssm")) {
+			   model.put("foldername","Safety Manual."); 
+		   }
+           
+		   //-- Documentation Menu --
+		   if(req.getParameter("cat").equals("dchm")) {
+			   model.put("foldername","Catering - HAACP Manual."); 
+		   }
+		   
+		   if(req.getParameter("cat").equals("dcle")) {
+			   model.put("foldername","Cleaning."); 
+		   }
+		   
+		   if(req.getParameter("cat").equals("dcom")) {
+			   model.put("foldername","Compliance Monitoring."); 
+		   }
 
+		   
 		   if(req.getParameter("operation") != null){
+			       
+			       //--- If the date is comming from alfreso then this vaue will be passed to View 
+			       //-- Will avoid the Update Button on view 
+				   if(req.getParameter("alfresco") != null) {
+				       if(req.getParameter("alfresco").equals("YES")) {
+				    	   model.put("alfresco","YES");
+				       }
+				   }    
+				   //-- END of  Alfresco 
+				   
+				   
 				   if(req.getParameter("operation").equals("update")) { 
 					  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
 					  return updateviewstring;
@@ -570,6 +604,32 @@ public class groundOpsController1 {
 		   if(req.getParameter("cat").equals("scm")) {
 			   model.put("foldername","Safety Compliance Monitoring."); 
 		   }
+		   if(req.getParameter("cat").equals("sgo")) {
+			   model.put("foldername","Ground Ops Statistics."); 
+		   }
+	
+		   if(req.getParameter("cat").equals("ssb")) {
+			   model.put("foldername","Safety Bulletins."); 
+		   }
+		   
+		   if(req.getParameter("cat").equals("ssm")) {
+			   model.put("foldername","Safety Manual."); 
+		   }
+		   
+		   //-- Documentation Menu --
+		   if(req.getParameter("cat").equals("dchm")) {
+			   model.put("foldername","Catering - HAACP Manual."); 
+		   }
+		   
+		   if(req.getParameter("cat").equals("dcle")) {
+			   model.put("foldername","Cleaning."); 
+		   }
+
+		   if(req.getParameter("cat").equals("dcom")) {
+			   model.put("foldername","Compliance Monitoring."); 
+		   }
+
+           
 		   
 		   logger.info("User id:"+req.getParameter("emailid")+" File Updated to the Folder :"+req.getParameter("cat"));
 		   return "groundoperation/folderupdate";

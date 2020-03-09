@@ -81,12 +81,35 @@ function calDocumentUpdate(reportname){
 				
 				
 			   <c:if test="${profilelist.docmanager  == 'Y'}">
-					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=update');">${foldername}</a>
-						    &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-						    
-						</h3>
-					</div>
+			              
+			          
+			              
+						  <div class="panel-heading" style="background:#0070BA;">
+						  
+						     <h3 class="panel-title">
+						       
+						         <c:if test="${alfresco  != 'YES'}">
+								       <a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=update');">
+								         ${foldername}   &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+								       </a>
+								  </c:if>
+								  
+						         <c:if test="${alfresco  == 'YES'}">
+								         ${foldername}								    
+								  </c:if>
+								  
+								  
+								  
+						       
+						     
+						     </h3>
+					      
+					      
+					      
+					      </div>
+					 
+				
+					  
 				</c:if>
 				
 				

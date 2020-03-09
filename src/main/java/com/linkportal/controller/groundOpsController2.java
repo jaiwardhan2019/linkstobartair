@@ -58,10 +58,47 @@ public class groundOpsController2 {
 	linkUsers dbusr;
 	
 
+	@Autowired
+	flightReports fltobj;
+
 	
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);
 	
+
+    //*********************** FLIGHT REPORT SECTION ***********************
+	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
+	@RequestMapping(value = "/wtstatement",method = {RequestMethod.POST,RequestMethod.GET}) 
+	public String GroundOpsWeightstatement(HttpServletRequest req,ModelMap model) throws Exception{
+		
+		   //Formatting today date...
+		   Date today                     = new Date();               
+		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+		   Calendar                     c = Calendar.getInstance();  
+		   String todaydate               = (String)(formattedDate.format(c.getTime()));
+		   model.put("datop",todaydate);	        
+   	       model.put("airlinecode",req.getParameter("airlinecode").toLowerCase());
+ 	       //model.addAttribute("airlinereg",req.getParameter("airlinereg").toLowerCase());
+ 	    
+   	       
+            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinecode"),req.getParameter("emailid")));		
+	        model.put("airlinelist",fltobj.Populate_Operational_Airline(req.getParameter("airlinecode"),req.getParameter("emailid")));		
+			  
+ 	        
+ 	        
+ 	        
+ 	        
+ 	        
+ 	        
+ 	        
+			model.put("profilelist",req.getSession().getAttribute("profilelist"));
+			model.addAttribute("emailid",req.getParameter("emailid"));
+			model.addAttribute("password",req.getParameter("password"));
+			model.put("usertype",req.getParameter("usertype"));
+			logger.info("User id:"+req.getParameter("emailid")+" Login to flightreports Report");
+			return "groundoperation/weightstatement"; 
+	}
+
 	
 	
 	//****************** GROUND OPS SMS REPORT CONSUMER USER MANAGMENT ***********************************************

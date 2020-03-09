@@ -75,9 +75,9 @@ public class flightReportsImp implements flightReports{
 	@Override
 	public String Populate_Operational_Airline(String airlinecode, String useremail){
 		
-		   boolean isStobartUser      = useremail.indexOf("@stobartair.com") !=-1? true: false;		 
-		   String airlinelistwithcode = null;
-		   String sqlforoperationalairline="SELECT AirlineMaster.iata_code , AirlineMaster.airline_name  ,AirlineMaster.icao_code    \r\n" + 
+		   boolean isStobartUser           = useremail.indexOf("@stobartair.com") !=-1? true: false;		 
+		   String airlinelistwithcode      = null;
+		   String sqlforoperationalairline = "SELECT AirlineMaster.iata_code , AirlineMaster.airline_name  ,AirlineMaster.icao_code    \r\n" + 
 		   		"  FROM  AirlineMaster , Gops_Airline_Station_Access \r\n" + 
 		   		"  where Gops_Airline_Station_Access.airline_code=AirlineMaster.icao_code and  AirlineMaster.status='Enable'\r\n" + 
 		   		"  and Gops_Airline_Station_Access.user_name='"+useremail+"'";
@@ -167,7 +167,62 @@ public class flightReportsImp implements flightReports{
 	
 	
 
-	
+
+
+
+	@Override
+	public String Populate_Operational_AirlineReg(String aircraftreg, String useremail) throws Exception {
+		
+		   boolean isStobartUser = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		   DateFormat dateFormat = new SimpleDateFormat("yyyy");
+		   Date date             = new Date();
+		   String curent_year    = dateFormat.format(date);		   
+		   
+		   	
+		  
+		   String sqlforoperationalairport="";
+		  
+		   if(isStobartUser) {
+			  sqlforoperationalairport="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from pdcstobart.dbo.LEGS where DATOP like '"+curent_year+"%') order by STN";			  
+		   }
+		   else
+		   {
+			   
+			   //-- For Ground Handler Externale Pull list of assigned airport 
+			   String eligibleairportlist="";
+			   SqlRowSet rowst =  jdbcTemplateCorp.queryForRowSet("SELECT distinct station_code FROM Gops_Airline_Station_Access where user_name='"+useremail+"' and station_code != 'NA'");
+			   int counter=0;
+			   while(rowst.next()) {
+				   				   
+				   if(counter == 0) 
+				   {eligibleairportlist = "'"+rowst.getString("station_code")+"'";}
+				   else
+				   {eligibleairportlist = eligibleairportlist +",'"+ rowst.getString("station_code")+"'";}
+				   counter++;
+			   }
+			   sqlforoperationalairport ="select STN, NAME from PDCStobart.dbo.STATION where STN in("+eligibleairportlist+") order by STN"; 
+			   
+		   }
+			   
+		   
+		   
+		   String stationlistwithcode ="<option value='ALL' selected> All Aircraft REG </option>"; 
+		   SqlRowSet rowst =  jdbcTemplateSqlServer.queryForRowSet(sqlforoperationalairport);
+		   while(rowst.next()) {
+				stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("STN")+">"+rowst.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("NAME").trim()+"</option>";				
+				 
+		   }//----------- END OF WHILE ---------- 
+
+		   rowst=null;		   
+		   
+		   return stationlistwithcode;
+	}
+
+
+
+
+
+
 	
 	
 	
@@ -1327,9 +1382,6 @@ public class flightReportsImp implements flightReports{
 		    
 		return flightList;
 	}
-
-
-
 
 
 

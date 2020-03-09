@@ -120,16 +120,14 @@
 		  			<c:forEach begin="0" end="12" var="contract" items="${gopsfilelist}">  
 							<tr style="font-size:09pt">									
 									<td width="75%"><img src="${contract.docType}.png"> &nbsp; 
-									<a href="${contract.docCategory}/${contract.docName}" target="_new">									     
+									<a href="${contract.docCategory}/${contract.docName}" target="_new" >									     
 								            <c:set var="string1" value=" ${contract.docName}"/>
-                                                    <c:set var="string2" value="${fn:substring(string1, 0,70)}" />
+                                                    <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
 			                                            ${string2}
 			                              </a>									      
-									</td>
-									
+									</td>									
 									<td width="17%">${contract.docAddedDate}</td>
-									<td align="left">${contract.docCategory}</td>
-								    
+									<td align="left">${contract.docCategory}</td>								    
 								</tr>
 	  			
 	  			

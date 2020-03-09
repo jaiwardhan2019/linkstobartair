@@ -14,6 +14,7 @@ public interface flightReports {
 	
 	public String Populate_Operational_Airport(String airportcode,String useremail) throws Exception;	
 	public String Populate_Operational_Airline(String airlinecode,String useremail) throws Exception;
+	public String Populate_Operational_AirlineReg(String airlinecode,String useremail) throws Exception;
 	
 	
 	//-------- For May Fly Report -------------------
