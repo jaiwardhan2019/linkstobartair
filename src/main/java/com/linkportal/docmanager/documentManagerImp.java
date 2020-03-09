@@ -34,6 +34,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,7 +48,7 @@ public class documentManagerImp implements documentManager {
 	JdbcTemplate jdbcTemplate;	
 
 	@Value("${spring.operations.excel.reportsfileurl}") private String filepath;	
-	@Value("${groundops.gcigcmgcr.folder}") private String groundopsRootFolder;
+	@Value("${groundops.documentroot.folder}") private String groundopsRootFolder;
 	
 	
 	
@@ -112,7 +114,7 @@ public class documentManagerImp implements documentManager {
 
 	  
 		   
-	        //This Part of Code Will Create Category Folder GCI / GCM / GCR if not exist 
+	        //This Part of Code Will Create Category Folder like GCI / GCM / GCR if not exist then create one  
 	        File uploadDir = new File(groundopsRootFolder+req.getParameter("cat").toUpperCase()+"/");
 	        if(!uploadDir.exists()) {
 	            uploadDir.mkdir();
@@ -125,6 +127,7 @@ public class documentManagerImp implements documentManager {
 	        Path path = Paths.get(groundopsRootFolder+"/"+req.getParameter("cat").toUpperCase()+"/"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));
 	        Files.write(path, bytes);	
 	        
+	        System.out.println("File Folder Uploaded");    
 	       
 	        // Get File related Info into varriable 
             String filefullname = file.getOriginalFilename();            
@@ -136,23 +139,28 @@ public class documentManagerImp implements documentManager {
             DateTimeFormatter dtf            = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");		   
  		    LocalDateTime currentdateandtime = LocalDateTime.now();
  		    String addbyname                 = req.getParameter("emailid");
- 		    
+ 	       
+ 		     
   	
 			try {
+				
+				 System.out.println("File Folder Uploaded 2"); 
 				  
 			   // if file is exist then update time and added by email Otherwise Create new Entry in the Table  	  
 			   SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name from Gops_Document_Master where doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
 			   if(result.next()) {
-				   jdbcTemplate.execute("Update Gops_Document_Master set doc_addedby_name='"+addbyname+"' , doc_added_date='"+currentdateandtime.toString()+"' where doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
+				   jdbcTemplate.execute("Update Gops_Document_Master set doc_addedby_name='"+addbyname+"' , doc_added_date='"+currentdateandtime.toString()+"' where doc_category='"+req.getParameter("cat").toUpperCase()+"'  and  doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
 			   }
 			   else
 			   {
+				   
+				   System.out.println("File Folder Uploaded 3"); 
 				   java.sql.Connection con1= dataSourcesqlservercp.getConnection();
 				   String SQL_ADD = " INSERT INTO  Gops_Document_Master (doc_name , doc_description , doc_type , doc_path , doc_department , doc_category ,doc_added_date , doc_addedby_name) "
 					   		      + " values (?,?,?,?,?,?,?,?)";
 				   
 				   PreparedStatement pstm = con1.prepareStatement(SQL_ADD);
-				       
+	 
 				       pstm.setString(1,file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));
 					   pstm.setString(2,file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));		
 					   pstm.setString(3,extension);		
@@ -164,11 +172,13 @@ public class documentManagerImp implements documentManager {
 					   int rows = pstm.executeUpdate();
 				       pstm = null;
 				       con1.close();
+				       logger.info("After PREP ");      
+				       
 			   }
 			   
 
 			  }catch(SQLServerException ex) {				 
-				  logger.error("While Adding GCI GCM GCR File to DB :"+ex.toString());
+				  logger.error("While Adding Document Info to  DB :"+ex.toString());
 				  //Write Remove Document Code
 				  File ff = new File(path.toString());
 				  ff.delete();
@@ -205,26 +215,38 @@ public class documentManagerImp implements documentManager {
 
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+    //--- Will Show All File in the folder 
+	@Override
+	public List<String> listFolder(String foldername) {
+		   List<String> doclist = new ArrayList<String>();
+		   File directory = new File(groundopsRootFolder+foldername+"/"); 
+		   if(directory.isDirectory()) {
+			   String[] fileList = directory.list();
+			   for (String filename : fileList) {
+				   doclist.add(filename);
+			   }
+			   return doclist;
+		   }
+		   else
+		   {
+			   return null; 
+		   }
+		   
+
+	}
+
+
 
 	
+	
+	
+	
+	
+		
 	
 	//---- https://howtodoinjava.com/library/read-generate-pdf-java-itext/    
 	@Override
@@ -320,8 +342,6 @@ public class documentManagerImp implements documentManager {
 		
 		
 	}//  End of Function 
-
-
 
 
 	

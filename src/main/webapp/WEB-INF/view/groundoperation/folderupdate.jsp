@@ -82,7 +82,7 @@ function addDocument(category){
            return false;           
 	     }
 	     search_progress();
-	     document.getElementById("addnew").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>Uploading..";
+	     document.getElementById("addnew").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'>&nbsp;</i>Adding.";
 	     
 	    
 		 document.documentmaster.method="POST";
@@ -214,10 +214,7 @@ function addDocument(category){
 				    
 						</td>
 		
-		
-		
-		
-						
+								
 							<td align="left">
 							  <br>															 
                                  <span onClick="addDocument('<%=request.getParameter("cat")%>');" id="addnew" class="btn btn-primary" >&nbsp;Upload&nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  

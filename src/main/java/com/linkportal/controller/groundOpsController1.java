@@ -443,7 +443,11 @@ public class groundOpsController1 {
 		   if(req.getParameter("cat").equals("trd")) {
 			   model.put("foldername","Dispatch and Load Control."); 
 		   }
-
+		   
+		   if(req.getParameter("cat").equals("scm")) {
+			   model.put("foldername","Safety Compliance Monitoring."); 
+		   }
+	
             
 
 		   if(req.getParameter("operation") != null){
@@ -563,6 +567,9 @@ public class groundOpsController1 {
 			   model.put("foldername","Dispatch and Load Control."); 
 		   }
       
+		   if(req.getParameter("cat").equals("scm")) {
+			   model.put("foldername","Safety Compliance Monitoring."); 
+		   }
 		   
 		   logger.info("User id:"+req.getParameter("emailid")+" File Updated to the Folder :"+req.getParameter("cat"));
 		   return "groundoperation/folderupdate";

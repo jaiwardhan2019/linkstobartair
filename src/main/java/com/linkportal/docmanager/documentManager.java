@@ -20,6 +20,8 @@ public interface documentManager {
 	  public boolean addDocumentToFolder(HttpServletRequest req,MultipartFile file)throws IOException, SQLException;
 	  
 	  public boolean removeDocumentFromFolder(int id)throws IOException, SQLException;
+	  
+	  public List<String> listFolder(String foldername);
 	
 	 
 	

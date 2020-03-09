@@ -127,8 +127,8 @@
 			                              </a>									      
 									</td>
 									
-									<td width="17%"> ${contract.docAddedDate}</td>
-									<td align="center">${contract.docCategory}</td>
+									<td width="17%">${contract.docAddedDate}</td>
+									<td align="left">${contract.docCategory}</td>
 								    
 								</tr>
 	  			
