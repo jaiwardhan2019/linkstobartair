@@ -75,8 +75,31 @@
 				    
 			</div>
 			
-		   <a href="javascript:void();" onClick="Calqpulse();"><img src="safety.png" width="100%"></a>	
+		  <!--   <a href="javascript:void();" onClick="Calqpulse();"><img src="safety.png" width="100%"></a> -->	
 			
+		   <table   style="width:100%;" align="center" style="background:rgba(255,255,255,0.5);">	 
+           
+	           <tr align="center">
+	             <td style="padding:5px;"> 
+	           		<button type="button" class="btn btn-primary" onClick="Calqpulse();"><i class="fa fa-commenting-o fa-lg" aria-hidden="true"></i> &nbsp;<b> File A Report </b>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+	             </td>
+	           </tr> 
+	           
+	           <tr align="center">
+	             <td style="padding:5px;"> 
+	           		<button type="button" onClick="window.open('emergencyresponseplan.pdf','_blank');" class="btn btn-primary"><i class="fa fa-volume-control-phone fa-lg" aria-hidden="true"></i> &nbsp;<b>Emergency Response</b></button></a>
+	             </td>
+	           </tr> 
+	           
+	           <tr align="center">
+	             <td style="padding:5px;"> 
+	           		<button type="button" onClick="CalKeyContact();"  class="btn btn-primary" onClick="Calqpulse();"><i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i> &nbsp;<b> Key Contacts </b>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+	             </td>
+	           </tr> 
+	 
+			
+		</table>
+
 		</div> 
 		
 			

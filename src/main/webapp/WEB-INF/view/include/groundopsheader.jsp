@@ -413,30 +413,29 @@ function CalGopsSmsUserManager(){
 <div class="col-md-5 col-sm-5 col-xs-12" >
   
   <c:if test="${usertype == 'I'}">
-     <a onclick="cal_groundops_home('I');" href="javascript:void();"> <h5 style="font-weight:600;color:white;"><i class="fa fa-home"></i> Ground Ops</h5></a>
+     <a onclick="cal_groundops_home('I');" href="javascript:void();"> <h5 style="font-weight:600;color:#0071ba;"><i class="fa fa-home"></i> Ground Ops</h5></a>
      
         
   </c:if>
   
   <c:if test="${usertype == 'E'}">
-    <a onclick="cal_groundops_home('E');" href="javascript:void();"><h5 style="font-weight:600;color:white;"><i class="fa fa-home"></i> Ground Ops</h5></a> 
+    <a onclick="cal_groundops_home('E');" href="javascript:void();"><h5 style="font-weight:600;color:#0071ba;"><i class="fa fa-home"></i> Ground Ops</h5></a> 
   </c:if>
   
 
  </div>
  
 <div  class="col-md-7 col-sm-7 col-xs-12" align="right">
+  <!-- 
 	<span style="font-weight:300;font-size:12pt;color:black;align:right">	  
-	<!-- 
 	  <span class="label label-default">Menu 1</span>
       <span class="label label-primary">Menu 2</span>
       <span class="label label-success">Menu 3</span>
-       -->
       <a href="javascript:void();" onClick="Calqpulse();"><span class="label label-success"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;File A Report</span></a>&nbsp;&nbsp;
       <a href="emergencyresponseplan.pdf"  target="_blank"><span class="label label-danger"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>&nbsp;Emergency Response</span></a>&nbsp;&nbsp;
       <a href="javascript:void();" onClick="CalKeyContact();" ><span class="label label-info"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;Key Contacts</span></a> &nbsp;&nbsp;
-	</span>
-	
+   </span>
+	-->
  
       <input type="text"  id="myInput" name="myInput" placeholder="Search Document.." >
       <!-- <span id="searchbutton" onclick="manage_contract('search');" class="btn btn-primary btn-sm">&nbsp;&nbsp;<i class="fa fa-search  fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;</span> -->
