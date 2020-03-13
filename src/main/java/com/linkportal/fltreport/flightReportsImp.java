@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -174,19 +175,26 @@ public class flightReportsImp implements flightReports{
 	public String Populate_Operational_AirlineReg(String aircraftreg, String useremail) throws Exception {
 		
 		   boolean isStobartUser = useremail.indexOf("@stobartair.com") !=-1? true: false;	
-		   DateFormat dateFormat = new SimpleDateFormat("yyyy");
+		   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		   Date date             = new Date();
 		   String curent_year    = dateFormat.format(date);		   
-		   
 		   	
 		  
-		   String sqlforoperationalairport="";
-		  
-		   if(isStobartUser) {
-			  sqlforoperationalairport="select STN, NAME from PDCStobart.dbo.STATION where STN in(select distinct(DEPSTN) from pdcstobart.dbo.LEGS where DATOP like '"+curent_year+"%') order by STN";			  
-		   }
-		   else
-		   {
+		   String sqlforoperationalaircraftreg="select Distinct rtrim(AC_MISC.SHORT_REG) as \"SHORT_REG\", \r\n" + 
+		   		" STUFF(AC_MISC.LONG_REG,3,0,'-') as long_reg , \r\n" + 
+		   		" actype_versions_misc.actype, \r\n" + 
+		   		" actype_Versions_misc.scr_seats, \r\n" + 
+		   		" acreg_unit_map.acown as \"AIRCRAFT_OWNER_CODE\" \r\n" + 
+		   		" from acreg_unit_map,ac_misc,ac_versions,actype_versions_misc \r\n" + 
+		   		" where acreg_unit_map.acreg     = ac_misc.ac \r\n" + 
+		   		"      and acreg_unit_map.actyp = actype_versions_misc.actype\r\n" + 
+		   		"      and actype_versions_misc.version = ac_Versions.version \r\n" + 
+		   		"	   and ac_versions.ac    =  ac_misc.ac\r\n" + 
+		   		"      and acreg_unit_map.acown in(select ACOWN from LEGS where  DATOP='"+curent_year+"')  \r\n" + 
+		   		"	   and ac_Versions.version in(select VERSION from LEGS where DATOP='"+curent_year+"') \r\n" + 
+		   		"      and acreg_unit_map.actyp in(select ACTYPE from LEGS where DATOP='"+curent_year+"') ";
+
+		   if(!isStobartUser){
 			   
 			   //-- For Ground Handler Externale Pull list of assigned airport 
 			   String eligibleairportlist="";
@@ -200,17 +208,35 @@ public class flightReportsImp implements flightReports{
 				   {eligibleairportlist = eligibleairportlist +",'"+ rowst.getString("station_code")+"'";}
 				   counter++;
 			   }
-			   sqlforoperationalairport ="select STN, NAME from PDCStobart.dbo.STATION where STN in("+eligibleairportlist+") order by STN"; 
-			   
-		   }
-			   
+	
+			   sqlforoperationalaircraftreg="select Distinct rtrim(AC_MISC.SHORT_REG) as \"SHORT_REG\", \r\n" + 
+				   		" STUFF(AC_MISC.LONG_REG,3,0,'-') as long_reg , \r\n" + 
+				   		" actype_versions_misc.actype, \r\n" + 
+				   		" actype_Versions_misc.scr_seats, \r\n" + 
+				   		" acreg_unit_map.acown as \"AIRCRAFT_OWNER_CODE\" \r\n" + 
+				   		" from acreg_unit_map,ac_misc,ac_versions,actype_versions_misc \r\n" + 
+				   		" where acreg_unit_map.acreg     = ac_misc.ac \r\n" + 
+				   		"      and acreg_unit_map.actyp = actype_versions_misc.actype\r\n" + 
+				   		"      and actype_versions_misc.version = ac_Versions.version \r\n" + 
+				   		"	   and ac_versions.ac    =  ac_misc.ac\r\n" + 
+				   		"      and acreg_unit_map.acown in(select ACOWN from LEGS where  DATOP='"+curent_year+"' and LEGS.DEPSTN in("+eligibleairportlist+"))  " + 
+				   		"	   and ac_Versions.version in(select VERSION from LEGS where DATOP='"+curent_year+"' and LEGS.DEPSTN in("+eligibleairportlist+")) " + 
+				   		"      and acreg_unit_map.actyp in(select ACTYPE from LEGS where DATOP='"+curent_year+"' and LEGS.DEPSTN in("+eligibleairportlist+"))";
+			
+		   }	   
 		   
-		   
-		   String stationlistwithcode ="<option value='ALL' selected> All Aircraft REG </option>"; 
-		   SqlRowSet rowst =  jdbcTemplateSqlServer.queryForRowSet(sqlforoperationalairport);
-		   while(rowst.next()) {
-				stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("STN")+">"+rowst.getString("STN").trim()+"&nbsp;&nbsp;-&nbsp;&nbsp;"+rowst.getString("NAME").trim()+"</option>";				
-				 
+		  
+		   String stationlistwithcode ="<option value='ALL' selected> Select Aircraft REG </option>"; 
+		   SqlRowSet rowst =  jdbcTemplateSqlServer.queryForRowSet(sqlforoperationalaircraftreg);
+		   while(rowst.next()){
+			   if(aircraftreg.trim().equals(rowst.getString("long_reg").trim())) {	
+				 stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("long_reg")+" selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+rowst.getString("long_reg").trim()+"</option>";				
+			   }
+			   else
+			   {
+				  stationlistwithcode=stationlistwithcode+"<option value="+rowst.getString("long_reg")+">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+rowst.getString("long_reg").trim()+"</option>";				
+				   
+			   }
 		   }//----------- END OF WHILE ---------- 
 
 		   rowst=null;		   

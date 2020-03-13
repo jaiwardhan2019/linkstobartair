@@ -19,12 +19,7 @@
 
 
 function search_progress() {
-    var e = document.getElementById("searchbutton");
-    if(e.style.display == 'block')
-       e.style.display = 'none';
-    else
-       e.style.display = 'block';
-
+  
     var e1 = document.getElementById("searchbutton1");
     if(e1.style.display == 'block')
         e1.style.display = 'none';
@@ -37,7 +32,7 @@ function showFlightReport(){
 			 if(document.DelayFlighReport.tolerance.value == ""){document.DelayFlighReport.tolerance.value=0}
 		     document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
 		     //<input type="button"  class="btn btn-primary" value="Show Report" onclick="showFlightReport();" />        
-		     //search_progress();
+		     search_progress();
 			 document.DelayFlighReport.method="POST";
 			 document.DelayFlighReport.action="reliablityflightreport";
 		     document.DelayFlighReport.submit();
@@ -51,6 +46,7 @@ function showFlightReport(){
 //*** Here this function will update data in the form to database and write back to the DIV 
 function Download_ExcelReport(){
 
+	  search_progress();
 	  document.getElementById("downloading").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Downloading..&nbsp;&nbsp;";
       var urldetail ="CreateExcelReliabilityReport?delay=no&airlinecode="+document.getElementById("airlinecode").value; 
       urldetail = urldetail +"&airportcode="+document.getElementById("airportcode").value;
@@ -66,7 +62,8 @@ function Download_ExcelReport(){
 		  {
 				//document.getElementById("downloadstatus").style.display = "none";
           	    document.getElementById("downloading").innerHTML = "<i class='fa fa-file-excel-o' aria-hidden='true'></i>&nbsp;&nbsp;Excel Report&nbsp;&nbsp;";
-          	    window.location = document.getElementById("emailid").value+"/viewExcelReliabilityReportFlights.xls";	           
+          	    window.location = document.getElementById("emailid").value+"/viewExcelReliabilityReportFlights.xls";	 
+          	    document.getElementById("searchbutton1").style.display = 'none';          
                           
 			}// ------ END OF SUCCESS ----  
 
@@ -248,15 +245,18 @@ function Download_ExcelReport(){
 				 <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
 		         &nbsp;
 		         <button type="button"  class="btn btn-success" onClick="Download_ExcelReport();"  id="downloading">Excel Report&nbsp;&nbsp;<i class="fa fa-file-excel-o" aria-hidden="true"></i>	</button>	
-		           
-				    <span style="display:none" id="searchbutton1">
-					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							         <b>Searching..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
-							      </div>   
-					        </span>
-					  
+						  
 				 </td>
 			</tr>		    
+					<tr>
+							<td colspan="2">
+								<span style="display:none" id="searchbutton1">
+									<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+									   . 
+									</div>   
+								</span>
+							</td>
+						</tr>		     
 				     
 							    
 				    </tbody>
@@ -679,7 +679,7 @@ function Download_ExcelReport(){
    <!-- SECOND TAB FOR THE CANCLE FLIGHTS  -->
    	<div id="menu2" class="tab-pane fade"> 
    	
- 	<table class="table table-striped table-bordered" border="1" style="width: 100%;" align="left">	
+ 	<table class="table table-striped table-bordered" border="1" style="width:100%;background:rgba(255,255,255);" align="left">	
 		
 	     <tr align="center">
 				     

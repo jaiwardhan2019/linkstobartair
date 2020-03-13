@@ -45,14 +45,8 @@ var chart = new CanvasJS.Chart("chartContainer",{
 
 
 
-
 function search_progress() {
-    var e = document.getElementById("searchbutton");
-    if(e.style.display == 'block')
-       e.style.display = 'none';
-    else
-       e.style.display = 'block';
-
+  
     var e1 = document.getElementById("searchbutton1");
     if(e1.style.display == 'block')
         e1.style.display = 'none';
@@ -60,11 +54,12 @@ function search_progress() {
         e1.style.display = 'block';    
  }
 
+
 function showFlightReport(){
 	
 	     document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
 	     //<input type="button"  class="btn btn-primary" value="Show Report" onclick="showFlightReport();" />        
-	     //search_progress();
+	     search_progress();
 
 		 document.FlightReport.method="POST";
 		 document.FlightReport.action="flightreport";
@@ -200,18 +195,20 @@ function showFlightReport(){
 						    <br>
 					       
 				          	    <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
-		                   
-			           
-					        
-					        <span style="display:none" id="searchbutton1">
-					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							         <b>Searching..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
-							      </div>   
-					        </span>
 					  
 					     </td>
 					     </tr>
 				     
+						<tr>
+							<td colspan="2">
+								<span style="display:none" id="searchbutton1">
+									<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+									   . 
+									</div>   
+								</span>
+							</td>
+						</tr>		     
+					     
 							    
 				    </tbody>
 			</table>

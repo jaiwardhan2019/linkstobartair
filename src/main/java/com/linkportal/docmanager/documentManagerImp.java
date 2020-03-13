@@ -85,7 +85,7 @@ public class documentManagerImp implements documentManager {
 				   		"      , doc_addedby_name  from Gops_Document_Master where doc_category='"+req.getParameter("cat").toUpperCase()+"' and doc_department='"+foldername+"'  order by doc_added_date desc";
 		   }
 		   
-		   System.out.println(sqlListDocs);
+		  // System.out.println(sqlListDocs);
 		   
 		   List  documentList   = jdbcTemplate.query(sqlListDocs,new DocumentEntityRowmapper());	
 		   return documentList;
@@ -112,8 +112,7 @@ public class documentManagerImp implements documentManager {
 	@Override
 	public boolean addDocumentToFolder(HttpServletRequest req, MultipartFile file) throws IOException, SQLException {
 
-	  
-		   
+			   
 	        //This Part of Code Will Create Category Folder like GCI / GCM / GCR if not exist then create one  
 	        File uploadDir = new File(groundopsRootFolder+req.getParameter("cat").toUpperCase()+"/");
 	        if(!uploadDir.exists()) {
@@ -144,7 +143,7 @@ public class documentManagerImp implements documentManager {
 			try {
 				
 			   // if file is exist then update time and added by email Otherwise Create new Entry in the Table  	  
-			   SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name from Gops_Document_Master where doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
+			   SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name from Gops_Document_Master where doc_category='"+req.getParameter("cat").toUpperCase()+"' and  doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
 			   if(result.next()) {
 				   jdbcTemplate.execute("Update Gops_Document_Master set doc_addedby_name='"+addbyname+"' , doc_added_date='"+currentdateandtime.toString()+"' where doc_category='"+req.getParameter("cat").toUpperCase()+"'  and  doc_name='"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]","")+"'");
 			   }
@@ -168,7 +167,7 @@ public class documentManagerImp implements documentManager {
 					   int rows = pstm.executeUpdate();
 				       pstm = null;
 				       con1.close();
-				       logger.info("After PREP ");      
+				       logger.info("Document Detail been Added in the database");      
 				       
 			   }
 			   

@@ -61,6 +61,10 @@ public class groundOpsController2 {
 	@Autowired
 	flightReports fltobj;
 
+
+	@Autowired
+	DocumentService  docserv;
+
 	
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);
@@ -81,24 +85,72 @@ public class groundOpsController2 {
  	       //model.addAttribute("airlinereg",req.getParameter("airlinereg").toLowerCase());
  	    
    	       
-            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinecode"),req.getParameter("emailid")));		
+            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinereg"),req.getParameter("emailid")));		
 	        model.put("airlinelist",fltobj.Populate_Operational_Airline(req.getParameter("airlinecode"),req.getParameter("emailid")));		
-			  
- 	        
- 	        
- 	        
- 	        
- 	        
- 	        
- 	        
-			model.put("profilelist",req.getSession().getAttribute("profilelist"));
+	        
+	        if(!req.getParameter("airlinecode").equals("ALL")) {
+	           model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+	        }
+	        
+		        
+	        if(req.getParameter("operation") != null){
+	        	if(req.getParameter("operation").equals("view")){System.out.println("Write view code");}
+	        	if(req.getParameter("operation").equals("update")){System.out.println("Write Update code");}
+	        	if(req.getParameter("operation").equals("remove")){	        		
+	        		if(docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))){System.out.println("Document Removed");}
+	        		model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+	        	}
+	        	
+	        }
+	        
+ 	     	model.put("profilelist",req.getSession().getAttribute("profilelist"));
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));
 			model.put("usertype",req.getParameter("usertype"));
 			logger.info("User id:"+req.getParameter("emailid")+" Login to flightreports Report");
 			return "groundoperation/weightstatement"; 
+			
 	}
 
+	
+	
+	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
+		@RequestMapping(value = "/addwtstatement",method = {RequestMethod.POST,RequestMethod.GET}) 
+		public String addGroundOpsWeightstatement(@RequestParam("gfile") MultipartFile[] files,HttpServletRequest req,ModelMap model) throws Exception{
+		
+        
+	   	       model.put("airlinecode",req.getParameter("airlinecode").toLowerCase());
+	 	       //model.addAttribute("airlinereg",req.getParameter("airlinereg").toLowerCase());
+	 	    
+	   	       
+	            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinereg"),req.getParameter("emailid")));		
+		        model.put("airlinelist",fltobj.Populate_Operational_Airline(req.getParameter("airlinecode"),req.getParameter("emailid")));		
+		   	
+               		
+	       		 int status=0;
+	    		 Arrays.asList(files).stream().forEach(file ->{
+	    		 try{
+	    			 if(docserv.addUploadFiletoDatabaseAndFolder(req,file)) { model.put("status","Successfully Added"); }else{ model.put("status","Error while uploading !!!");}
+	    	       }catch (IOException | SQLException e) {e.printStackTrace();logger.error("While Uploading file :"+e.toString());}
+	    		
+	    		 });
+    		 
+	    		//******* Pupulate List of File *******************
+	  		    model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+	  		
+	  	     	model.put("profilelist",req.getSession().getAttribute("profilelist"));
+				model.addAttribute("emailid",req.getParameter("emailid"));
+				model.addAttribute("password",req.getParameter("password"));
+				model.put("usertype",req.getParameter("usertype"));
+				return "groundoperation/weightstatement"; 
+		}
+
+	
+	
+	
+	
+	
+	
 	
 	
 	//****************** GROUND OPS SMS REPORT CONSUMER USER MANAGMENT ***********************************************

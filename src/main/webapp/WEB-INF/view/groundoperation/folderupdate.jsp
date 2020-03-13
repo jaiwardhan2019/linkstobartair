@@ -265,9 +265,6 @@ function addDocument(category){
 	<br>
 	<br>
 	<br>
-	<br>  
-	<br>
-	<br> 
 </c:if>
 
 <%@include file="../include/gopsfooter.jsp" %>
