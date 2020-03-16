@@ -72,20 +72,32 @@ public class documentManagerImp implements documentManager {
 	public List<DocumentEntity> showAllDocumentsFromFolder(HttpServletRequest req,String foldername) {
 		   
 		   String sqlListDocs = "";
-		   
+		 //-- When calling from home page   
 		   if(foldername.toUpperCase().equals("HOME") || req.getParameter("cat").toUpperCase().equals("HOME")) {
 			  sqlListDocs = " SELECT  doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
 				   		"    , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
-				   		"    , doc_addedby_name  from Gops_Document_Master  order by doc_added_date desc";
+				   		"    , doc_addedby_name  from Gops_Document_Master  where len(doc_category) < 5";
 		   }
-		   else
+		 //-- When calling from any folder 
+		   if(!foldername.toUpperCase().equals("HOME"))
 		   {
 			   sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
 				   		"      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
-				   		"      , doc_addedby_name  from Gops_Document_Master where doc_category='"+req.getParameter("cat").toUpperCase()+"' and doc_department='"+foldername+"'  order by doc_added_date desc";
+				   		"      , doc_addedby_name  from Gops_Document_Master where doc_category='"+req.getParameter("cat").toUpperCase()+"' and doc_department='"+foldername+"'";
 		   }
 		   
-		  // System.out.println(sqlListDocs);
+		   //-- FOR Weighting Statement Documents 
+		   if(foldername.contains("-")) {			   
+			   sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
+				   		"      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
+				   		"      , doc_addedby_name  from Gops_Document_Master where len(doc_category) < 5 ";
+		   }
+		   
+		   
+		   sqlListDocs = sqlListDocs +" order by doc_added_date desc";
+		   
+		   
+		   //System.out.println(sqlListDocs);
 		   
 		   List  documentList   = jdbcTemplate.query(sqlListDocs,new DocumentEntityRowmapper());	
 		   return documentList;
@@ -111,19 +123,54 @@ public class documentManagerImp implements documentManager {
 
 	@Override
 	public boolean addDocumentToFolder(HttpServletRequest req, MultipartFile file) throws IOException, SQLException {
-
+           
+		   //  CREATING MAIN FOLDER AND SUB FOLDER UNDER GROUND OPS ROOT FOLDER
+		
+		   //--If weight Statement content is added 
+		   File fileuploaddirectory = null;
+		   
+		    if(req.getParameter("cat").contains("-")) {		 
+		    	fileuploaddirectory     = new File(groundopsRootFolder+"/weightstatement/");
+			    if(!fileuploaddirectory.exists()) {
+		        	fileuploaddirectory.mkdir();		            
+		        }
+			    fileuploaddirectory     = new File(groundopsRootFolder+"/weightstatement/"+req.getParameter("cat").toUpperCase()+"/");
+			    if(!fileuploaddirectory.exists()) {
+		        	fileuploaddirectory.mkdir();
+		        }
+		    }
+		    
+		    //--If Form Folder content is added 
+		    if(req.getParameter("cat").contains("form")) {		    	
+              fileuploaddirectory     = new File(groundopsRootFolder+"/forms/");
+			   if(!fileuploaddirectory.exists()){
+		        	fileuploaddirectory.mkdir();
+		        } 
+			    fileuploaddirectory     = new File(groundopsRootFolder+"/forms/"+req.getParameter("cat").toUpperCase()+"/");
+			    if(!fileuploaddirectory.exists()) {
+		        	fileuploaddirectory.mkdir();
+		        }
 			   
-	        //This Part of Code Will Create Category Folder like GCI / GCM / GCR if not exist then create one  
-	        File uploadDir = new File(groundopsRootFolder+req.getParameter("cat").toUpperCase()+"/");
-	        if(!uploadDir.exists()) {
-	            uploadDir.mkdir();
-	            logger.info(req.getParameter("cat").toUpperCase()+":Folder is Created ");            
-	        }
-        
+            }
+		    
+		    
+		   //This Part of Code Will Create Only Folder like GCI / GCM / GCR if not exist then create one 
+		    if(req.getParameter("cat").toString().length() < 5){    	        
+		        File uploadDir = new File(groundopsRootFolder+req.getParameter("cat").toUpperCase()+"/");
+		        if(!uploadDir.exists()) {
+		            uploadDir.mkdir();
+		            logger.info(req.getParameter("cat").toUpperCase()+":Folder is Created ");           
+		        }
+                fileuploaddirectory = new File(groundopsRootFolder+"/"+req.getParameter("cat").toUpperCase()+"/");
+		    }  
+	        
+		    
+		    
+		    
 	        
 	        //This Part will Upload File to into the folder  
-	        byte[] bytes = file.getBytes();
-	        Path path = Paths.get(groundopsRootFolder+"/"+req.getParameter("cat").toUpperCase()+"/"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));
+	        byte[] bytes = file.getBytes();	        
+	        Path path = Paths.get(fileuploaddirectory+"/"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));
 	        Files.write(path, bytes);	
 	        
 	       
@@ -192,19 +239,18 @@ public class documentManagerImp implements documentManager {
 		
 		try {
 		
-		  //1.Fetch File detail from table
+		//1.Fetch File detail from table
    	    SqlRowSet result =  jdbcTemplate.queryForRowSet("Select doc_name , doc_path ,  doc_category from Gops_Document_Master where doc_id="+docId);
 		if(result.next()) {
-		     Path path = Paths.get(groundopsRootFolder+"/"+result.getString("doc_category")+"/"+result.getString("doc_name"));
-			     File ff = new File(path.toString());
-		     //2 Once file is removed from folder remove entry from table
-		     if(ff.delete()){
-				jdbcTemplate.execute("delete from Gops_Document_Master where doc_id="+docId);
-		     }
-         }
+		   File ff = new File(result.getString("doc_path"));
+		   //2 Once file is removed from folder remove entry from table
+		   if(ff.delete()){
+			  jdbcTemplate.execute("delete from Gops_Document_Master where doc_id="+docId);
+		    }
+        }
 		return true;
 		
-		}catch (Exception e) {e.printStackTrace();logger.error("While Removing file :"+e.toString());return false;}  
+		}catch (Exception e) {logger.error("While Removing file :"+e.toString());return false;}  
 	}
 
 

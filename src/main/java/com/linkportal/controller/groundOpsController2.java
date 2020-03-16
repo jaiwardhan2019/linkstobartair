@@ -93,9 +93,7 @@ public class groundOpsController2 {
 	        }
 	        
 		        
-	        if(req.getParameter("operation") != null){
-	        	if(req.getParameter("operation").equals("view")){System.out.println("Write view code");}
-	        	if(req.getParameter("operation").equals("update")){System.out.println("Write Update code");}
+	        if(req.getParameter("operation") != null){	      
 	        	if(req.getParameter("operation").equals("remove")){	        		
 	        		if(docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))){System.out.println("Document Removed");}
 	        		model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
@@ -107,7 +105,7 @@ public class groundOpsController2 {
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));
 			model.put("usertype",req.getParameter("usertype"));
-			logger.info("User id:"+req.getParameter("emailid")+" Login to flightreports Report");
+			logger.info("User id:"+req.getParameter("emailid")+" Checked the Weight Statement..");
 			return "groundoperation/weightstatement"; 
 			
 	}
@@ -142,6 +140,7 @@ public class groundOpsController2 {
 				model.addAttribute("emailid",req.getParameter("emailid"));
 				model.addAttribute("password",req.getParameter("password"));
 				model.put("usertype",req.getParameter("usertype"));
+				logger.info("User id:"+req.getParameter("emailid")+" Added Weight Statement.");
 				return "groundoperation/weightstatement"; 
 		}
 

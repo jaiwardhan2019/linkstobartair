@@ -347,10 +347,10 @@ function CalGopsSmsUserManager(){
 		  
 			   <ul class="dropdown-menu">
 			    
-			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Aer Lingus</a></li>
-			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;FlyBe</a></li>
-			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Stobart Air</a></li>
-			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Disruption Notices</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=formsei&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Aer Lingus</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=formsbe&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;FlyBe</a></li>
+			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=formsre&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Stobart Air</a></li>
+			    	<!-- <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=formsei&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Disruption Notices</a></li>  -->
 			    
 			    </ul>
 					  

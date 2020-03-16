@@ -66,7 +66,8 @@ function showWtstatement(operation){
 
 function addWtstatement(){
     var airreg    = document.getElementById("airlinereg").value;
-    var aircode   = document.getElementById("airlinecode").value;
+    var aircode   = document.getElementById("airlinecode").value; 
+    var fileupl   = document.getElementById("gfile").value;
       
 	if(airreg == "ALL") {
 	   alert("Please Select Aircraft Reg");
@@ -79,11 +80,17 @@ function addWtstatement(){
 	   document.getElementById("airlinecode").focus();
 	   return false;
 	 }
+	if(fileupl == "") {
+		   alert("Please Select Weighting Statement..");
+		   document.getElementById("gfile").focus();
+		   return false;
+		 }
 	 else
 	 {
 
 	   document.getElementById("cat").value  = document.getElementById("airlinereg").value+"-"+document.getElementById("airlinecode").value;
-	   document.getElementById("searchbutton").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Searching..&nbsp;&nbsp;";
+	   document.getElementById("addnew").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Uploading.";
+       search_progress();
        document.wtstatement.method="POST";
 	   document.wtstatement.action="addwtstatement";
 	   document.wtstatement.submit();
@@ -212,39 +219,6 @@ function showAddingFile(){
 	    
   <table class="table table-striped table-bordered" border="1" style="background:rgba(255,255,255);align:center;">	
     
-      <!--  
-	
-		
-		
-	   <tr>
-	         <td colspan="3" align="center">
-	             <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
-	             <c:if test="${profilelist.docmanager  == 'Y'}">
-	                &nbsp;&nbsp;&nbsp;<a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=home&operation=update');"><span class="label label-success"> Add New <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
-	             </c:if>
-	       </td>
-      </tr>	
-   
-        			
-	       <tr style="font-size:09pt">									
-				<td width="74%"><img src="pdf.png"> &nbsp; 
-				<a href="AircraftWeightStatements/${contract.docCategory}/${contract.docName}" target="_new" >									     
-			           GCI 2019.01 Connecting GPU with Anti-Collision Beacons.pdf
-                 </a>									      
-				</td>									
-				<td width="14%">11 Mar 2020</td>
-				<td align="center"> WTS </td>	
-		    									    
-			</tr>
-   
-      	
-  			<tr>
-			   <td  align="right" colspan="3">		
-				      <a href="javascript:void();" onClick="showwtstatement('update');"><span class="label label-success">Update <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
-				   </td>
-	       </tr>
-	
-    -->	   
    
    
 	   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
@@ -268,31 +242,33 @@ function showAddingFile(){
          	     		
 	       <tr style="font-size:09pt">									
 				<td width="74%" ><img src="pdf.png"> &nbsp; 
-				     <a href="${contract.docCategory}/${contract.docName}" target="_new" >									     
+				     <a href="weightstatement/${contract.docCategory}/${contract.docName}" target="_new" ><b>									     
              	            <c:set var="string1" value=" ${contract.docName}"/>
                                 <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
-                                ${string2}
-	                 </a>									      
-				</td>									
-				<td width="14%">${contract.docAddedDate}</td>
-		         <td align="center">
-					
-					
+                                ${string2}</b>
+                     </a>									      
+				</td>
+													
+				<td width="14%">
+				  <b>${contract.docAddedDate}</b>
+				</td>
+		        
+		        <td align="center">
 					 <c:if test="${profilelist.docmanager  == 'Y'}">
 					     <i  class="fa fa-trash" aria-hidden="true"></i>
 						  <span style="font-size:9pt;">
-	  					     <a style="color:red;" href="javascript:void();" onClick="showWtstatement('remove&docid=${contract.docId}');"> Rem </a>
+	  					     <a style="color:red;" href="javascript:void();" onClick="showWtstatement('remove&docid=${contract.docId}');"> <b>Rem </b> </a>
 						 </span>
 					 </c:if>
-					 
 		         </td>
+		         
 			</tr>
 	  </c:forEach>    			
 	       			
 		       			           
 		   <c:if test="${profilelist.docmanager  == 'Y'}">
 				 
-               <tr style="display:none" id="fileadding">
+				<tr style="display:none" id="fileadding">
 					<td align="right" colspan="2">
 					    <br>
 						<div class="col-xs-05">
@@ -301,26 +277,26 @@ function showAddingFile(){
 									 <input type="file"  id="gfile"  name="gfile" multiple  class="form-control"/>
 							 </div>
 								 
-				        </div>
-				    
+					       </div>
+					   
 						</td>
 						<td align="left">
 							  <br>															 
-                                 <span onClick="addWtstatement('')" id="addnew" class="btn btn-primary" >&nbsp;Upload&nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
-						</td>
-	       	</tr>
-	        	
-	     		     	
-	       <tr>
-		    <td colspan="3">
-					    <span style="display:none" id="searchbutton1">
-					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							        In Progress Please wait... 
-							      </div>   
-					        </span>
-		   </td>
-		</tr>	     	
-	     	
+					         <span onClick="addWtstatement('')" id="addnew" class="btn btn-primary" >&nbsp;Upload&nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
+					    </td>
+				</tr>
+   	
+		     	
+				<tr>
+					<td colspan="3">
+					   <span style="display:none" id="searchbutton1">
+					         <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+										        In Progress Please wait... 
+							 </div>   
+					   </span>
+					</td>
+				</tr>	     	
+    	
 	     			          						          			
 	       </c:if>
       
@@ -331,7 +307,9 @@ function showAddingFile(){
  </form>
  
 </body>
-
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>

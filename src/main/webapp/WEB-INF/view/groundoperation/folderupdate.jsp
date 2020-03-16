@@ -179,13 +179,25 @@ function addDocument(category){
 							<tr>
 								<td ><%=ctr++%>.</td>
 								<td width="70%">
-								    <img src="${contract.docType}.png"> &nbsp; <a href="${contract.docCategory}/${contract.docName}" target="_new">
-								                  ${contract.docName}    								
-								    </a>
+								    <img src="${contract.docType}.png"> &nbsp; 
+								    									
+										 <c:if test = "${fn:contains(contract.docCategory, 'FORM')}">
+										    <a href="forms/${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
+									     </c:if>
+										
+										 <c:if test = "${!fn:contains(contract.docCategory, 'FORM')}">
+										    <a href="${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
+									     </c:if>
+	
+								    
 								</td>								
-								<td width="10%">${contract.docAddedDate}</td>
-								<td >&nbsp;&nbsp;${contract.docCategory}
-								</td>
+								<td width="11%">${contract.docAddedDate}</td>
+								  <td align="left">
+										       
+										 		<c:set var="string1" value="${contract.docCategory}"/>
+                                                <c:set var="string2" value="${fn:substring(string1, 0,4)}" />
+			                                      &nbsp;&nbsp;${string2}
+							     </td>
 								
 								<td>&nbsp;&nbsp;&nbsp;
 								  <i  class="fa fa-trash" aria-hidden="true"></i>

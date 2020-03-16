@@ -472,14 +472,26 @@ public class groundOpsController1 {
 			   model.put("foldername","Compliance Monitoring."); 
 		   }
 
+		   // Forms Menu
+		   if(req.getParameter("cat").equals("formsei")) {
+			   model.put("foldername","Aer Lingus Forms."); 
+		   }
+		   if(req.getParameter("cat").equals("formsbe")) {
+			   model.put("foldername","Fly Be."); 
+		   }
+		   if(req.getParameter("cat").equals("formsre")) {
+			   model.put("foldername","Stobart Air."); 
+		   }
 		   
 		   if(req.getParameter("operation") != null){
 			       
-			       //--- If the date is comming from alfreso then this vaue will be passed to View 
+			       //--- If the data is comming from alfreso then this vaue will be passed to View 
 			       //-- Will avoid the Update Button on view 
 				   if(req.getParameter("alfresco") != null) {
 				       if(req.getParameter("alfresco").equals("YES")) {
 				    	   model.put("alfresco","YES");
+				    	   //  Write a function whic will pull list of folder content from the 
+				    	   //  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
 				       }
 				   }    
 				   //-- END of  Alfresco 
@@ -488,7 +500,8 @@ public class groundOpsController1 {
 				   if(req.getParameter("operation").equals("update")) { 
 					  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
 					  return updateviewstring;
-				    }
+				   }
+				   
 				   if(req.getParameter("operation").equals("view")) { 
 					  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
 					  return readviewstring;
@@ -629,7 +642,19 @@ public class groundOpsController1 {
 		   if(req.getParameter("cat").equals("dcom")) {
 			   model.put("foldername","Compliance Monitoring."); 
 		   }
-
+		   
+		   
+		   // Forms Menu
+		   if(req.getParameter("cat").equals("formsei")) {
+			   model.put("foldername","Aer Lingus Forms."); 
+		   }
+		   if(req.getParameter("cat").equals("formsbe")) {
+			   model.put("foldername","Fly Be."); 
+		   }
+		   if(req.getParameter("cat").equals("formsre")) {
+			   model.put("foldername","Stobart Air."); 
+		   }
+		   
            
 		   
 		   logger.info("User id:"+req.getParameter("emailid")+" File Updated to the Folder :"+req.getParameter("cat"));
