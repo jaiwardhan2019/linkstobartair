@@ -339,7 +339,51 @@ public class groundOpsController1 {
 	}
 	
 	
+
+
+	//-------THis Will be Called When Delay  Flight  Report  link is called from the Home Page ----------------- 
+	@RequestMapping(value = "/otpflightreport",method = {RequestMethod.POST,RequestMethod.GET}) 
+	public String Otpflightreport(HttpServletRequest req,ModelMap model) throws Exception{
+		
+		   //Formatting today date...
+		   Date today                     = new Date();               
+		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+		   Calendar                     c = Calendar.getInstance();  
+		   String fromdate                = (String)(formattedDate.format(c.getTime()));
+		   String todate                  = fromdate;
+		   model.put("startdate",fromdate);
+		   model.put("enddate",todate);	
+		   
+		   if(req.getParameter("startdate") != null) {	
+			   fromdate  = req.getParameter("startdate");
+			   todate    = req.getParameter("enddate");
+			   model.put("startdate",req.getParameter("startdate"));			   
+			   model.put("enddate",req.getParameter("enddate"));			   
+		   }
+		 	   
+		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
+		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
+		   
+		   
+		   //--------- FOR GENERAL FLIGHTS---------------------------- 
+		   //model.put("reportbody",flt.PopulateDelayFlightReport(req.getParameter("airlinecode"),
+		   //      req.getParameter("airportcode"),fromdate,todate,req.getParameter("flightno") ,req.getParameter("emailid") ));
+		   
+		
+			   
+		   
+		    model.addAttribute("airlinecode",req.getParameter("airlinecode").toLowerCase());
+			model.put("profilelist",req.getSession().getAttribute("profilelist"));
+			model.addAttribute("emailid",req.getParameter("emailid"));
+			model.addAttribute("password",req.getParameter("password"));
+			model.put("usertype",req.getParameter("usertype"));
+			logger.info("User id:"+req.getParameter("emailid")+" Login to OTP Flight Report");			
+			return "groundoperation/reports/otpreport";
+			
+	}
 	
+	
+
 	
 
 

@@ -234,7 +234,7 @@ function CalGopsSmsUserManager(){
 					    </c:if> 
 					    
 					     <c:if test="${profilelist.OtpReport  == 'Y'}"> 					     
-					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"   style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;OTP Report</a></li>
+					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('otpflightreport?airlinecode=ALL&airportcode=ALL&tolerance=0&delayCodeGroupCode=ALL');"   style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;OTP Report</a></li>
 					     </c:if> 
 					     
 					    
