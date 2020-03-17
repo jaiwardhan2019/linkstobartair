@@ -85,6 +85,12 @@ public class groundOpsController1 {
 
 
 	@Value("${spring.operations.excel.reportsfileurl}") String filepath;
+	@Value("${stobartair.delay.code}") String StobartairDelayCode;
+	@Value("${nonstobartair.delay.code}") String NonstobartairDelayCode;
+	@Value("${groundops.delay.code}") String GroundopsDelayCode;
+	
+	
+	
 	
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);
@@ -365,14 +371,23 @@ public class groundOpsController1 {
 		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
 		   
 		   
-		   //--------- FOR GENERAL FLIGHTS---------------------------- 
-		   //model.put("reportbody",flt.PopulateDelayFlightReport(req.getParameter("airlinecode"),
-		   //      req.getParameter("airportcode"),fromdate,todate,req.getParameter("flightno") ,req.getParameter("emailid") ));
+		   //---Builting Delay Code Group
+		   String delaycodegroup = req.getParameter("delayCodeGroupCode");
+		   if(delaycodegroup.equals("GOPSDELAYCODE"))       {delaycodegroup = GroundopsDelayCode;}
+		   if(delaycodegroup.equals("NONSTOBARTDELAYCODE")) {delaycodegroup = NonstobartairDelayCode;}
+		   if(delaycodegroup.equals("STOBARTDELAYCODE"))    {delaycodegroup = StobartairDelayCode;}
+		   
+	
+		   //--------- FLIGHT NOTES REPORT ----------------------------
+		   model.put("flightnotes",flt.PopulateOnTimePerformanceReport(req.getParameter("airlinecode"),
+		            req.getParameter("airportcode"),fromdate,todate,delaycodegroup,req.getParameter("emailid") ));
 		   
 		
 			   
 		   
 		    model.addAttribute("airlinecode",req.getParameter("airlinecode").toLowerCase());
+		    model.put("delaycode",req.getParameter("delayCodeGroupCode"));
+		    
 			model.put("profilelist",req.getSession().getAttribute("profilelist"));
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));

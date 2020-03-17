@@ -213,11 +213,11 @@ function Download_ExcelReport(){
 								<select id="delayCodeGroupCode" name="delayCodeGroupCode" class="form-control">
 								<option value="ALL">All Delay Codes</option>
 									
-										<option value="A1" >Ground Ops</option>
+										<option value="GOPS" >Ground Ops</option>
 									
-										<option value="AX" >Stobart Attributable Delays</option>
+										<option value="SAD" >Stobart Attributable Delays</option>
 									
-										<option value="AY" >Non Stobart Delays</option>
+										<option value="NSAD" >Non Stobart Delays</option>
 	
 									
 								</select>

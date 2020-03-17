@@ -185,7 +185,8 @@ function Download_ExcelReport(){
 				       
 				       
 				     </tr>
-				     					 
+				
+				<!--      					 
 				    <tr>
 				    <td colspan="2" align="left">		             
 				    
@@ -200,11 +201,33 @@ function Download_ExcelReport(){
 				    </td>
 				    
 				    </tr>
-				    
+				    -->
 				    
 				    <tr>
+				     				     					
+					<td >
+				             
+				             
+				         <div class="col-xs-12">
+							<label for="sortBy">Delay Code Group:</label> 
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-text-height" aria-hidden="true"></i></span>
+								<select id="delayCodeGroupCode" name="delayCodeGroupCode" class="form-control">
+								<option value="ALL">All Delay Codes</option>
+										<option value="GOPSDELAYCODE" <c:if test="${delaycode == 'GOPSDELAYCODE'}"> selected </c:if> >Ground Ops</option>
+										<option value="STOBARTDELYCODE" <c:if test="${delaycode == 'STOBARTDELYCODE'}"> selected </c:if> >Stobart Attributable Delays</option>
+										<option value="NONSTOBARTDELAYCODE" <c:if test="${delaycode == 'NONSTOBARTDELAYCODE'}"> selected </c:if>  >Non Stobart Delays</option>	
+									
+								</select>
+							</div>
+						</div>
+				       </td>
+				       
+		
+				       
 				    
-	   			     <td colspan="2" align="center">
+	   			     <td  align="center">
+	   			          <br>
 				          <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
 		                     <!-- &nbsp;&nbsp;<button type="button"  class="btn btn-success" onClick="Download_ExcelReport();"  id="downloading">Excel Report&nbsp;&nbsp;<i class="fa fa-file-excel-o" aria-hidden="true"></i></button> -->	
 		 			     
@@ -297,7 +320,7 @@ function Download_ExcelReport(){
  <div class="container" align="center">
  
  <div class="col-md-12 col-sm-12 col-xs-12" align="left" >
- 
+ <!-- 
    		<ul class="nav nav-pills">
 						<li class="active">
 						 <a data-toggle="pill" href="#menu1"><b>${reportbody.stream().distinct().count()}</b> - All Delay</a>
@@ -305,11 +328,10 @@ function Download_ExcelReport(){
 						<li>
 						   <a data-toggle="pill" href="#menu2"><b>${reportbody_C.stream().distinct().count()}</b> - Stobart Delay </a>
 						</li>   
-	                 		    	
 	                        
-	    </ul>
-					
-
+	    </ul>		
+ -->
+ 
 <div class="tab-content">
    
    <div id="menu1" class="tab-pane fade in active">					
@@ -318,15 +340,84 @@ function Download_ExcelReport(){
 		 		<tr>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Flight Date</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Flight No</th>
-						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Ac Type</th>
-						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Ac Reg</th>
+						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Ac - Reg</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >From.</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >To.</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Del Code.</th>
-						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Duration.</th>
+						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Time.</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" width="15%">Description</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" width="40%">Note</th>
 				</tr>
+							  <tr>
+									  <td>  ${flightnotes.flightNo} </td>
+									  <td>  ${flightnotes.aircraftReg} -  ${flightnotes.aircraftType}</td>
+									  <td> ${flightnotes.std} </td>
+									  <td>  ${flightnotes.from}&nbsp; - &nbsp; ${flightnotes.to} </td>
+									  <td>  
+									  
+										<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode1)}"/>   
+										
+												<c:if test = "${delaycode >= 2}">
+											
+													<b> <c:out value = "${flightnotes.delayCode1}"/></b>-${flightnotes.delayCode1_time}
+												
+										</c:if>
+
+
+								       </td>
+								         <td>  
+									  
+										<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode2)}"/>   
+										
+												<c:if test = "${delaycode >= 2}">
+												<b> <c:out value = "${flightnotes.delayCode2}"/></b>-${flightnotes.delayCode2_time} 
+												
+										</c:if>
+
+
+								       </td>
+								  <td>  
+									  
+										<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode3)}"/>   
+										
+												<c:if test = "${delaycode >= 2}">
+												<b> <c:out value = "${flightnotes.delayCode3}"/></b>-${flightnotes.delayCode3_time}
+												
+										</c:if>
+
+
+								       </td>
+								  <td>  
+									  
+										<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode4)}"/>   										
+												<c:if test = "${delaycode >= 2}">
+												<b> <c:out value = "${flightnotes.delayCode4}"/></b>-${flightnotes.delayCode4_time}
+												
+										</c:if>
+
+
+								       </td>
+								 
+	
+									  <td>
+			
+										    <c:forEach var="fltnote" items="${flightnotes.getFlightNoteRemarks()}"> 
+									                 ${fltnote} <br>
+									         </c:forEach>
+							  
+								  </tr>	
+								  		
+			
+
+		
+			     <c:if test="${fn:length(flightnotes) < 1}">
+			    
+			       <tr> 
+			       <td colspan="10" align="center"> <b>No flight delays. </b></td>
+			       </tr>
+			    
+			     </c:if>				
+				
 			     
   	    		
 				    

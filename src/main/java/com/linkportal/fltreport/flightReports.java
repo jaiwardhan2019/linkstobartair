@@ -35,12 +35,13 @@ public interface flightReports {
 
 	
 	
-	//-------- GOPS - FLIGHT REPORT -------------------
+	//-------- GOPS REFIS - FLIGHT REPORT -------------------
     public List PopulateFlightReport(String airline, String airport, String shortby , String date , String flightno, String emailid);
 	
     public List PopulateDelayFlightReport(String airline, String airport, String fdate , String tdate, String flightno, String emailid);
 	
-	
+    public List PopulateOnTimePerformanceReport(String airline, String airport, String fdate , String tdate, String delaycodegroup, String emailid);
+
 	
 	
 	

@@ -312,7 +312,7 @@ public class flightReportsImp implements flightReports{
 	}
 
 
-   	   @Override  //jai  Will be Called for the delay Flight Report 
+   	   @Override  //Will be Called for the delay Flight Report 
 	   public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
 		   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
 		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
@@ -358,6 +358,61 @@ public class flightReportsImp implements flightReports{
 	
 		   
 		   return flightseclog1;	 
+		   
+		   
+	
+	   }//  End of Function 
+		
+		
+
+  	   @Override  //jai  Will be Called for the delay Flight Report 
+	   public List<fligthSectorLog> PopulateOnTimePerformanceReport(String airline, String airport, String fltdate ,String todate,String delaycode, String useremail){
+		   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
+		   String builtsql             = null;
+		   
+		 //---- FOR STOBART USER----
+		   if(StobartUser) {
+			   builtsql = gopssql.builtOnTimePerformanceReportSql(airline, airport, fltdate, todate, delaycode);	
+		   }
+		   
+		   //---- FOR GH ----
+		   if(!StobartUser) {
+			 //System.out.println("Not a stobart user please built Air line and airport code");
+			 
+			   //-- For Ground Handler External Pull list of assigned airport 
+			   String eligibleairportlist = gopsobj.getAllEligibleAirportforGH(useremail);
+			   String eligibleairlinelist = gopsobj.getAllEligibleAirlineforGH(useremail);
+			   
+			   
+			 if(airline.equals("ALL")) {   	        	 
+				//--- When Search button click for the GH User -- 
+				airline=eligibleairlinelist;
+   	         }
+			 
+			 if(airport.equals("ALL")) {   	        	 
+				//--- When Search button click for the GH User --
+			    airport=eligibleairportlist;
+	   	     }	
+			 
+			 if(airport.equals("ALL") && airline.equals("ALL")) {
+				 airport=eligibleairportlist;
+				 airline=eligibleairlinelist;
+			 }			 
+			 builtsql = gopssql.builtOnTimePerformanceReportSql(airline, airport, fltdate, todate, delaycode);	
+				 
+		   }//end of if  FOR GH 
+		   
+		   
+		  
+		   
+		   //List<fligthSectorLog>  flightotp = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
+		   gopssql   = null;
+		   builtsql  = null;
+	
+		   
+		   //return flightotp;	 
+		   return null;	 
 		   
 		   
 	

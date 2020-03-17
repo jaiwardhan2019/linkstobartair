@@ -133,8 +133,7 @@ public class dailySummarySqlBuilder implements Serializable{
 			   
 	    	sql += " WHERE  LEGS.STATUS IN ('ATA') AND legs.datop='"+datop+"'";
 			   
-	    	if((!airline.equals("ALL"))){ 
-	    	
+	    	if((!airline.equals("ALL"))){ 	    	
 		    		if((airline.equals("BE"))){
 		      		   if(operation.equals("All Operation")) { sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; } 
 		    		   if(operation.equals("CPA")) { sql += "AND SUBSTRING(LEGS.FLTID,1,3)='BE' and legs.FLTID not like 'BE 6%'"; }
