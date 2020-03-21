@@ -536,10 +536,10 @@ public class groundOpsController1 {
 			   model.put("foldername","Aer Lingus Forms."); 
 		   }
 		   if(req.getParameter("cat").equals("formsbe")) {
-			   model.put("foldername","Fly Be."); 
+			   model.put("foldername","Fly Be Forms."); 
 		   }
 		   if(req.getParameter("cat").equals("formsre")) {
-			   model.put("foldername","Stobart Air."); 
+			   model.put("foldername","Stobart Air Forms."); 
 		   }
 		   
 		   if(req.getParameter("operation") != null){
@@ -708,10 +708,10 @@ public class groundOpsController1 {
 			   model.put("foldername","Aer Lingus Forms."); 
 		   }
 		   if(req.getParameter("cat").equals("formsbe")) {
-			   model.put("foldername","Fly Be."); 
+			   model.put("foldername","Fly Be Forms."); 
 		   }
 		   if(req.getParameter("cat").equals("formsre")) {
-			   model.put("foldername","Stobart Air."); 
+			   model.put("foldername","Stobart Air Forms."); 
 		   }
 		   
            

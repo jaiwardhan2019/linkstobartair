@@ -149,7 +149,7 @@ public class GroundOpsSqlBuilder implements Serializable{
 
 				// Flight_Note and Legs Table Joint  where flight notes all row should be displayed 
 				
-				System.out.println(lightSqlMaster);
+				//System.out.println(lightSqlMaster);
 				
 			return sqlmaster;
 		}//------------- End Of Myfly Report SQL --------------------------------

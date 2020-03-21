@@ -70,37 +70,35 @@ public class documentManagerImp implements documentManager {
 
 	@Override
 	public List<DocumentEntity> showAllDocumentsFromFolder(HttpServletRequest req,String foldername) {
+		
+		   String  sqlListDocs = "  SELECT  doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
+	   		        " , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
+	   		        " , doc_addedby_name  from Gops_Document_Master  where len(doc_category) < 5 order by doc_added_date desc";
 		   
-		   String sqlListDocs = "";
-		 //-- When calling from home page   
-		   if(foldername.toUpperCase().equals("HOME") || req.getParameter("cat").toUpperCase().equals("HOME")) {
-			  sqlListDocs = " SELECT  doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
-				   		"    , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
-				   		"    , doc_addedby_name  from Gops_Document_Master  where len(doc_category) < 5";
+		   if(req.getParameter("cat") != null){		   
+				 //-- When calling from any other folder 
+				   if(!req.getParameter("cat").toUpperCase().equals("HOME"))
+				   {
+					   sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
+						   		"      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
+						   		"      , doc_addedby_name  from Gops_Document_Master where doc_category='"+req.getParameter("cat").toUpperCase()+"' and doc_department='"+foldername+"' order by doc_added_date desc";
+				   }
+		  
 		   }
-		 //-- When calling from any folder 
-		   if(!foldername.toUpperCase().equals("HOME"))
-		   {
-			   sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
-				   		"      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
-				   		"      , doc_addedby_name  from Gops_Document_Master where doc_category='"+req.getParameter("cat").toUpperCase()+"' and doc_department='"+foldername+"'";
-		   }
+		   
 		   
 		   //-- FOR Weighting Statement Documents 
 		   if(foldername.contains("-")) {			   
 			   sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department " + 
 				   		"      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date " + 
-				   		"      , doc_addedby_name  from Gops_Document_Master where len(doc_category) < 5 ";
+				   		"      , doc_addedby_name  from Gops_Document_Master where len(doc_category) < 5 order by doc_added_date desc";
 		   }
 		   
-		   
-		   sqlListDocs = sqlListDocs +" order by doc_added_date desc";
-		   
-		   
-		   //System.out.println(sqlListDocs);
+		   //System.out.println("SQL here :"+sqlListDocs);
 		   
 		   List  documentList   = jdbcTemplate.query(sqlListDocs,new DocumentEntityRowmapper());	
 		   return documentList;
+		  
 	}
 
 

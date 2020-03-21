@@ -164,7 +164,7 @@
 					  <tr>
 					       <td colspan="3" align="right">
 					       <br>
-					        <a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=home&operation=view');"> <span class="label label-primary">Show All</span></a>
+					        <a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=HOME&operation=view');"> <span class="label label-primary">Show All</span></a>
 					       </td>
 					   </tr>   
 				          						          			
@@ -175,7 +175,7 @@
 					  <tr>
 					       <td colspan="3" align="right">
 					       <br>
-					       <a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=home&operation=update');"><span class="label label-success">Update <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>&nbsp;&nbsp;<a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=home&operation=view');"><span class="label label-primary">Show All&nbsp;<i class="fa fa-eye" aria-hidden="true"></i></span></a>
+					       <a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=HOME&operation=update');"><span class="label label-success">Update <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>&nbsp;&nbsp;<a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=home&operation=view');"><span class="label label-primary">Show All&nbsp;<i class="fa fa-eye" aria-hidden="true"></i></span></a>
 					       </td>
 					   </tr>   
 				          						          			

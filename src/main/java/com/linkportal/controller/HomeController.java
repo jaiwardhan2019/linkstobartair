@@ -165,19 +165,18 @@ public class HomeController {
 			  if(dbusr.Validate_External_User(req.getParameter("emailid"),req.getParameter("password"))) {
 				  
 				  model.addAttribute("emailid",req.getParameter("emailid"));
-				  model.addAttribute("password",req.getParameter("password"));
+				  model.addAttribute("password",req.getParameter("password"));			
 				  dbusr.updateUser_detail_LastLoginDateTime(req.getParameter("emailid"));
 				  req.getSession().setAttribute("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-				  model.put("usertype","E");
+				  model.put("usertype","E");				  
 				  model.put("DailyPunctStatistics",gopsobj.getPuncStaticforGroundOpsHomePage());
-				  model.put("gopsfilelist",docobj.getAllDocuments(req,"home"));
-				  
+				  model.put("gopsfilelist",docobj.getAllDocuments(req,"home"));				  
 				  return "groundoperation/groundopshome";
 			  }
 			  else 
 			  {
-					 model.put("errormessage","Please try again Still if you are unable to logon then Please Contact IT <br><br>&nbsp;&nbsp;&nbsp; <b> servicedesk@stobartair.com </b>");
-					 return "security/gerror";
+				  model.put("errormessage","Please try again Still if you are unable to logon then Please Contact Your Line Manager or IT <br><br>&nbsp;&nbsp;&nbsp; <b> servicedesk@stobartair.com </b>");
+				  return "security/gerror";
 				  
 			  }
 			  			   

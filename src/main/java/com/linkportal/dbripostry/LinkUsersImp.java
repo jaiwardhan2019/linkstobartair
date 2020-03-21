@@ -356,7 +356,7 @@ public class LinkUsersImp implements linkUsers{
 	public boolean Validate_External_User(String username, String ghpassword) {		 
 		  try {
 			  
-		  String sqlForUser = "SELECT gh_password FROM  LINK_USER_MASTER where FIRST_NAME=?"; 		  
+		  String sqlForUser = "SELECT gh_password FROM  LINK_USER_MASTER where active_status='Active' and  FIRST_NAME=?"; 		  
 		  String password   = (String) jdbcTemplatSqlserver.queryForObject(sqlForUser, new Object[] { username }, String.class);			  
 		  String decrypted  = encdec.decrypt(password);
 		  if(decrypted.equals(ghpassword)) {return true;} else {return false;}

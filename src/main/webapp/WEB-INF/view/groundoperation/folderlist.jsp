@@ -174,7 +174,7 @@ function calDocumentUpdate(reportname){
 										    <a href="forms/${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
 									     </c:if>
 										
-										 <c:if test = "${!fn:contains(contract.docCategory, 'FORM')}">
+									    <c:if test = "${!fn:contains(contract.docCategory, 'FORM')}">
 										    <a href="${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
 									     </c:if>
 										

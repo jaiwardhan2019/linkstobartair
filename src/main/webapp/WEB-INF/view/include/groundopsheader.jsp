@@ -90,7 +90,7 @@ function calRefisReport(reportname){
 
 function cal_groundops_home(usertype){	
 	document.refisheader.method="POST";
-	document.refisheader.action="groundopsHomePage?cat=home$usertype="+usertype;	
+	document.refisheader.action="groundopsHomePage?cat=home&usertype="+usertype;	
     document.refisheader.submit();
 	return true;
 }
