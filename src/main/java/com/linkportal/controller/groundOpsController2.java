@@ -48,6 +48,9 @@ import com.linkportal.groundops.gopsAllapi;
 import com.linkportal.groundops.refisUsers;
 import com.linkportal.reports.excel.ReportMaster;
 import com.linkportal.security.EncryptDecrypt;
+import com.linkportal.smsreportconsumer.smsConsumerEntity;
+import com.linkportal.smsreportconsumer.smsConsumerRepository;
+import com.linkportal.smsreportconsumer.smsConsumerService;
 
 
 @Controller
@@ -65,6 +68,9 @@ public class groundOpsController2 {
 	@Autowired
 	DocumentService  docserv;
 
+	
+	@Autowired
+	smsConsumerService SmsConsumer; 
 	
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);
@@ -163,13 +169,13 @@ public class groundOpsController2 {
 			model.put("usertype",req.getParameter("usertype"));	
 			
 			
-			
-			
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("operation") != null){	
 				
 				//-- View  Ground Ops User --
 				if(req.getParameter("operation").equals("view")) {
+					
+					//smsConsumerEntity user = SmsConsumer.getSmsConsumerById();
 					
 				}
 				
