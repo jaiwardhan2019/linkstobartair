@@ -50,7 +50,7 @@ import com.linkportal.reports.excel.ReportMaster;
 import com.linkportal.security.EncryptDecrypt;
 import com.linkportal.smsreportconsumer.smsConsumerEntity;
 import com.linkportal.smsreportconsumer.smsConsumerRepository;
-import com.linkportal.smsreportconsumer.smsConsumerService;
+
 
 
 @Controller
@@ -69,8 +69,8 @@ public class groundOpsController2 {
 	DocumentService  docserv;
 
 	
-	@Autowired
-	smsConsumerService SmsConsumer; 
+	//@Autowired
+	//smsConsumerService SmsConsumer; 
 	
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);

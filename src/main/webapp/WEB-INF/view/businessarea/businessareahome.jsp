@@ -17,7 +17,7 @@ function calBusinessCategory(category){
 
 	document.stobart_businesupdates.cat.value=category;
 	document.stobart_businesupdates.method="POST";
-	document.stobart_businesupdates.action="businessupdates";
+	document.stobart_businesupdates.action="businesarea";
     document.stobart_businesupdates.submit();
 	return true;
 }

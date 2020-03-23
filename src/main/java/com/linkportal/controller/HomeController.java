@@ -230,17 +230,36 @@ public class HomeController {
 	}//----------- End of Function 
 
 
+
+
+	
+	//------------  This is Business Area Update ------------
+	@RequestMapping(value = "/businesarea" , method = {RequestMethod.POST,RequestMethod.GET})
+	public String Login_businessupdate(HttpServletRequest req, ModelMap model){		 
+		   model.addAttribute("cat",req.getParameter("cat"));
+		   if(!req.getParameter("cat").equals("00")){
+		     model.addAttribute("content",bac.Show_Content(Integer.parseInt(req.getParameter("cat"))));
+		   }
+		   
+		   model.addAttribute("password",req.getParameter("password"));
+		   model.addAttribute("emailid",req.getParameter("emailid"));
+		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
+		   model.put("profilelist",req.getSession().getAttribute("profilelist")); 
+		   return "businessarea/businessareahome";
+	}
 	
 	
 	
-	//-------THis is Connect Air Controller ----------------- 
-	@RequestMapping(value = "/connectairupdate" , method = {RequestMethod.POST,RequestMethod.GET})
+	
+	//-------THis is Business Updates Controller ----------------- 
+	@RequestMapping(value = "/businessupdates" , method = {RequestMethod.POST,RequestMethod.GET})
 	public String Login_connectairupdate(HttpServletRequest req, ModelMap model) {
 		model.addAttribute("emailid",req.getParameter("emailid"));
 		model.addAttribute("password",req.getParameter("password"));
   	    //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
+	    model.put("newslist", docobj.getAllDocuments(req, "NEWS"));
 		model.put("profilelist",req.getSession().getAttribute("profilelist")); 
-		return "connectair/connectairupdate";
+		return "businessupdatehome/businessupdates";
 	}
 	
 	
@@ -340,24 +359,6 @@ public class HomeController {
 	
 	
 
-
-	
-	//------------  This is Business Area Update ------------
-	@RequestMapping(value = "/businessupdates" , method = {RequestMethod.POST,RequestMethod.GET})
-	public String Login_businessupdate(HttpServletRequest req, ModelMap model){		 
-		   model.addAttribute("cat",req.getParameter("cat"));
-		   if(!req.getParameter("cat").equals("00")){
-		     model.addAttribute("content",bac.Show_Content(Integer.parseInt(req.getParameter("cat"))));
-		   }
-		   
-		   model.addAttribute("password",req.getParameter("password"));
-		   model.addAttribute("emailid",req.getParameter("emailid"));
-		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid"))); 
-		   model.put("profilelist",req.getSession().getAttribute("profilelist")); 
-		   return "businessupdates/businessupdatehome";
-	}
-	
-	
 	
 	
 	

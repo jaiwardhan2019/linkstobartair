@@ -16,7 +16,6 @@ https://www.tutorialspoint.com/spring_boot/spring_boot_scheduling.htm
 
 @SpringBootApplication
 @EnableScheduling
-@EnableJpaRepositories("es.uc3m.tiw.dominios")
 public class LinkstobartairApplication {
 
 	public static void main(String[] args){

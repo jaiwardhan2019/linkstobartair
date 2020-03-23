@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import com.linkportal.smsreportconsumer.smsConsumerEntity;
 
 @Repository
-public interface smsConsumerRepository extends JpaRepository<smsConsumerEntity, Long> { 
+//public interface smsConsumerRepository extends JpaRepository<smsConsumerEntity, Long> { 
+public interface smsConsumerRepository{ 
 
 	
 	    

@@ -198,17 +198,17 @@ function CalAlfresco(){
 }
 
 
-function calBusinessUpdate(){
+function calBusinessArea(){
 	document.businessupdate.method="POST";
-	document.businessupdate.action="businessupdates";
+	document.businessupdate.action="businesarea";
 	//document.businessupdate.target="_blank"
     document.businessupdate.submit();
 	return true;
 }
 
 
-function calConnectAir(){
-	document.connectair.action="connectairupdate";
+function calBusinessUpdates(){
+	document.connectair.action="businessupdates?businessupdates=yes&news=Latest";
 	//document.connectair.target="_blank"
     document.connectair.submit();
 	return true;
@@ -491,7 +491,7 @@ setTimeout(function(){window.location.href="index"},60000000);
        <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
        
-   <a title="View Org Charts and Department Information." onClick="calBusinessUpdate();">
+   <a title="View Org Charts and Department Information." onClick="calBusinessArea();">
    	<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
 				<div class="panel-body" style="color:#0071BA;">
@@ -505,7 +505,7 @@ setTimeout(function(){window.location.href="index"},60000000);
  <form name="connectair" method="POST">
      <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
      <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
-   <a title="View Org Charts and Department Information."  onClick="calConnectAir();">
+   <a title="View Org Charts and Department Information."  onClick="calBusinessUpdates();">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
 				<div class="panel-body" style="color:#0071BA;">
