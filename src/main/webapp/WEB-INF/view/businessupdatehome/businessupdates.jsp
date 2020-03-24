@@ -49,7 +49,7 @@ function BusinessUpdates(category){
 						<div id="collapse1" class="panel-collapse collapse in">
 							<ul class="nav nav-pills nav-stacked">
 							  <li><a href="javascript:void();" onClick="BusinessUpdates('Latest');" class="leftlist" style="font-size:9.2pt;padding-top:8px;padding-bottom:8px;border-radius:0px;">Latest News</a></li>
-							  <li><a href="javascript:void();" onClick="BusinessUpdates('Archive');" class="leftlist" style="font-size:9.2pt;padding-top:8px;padding-bottom:8px;border-radius:0px;">News Archives</a></li>
+							  <li><a href="javascript:void();" onClick="BusinessUpdates('Archive-2019');" class="leftlist" style="font-size:9.2pt;padding-top:8px;padding-bottom:8px;border-radius:0px;">Archives - 2019</a></li>
 							</ul>
 						</div>
 					</div>
@@ -91,28 +91,28 @@ function BusinessUpdates(category){
 				</div>
 		</div>
 		
+		
 		<!----------------- RIGHT CONTENT -------------------->
 		<div class="col-md-8 col-sm-8 col-xs-12">
 			
 			<ul class="breadcrumb">
 			  <li><b>Business Updates</b> </li>
+			   <li><b>News</b> </li>
 			  <li>
 			      <i>
 			      
-			      <%
-			      
-			       if(request.getParameter("news").equals("Latest")){
-			    	   
+			      <%			      
+			       if(request.getParameter("news").equals("Latest")){			    	   
 			    	  out.println("<span class='label label-success' style='font-size:14px;font-weight:bold;'>"); 
+			    	  out.println(request.getParameter("news")+"&nbsp; - All -  2020</span>");
 			       }
-			       if(request.getParameter("news").equals("Archive")){
-			    	  
+			       if(request.getParameter("news").equals("Archive-2019")){			    	  
 			    	   out.println("<span class='label label-warning' style='font-size:14px;font-weight:bold;'>"); 
-			       }
-			      out.println(request.getParameter("news"));
-			      %> &nbsp;News
+			    	   out.println(request.getParameter("news")+"</span>");
+			       }			     
+			      %>
 			       
-			       </span>
+			       
 			       
 			       </i>
 			       
