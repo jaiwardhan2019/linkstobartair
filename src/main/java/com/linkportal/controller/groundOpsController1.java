@@ -164,6 +164,9 @@ public class groundOpsController1 {
 		 	   
 		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
 		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
+		   
+		   
+		 //-------------- FOR AIRCRAFT REPORT ---------------------------------
 		   model.put("reportbody",flt.PopulateFlightReport(req.getParameter("airlinecode"), req.getParameter("airportcode"), req.getParameter("sortby"), todaydate,req.getParameter("flightno"),req.getParameter("emailid")));	
 		   model.put("reportbody_cancle",flt.Populate_MayFly_Report_body(req.getParameter("airlinecode"),req.getParameter("airportcode"),req.getParameter("sortby"),todaydate,0,req.getParameter("emailid")));		
 				   
@@ -322,11 +325,11 @@ public class groundOpsController1 {
 		   
 		   
 		   //--------- FOR GENERAL FLIGHTS---------------------------- 
-		    model.put("reportbody",flt.PopulateDelayFlightReport(req.getParameter("airlinecode"),
+		   model.put("reportbody",flt.PopulateDelayFlightReport(req.getParameter("airlinecode"),
 		         req.getParameter("airportcode"),fromdate,todate,req.getParameter("flightno") ,req.getParameter("emailid") ));
 		   
-		
-			
+			   
+				
 		   
 		   //--------- FOR CANCLE FLIGHTS--------------------- 
 		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),

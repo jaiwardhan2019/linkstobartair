@@ -20,11 +20,12 @@ public class flightDelayComment implements Serializable {
 	private String action;
 	private String comments;
 	private String dateTimeEntered;
+	private String dateTimeClosed;
 	private String enteredBy;
 	
 	
 	public flightDelayComment(String flightNumber, String flightDate, String status, String action, String comments,
-			String dateTimeEntered, String enteredBy) {
+			String dateTimeEntered,String dateTimeClosed, String enteredBy) {
 		super();
 		this.flightNumber = flightNumber;
 		this.flightDate = flightDate;
@@ -32,8 +33,22 @@ public class flightDelayComment implements Serializable {
 		this.action = action;
 		this.comments = comments;
 		this.dateTimeEntered = dateTimeEntered;
+		this.dateTimeClosed = dateTimeClosed;
 		this.enteredBy = enteredBy;
 	}
+
+		
+
+	public String getDateTimeClosed() {
+		return dateTimeClosed;
+	}
+
+
+
+	public void setDateTimeClosed(String dateTimeClosed) {
+		this.dateTimeClosed = dateTimeClosed;
+	}
+
 
 
 	public String getFlightNumber() {
@@ -111,18 +126,16 @@ public class flightDelayComment implements Serializable {
 	}
 
 
-	
-	
+
 	@Override
 	public String toString() {
 		return "flightDelayComment [flightNumber=" + flightNumber + ", flightDate=" + flightDate + ", status=" + status
 				+ ", action=" + action + ", comments=" + comments + ", dateTimeEntered=" + dateTimeEntered
-				+ ", enteredBy=" + enteredBy + "]";
+				+ ", dateTimeClosed=" + dateTimeClosed + ", enteredBy=" + enteredBy + "]";
 	}
-	
-	
-	
-	
+
+
+		
 	
 	
 	

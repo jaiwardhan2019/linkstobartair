@@ -220,7 +220,7 @@ public class piechartImp implements piechart{
 			  		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) > 0) then 1 else 0 end) as alldelay,\r\n" + 
 			  		"	   sum(case when status = 'ATA' then pax else 0 end) as Passenger_Carried_PAX,	\r\n" + 
 			  		"	   sum(VER.scr_seats) as Total_Available_Seat from LEGS , ACTYPE_VERSIONS_MISC VER \r\n" + 
-			  		"	   where legs.ACTYP = VER.actype and LEGS.VERSION = VER.version ";
+			  		"	   where legs.ACTYP = VER.actype and LEGS.VERSION = VER.version";
 				   
 		   
 		   

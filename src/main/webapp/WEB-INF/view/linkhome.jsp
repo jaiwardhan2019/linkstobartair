@@ -501,7 +501,8 @@ setTimeout(function(){window.location.href="index"},60000000);
 		</div>	
    </a>
  </form>	 
- 
+
+	<!--	 
  <form name="connectair" method="POST">
      <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
      <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
@@ -516,7 +517,7 @@ setTimeout(function(){window.location.href="index"},60000000);
    </a>
 </form>
 		
-  	<!--	
+  
 	<a href="BENIFITS/company_benifit.jsp" target="_new">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">

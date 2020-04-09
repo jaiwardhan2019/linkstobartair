@@ -84,7 +84,9 @@ public class GroundOpsSqlBuilder implements Serializable{
 		//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
 		public String builtFlightReportSql(String airline,String airport,String shortby,String ofdate,String flightno) throws NullPointerException{
 	 		    
-			    if(ofdate.length()  > 0 ){ sqlmaster += " WHERE legs.datop='"+ofdate+"'"; }
+			    sqlmaster += " WHERE legs.status !='CNL'";
+			    
+			    if(ofdate.length()  > 0 ){ sqlmaster += " AND legs.datop='"+ofdate+"'"; }
 	 		    if(flightno.trim().length() > 0){ sqlmaster += " AND REPLACE(LEGS.FLTID,' ', '')  like '%"+flightno+"%'"; }
 				if((airline != null) && (!airline.equals("ALL"))){ 				    
 					if(airline.length() == 2) {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')"; }else {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ("+airline+")"; }
@@ -92,14 +94,18 @@ public class GroundOpsSqlBuilder implements Serializable{
 				if((airport != null) && (!airport.equals("ALL"))){ 
 				    if(airport.length() == 3) {sqlmaster += " AND LEGS.DEPSTN in ('"+airport+"')"; }else {sqlmaster += " AND LEGS.DEPSTN in ("+airport+")";}
 				}	
-				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by ETD_DATE_TIME";}				
+				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by ETD_DATE_TIME";}
+				
+				//System.out.println(sqlmaster);
+				
+				
 			return sqlmaster;
 		}//------------- End Of Myfly Report SQL --------------------------------
 
 		
 		
 
-		//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
+		//-------------- This Will Generate SQL for the  Delay Flights Report  ----------------------------------------------------------------
 		public String builtDelayFlightReportSql(String airline,String airport,String shortby,String ofdate,String todate,String flightno) throws NullPointerException{
 	 		    
 			    if(ofdate.length()  > 0 ){ sqlmaster += " WHERE legs.datop between '"+ofdate+"' and '"+todate+"'"; }  	
@@ -124,7 +130,17 @@ public class GroundOpsSqlBuilder implements Serializable{
 				//System.out.println(sqlmaster);
 				
 			return sqlmaster;
+		}//------------- End Of SQL --------------------------------
+		
+		
+
+		//-------------- This Will Generate SQL for the  Delay Flights Report  ----------------------------------------------------------------
+		public String builtDelayFlightCommentSql(String ofdate,String todate) throws NullPointerException{	 		   
+			   return "Select * from Flight_Delay_Comment_Master WHERE Flight_Date between '"+ofdate+"' and '"+todate+"'";
 		}//------------- End Of Myfly Report SQL --------------------------------
+
+	
+		
 
 	
 

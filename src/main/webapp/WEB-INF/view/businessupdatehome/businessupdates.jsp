@@ -111,9 +111,6 @@ function BusinessUpdates(category){
 			    	   out.println(request.getParameter("news")+"</span>");
 			       }			     
 			      %>
-			       
-			       
-			       
 			       </i>
 			       
 			       </li>

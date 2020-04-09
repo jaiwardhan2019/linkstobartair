@@ -7,7 +7,7 @@
 <head>
  
 <script>
-    /*--- THIS PIECE OF CODE WILL DISABLE THE MOUSE RIGHT CLICK ------------ 
+    /*--- THIS PIECE OF CODE WILL DISABLE THE MOUSE RIGHT CLICK ------------ 	*/
     var isNS = (navigator.appName == "Netscape") ? 1 : 0;
 	if(navigator.appName == "Netscape") document.captureEvents(Event.MOUSEDOWN||Event.MOUSEUP);
 
@@ -24,7 +24,7 @@
 	document.oncontextmenu = mischandler;
 	document.onmousedown = mousehandler;
 	document.onmouseup = mousehandler;
-	*/
+
 </script>
 
 
@@ -214,7 +214,8 @@ function CalGopsSmsUserManager(){
     -->
     
     
-    <c:if test="${profilelist.Flight_Report  == 'Y'}">   
+    <c:if test="${profilelist.Flight_Report  == 'Y'}">        </c:if>	 
+    
          <!-- FIRST MENU -->		
 	     <li class="dropdown">
 		 
@@ -222,9 +223,14 @@ function CalGopsSmsUserManager(){
 			  
 				  <ul class="dropdown-menu">
 				        
+				        <!-- 
 				        <c:if test="${profilelist.Flight_Report  == 'Y'}">   
 				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flightreport?airlinecode=ALL&airportcode=ALL&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Flight Report (MayFly)</a></li>
 					    </c:if>
+					     -->
+
+   		               <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flightreport?airlinecode=ALL&airportcode=ALL&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Flight Report (MayFly)</a></li>
+					     
 					    <c:if test="${profilelist.Reliablity  == 'Y'}"> 
 					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliablityflightreport?airlinecode=ALL&airportcode=ALL&delayCodeGroupCode=ALL&tolerance=0&flightno=');"  style="font-size:09pt;"><img src="images/database.png">&nbsp;&nbsp;Reliability Report</a></li>
 					    </c:if> 
@@ -253,12 +259,12 @@ function CalGopsSmsUserManager(){
 			      
 		</li>
 		
-	</c:if>	
+
 		
 		
 	  
-	   <c:if test="${profilelist.GCIGCMGCR  == 'Y'}">   
-		    <li class="dropdown">		 
+	   <c:if test="${profilelist.GCIGCMGCR  == 'Y'}">       </c:if> 
+		<li class="dropdown">		 
 		  	    <a  style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;GCI /GCM /GCR&nbsp;<span class="caret"></span></a>
 		  	   	   <ul class="dropdown-menu">
  		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gci&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Instructions.</a></li>
@@ -268,12 +274,12 @@ function CalGopsSmsUserManager(){
 		  	   
 		  	    						  
 			</li>
-	    </c:if> 
+	
 	    
 	    
 	    
-	  
-	  <c:if test="${profilelist.Manuals  == 'Y'}">  	
+	   
+	  <c:if test="${profilelist.Manuals  == 'Y'}">  	 	</c:if>	
 	    <li class="dropdown">	 
 	  	    <a style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals&nbsp;<span class="caret"></span></a>
 	  	   	   <ul class="dropdown-menu">
@@ -282,7 +288,9 @@ function CalGopsSmsUserManager(){
 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=mans&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Safety Manual.</a></li>
 	             </ul>		  	   
 		</li>
-	</c:if>	
+
+
+
 	
 	
 	  <c:if test="${profilelist.safetycompliance  == 'Y'}"> 	
@@ -313,14 +321,14 @@ function CalGopsSmsUserManager(){
 		</li>
     	</c:if>	
 			
-     <c:if test="${profilelist.weightstatement  == 'Y'}"> 			  
+     <c:if test="${profilelist.weightstatement  == 'Y'}"> 	 	</c:if>		  
 	    <li class="dropdown">
 	 
 		  <a href="javascript:void();" onClick="calDocumentReport('wtstatement?airlinecode=ALL&airlinereg=ALL');" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Weight Statement</a>
 		  
 					  
 		</li>
-	</c:if>
+
 	
 	
 	
@@ -340,7 +348,7 @@ function CalGopsSmsUserManager(){
 	</c:if>
 		
 	  		
- <c:if test="${profilelist.forms  == 'Y'}"> 		
+ <c:if test="${profilelist.forms  == 'Y'}"> 	 </c:if>	
 	<li class="dropdown">
 	 
 		  <a href="forms" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Forms&nbsp;<span class="caret"></span></a>
@@ -348,14 +356,14 @@ function CalGopsSmsUserManager(){
 			   <ul class="dropdown-menu">
 			    
 			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=formsei&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Aer Lingus</a></li>
-			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=formsbe&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;FlyBe</a></li>
+			     	<!--  <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=formsbe&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;FlyBe</a></li> -->
 			    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=formsre&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Stobart Air</a></li>
 			    	<!-- <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=formsei&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Disruption Notices</a></li>  -->
 			    
 			    </ul>
 					  
 		</li>
- </c:if>
+
 
 
 	
@@ -371,10 +379,12 @@ function CalGopsSmsUserManager(){
 					  
 						  <ul class="dropdown-menu">
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managegopssuser');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;REFIS User Manager</a></li>
+					       		<!-- 
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="CalGopsSmsUserManager();"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;SMS Contacts Manager</a></li>
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Airline Data Manager</a></li>
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Briefing Manager </a></li>
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Flight Reports</a></li>
+					       		 -->
 					      </ul>
 								  
 					</li>

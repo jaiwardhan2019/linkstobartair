@@ -27,6 +27,8 @@ import com.linkportal.datamodel.AirLineNameCode;
 import com.linkportal.datamodel.AirLineNameCodeRowmapper;
 import com.linkportal.datamodel.delaycodeGroupMaster;
 import com.linkportal.datamodel.delaycodeGroupMasterRowmapper;
+import com.linkportal.datamodel.flightDelayComment;
+import com.linkportal.datamodel.flightDelayCommentRowmapper;
 import com.linkportal.datamodel.flightSectorLogRowmapper;
 import com.linkportal.datamodel.fligthSectorLog;
 import com.linkportal.groundops.gopsAllapi;
@@ -313,17 +315,20 @@ public class flightReportsImp implements flightReports{
 
 
    	   @Override  //Will be Called for the delay Flight Report 
-	   public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
-		   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+	  public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
+   	  //public List<flightDelayComment> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
+   		
+   	   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
 		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
 		   String builtsql             = null;
+		   String commentsql           = gopssql.builtDelayFlightCommentSql(fltdate, todate);
 		   
 		 //---- FOR STOBART USER----
 		   if(StobartUser) {
 			  builtsql= gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);
 		   }
 		   
-		   //---- FOR GH ----
+		   //---- FOR NON STOBART USER LIKE GH ----
 		   if(!StobartUser) {
 			 //System.out.println("Not a stobart user please built Air line and airport code");
 			 
@@ -347,23 +352,43 @@ public class flightReportsImp implements flightReports{
 				 airline=eligibleairlinelist;
 			 }
 			 
-			 builtsql = gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);	
+			 builtsql   = gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);	
 				 
-		   }//end of if  FOR GH ---- jai  
+		   }//end of if  FOR GH
+		   
+		   
 		   
 		   
 		   List<fligthSectorLog>  flightseclog1 = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
+		   
+		   //List<flightDelayComment>  flightcomment = jdbcTemplateSqlServer.query(commentsql,new flightDelayCommentRowmapper());
+		  // flight no && date
+		   
+			   
 		   gopssql   = null;
 		   builtsql  = null;
 	
 		   
 		   return flightseclog1;	 
+		   //return flightcomment;	 
 		   
 		   
 	
 	   }//  End of Function 
 		
-		
+	
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
 
   	   @Override  //jai  Will be Called for the delay Flight Report 
 	   public List<fligthSectorLog> PopulateOnTimePerformanceReport(String airline, String airport, String fltdate ,String todate,String delaycode, String useremail){

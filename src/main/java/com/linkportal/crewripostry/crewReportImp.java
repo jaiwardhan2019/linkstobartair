@@ -96,7 +96,7 @@ public class crewReportImp implements crewReport{
 		@Override
 		public List<crewDetail> showCrewList(String datop) {
 			   String sqlstr="select DISTINCT CREW_NO , CREW_NAME , POSITION from crewinfo where DATOP='"+datop+"' and POSITION='CAPT' order by CREW_NAME";
-			   System.out.println(sqlstr);
+			   //System.out.println(sqlstr);
 			   List  linkusers = jdbcTemplate.query(sqlstr,new crewDetailRowmapper());
 			  return linkusers;
 		}

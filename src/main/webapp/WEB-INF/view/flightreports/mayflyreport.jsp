@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -265,7 +265,7 @@ tr:nth-child(even) {
 
 			
 			<li class="active">
-			  <a data-toggle="pill" href="#today">${fn:length(reportbody)} - Flights</a>
+			  <a data-toggle="pill" href="#today">${fn:length(reportbody)} - Operational</a>
 			</li>
 			
 			<li>
@@ -295,7 +295,7 @@ tr:nth-child(even) {
 		<tbody>
 	     <tr align="center">
 	        
-	                <td bgcolor="#0070BA" width="7%">
+	                <td bgcolor="#0070BA" width="8%">
 					   <span style="color:white;"> <b> 
 					    Flight Date	
 					     </b></span>					 

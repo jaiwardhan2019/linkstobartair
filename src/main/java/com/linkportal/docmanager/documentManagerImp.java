@@ -128,7 +128,7 @@ public class documentManagerImp implements documentManager {
 	
 		   
 		   
-		   System.out.println("SQL here :"+sqlListDocs);
+		   //System.out.println("SQL here :"+sqlListDocs);
 		   
 		   List  documentList   = jdbcTemplate.query(sqlListDocs,new DocumentEntityRowmapper());	
 		   return documentList;

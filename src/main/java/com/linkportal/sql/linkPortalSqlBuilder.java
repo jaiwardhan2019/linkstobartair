@@ -222,17 +222,20 @@ public class linkPortalSqlBuilder implements Serializable{
 
 	
 	public String builtMayFlightReportSql(String airline,String airport,String shortby,String ofdate) throws NullPointerException{
+		   
+		  sql += " WHERE SUBSTRING(LEGS.FLTID,1,3) != 'BE' AND legs.status !='CNL'";
+		   
 		 if(ofdate == null) {
-			sql +=  " WHERE legs.datop='"+curent_date+"'";	
+			sql +=  " AND legs.datop='"+curent_date+"'";	
 		 }
 		 else
 		 {
-			 sql +=  " WHERE legs.datop='"+ofdate+"'"; 
+			 sql +=  " AND legs.datop='"+ofdate+"'"; 
 		 }
-			if((airline != null) && (!airline.equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
-			if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }				
-			if(shortby != null){sql +=  " order by '"+shortby+"'";}else {sql +=  " order by ETD_DATE_TIME";}
-		    //System.out.println(sql);		
+		if((airline != null) && (!airline.equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
+		if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }				
+		if(shortby != null){sql +=  " order by '"+shortby+"'";}else {sql +=  " order by ETD_DATE_TIME";}
+	    //System.out.println(sql);		
 		return sql;
 	}//------------- End Of Myfly Report SQL --------------------------------
 

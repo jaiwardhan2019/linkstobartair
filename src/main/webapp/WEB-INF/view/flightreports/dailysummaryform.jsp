@@ -10,7 +10,7 @@
 
 
 var airlineLists = new Array(5) 
-airlineLists["empty"] = ["All Airline"]; 
+airlineLists["ALL"] = ["All Airline"]; 
 airlineLists["EI"] = ["Regional"]; 
 airlineLists["BA"] = ["All Operation"]; 
 airlineLists["BE"] = ["All Operation","CPA","Franchise"]; 
@@ -112,8 +112,6 @@ function showReport(){
 						 <b>Operating Airline</b> &nbsp;<i class="fa fa-plane"></i>						
 								<select id="airlineCode" name="airlineCode" class="form-control" onChange="Load_Commercial_Operation(this);">
 									
-									<option value="ALL">All Airlines</option> 
-									             
 									             ${airlinelist}
 									             
 								    </select>

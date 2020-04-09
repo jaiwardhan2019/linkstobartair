@@ -66,8 +66,9 @@ public class UserSecurityLdap{
 		  ctx.close();
 		  
 		  
-		  }catch(AuthenticationException E) {
-			  logger.error("While Validating LDAP For :"+useremailid+"##"+E.toString());return false;
+		  }catch(Exception E) {
+			  logger.error("While Validating LDAP For :"+useremailid+"##"+E.toString());
+			  return false;
 			  //--- Write Send email function   
 		  }
 		 

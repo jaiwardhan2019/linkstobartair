@@ -102,11 +102,12 @@ public class gopsAllapiImp implements gopsAllapi  {
 	public int removeRefisUser_FromDb(String emailid) {
 		   int status=0;			   
 		   try {	
-			   //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=0");	           
-		       
+			   
+			   //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=0");	    
+			   
 			   status = jdbcTemplateRefis.update("DELETE FROM  link_user_master WHERE internal_external_user='E' and email_id='"+emailid+"'");
-		       status = jdbcTemplateRefis.update("DELETE FROM link_user_profile_list WHERE user_email='"+emailid+"'");
-		       status = jdbcTemplateRefis.update("DELETE FROM Gops_Airline_Station_Access WHERE USER_NAME='"+emailid+"'");
+		       status = jdbcTemplateRefis.update("DELETE FROM  link_user_profile_list WHERE user_email='"+emailid+"'");
+		       status = jdbcTemplateRefis.update("DELETE FROM  Gops_Airline_Station_Access WHERE USER_NAME='"+emailid+"'");
 		       
 		       //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=1");		
 		       
@@ -444,8 +445,9 @@ public class gopsAllapiImp implements gopsAllapi  {
 		   try {
 			
 	
-			    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
-			    Date date = new Date();
+			   SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
+			   
+			   Date date = new Date();
 			   Connection conn        = dataSourcesqlservercp.getConnection();
 			   PreparedStatement pstm = null;
 			   
@@ -502,7 +504,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 		  Date today                     = new Date();               
 		  SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		  Calendar                     c = Calendar.getInstance();  
-		  String dateofoperation               = (String)(formattedDate.format(c.getTime()));	
+		  String dateofoperation         = (String)(formattedDate.format(c.getTime()));	
 		   
 		  String sqlforpunctuality="select sum(case when status != 'RTR' then 1 else 0 end )  as totalflights ,"+
 		   		"      sum(case when status = 'ATA' then 1 else 0 end) as NumFlownsofar ,      \r\n"+
@@ -513,6 +515,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) <= 0) then 1 else 0 end) as ontimearr, " + 
 		   		"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STA, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATA, '.', ':'), 120)) <= 15) then 1 else 0 end) as lessthen15minutesarr " + 
 		   		"	   from LEGS where DATOP = '"+dateofoperation+"'";
+		   		
 		   
 		  //System.out.println(sqlforpunctuality);
 		   

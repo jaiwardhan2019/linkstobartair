@@ -608,7 +608,7 @@ function Download_ExcelReport(){
 			     <td>
 					          
 						         
-                                 <a href="javascript:void();"><span class="label label-success"  onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.flightDate}','${fltleg.from}','${fltleg.to}','<%=request.getParameter("emailid")%>');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>Comment. </b></span></a>
+                                 <a href="javascript:void();"><span class="label label-success"  onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.getFlightDatop()}','${fltleg.from}','${fltleg.to}','<%=request.getParameter("emailid")%>');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>Comment. </b></span></a>
 	               
 
 				          
@@ -1069,22 +1069,9 @@ function ajaxUpdate(){
 	var fromstn   = document.getElementById("fromstn").value;
 	var tostn     = document.getElementById("tostn").value;
 	var addedby   = document.getElementById("addedby").value;
-	
+	var status    = document.getElementById("status").value;
 	var astatus   = document.getElementById("astatus").value;
-	var status;
 
-   if(document.getElementById('status_open').checked) { 
-	   status = document.getElementById("status_open").value; 
-             
-      } 
-   
-
-   if(document.getElementById('status_close').checked) { 
-	   status = document.getElementById("status_close").value; 
-             
-      } 
-   
-	
     if (feedback == null || feedback == "" || feedback == " ")
     {
   		alert("Please fill this form");  		
@@ -1208,12 +1195,12 @@ function ajaxUpdate(){
   
     <div class="col-md-6 col-sm-6 col-xs-12">
       <label >Status:</label>
-      			<div>
-				  <input class="form-check-input" type="radio" name="status" id="status_open" value="open" checked>				
+      			<div class="form-check">
+				  <input class="form-check-input" type="radio" name="exampleRadios" id="status" value="open" checked>				
 				    Open &nbsp;&nbsp;&nbsp;
-				  <input class="form-check-input" type="radio" name="status" id="status_close" value="close">
+				  <input class="form-check-input" type="radio" name="exampleRadios" id="status" value="close">
 				    Close
-	        </div>    
+          </div>    
     </div>
     
     

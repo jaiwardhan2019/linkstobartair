@@ -96,9 +96,7 @@ public class AjaxRestController {
 			ResponseEntity<List<Product>> responseEntity = new ResponseEntity<List<Product>>(productModel.findAll(),HttpStatus.OK);
 			return responseEntity;
 		
-		} catch (Exception e) {
-			return new ResponseEntity<List<Product>>(HttpStatus.BAD_REQUEST);
-		}
+		  } catch (Exception e) {return new ResponseEntity<List<Product>>(HttpStatus.BAD_REQUEST);}
 	}
 	
 	
