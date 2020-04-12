@@ -361,7 +361,7 @@ public class flightReportsImp implements flightReports{
 		   
 		   List<fligthSectorLog>  flightseclog1 = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
 		   
-		   //List<flightDelayComment>  flightcomment = jdbcTemplateSqlServer.query(commentsql,new flightDelayCommentRowmapper());
+		  // List<flightDelayComment>  flightcomment = jdbcTemplateCorp.query(commentsql,new flightDelayCommentRowmapper());
 		  // flight no && date
 		   
 			   

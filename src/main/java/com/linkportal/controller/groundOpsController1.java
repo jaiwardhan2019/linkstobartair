@@ -332,8 +332,8 @@ public class groundOpsController1 {
 				
 		   
 		   //--------- FOR CANCLE FLIGHTS--------------------- 
-		   model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
-			         req.getParameter("airportcode"),fromdate,todate,"0"));
+		  // model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
+			//         req.getParameter("airportcode"),fromdate,todate,"0"));
 		   
 		   
 		   
@@ -346,6 +346,8 @@ public class groundOpsController1 {
 			return "groundoperation/reports/delayreport";
 			
 	}
+	
+	
 	
 	
 

@@ -249,7 +249,7 @@ function showAddingFile(){
                      </a>									      
 				</td>
 													
-				<td width="14%">
+				<td width="15%">
 				  <b>${contract.docAddedDate}</b>
 				</td>
 		        

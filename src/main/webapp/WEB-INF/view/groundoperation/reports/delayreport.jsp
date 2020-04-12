@@ -421,10 +421,9 @@ function Download_ExcelReport(){
 		 <% 
 		  int ctr=0;
 		%>  
-
-		 
+		
 				 
-		<!-- Write DB Loops to display Data -->
+		<!-- Write DB Loops to display Data --> 
 		 <c:forEach var="fltleg" items="${reportbody}"> 
 		 
 		 			 
@@ -605,13 +604,10 @@ function Download_ExcelReport(){
 		                    ?????
 					 </td>
 				 
-			     <td>
-					          
-						         
-                                 <a href="javascript:void();"><span class="label label-success"  onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.flightDate}','${fltleg.from}','${fltleg.to}','<%=request.getParameter("emailid")%>');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>Comment. </b></span></a>
-	               
-
-				          
+			         <td>        
+                   
+                        <a href="javascript:void();"><span class="label label-success"  onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.flightDate}','${fltleg.from}','${fltleg.to}','<%=request.getParameter("emailid")%>');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>Comment. </b></span></a>
+	               				          
 				     </td>
 				  
 				  
@@ -619,6 +615,8 @@ function Download_ExcelReport(){
 				  </tr>
 				     				
 		    </c:forEach>		
+
+	
 		    
 		    	    
 		    <tr>
@@ -983,6 +981,8 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 				contentType : 'application/json',				
 				success : function(result) {
 					var s = tableheader;
+					var status ="";
+					var astatus ="ongoing";
 					var i = 0;
 					for (i = 0; i < result.length; i++) {
 						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].dateTimeEntered+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
@@ -993,17 +993,37 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 						s += '<br/>Price: ' + result[i].flightNumber;
 						s += '<br/>___________________________';
 						*/
+						status = result[i].status;
+						astatus =result[i].action;
+						
+						
 					}	
 					s += "</table>";			 
 					$('#displaydata').html(s);
-					if(i == 0){$('#displaydata').html("");}
+
+					
+					if(status == 'close'){
+					  document.getElementById("status_close").checked=true;
+					  document.getElementById("feedback").value    ="   Issue is Resolved..   ";
+					  document.getElementById("feedback").readOnly = true;
+					  document.getElementById("updatebutton").disabled = true;
+					  
+					}
+					
+					if(astatus == 'ongoing'){document.getElementById("astatus").selectedIndex = "2";}
+					if(astatus == 'taken'){document.getElementById("astatus").selectedIndex = "1";}
+					//JAI
+					
+				
 				}
 			});  
 
+          
 
 
            //-- Click and Open Model
 	       document.getElementById("flightmodelbutton").click();
+	   
   }
 
 
@@ -1042,11 +1062,30 @@ function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid
 				contentType : 'application/json',				
 				success : function(result) {
 					var s = tableheader;
+					var status ="";
+					var astatus ="ongoing";
+
 					for (var i = 0; i < result.length; i++) {
-						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].dateTimeEntered+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
+						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].dateTimeEntered+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>";
+						status = result[i].status;
+						astatus =result[i].action;
 					}	
 					s += "</table>";			 
 					$('#displaydata').html(s);
+
+					
+					if(status == 'close'){
+					  document.getElementById("status_close").checked=true;
+					  document.getElementById("feedback").value    ="   Issue is Resolved..   ";
+					  document.getElementById("feedback").readOnly = true;
+					  document.getElementById("updatebutton").disabled = true;
+					  
+					}
+					
+					if(astatus == 'ongoing'){document.getElementById("astatus").selectedIndex = "2";}
+					if(astatus == 'taken'){document.getElementById("astatus").selectedIndex = "1";}
+					//JAI
+	
 				}
 			});  
 
@@ -1130,7 +1169,7 @@ function ajaxUpdate(){
 
                    // This will display the comment in the same Model 
 				   open_model_toAdd_Comment_After_Add(flightno,datop,fromstn,tostn,addedby);
-	
+				   
 				}// ------ END OF SUCCESS ----  
 	
          }); //----- END OF AJAX FUNCTION ------- 
@@ -1237,8 +1276,7 @@ function ajaxUpdate(){
 
   <div class="form-row">
   
-    <div class="col-md-12 col-sm-12 col-xs-12">
-   
+    <div class="col-md-12 col-sm-12 col-xs-12">   
             <label for="feedback" class="col-form-label">Message:</label>
             <textarea class="form-control" id="feedback" rows="06" maxlength="500" onkeyup="textCounter()"></textarea>
     </div>
@@ -1260,7 +1298,7 @@ function ajaxUpdate(){
       
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onClick="ajaxUpdate();">Update</button>
+        <button type="button" class="btn btn-primary" id="updatebutton" onClick="ajaxUpdate();">Update</button>
       </div>
       
       

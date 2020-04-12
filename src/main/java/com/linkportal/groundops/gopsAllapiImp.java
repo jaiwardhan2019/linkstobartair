@@ -451,8 +451,8 @@ public class gopsAllapiImp implements gopsAllapi  {
 			   Connection conn        = dataSourcesqlservercp.getConnection();
 			   PreparedStatement pstm = null;
 			   
-			   String sqlinsert ="INSERT INTO Flight_Delay_Comment_Master ( Flight_No ,  Flight_Date , Status , Action_Status , Comment ,Entry_Date_Time, Entery_By )  VALUES " + 
-	          	   		"( ?,?,?,?,?,?,?)";
+			   String sqlinsert ="INSERT INTO Flight_Delay_Comment_Master ( Flight_No ,  Flight_Date , Status , Action_Status , Comment ,Entry_Date_Time, Entery_By, Closing_Date_Time )  VALUES " + 
+	          	   		"( ?,?,?,?,?,?,?,?)";
 			   
 	           pstm = conn.prepareStatement(sqlinsert);
 				   pstm.setString(1,req.getParameter("flightno"));
@@ -462,6 +462,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 				   pstm.setString(5,req.getParameter("feedback"));
 				   pstm.setString(6,formatter.format(date).toString());
 				   pstm.setString(7,req.getParameter("addedby"));	   	
+				   pstm.setString(8,formatter.format(date).toString());
 			       int rows = pstm.executeUpdate();
 			       pstm=null;   
 			
@@ -483,7 +484,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 		   try {	
 			   
 			    String sqlListRefis="SELECT * FROM Flight_Delay_Comment_Master where Flight_No='"+req.getParameter("flightno")+"' and Flight_Date='"+req.getParameter("datop")+"' order by Entry_Date_Time";		
-			     DelayComment = jdbcTemplateRefis.query(sqlListRefis,new flightDelayCommentRowmapper());
+			    DelayComment = jdbcTemplateRefis.query(sqlListRefis,new flightDelayCommentRowmapper());
 		   }catch(Exception eee) {logger.error(eee.toString());return DelayComment;}
 		   
 		return DelayComment;
