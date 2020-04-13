@@ -16,6 +16,7 @@ public class flightDelayComment implements Serializable {
 	
 	private String flightNumber;
 	private String flightDate;	
+	
 	private String status;
 	private String action;
 	private String comments;

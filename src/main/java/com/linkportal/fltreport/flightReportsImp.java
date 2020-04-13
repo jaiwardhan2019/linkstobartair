@@ -7,24 +7,23 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.linkportal.datamodel.AirLineNameCode;
 import com.linkportal.datamodel.AirLineNameCodeRowmapper;
+import com.linkportal.datamodel.delayReportParentPojo;
 import com.linkportal.datamodel.delaycodeGroupMaster;
 import com.linkportal.datamodel.delaycodeGroupMasterRowmapper;
 import com.linkportal.datamodel.flightDelayComment;
@@ -315,8 +314,8 @@ public class flightReportsImp implements flightReports{
 
 
    	   @Override  //Will be Called for the delay Flight Report 
-	  public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
-   	  //public List<flightDelayComment> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
+	  //public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
+   	  public  List<delayReportParentPojo> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
    		
    	   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
 		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
@@ -359,18 +358,32 @@ public class flightReportsImp implements flightReports{
 		   
 		   
 		   
-		   List<fligthSectorLog>  flightseclog1 = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
+		  List<fligthSectorLog>  flightseclog1 = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
 		   
-		  // List<flightDelayComment>  flightcomment = jdbcTemplateCorp.query(commentsql,new flightDelayCommentRowmapper());
-		  // flight no && date
-		   
+		  List<flightDelayComment>  flightcomment = jdbcTemplateCorp.query(commentsql,new flightDelayCommentRowmapper());
+
+  	     List<delayReportParentPojo> list = new ArrayList<>();
+  	     
+		 for(fligthSectorLog fligthSector : flightseclog1) {
+			 
+			 for(flightDelayComment flightDComment : flightcomment) {
+				 
+				 if(fligthSector.getFlightNo().equalsIgnoreCase(flightDComment.getFlightNumber()) &&
+						 fligthSector.getFlightDate().equalsIgnoreCase(flightDComment.getFlightDate())) {
+					 
+					 list.add(new delayReportParentPojo(fligthSector, flightDComment));
+					 
+				 }
+			 }
+		 }
+		  
 			   
 		   gopssql   = null;
 		   builtsql  = null;
 	
 		   
-		   return flightseclog1;	 
-		   //return flightcomment;	 
+		   //return flightseclog1;	 
+		   return list;	 
 		   
 		   
 	

@@ -422,6 +422,8 @@ function Download_ExcelReport(){
 		  int ctr=0;
 		%>  
 		
+		
+	
 				 
 		<!-- Write DB Loops to display Data --> 
 		 <c:forEach var="fltleg" items="${reportbody}"> 
@@ -432,52 +434,52 @@ function Download_ExcelReport(){
 	
 		              <td width="7%">
 					    
-					      ${fltleg.getFlightDatop()} 
+					      ${fltleg.sect.getFlightDatop()} 
 					      					 
 					 </td>
 		  
 				 
 					 <td>
 					  	<a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover" 
-					    title="  CAPTION       |   ${fltleg.flightCaption} " 
-					    data-content="FIR. OFFI | ${fltleg.flightFirstOfficer}">  
-					     ${fltleg.flightNo}
+					    title="  CAPTION       |   ${fltleg.sect.flightCaption} " 
+					    data-content="FIR. OFFI | ${fltleg.sect.flightFirstOfficer}">  
+					     ${fltleg.sect.flightNo}
 					    </a>
 					      					 
 					 </td>
 				
 					 <td>
 					    
-					        ${fltleg.aircraftReg} 
+					        ${fltleg.sect.aircraftReg} 
 					      					 
 					 </td>
 					 
 					 <td>
 					    
-					        ${fltleg.std}					 
+					        ${fltleg.sect.std}					 
 					 </td>
 
 					 <td>
-					     ${fltleg.sta} 
+					     ${fltleg.sect.sta} 
 					  
 					      					 
 					 </td>
 					 
 					 <td>
 					    
-					      ${fltleg.from}	 
+					      ${fltleg.sect.from}	 
 					 </td>
 					 
 					 <td>
 					        
-						    ${fltleg.to}   
+						    ${fltleg.sect.to}   
 					      					 
 					 </td>
 					 
 					 <td align="left" width="12%">	
 				 
-                         <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Detail - Group" data-content="${fltleg.IATA_DelCodeGroup()}">
-			               <c:set var="string1" value="${fltleg.IATA_DelCodeGroup()}"/>
+                         <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Detail - Group" data-content="${fltleg.sect.IATA_DelCodeGroup()}">
+			               <c:set var="string1" value="${fltleg.sect.IATA_DelCodeGroup()}"/>
                             <c:set var="string2" value="${fn:substring(string1, 0,18)}" />
 			                   ${string2}
 			             </a>
@@ -486,50 +488,50 @@ function Download_ExcelReport(){
 					 		 
 					 <td align="left">
 					     
-					   <c:set var = "delaycode"  value = "${fn:length(fltleg.delayCode1)}"/>   
+					   <c:set var = "delaycode"  value = "${fn:length(fltleg.sect.delayCode1)}"/>   
 	                
 					      <c:if test = "${delaycode >= 2}">
-					           <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Delay Code Description" data-content="${fltleg.delayCode1_desc}" data-placement="top">
-					             <b> <c:out value = "${fltleg.delayCode1}"/></b></a>					             		
-					             <fmt:formatNumber var="delay_hour" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${ ((fltleg.delayCode1_time - (fltleg.delayCode1_time % 60)) / 60)}"/>
-								 <fmt:formatNumber var="delay_minute" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${fltleg.delayCode1_time % 60}" />
+					           <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Delay Code Description" data-content="${fltleg.sect.delayCode1_desc}" data-placement="top">
+					             <b> <c:out value = "${fltleg.sect.delayCode1}"/></b></a>					             		
+					             <fmt:formatNumber var="delay_hour" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${ ((fltleg.sect.delayCode1_time - (fltleg.sect.delayCode1_time % 60)) / 60)}"/>
+								 <fmt:formatNumber var="delay_minute" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${fltleg.sect.delayCode1_time % 60}" />
 								  /${delay_hour}:${delay_minute}
 											        
 					      </c:if>
 						
 					     
-					   <c:set var = "delaycode"  value = "${fn:length(fltleg.delayCode2)}"/>   
+					   <c:set var = "delaycode"  value = "${fn:length(fltleg.sect.delayCode2)}"/>   
 	                
 					      <c:if test = "${delaycode >= 2}">
-					           <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Delay Code Description" data-content="${fltleg.delayCode2_desc}" data-placement="top">
-					             ,<b> <c:out value = "${fltleg.delayCode2}"/></b></a>					             
-					             <fmt:formatNumber var="delay_hour" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${ ((fltleg.delayCode2_time - (fltleg.delayCode2_time % 60)) / 60)}"/>
-								 <fmt:formatNumber var="delay_minute" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${fltleg.delayCode2_time % 60}" />
+					           <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Delay Code Description" data-content="${fltleg.sect.delayCode2_desc}" data-placement="top">
+					             ,<b> <c:out value = "${fltleg.sect.delayCode2}"/></b></a>					             
+					             <fmt:formatNumber var="delay_hour" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${ ((fltleg.sect.delayCode2_time - (fltleg.sect.delayCode2_time % 60)) / 60)}"/>
+								 <fmt:formatNumber var="delay_minute" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${fltleg.sect.delayCode2_time % 60}" />
 								  /${delay_hour}:${delay_minute}					             
 					        
 					      </c:if>
 						
 					      
 					      
-					   <c:set var = "delaycode"  value = "${fn:length(fltleg.delayCode3)}"/>   
+					   <c:set var = "delaycode"  value = "${fn:length(fltleg.sect.delayCode3)}"/>   
 	                
 					      <c:if test = "${delaycode >= 2}">
-					           <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Delay Code Description" data-content="${fltleg.delayCode3_desc}" data-placement="top">
-					             ,<b> <c:out value = "${fltleg.delayCode3}"/></b></a>
-					             <fmt:formatNumber var="delay_hour" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${ ((fltleg.delayCode3_time - (fltleg.delayCode3_time % 60)) / 60)}"/>
-								 <fmt:formatNumber var="delay_minute" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${fltleg.delayCode3_time % 60}" />
+					           <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Delay Code Description" data-content="${fltleg.sect.delayCode3_desc}" data-placement="top">
+					             ,<b> <c:out value = "${fltleg.sect.delayCode3}"/></b></a>
+					             <fmt:formatNumber var="delay_hour" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${ ((fltleg.sect.delayCode3_time - (fltleg.sect.delayCode3_time % 60)) / 60)}"/>
+								 <fmt:formatNumber var="delay_minute" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${fltleg.sect.delayCode3_time % 60}" />
 								  /${delay_hour}:${delay_minute}					             
 					        
 					      </c:if>
 					      
 						
-					   <c:set var = "delaycode"  value = "${fn:length(fltleg.delayCode4)}"/>   
+					   <c:set var = "delaycode"  value = "${fn:length(fltleg.sect.delayCode4)}"/>   
 	                
 					      <c:if test = "${delaycode >= 2}">
-					           <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Delay Code Description" data-content="${fltleg.delayCode4_desc}" data-placement="top">
-					             ,<b> <c:out value = "${fltleg.delayCode4}"/></b></a>
-					             <fmt:formatNumber var="delay_hour" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${ ((fltleg.delayCode4_time - (fltleg.delayCode4_time % 60)) / 60)}"/>
-								 <fmt:formatNumber var="delay_minute" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${fltleg.delayCode4_time % 60}" />
+					           <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"  title="Delay Code Description" data-content="${fltleg.sect.delayCode4_desc}" data-placement="top">
+					             ,<b> <c:out value = "${fltleg.sect.delayCode4}"/></b></a>
+					             <fmt:formatNumber var="delay_hour" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${ ((fltleg.sect.delayCode4_time - (fltleg.sect.delayCode4_time % 60)) / 60)}"/>
+								 <fmt:formatNumber var="delay_minute" type="number" minIntegerDigits="2" maxFractionDigits="0" value="${fltleg.sect.delayCode4_time % 60}" />
 								  /${delay_hour}:${delay_minute}					             
 					        
 					      </c:if>
@@ -543,7 +545,7 @@ function Download_ExcelReport(){
 					 
 					 <td>
 					    
-					       ${fltleg.getTotalDelayTime()}
+					       ${fltleg.sect.getTotalDelayTime()}
 					      					 
 					 </td>
 					 
@@ -551,12 +553,12 @@ function Download_ExcelReport(){
 					    
 					    				   
 						         
-						       <c:if test="${fn:length(fltleg.getFlightNoteRemarks()) > 0}">
+						       <c:if test="${fn:length(fltleg.sect.getFlightNoteRemarks()) > 0}">
 						           	
 								  <a href="#" onclick="return false;">  <i class="fa fa-newspaper-o" rel="popover" data-popover-content="#popover<%=ctr%>" title="Remark " data-trigger="hover" data-placement="auto"></i> </a>
 								  			<div id="popover<%=ctr%>" class="hide">
 													<ul>													
-													    <c:forEach var="fltnotea" items="${fltleg.getFlightNoteRemarks()}"> 
+													    <c:forEach var="fltnotea" items="${fltleg.sect.getFlightNoteRemarks()}"> 
 												                <li>${fltnotea}</li>
 												         </c:forEach>
 												      
@@ -573,13 +575,13 @@ function Download_ExcelReport(){
 					 </td>
 					 
 					 <td>
-					        ?????
+					        ${fltleg.comment.action} 
 					      					 
 					 </td>
 					 
 					 <td align="left">
 					 
-					    ???
+					    ${fltleg.comment.status} 
 					      					 
 					 </td>
 					 
@@ -601,12 +603,13 @@ function Download_ExcelReport(){
 					 
 					 <td width="7%">		
 						      
-		                    ?????
+		                  
+		                     ${fltleg.comment.dateTimeClosed} 
 					 </td>
 				 
 			         <td>        
                    
-                        <a href="javascript:void();"><span class="label label-success"  onClick="open_model_toAdd_Comment('${fltleg.flightNo}','${fltleg.flightDate}','${fltleg.from}','${fltleg.to}','<%=request.getParameter("emailid")%>');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>Comment. </b></span></a>
+                        <a href="javascript:void();"><span class="label label-success"  onClick="open_model_toAdd_Comment('${fltleg.sect.flightNo}','${fltleg.sect.flightDate}','${fltleg.sect.from}','${fltleg.sect.to}','<%=request.getParameter("emailid")%>');" ><i   class="fa fa-pencil-square-o" aria-hidden="true" ></i>&nbsp; <b>Comment. </b></span></a>
 	               				          
 				     </td>
 				  
@@ -743,7 +746,7 @@ function Download_ExcelReport(){
 					  	<a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover" 
 					    title="  CAPTION       |   ${fltleg.flightCaption} " 
 					    data-content="FIR. OFFI | ${fltleg.flightFirstOfficer}">  
-					      <span style="color:red;"> <b>${fltleg.flightNo} </b></span>			
+					      <span style="color:red;"> <b>${fltleg.sect.flightNo} </b></span>			
 					    </a>
 					      		 
 					 </td>
@@ -1011,11 +1014,20 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 					}
 					
 					if(astatus == 'ongoing'){document.getElementById("astatus").selectedIndex = "2";}
-					if(astatus == 'taken'){document.getElementById("astatus").selectedIndex = "1";}
-					//JAI
+					if(astatus == 'taken')  {document.getElementById("astatus").selectedIndex = "1";}
+
+					// For First time view of this form and there is no comment been entered 
+					if(i == 0){
+					  document.getElementById("feedback").readOnly     = false;
+					  document.getElementById("updatebutton").disabled = false;
+					  document.getElementById("astatus").selectedIndex = "0";
+					  document.getElementById("feedback").value    ="";
+					  document.getElementById("status_open").checked=true;
+					  $('#displaydata').html("");
+					}
 					
-				
 				}
+			      
 			});  
 
           
@@ -1087,6 +1099,7 @@ function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid
 					//JAI
 	
 				}
+		
 			});  
 
 
