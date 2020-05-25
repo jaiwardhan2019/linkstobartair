@@ -31,6 +31,5 @@ public class stobartContractRowmapper  implements  RowMapper<stobartContract>{
 		   
           return ctrAccount;
 	   }
-
 }
 	   

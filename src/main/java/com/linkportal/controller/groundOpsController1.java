@@ -320,7 +320,9 @@ public class groundOpsController1 {
 			   model.put("enddate",req.getParameter("enddate"));			   
 		   }
 		 	   
+		   
 		   model.put("airlinelist",flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));		
+		   
 		   model.put("airportlist",flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
 		   
 		   
