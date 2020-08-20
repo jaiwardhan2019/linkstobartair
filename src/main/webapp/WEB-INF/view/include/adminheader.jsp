@@ -38,14 +38,10 @@
 </head>
 
 <% 
-
-
 String fullemail            = request.getParameter("emailid");
 if(fullemail.trim().length() < 2){response.sendRedirect("index");System.out.println(fullemail);}
 String[] FirstName_LastName = fullemail.split("@");
 String user_login_id        = FirstName_LastName[0];
-
-
 %>
 
 
@@ -83,11 +79,11 @@ function Logout_Admin(){
 
 		<a class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Stobart Air" style="margin-left:3px;margin-top:04px;padding:0px;" href="adminhome?emailid=<%=fullemail%>" >
 			<img src="<c:url value="images/logo-menu-new.png"/>" alt="Admin Home" class="img-responsive" style="margin-top:-px;" />
-		</a>	
-    </div>
-  
-  
-    
+		</a>
+  </div>
+
+
+
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

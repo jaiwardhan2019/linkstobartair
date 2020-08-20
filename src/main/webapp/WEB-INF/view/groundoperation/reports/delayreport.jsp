@@ -62,7 +62,7 @@ function Download_ExcelReport(){
 				document.getElementById("searchbutton1").style.display = "none";
         	    document.getElementById("downloading").innerHTML = "<i class='fa fa-file-excel-o' aria-hidden='true'></i>&nbsp;&nbsp;Excel Report&nbsp;&nbsp;";
         	    window.location = document.getElementById("emailid").value+"/delayFlightReport.xls";	           
-                        
+
 			}// ------ END OF SUCCESS ----  
 
  }); //----- END OF AJAX FUNCTION ------- 
@@ -72,17 +72,6 @@ function Download_ExcelReport(){
 	
 
 }//-------- END OF FUNCTION ---------------
-
-
-
-
-
-
-
-
-
-
-
 </script>
 
 
@@ -298,9 +287,9 @@ function Download_ExcelReport(){
  <div class="col-md-12 col-sm-12 col-xs-12" align="left" >
  
    		<ul class="nav nav-pills">
-						<li class="active"><a data-toggle="pill" href="#menu1"><b>${reportbody.stream().distinct().count()}</b> - Flights</a></li>
-						<li><a data-toggle="pill" href="#menu2"><b>${reportbody_C.stream().distinct().count()}</b> - Cancelled </a></li>                    		    	
-	                        
+            <li class="active"><a data-toggle="pill" href="#menu1"><b>${reportbody.stream().distinct().count()}</b> - Flights</a></li>
+            <li><a data-toggle="pill" href="#menu2"><b>${reportbody_C.stream().distinct().count()}</b> - Cancelled </a></li>
+
 	    </ul>
 					
 

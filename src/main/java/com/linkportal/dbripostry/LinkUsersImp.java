@@ -102,10 +102,7 @@ public class LinkUsersImp implements linkUsers{
 		   
 		   //---------- THIS PART WILL COLLECT ALL USER PROFILE INTO A MAP WITH THE KEY AND VALUE----------
 	       Map<String, String> profileMap = new HashMap<String, String>();
-	       
 	    
-	    
-
 	    	    
 	       profileMap = jdbcTemplatSqlserver.query(profilesql, new ResultSetExtractor<Map>(){
 	    	   
@@ -122,6 +119,13 @@ public class LinkUsersImp implements linkUsers{
 								if(rs.getString("SUB_PROFILE").equals("Reliablity")) {mapRet.put("Reliablity", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("DelayReport")) {mapRet.put("DelayReport", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("OtpReport")) {mapRet.put("OtpReport", rs.getString("ACTIVE_STATUS"));}
+								
+								if(rs.getString("SUB_PROFILE").equals("StaffTravel")) {mapRet.put("StaffTravel", rs.getString("ACTIVE_STATUS"));}
+								
+								
+								//------- For Miscellaneous  Menu ---------------------
+								if(rs.getString("MAIN_PROFILE").equals("Miscellaneous")) {mapRet.put("Miscellaneous", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("Finance")) {mapRet.put("Finance", rs.getString("ACTIVE_STATUS"));}
 
 								
 								if(rs.getString("SUB_PROFILE").equals("Daily_Summary")) {mapRet.put("Daily_Summary", rs.getString("ACTIVE_STATUS"));}
@@ -145,7 +149,7 @@ public class LinkUsersImp implements linkUsers{
 								
 								
 								if(rs.getString("SUB_PROFILE").equals("Cascade")) {mapRet.put("Cascade", rs.getString("ACTIVE_STATUS"));}
-								if(rs.getString("SUB_PROFILE").equals("StaffTravel")) {mapRet.put("StaffTravel", rs.getString("ACTIVE_STATUS"));}
+								
 								if(rs.getString("SUB_PROFILE").equals("Contract")) {mapRet.put("Contract", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Refis")) {mapRet.put("Refis", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("ADMIN_STATUS").equals("Y")) {mapRet.put("admin","Y");}	 

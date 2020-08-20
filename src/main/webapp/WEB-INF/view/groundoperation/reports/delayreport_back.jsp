@@ -73,16 +73,6 @@ function Download_ExcelReport(){
 
 }//-------- END OF FUNCTION ---------------
 
-
-
-
-
-
-
-
-
-
-
 </script>
 
 
@@ -154,7 +144,6 @@ function Download_ExcelReport(){
 				  <tr align="left"> 
 				     					
 					<td>
-				             
 		               <div class="col-xs-12">
 							<label for="startDate">Start Date:</label>
 							<div class="input-group">
@@ -163,8 +152,6 @@ function Download_ExcelReport(){
 								    value="${startdate}" placeholder="(DD/MM/YYYY)"/>
 							</div>	
 						</div>
-								
-								
 				       </td>
 	       				
 					<td>

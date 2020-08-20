@@ -23,9 +23,7 @@ public interface documentManager {
 	  
 	  public List<String> listFolder(String foldername);
 	
-	 
-	
-	
+
 	   
 	   //******** FOR THE DAILY SUMMARY REPORT ********
 	   public void createDailySummaryReport_PDF(String airline , String Operation , String datop , String useremail);

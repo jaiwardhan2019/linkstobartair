@@ -147,19 +147,7 @@ function calStaffTravelUsers(){
 					  
 		</li>
 
-	    
-	       <c:if test="${profilelist.StaffTravel  == 'Y'}">   
 
-				 <li class="dropdown">
-			 
-			  	    <a  href="javascript:void();" onClick="calStaffTravelUsers();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Staff Travel"><i class="fa fa-tripadvisor" aria-hidden="true"></i>&nbsp;&nbsp;Staff Travel </a>
-				  
-							  
-				</li>
-        
-            </c:if> 
-					
-	
 		
          <!-- REPORT  MENU -->
          
@@ -204,7 +192,41 @@ function calStaffTravelUsers(){
   </c:if> 
     <!-- END OF REPORT MENU -->	 
   
+         <!-- REPORT  MENU -->
+         
+    <c:if test="${profilelist.Miscellaneous  == 'Y'}">   
+         		
+	     <li class="dropdown">
+		 
+			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;Miscellaneous <span class="caret"></span></a>
+			  
+				  <ul class="dropdown-menu">
+				        
+				        <c:if test="${profilelist.Finance == 'Y'}">   
+				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_mayFly_report?airportcode=ALL&airlineCode=ALL');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Invoice-Conversion-Tool</a></li>
+					    </c:if>					 
+			   		  
+			     </ul>	 
+			      
+		</li>
+  </c:if> 
+    <!-- END OF Miscellaneous MENU -->	 
   
+    
+  	
+ 
+ 	    
+      <c:if test="${profilelist.StaffTravel  == 'Y'}">   
+
+		 <li class="dropdown">
+	 
+	  	    <a  href="javascript:void();" onClick="calStaffTravelUsers();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Staff Travel"><i class="fa fa-tripadvisor" aria-hidden="true"></i>&nbsp;&nbsp;Staff Travel </a>
+					  
+		</li>
+      
+      </c:if> 
+			
+
   		
 		
 	 		
