@@ -155,7 +155,7 @@ function calStaffTravelUsers(){
          		
 	     <li class="dropdown">
 		 
-			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;Reports <span class="caret"></span></a>
+			  <a href="adminhome" onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;Reports <span class="caret"></span></a>
 			  
 				  <ul class="dropdown-menu">
 				        
@@ -192,18 +192,21 @@ function calStaffTravelUsers(){
   </c:if> 
     <!-- END OF REPORT MENU -->	 
   
-         <!-- REPORT  MENU -->
+    
+    
+    
+    <!-- Miscellaneous  MENU -->
          
     <c:if test="${profilelist.Miscellaneous  == 'Y'}">   
          		
-	     <li class="dropdown">
+	     <li class="dropdown" >
 		 
-			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;Miscellaneous <span class="caret"></span></a>
+			  <a href="adminhome" onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;Miscellaneous <span class="caret"></span></a>
 			  
 				  <ul class="dropdown-menu">
 				        
 				        <c:if test="${profilelist.Finance == 'Y'}">   
-				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_mayFly_report?airportcode=ALL&airlineCode=ALL');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Invoice-Conversion-Tool</a></li>
+				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('invoiceconversiontool');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Invoice-Conversion-Tool</a></li>
 					    </c:if>					 
 			   		  
 			     </ul>	 
@@ -232,10 +235,8 @@ function calStaffTravelUsers(){
 	 		
 	    <!-- SECOND  MENU -->	
 			<li class="dropdown">
-					  <a href="#" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;<%=user_login_id %>&nbsp;<span class="caret"></span></a>
+					  <a href="#" onmouseover="this.click()"  style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;<%=user_login_id %>&nbsp;<span class="caret"></span></a>
 					  <ul class="dropdown-menu">
-					  					  
-					  
 					  
 					   <c:if test="${profilelist.admin  == 'Y'}">   
 		                       <li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome?emailid=<%=fullemail%>" target="_new"  style="font-size:09pt;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp;Admin</a></li>
@@ -267,5 +268,13 @@ function calStaffTravelUsers(){
    <!-- Bootstrap Core JavaScript -->
    <script src="js/bootstrap.min.js"></script>
    <script src="js/bootstrap-datepicker.js"></script>
+   
+  
+   
+   
+   
+   
+   
+   
 
    

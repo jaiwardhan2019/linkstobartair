@@ -21,7 +21,7 @@ import com.linkportal.datamodel.flightDelayComment;
 
 @RestController
 @RequestMapping("ajaxrest")
-public class AjaxRestController {
+public class ajaxRestControllerDelayComment {
 
 	@Autowired
 	gopsAllapi gopsobj;

@@ -219,7 +219,7 @@ function CalGopsSmsUserManager(){
          <!-- FIRST MENU -->		
 	     <li class="dropdown">
 		 
-			  <a href="adminhome" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;Reports <span class="caret"></span></a>
+			  <a href="adminhome" onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;Reports <span class="caret"></span></a>
 			  
 				  <ul class="dropdown-menu">
 				        
@@ -265,7 +265,7 @@ function CalGopsSmsUserManager(){
 	  
 	   <c:if test="${profilelist.GCIGCMGCR  == 'Y'}">       </c:if> 
 		<li class="dropdown">		 
-		  	    <a  style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;GCI /GCM /GCR&nbsp;<span class="caret"></span></a>
+		  	    <a onmouseover="this.click()" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;GCI /GCM /GCR&nbsp;<span class="caret"></span></a>
 		  	   	   <ul class="dropdown-menu">
  		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gci&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Instructions.</a></li>
 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=gcm&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Crew Memo.</a></li>
@@ -281,7 +281,7 @@ function CalGopsSmsUserManager(){
 	   
 	  <c:if test="${profilelist.Manuals  == 'Y'}">  	 	</c:if>	
 	    <li class="dropdown">	 
-	  	    <a style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals&nbsp;<span class="caret"></span></a>
+	  	    <a onmouseover="this.click()" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Manuals&nbsp;<span class="caret"></span></a>
 	  	   	   <ul class="dropdown-menu">
  		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=mand&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;De-Icing Manuals.</a></li>
 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=mang&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Ops Manual.</a></li>
@@ -295,7 +295,7 @@ function CalGopsSmsUserManager(){
 	
 	  <c:if test="${profilelist.safetycompliance  == 'Y'}"> 	
 	    <li class="dropdown">	 
-	  	    <a style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Safety Compliance &nbsp;<span class="caret"></span></a>
+	  	    <a onmouseover="this.click()" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Safety Compliance &nbsp;<span class="caret"></span></a>
 	  	   	   <ul class="dropdown-menu">
  		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=scm&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Compliance Monitoring.</a></li>
 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=sgo&operation=view');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Ground Ops Statistics.</a></li>

@@ -580,12 +580,7 @@ public class HomeController {
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));
 		   
-		   
-		   
-		   
-		   
-		   
-		   
+			   
 		   logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Report");
 		   return "flightreports/reliabilityActionReport";
 		   
@@ -706,15 +701,24 @@ public class HomeController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+	//-------THis Will be FOR Finance invoice conversion tool  ----------------- 
+	@RequestMapping(value = "/invoiceconversiontool",method = {RequestMethod.POST,RequestMethod.GET}) 
+	public String invoiceConversionTool(HttpServletRequest req,ModelMap model) throws Exception{	
+		model.addAttribute("emailid",req.getParameter("emailid"));
+		model.addAttribute("password",req.getParameter("password"));
+		model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		logger.info("User id:"+req.getParameter("emailid")+" Called Invoice Conversion Tool");
+		return "miscellanous/convertinvoice";
+	}//--------------- End Of Function -------------
+
+
+
+
+
 	
 	
 	

@@ -181,7 +181,7 @@ public class ReportMasterImp implements ReportMaster {
 		//------------- Here Writing Body of the Report -------------------
 		row = sheet.createRow( rowNumber++ ) ;
         linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();
-        String firstsheetsql=sqlb.builtExcelReliabilityReportSQL(airline.toUpperCase(), airport, startDate, endDate);
+        String firstsheetsql=sqlb.builtExcelReliabilityReportSQL(airline.toUpperCase(), airport, startDate, endDate);        
 	    List<fligthSectorLog>  flightsec = jdbcTemplate.query(firstsheetsql,new flightSectorLogRowmapper());	
 		
 	    for(fligthSectorLog flt:flightsec){  
@@ -627,7 +627,7 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 	    
 	    //------------------ This Will Create Report Sheet for All Delay Flight  ---------------
 	    linkPortalSqlBuilder sqlb5 = new linkPortalSqlBuilder(); 
-	    String delayflightsql      = sqlb5.builtExcelReliabilityReportSQL_AllflightWithDelayCode(airline, airport, flightdate,flightdate);	    
+	    String delayflightsql      = sqlb5.builtExcelReliabilityReportSQL_AllflightWithDelayCode(airline, airport, flightdate,flightdate);	
 	    rowNumber = 0;
 		createDelayFlightSheet(style,workbook,rowNumber,delayflightsql,p);
 	    logger.info("Delay Flight List is Created :");
