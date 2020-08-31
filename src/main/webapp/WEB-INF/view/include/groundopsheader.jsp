@@ -7,7 +7,9 @@
 <head>
  
 <script>
-    /*--- THIS PIECE OF CODE WILL DISABLE THE MOUSE RIGHT CLICK ------------ 	*/
+
+
+    /*--- THIS PIECE OF CODE WILL DISABLE THE MOUSE RIGHT CLICK ------------ 	
     var isNS = (navigator.appName == "Netscape") ? 1 : 0;
 	if(navigator.appName == "Netscape") document.captureEvents(Event.MOUSEDOWN||Event.MOUSEUP);
 
@@ -24,7 +26,7 @@
 	document.oncontextmenu = mischandler;
 	document.onmousedown = mousehandler;
 	document.onmouseup = mousehandler;
-
+*/
 </script>
 
 

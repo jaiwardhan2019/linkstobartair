@@ -45,5 +45,10 @@ public class DocumentService {
 	}
 		
 	
+    // -------- For the Fuel Invoice XML to EXCEL Conversion ------- 
+	public boolean convertXmltoExcelFormat(HttpServletRequest req,MultipartFile file) throws IOException, SQLException{
+		   if(repository.convertMultipleXmlfiletoExcelFile(req,file)) { return true; } else  { return false;}
+	}
 
+	
 }

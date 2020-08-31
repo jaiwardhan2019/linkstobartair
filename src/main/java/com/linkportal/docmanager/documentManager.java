@@ -18,7 +18,7 @@ public interface documentManager {
 	  public List<DocumentEntity> searchDocumentsFromFolder(String documentname);
 	  
 	  public boolean addDocumentToFolder(HttpServletRequest req,MultipartFile file)throws IOException, SQLException;
-	  
+  
 	  public boolean removeDocumentFromFolder(int id)throws IOException, SQLException;
 	  
 	  public List<String> listFolder(String foldername);
@@ -29,6 +29,12 @@ public interface documentManager {
 	   public void createDailySummaryReport_PDF(String airline , String Operation , String datop , String useremail);
 	   
 	   public void createDailySummaryReport_DOC(String airline , String Operation , String datop , String useremail);
+	   
+	   
+	  //******** For Fuel  XML File Conversion to the Excel ********	   
+	   public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest filePath,MultipartFile file)throws IOException;
+
+	   
 	   
 	
 }

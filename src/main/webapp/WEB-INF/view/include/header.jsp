@@ -178,11 +178,11 @@ function calStaffTravelUsers(){
 					     <c:if test="${profilelist.Voyager  == 'Y'}">  
 					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('voyagerReport?airlineCode=ALL');" style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Voyager Report</a></li>
 				         </c:if> 
-				         
+	<!-- 			         
 					     <c:if test="${profilelist.Flybe_Today  == 'Y'}">  
 							  <li style="margin-top:3px;margin-bottom:3px;"><a href="http://www.stobartair.com/flight-status/" target="_new"  style="font-size:09pt;"><i class="fa fa-database" ></i> &nbsp;Flybe Today Flight Status &nbsp;&nbsp;</a></li>
 			    		 </c:if> 
-						 
+     -->						 
 			   		  
 			     </ul>	 
 			     
