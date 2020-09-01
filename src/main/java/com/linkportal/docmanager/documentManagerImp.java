@@ -15,6 +15,7 @@ import java.sql.Connection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -27,19 +28,25 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.linkportal.groundops.gopsAllapi;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
-public class documentManagerImp implements documentManager {
+public class documentManagerImp extends xmlFileConverterToExcel implements documentManager {
 
+	@Autowired
+	DocumentService  docserv;
+	
 	@Autowired
 	DataSource dataSourcesqlservercp;
 
@@ -368,29 +375,61 @@ public class documentManagerImp implements documentManager {
 	}// End of Function
 
 	
-	
 	@Override
-	public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest req, MultipartFile file)
-			throws IOException {
-		System.out.println("Email id:"+req.getParameter("emailid"));
-		
+	public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest req, MultipartFile[] files) throws IOException {
+
 		File fileuploaddirectory = new File(fuelInvoiceRootFolder);
 		if (!fileuploaddirectory.exists()) {
 			fileuploaddirectory.mkdir();
 		}
-		
-		fileuploaddirectory = new File(
-				fuelInvoiceRootFolder + "/" + req.getParameter("emailid")+ "/");
+
+		fileuploaddirectory = new File(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/");
 		if (!fileuploaddirectory.exists()) {
 			fileuploaddirectory.mkdir();
 		}
 
+	
 		
-		// This Part will Upload File to into the folder
-		byte[] bytes = file.getBytes();
-		Path path = Paths
-				.get(fuelInvoiceRootFolder + "/" +req.getParameter("emailid")+"/"+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
-		Files.write(path, bytes);
+		// --------- Loop For Multiple File
+		Arrays.asList(files).stream().forEach(file -> {
+
+			byte[] bytes;
+			try {
+				
+				//---------- This Part will Upload the XML File into the Folder
+				bytes = file.getBytes();
+				Path path = Paths.get(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/"+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
+				Files.write(path, bytes);
+			
+				
+				//-----------This part will  Here write code for reading XML File......
+				if(req.getParameter("supplier").equals("SHELL")){
+					System.out.println("Cal Shell Invoice Parsher"+path.toString());
+				    shellInvoiceParser(path);		   
+				}
+				
+				
+				
+			    if(req.getParameter("supplier").equals("WFS")){
+			    	System.out.println("Cal WFS Invoice Parsher");
+			    	//worldFuelServiceInvoiceParser(path,(File)file);		
+			    	
+			    }	
+				
+
+			} catch (IOException e) {e.printStackTrace();} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		});
+        //------- End Of loop ---------
+		
+		
+		
 		return true;
 	}
 

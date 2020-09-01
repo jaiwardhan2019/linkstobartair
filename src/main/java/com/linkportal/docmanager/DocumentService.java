@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.common.base.Strings;
+import com.linkportal.exception.xmlToExcelInvoiceConversionException;
 import com.linkportal.exceptions.RecordNotFoundException;
 
 
@@ -45,10 +47,19 @@ public class DocumentService {
 	}
 		
 	
-    // -------- For the Fuel Invoice XML to EXCEL Conversion ------- 
-	public boolean convertXmltoExcelFormat(HttpServletRequest req,MultipartFile file) throws IOException, SQLException{
-		   if(repository.convertMultipleXmlfiletoExcelFile(req,file)) { return true; } else  { return false;}
+	// -------- For the Fuel Invoice XML to EXCEL Conversion -------
+	public boolean convertXmltoExcelFormat(HttpServletRequest req, MultipartFile[] files)
+			throws IOException, SQLException, xmlToExcelInvoiceConversionException {
+		//-- Validation
+		if (Strings.isNullOrEmpty(req.getParameter("supplier"))) {
+			throw new xmlToExcelInvoiceConversionException("Could not find Supplier Detail.");
+		}
+	
+		//-- File Conversion and Download
+		if (repository.convertMultipleXmlfiletoExcelFile(req, files)) {return true; } else { return false;}
+		
+		
+		
 	}
-
 	
 }

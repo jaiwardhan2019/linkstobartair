@@ -32,7 +32,7 @@ public interface documentManager {
 	   
 	   
 	  //******** For Fuel  XML File Conversion to the Excel ********	   
-	   public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest filePath,MultipartFile file)throws IOException;
+	   public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest filePath, MultipartFile[] files)throws IOException;
 
 	   
 	   
