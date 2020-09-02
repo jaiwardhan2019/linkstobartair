@@ -1,5 +1,6 @@
 package com.linkportal.docmanager;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -65,6 +66,17 @@ public class DocumentService {
 					throw new xmlToExcelInvoiceConversionException("File Attachment is Missing.");
 				} catch (xmlToExcelInvoiceConversionException e) {e.printStackTrace();}
 			}
+			
+			if(!getFileExtension(file.getName()).equals("xml")) {
+				try {
+					throw new xmlToExcelInvoiceConversionException("File Type Should be XML.");
+				} catch (xmlToExcelInvoiceConversionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
 		});
 
 		
@@ -72,6 +84,14 @@ public class DocumentService {
 		if (repository.convertMultipleXmlfiletoExcelFile(req, files)) {	return true;} else {return false;}
 
 		
+	}
+	
+	
+	public String getFileExtension(String fullName) {
+	   
+	    String fileName = new File(fullName).getName();
+	    int dotIndex = fileName.lastIndexOf('.');
+	    return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
 	}
 	
 }

@@ -38,33 +38,46 @@ function search_progress() {
 
 
 
-function Convert_Invoice(){    
+	function Validate_Xml_File(filePath) {
 	
-   // document.getElementById("convertbtn").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Converting..&nbsp;&nbsp;";
-    if(document.convertinvoice.supplier.value == "all"){
-        alert("Please Select Supplier.");
-        document.convertinvoice.supplier.focus();
-        return false;
- 	} 
-    if(document.convertinvoice.cfile.value == ""){
-        alert("Please Select File..");
-        document.convertinvoice.cfile.focus();
-        return false;
- 	}
-	else
-    {
-	    search_progress();
-	    document.convertinvoice.method="POST"
-	    document.convertinvoice.action="convertXmltoExcelandDownload";
-        document.convertinvoice.submit();
-	    return true;
-    }    
-	
-}//---------- End Of Function  ------------------
+		var allowedExtensions = /(\.xml)$/i;
 
-
+		if (!allowedExtensions.exec(filePath)) {
+			alert('Invalid file type\n You have to select XML File Only..!!');		
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	
+	
+	
+	
+	
+	
+	function Convert_Invoice() {
+
+		// document.getElementById("convertbtn").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Converting..&nbsp;&nbsp;";
+		if (document.convertinvoice.supplier.value == "all") {
+			alert("Please Select Supplier.");
+			document.convertinvoice.supplier.focus();
+			return false;
+		}
+		if (document.convertinvoice.cfile.value == "") {
+			alert("Please Select File..");
+			document.convertinvoice.cfile.focus();
+			return false;
+		}
+		if (Validate_Xml_File(document.convertinvoice.cfile.value)) {
+			search_progress();
+			document.convertinvoice.method = "POST"
+			document.convertinvoice.action = "convertXmltoExcelandDownload";
+			document.convertinvoice.submit();
+			return true;
+		}
+
+	}//---------- End Of Function  ------------------
 </script>
 
 
@@ -113,9 +126,9 @@ function Convert_Invoice(){
 			
 	           
 	           <tr>
-							<td align="right" bgcolor="white" width="20%">
+							<td align="right" bgcolor="white" width="40%">
 							
-									<label>Supplier </label>
+									<label>Vendor / Supplier </label>
 							</td>
 
 							<td align="left" bgcolor="white" width="80%">
@@ -123,7 +136,7 @@ function Convert_Invoice(){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-truck" aria-hidden="true"></i></span>
 										<select  id="supplier" name="supplier" class="form-control">	
-										    <option value="all"> ---- SUPPLIER---</option>
+										    <option value="all"> ---- SELECT---</option>
 										    <option value="shell"> SHELL</option>
 										    <option value="wfs">World Fuel Supplier</option>
 										</select>
@@ -135,7 +148,7 @@ function Convert_Invoice(){
 
 	           <tr>
 	              <td align="right" bgcolor="white" width="40%">				    
-					<div><label> Select File </label></div>				  
+					<div><label>Add XML File </label></div>				  
 				  </td>
 				  
                  <td align="right" bgcolor="white" width="60%">     		         

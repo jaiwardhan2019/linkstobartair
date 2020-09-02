@@ -71,11 +71,15 @@ public class ajaxRestControllerFinance {
 	
 	
 	
+	
+	
+	
 	String buildFileLinkTodownload(HttpServletRequest req, MultipartFile[] files) {
 	
 		String HrefLink  = req.getParameter("supplier");
 		String tableBody = "";
-		String fileName  = null;		
+		String fileName  = null;
+		tableBody = tableBody + "<tr align='left'><td colspan='2'><b>"+req.getParameter("supplier").toUpperCase()+" &nbsp;Invoices # </b></td> </tr>";		
 		for (MultipartFile multipartFile : files) {
 			fileName =  multipartFile.getOriginalFilename().toString().substring(0,multipartFile.getOriginalFilename().toString().length() - 3)+"xls";
 			tableBody = tableBody + "<tr align='center'> "
@@ -86,5 +90,8 @@ public class ajaxRestControllerFinance {
 		}
 		return tableBody;
 	}
+	
+	
+	
 	
 }
