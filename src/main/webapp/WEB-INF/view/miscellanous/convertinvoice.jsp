@@ -6,7 +6,7 @@
 
 
 <head>
-    <title> Stobart Air Invoice Conversion tool </title>    
+    <title> Stobart Air Invoice Conversion tool  XML to EXCEL </title>    
 </head>
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -41,18 +41,16 @@ function search_progress() {
 function Convert_Invoice(){    
 	
    // document.getElementById("convertbtn").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Converting..&nbsp;&nbsp;";
-    if(document.convertinvoice.supplier.value == "ALL"){
+    if(document.convertinvoice.supplier.value == "all"){
         alert("Please Select Supplier.");
         document.convertinvoice.supplier.focus();
         return false;
  	} 
- 	
     if(document.convertinvoice.cfile.value == ""){
         alert("Please Select File..");
         document.convertinvoice.cfile.focus();
         return false;
  	}
- 	
 	else
     {
 	    search_progress();
@@ -115,7 +113,7 @@ function Convert_Invoice(){
 			
 	           
 	           <tr>
-							<td align="left" bgcolor="white" width="20%">
+							<td align="right" bgcolor="white" width="20%">
 							
 									<label>Supplier </label>
 							</td>
@@ -125,9 +123,9 @@ function Convert_Invoice(){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-truck" aria-hidden="true"></i></span>
 										<select  id="supplier" name="supplier" class="form-control">	
-										    <option value="ALL"> ---- SUPPLIER---</option>
-										    <option value="SHELL"> SHELL</option>
-										    <option value="WFS">World Fuel Supplier</option>
+										    <option value="all"> ---- SUPPLIER---</option>
+										    <option value="shell"> SHELL</option>
+										    <option value="wfs">World Fuel Supplier</option>
 										</select>
 							</div>
 				      </div>	               	               
@@ -136,11 +134,11 @@ function Convert_Invoice(){
 	           
 
 	           <tr>
-	              <td align="left" bgcolor="white" width="20%">				    
+	              <td align="right" bgcolor="white" width="40%">				    
 					<div><label> Select File </label></div>				  
 				  </td>
 				  
-                 <td align="left" bgcolor="white" width="80%">     		         
+                 <td align="right" bgcolor="white" width="60%">     		         
 			         	<div class="input-group"> 
 								<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i></span>							
 									 <input type="file"  id="cfile" multiple name="cfile"   class="form-control"/>
@@ -154,7 +152,7 @@ function Convert_Invoice(){
 						<td  bgcolor="white" colspan="2">	
 						
 					        <span style="display:block" id="convertbtn">
-					           <input type="button"  class="btn btn-primary" value="Show Report" onclick="Convert_Invoice();" /> 
+					           <input type="button"  class="btn btn-primary" value="Convert Invoice" onclick="Convert_Invoice();" /> 
 					        </span>
 					        
 					        <span style="display:none" id="searchbutton1">
@@ -165,6 +163,13 @@ function Convert_Invoice(){
 			 			     </td>
 				     </tr>
 				     			
+					 <c:if test="${fn:length(status) > 1}">
+					 
+					     ${status}
+					 
+					 </c:if>
+					 
+					 
 				    </tbody>
 			</table>
 	        

@@ -40,6 +40,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 @Repository
 public class documentManagerImp extends xmlFileConverterToExcel implements documentManager {
@@ -379,6 +380,8 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 	public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest req, MultipartFile[] files) throws IOException {
 
 		File fileuploaddirectory = new File(fuelInvoiceRootFolder);
+		String supplierName=null;
+	
 		if (!fileuploaddirectory.exists()) {
 			fileuploaddirectory.mkdir();
 		}
@@ -387,8 +390,25 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		if (!fileuploaddirectory.exists()) {
 			fileuploaddirectory.mkdir();
 		}
-
+		
+		if (req.getParameter("supplier").equals("shell")) {
+			supplierName="shell";
+		}		
 	
+		if (req.getParameter("supplier").equals("wfs")) {
+			supplierName="wfs";
+		}		
+	
+	
+		fileuploaddirectory = new File(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/" +supplierName+ "/");
+		if (!fileuploaddirectory.exists()) {
+			fileuploaddirectory.mkdir();
+		}
+		
+		
+		//--- Will clear all old existing file
+		FileUtils.cleanDirectory(fileuploaddirectory);
+		
 		
 		// --------- Loop For Multiple File
 		Arrays.asList(files).stream().forEach(file -> {
@@ -398,22 +418,20 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 				
 				//---------- This Part will Upload the XML File into the Folder
 				bytes = file.getBytes();
-				Path path = Paths.get(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/"+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
+				Path path = Paths.get(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/"+req.getParameter("supplier") + "/"+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
 				Files.write(path, bytes);
 			
 				
 				//-----------This part will  Here write code for reading XML File......
-				if(req.getParameter("supplier").equals("SHELL")){
-					System.out.println("Cal Shell Invoice Parsher"+path.toString());
+				if(req.getParameter("supplier").equals("shell")){					
 				    shellInvoiceParser(path);		   
 				}
 				
 				
 				
-			    if(req.getParameter("supplier").equals("WFS")){
+			    if(req.getParameter("supplier").equals("wfs")){
 			    	System.out.println("Cal WFS Invoice Parsher");
-			    	//worldFuelServiceInvoiceParser(path,(File)file);		
-			    	
+			    	//worldFuelServiceInvoiceParser(path,(File)file);
 			    }	
 				
 
@@ -427,8 +445,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 
 		});
         //------- End Of loop ---------
-		
-		
+			
 		
 		return true;
 	}

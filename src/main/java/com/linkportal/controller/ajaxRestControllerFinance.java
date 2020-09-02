@@ -47,51 +47,44 @@ public class ajaxRestControllerFinance {
 	
 	
 
-	// -------THis Will be Called When Add File will be Called from the GCI - GCM -
-	// GCR edit Screen
-	@RequestMapping(value = "/convertXmltoExcelandDownload", method = { RequestMethod.POST, RequestMethod.GET })
-	public String convert_Xml_Excel_Download(@RequestParam("cfile") MultipartFile[] files, HttpServletRequest req,
-			ModelMap model) throws Exception, xmlToExcelInvoiceConversionException {
-		
+	@RequestMapping(value = "/convertXmltoExcelandDownload", method = { RequestMethod.POST, RequestMethod.GET }, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
+	public ModelAndView convert_Xml_Excel_Download(@RequestParam("cfile") MultipartFile[] files, HttpServletRequest req,
+			ModelMap model) throws Exception, xmlToExcelInvoiceConversionException {		
 		
 
 		model.put("profilelist", req.getSession().getAttribute("profilelist"));
 		model.addAttribute("emailid", req.getParameter("emailid"));
 		model.addAttribute("password", req.getParameter("password"));
 
-		
-		
-		
-		
-		/*
-		 * / int status=0;
-		 * 
-		 * //*********WILL UPLOAD SINGLE FILE************************
-		 * if(docserv.addUploadFiletoDatabaseAndFolder(req,file)) {
-		 * model.put("status","Successfully Added"); } else {
-		 * model.put("status","Error while uploading !!!");
-		 * 
-		 * }
-		 * 
-		 */
-
-		// *********WILL UPLOAD MULTIPLE FILE************************
-
 		if (docserv.convertXmltoExcelFormat(req, files)) {
-			model.put("status", "Successfully Added");
+			model.put("status", buildFileLinkTodownload(req,files) );
 		} else {
 			model.put("status", "Error while uploading !!! Please check log file.");
 		}	
 	
-		
 		logger.info("User id:" + req.getParameter("emailid") + " File Updated to the Folder :" + req.getParameter("cat"));
-		//return "miscellanous/convertinvoice";
-		System.out.println("User id:" + req.getParameter("emailid") + " File Updated to the Folder :" + req.getParameter("cat"));
-				
-		return null;		
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("miscellanous/convertinvoice");
+		return modelAndView;
 	}	
 	
 	
-
+	
+	String buildFileLinkTodownload(HttpServletRequest req, MultipartFile[] files) {
+	
+		String HrefLink  = req.getParameter("supplier");
+		String tableBody = "";
+		String fileName  = null;		
+		for (MultipartFile multipartFile : files) {
+			fileName =  multipartFile.getOriginalFilename().toString().substring(0,multipartFile.getOriginalFilename().toString().length() - 3)+"xls";
+			tableBody = tableBody + "<tr align='center'> "
+					+ "<td width='40%'>&nbsp;&nbsp;&nbsp;"+fileName.substring(0,fileName.length()-3)+"xml&nbsp;&nbsp;</td>"
+					+ "<td width='60%'><img src='xls.png'>&nbsp;&nbsp;&nbsp;<a href='"+req.getContextPath()+"/"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+fileName+"'>" +fileName+ "&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"
+							
+					+ "</tr>";
+		}
+		return tableBody;
+	}
 	
 }

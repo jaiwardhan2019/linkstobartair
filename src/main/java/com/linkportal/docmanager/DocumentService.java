@@ -3,11 +3,14 @@ package com.linkportal.docmanager;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.FileUpload;
+import org.apache.maven.model.building.FileModelSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,18 +51,31 @@ public class DocumentService {
 		
 	
 	// -------- For the Fuel Invoice XML to EXCEL Conversion -------
-	public boolean convertXmltoExcelFormat(HttpServletRequest req, MultipartFile[] files)
-			throws IOException, SQLException, xmlToExcelInvoiceConversionException {
-		//-- Validation
+	public boolean convertXmltoExcelFormat(HttpServletRequest req, MultipartFile[] files)throws IOException, SQLException, xmlToExcelInvoiceConversionException {
+		
+		// -- Validation of Supplier
 		if (Strings.isNullOrEmpty(req.getParameter("supplier"))) {
 			throw new xmlToExcelInvoiceConversionException("Could not find Supplier Detail.");
 		}
-	
-		//-- File Conversion and Download
-		if (repository.convertMultipleXmlfiletoExcelFile(req, files)) {return true; } else { return false;}
+
+		// -- Validation of Attached File
+		Arrays.asList(files).stream().forEach(file -> {
+			if (file.isEmpty()) {
+				try {
+					throw new xmlToExcelInvoiceConversionException("File Attachment is Missing.");
+				} catch (xmlToExcelInvoiceConversionException e) {e.printStackTrace();}
+			}
+		});
+
 		
-		
+		// -- File Conversion and Download
+		if (repository.convertMultipleXmlfiletoExcelFile(req, files)) {	return true;} else {return false;}
+
 		
 	}
 	
 }
+
+
+
+
