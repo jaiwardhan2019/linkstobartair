@@ -44,8 +44,7 @@ public class ajaxRestControllerFinance {
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);
 	
-	
-	
+		
 
 	@RequestMapping(value = "/convertXmltoExcelandDownload", method = { RequestMethod.POST, RequestMethod.GET }, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
 	public ModelAndView convert_Xml_Excel_Download(@RequestParam("cfile") MultipartFile[] files, HttpServletRequest req,
@@ -73,20 +72,24 @@ public class ajaxRestControllerFinance {
 	
 	
 	
-	
+	//------- Will Create List of file in a String to display for download --------------
 	String buildFileLinkTodownload(HttpServletRequest req, MultipartFile[] files) {
 	
 		String HrefLink  = req.getParameter("supplier");
 		String tableBody = "";
 		String fileName  = null;
-		tableBody = tableBody + "<tr align='left'><td colspan='2'><b>"+req.getParameter("supplier").toUpperCase()+" &nbsp;Invoices # </b></td> </tr>";		
+		tableBody = tableBody + "<tr align='left'><td colspan='2'><img src='"+req.getParameter("supplier").toLowerCase()+".jpg'>&nbsp;&nbsp;<b>"+req.getParameter("supplier").toUpperCase()+" &nbsp;Invoices # </b></td> </tr>";		
 		for (MultipartFile multipartFile : files) {
-			fileName =  multipartFile.getOriginalFilename().toString().substring(0,multipartFile.getOriginalFilename().toString().length() - 3)+"xls";
-			tableBody = tableBody + "<tr align='center'> "
-					+ "<td width='40%'>&nbsp;&nbsp;&nbsp;"+fileName.substring(0,fileName.length()-3)+"xml&nbsp;&nbsp;</td>"
-					+ "<td width='60%'><img src='xls.png'>&nbsp;&nbsp;&nbsp;<a href='"+req.getContextPath()+"/"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+fileName+"'>" +fileName+ "&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"
-							
-					+ "</tr>";
+			
+			//--Build the download link only for the XML File not for other file 
+			if(multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().length() - 3).equalsIgnoreCase("xml")){
+				fileName =  multipartFile.getOriginalFilename().toString().substring(0,multipartFile.getOriginalFilename().toString().length() - 3)+"xls";
+				tableBody = tableBody + "<tr align='center'> "
+						+ "<td width='40%'>&nbsp;&nbsp;&nbsp;<a href='"+req.getContextPath()+"/"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+multipartFile.getOriginalFilename()+"'>"+fileName.substring(0,fileName.length()-3)+"xml&nbsp;&nbsp;</a></td>"
+						+ "<td width='60%'><img src='xls.png'>&nbsp;&nbsp;&nbsp;<a href='"+req.getContextPath()+"/"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+fileName+"'>" +fileName+ "&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
+						+ "</tr>";
+			}
+			
 		}
 		return tableBody;
 	}

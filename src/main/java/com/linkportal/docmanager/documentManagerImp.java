@@ -419,20 +419,24 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 				//---------- This Part will Upload the XML File into the Folder
 				bytes = file.getBytes();
 				Path path = Paths.get(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/"+req.getParameter("supplier") + "/"+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
-				Files.write(path, bytes);
-			
 				
-				//-----------This part will  Here write code for reading XML File......
-				if(req.getParameter("supplier").equals("shell")){					
-				    shellInvoiceParser(path);		   
+				
+                
+				String fileNameExt=file.getOriginalFilename().substring(file.getOriginalFilename().length() - 3);
+				
+				if(fileNameExt.equalsIgnoreCase("xml")){
+					//--- Save file to folder
+					Files.write(path, bytes);
+					
+					//-----------This part will  Here write code for reading XML File and making EXEL......
+					if(req.getParameter("supplier").equalsIgnoreCase("shell")){ shellInvoiceParser(path);	}					
+				    if(req.getParameter("supplier").equalsIgnoreCase("wfs")){worldFuelServiceInvoiceParser(path);}	
+				
 				}
 				
 				
 				
-			    if(req.getParameter("supplier").equals("wfs")){
-			    	System.out.println("Cal WFS Invoice Parsher");
-			    	//worldFuelServiceInvoiceParser(path,(File)file);
-			    }	
+				
 				
 
 			} catch (IOException e) {e.printStackTrace();} catch (ParserConfigurationException e) {
@@ -450,10 +454,6 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		return true;
 	}
 
-	
-	
-
-	
 	
 
 }// ------- END OF Class -----------
