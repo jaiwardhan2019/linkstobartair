@@ -38,46 +38,49 @@ function search_progress() {
 
 
 
-	function Validate_Xml_File(filePath) {
-	
-		var allowedExtensions = /(\.xml)$/i;
+function Validate_Xml_File(filePath) {
 
-		if (!allowedExtensions.exec(filePath)) {
-			alert('Invalid file type\n You have to select XML File Only..!!');		
-			return false;
-		} else {
-			return true;
-		}
+	var allowedExtensions = /(\.xml)$/i;
+
+	if (!allowedExtensions.exec(filePath)) {
+		alert('Invalid file type\n You have to select XML File Only..!!');		
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
+
+	
+	
+
+
+function Convert_Invoice() {
+
+	// document.getElementById("convertbtn").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Converting..&nbsp;&nbsp;";
+	if (document.convertinvoice.supplier.value == "all") {
+		alert("Please Select Supplier.");
+		document.convertinvoice.supplier.focus();
+		return false;
+	}
+	if (document.convertinvoice.cfile.value == "") {
+		alert("Please Select File..");
+		document.convertinvoice.cfile.focus();
+		return false;
+	}
+	if (Validate_Xml_File(document.convertinvoice.cfile.value)) {
+		search_progress();
+		document.convertinvoice.method = "POST"
+		document.convertinvoice.action = "convertXmltoExcelandDownload";
+		document.convertinvoice.submit();
+		return true;
 	}
 
-	
-	
-	
-	
-	
-	
-	function Convert_Invoice() {
+}//---------- End Of Function  ------------------
 
-		// document.getElementById("convertbtn").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Converting..&nbsp;&nbsp;";
-		if (document.convertinvoice.supplier.value == "all") {
-			alert("Please Select Supplier.");
-			document.convertinvoice.supplier.focus();
-			return false;
-		}
-		if (document.convertinvoice.cfile.value == "") {
-			alert("Please Select File..");
-			document.convertinvoice.cfile.focus();
-			return false;
-		}
-		if (Validate_Xml_File(document.convertinvoice.cfile.value)) {
-			search_progress();
-			document.convertinvoice.method = "POST"
-			document.convertinvoice.action = "convertXmltoExcelandDownload";
-			document.convertinvoice.submit();
-			return true;
-		}
-
-	}//---------- End Of Function  ------------------
+	
+	
 </script>
 
 
@@ -92,10 +95,6 @@ function search_progress() {
 	   </div>	
   
   </div>		
-
-
-
-
  <br>
  <br>
  <br>

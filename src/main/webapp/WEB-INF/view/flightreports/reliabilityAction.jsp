@@ -68,6 +68,7 @@ function showReport(){
  <form name="reliablityreportform" id="reliablityreportform">  
  
       <input type="hidden" name="emailid" id="emailid" value="<%=request.getAttribute("emailid")%>"> 
+      <input type="hidden" name="password" id="password" value="<%=request.getAttribute("password")%>"> 
      
     <table class="table table-striped table-bordered" border="1" style="width: 35%;" align="left"> 
     			
@@ -140,7 +141,7 @@ function showReport(){
 							<label for="startDate">Start Date:</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12" max="${todaydate}"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="startDate" name="startDate" class="form-control datepicker" maxlength="12" value="${startDate}" />
 							</div>	
 						</div>
 						
@@ -158,7 +159,7 @@ function showReport(){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								
-								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" max="${todaydate}"  placeholder="(DD/MM/YYYY)"/>
+								<input type="date" id="endDate" name="endDate" class="form-control datepicker" maxlength="12" value="${endDate}"  max="${endDate}"/>
 								
 							</div>
 						</div>

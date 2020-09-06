@@ -165,11 +165,11 @@ function calStaffTravelUsers(){
 					    <c:if test="${profilelist.Reliablity  == 'Y'}"> 
 					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityReportForm');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Reliability Report</a></li>
 					    </c:if> 
-					    
+					    <!--
 					    <c:if test="${profilelist.DelayReport  == 'Y'}"> 
 					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityAction');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Delay Report</a></li>
 					    </c:if> 
-					    
+					    -->
 					     <c:if test="${profilelist.Daily_Summary  == 'Y'}"> 					     
 					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_daily_summary_report_form?airlineCode=ALL');"   style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Daily Summary Report</a></li>
 					     </c:if> 
@@ -268,12 +268,6 @@ function calStaffTravelUsers(){
    <!-- Bootstrap Core JavaScript -->
    <script src="js/bootstrap.min.js"></script>
    <script src="js/bootstrap-datepicker.js"></script>
-   
-  
-   
-   
-   
-   
    
    
 

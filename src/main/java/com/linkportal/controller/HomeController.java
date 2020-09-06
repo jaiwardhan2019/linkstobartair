@@ -547,7 +547,15 @@ public class HomeController {
 		  model.addAttribute("emailid",req.getParameter("emailid"));		
 		  //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase((String)req.getParameter("emailid"))); 
 		  model.put("profilelist",req.getSession().getAttribute("profilelist"));
-		
+		  Date today = new Date();               
+		  SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+		  Calendar c = Calendar.getInstance();  
+		  String todaydate = (String)(formattedDate.format(c.getTime()));
+		  
+ 	      model.put("startDate",todaydate);
+		  model.put("endDate",todaydate);		   
+
+			
 		  model.addAttribute("emailid",req.getParameter("emailid"));
 		  model.addAttribute("password",req.getParameter("password"));
 		  logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Action");
@@ -567,6 +575,7 @@ public class HomeController {
 		   model.addAttribute("tolerance",req.getParameter("tolerance"));
 		   model.addAttribute("delayCodeGroupCode",req.getParameter("delayCodeGroupCode"));		   
 		   
+	   
 		   
 		 //--------- FOR GENERAL FLIGHTS---------------------------- 
 		   model.put("reportbody",flt.Populate_Reliablity_Report_body(req.getParameter("airlineCode"),
@@ -702,33 +711,6 @@ public class HomeController {
 	
 	
 
-
-
-
-	//-------THis Will be FOR Finance invoice conversion tool  ----------------- 
-	@RequestMapping(value = "/invoiceconversiontool",method = {RequestMethod.POST,RequestMethod.GET}) 
-	public String invoiceConversionTool(HttpServletRequest req,ModelMap model) throws Exception{	
-		model.addAttribute("emailid",req.getParameter("emailid"));
-		model.addAttribute("password",req.getParameter("password"));
-		model.put("profilelist",req.getSession().getAttribute("profilelist"));
-		logger.info("User id:"+req.getParameter("emailid")+" Called Invoice Conversion Tool");
-		return "miscellanous/convertinvoice";
-	}//--------------- End Of Function -------------
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
 	//-------THis Will be Called When Relaiablity Report FORM link TO CREATE EXCEL REPORT Called----------------- 
 	@RequestMapping(value = "/Create_Excel_Reliability_Report",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public void Create_Excel_Reliability_Report(ModelMap model,HttpServletRequest req,HttpServletResponse res) throws Exception{

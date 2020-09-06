@@ -1,7 +1,9 @@
 package com.linkportal.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
@@ -44,7 +47,24 @@ public class ajaxRestControllerFinance {
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);
 	
-		
+
+	//-------THis Will be FOR Finance invoice conversion tool  ----------------- 
+	@RequestMapping(value = "/invoiceconversiontool",method = {RequestMethod.POST,RequestMethod.GET}, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
+	public ModelAndView invoiceConversionTool(HttpServletRequest req,ModelMap model) throws Exception{	
+		model.addAttribute("emailid",req.getParameter("emailid"));
+		model.addAttribute("password",req.getParameter("password"));
+		model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		model.put("status", displayLastConvertedFile(req));
+		logger.info("User id:"+req.getParameter("emailid")+" Called Invoice Conversion Tool");		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("miscellanous/convertinvoice");
+		return modelAndView;	
+	}//--------------- End Of Function -------------
+
+
+
+
+	
 
 	@RequestMapping(value = "/convertXmltoExcelandDownload", method = { RequestMethod.POST, RequestMethod.GET }, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
 	public ModelAndView convert_Xml_Excel_Download(@RequestParam("cfile") MultipartFile[] files, HttpServletRequest req,
@@ -75,7 +95,6 @@ public class ajaxRestControllerFinance {
 	//------- Will Create List of file in a String to display for download --------------
 	String buildFileLinkTodownload(HttpServletRequest req, MultipartFile[] files) {
 	
-		String HrefLink  = req.getParameter("supplier");
 		String tableBody = "";
 		String fileName  = null;
 		tableBody = tableBody + "<tr align='left'><td colspan='2'><img src='"+req.getParameter("supplier").toLowerCase()+".jpg'>&nbsp;&nbsp;<b>"+req.getParameter("supplier").toUpperCase()+" &nbsp;Invoices # </b></td> </tr>";		
@@ -85,8 +104,8 @@ public class ajaxRestControllerFinance {
 			if(multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().length() - 3).equalsIgnoreCase("xml")){
 				fileName =  multipartFile.getOriginalFilename().toString().substring(0,multipartFile.getOriginalFilename().toString().length() - 3)+"xls";
 				tableBody = tableBody + "<tr align='center'> "
-						+ "<td width='40%'>&nbsp;&nbsp;&nbsp;<a href='"+req.getContextPath()+"/"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+multipartFile.getOriginalFilename()+"'>"+fileName.substring(0,fileName.length()-3)+"xml&nbsp;&nbsp;</a></td>"
-						+ "<td width='60%'><img src='xls.png'>&nbsp;&nbsp;&nbsp;<a href='"+req.getContextPath()+"/"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+fileName+"'>" +fileName+ "&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
+						+ "<td width='40%'>&nbsp;&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+multipartFile.getOriginalFilename()+"'>"+fileName.substring(0,fileName.length()-3)+"xml&nbsp;&nbsp;</a></td>"
+						+ "<td width='60%'><img src='xls.png'>&nbsp;&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+fileName+"'>" +fileName+ "&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
 						+ "</tr>";
 			}
 			
@@ -94,6 +113,49 @@ public class ajaxRestControllerFinance {
 		return tableBody;
 	}
 	
+	
+	
+	
+	
+	//-------- This Method will display the Last Converted Invoices and their Link 
+	@Value("${fuelinvoices.documentroot.folder}")
+	String fuelInvoiceRootDirectory;
+	
+	String displayLastConvertedFile(HttpServletRequest req) {
+			String tableBody = "";
+			String fileName  = null;
+			File foldername = new File(fuelInvoiceRootDirectory + "/"+req.getParameter("emailid")+"/");
+				if (foldername.isDirectory()) {
+					String[] folderList = foldername.list();
+					for (String filename : folderList) {
+						if(new File(fuelInvoiceRootDirectory + "/"+req.getParameter("emailid")+"/"+filename).isDirectory()){
+							tableBody = tableBody + "<tr align='left'><td colspan='2'><img src='"+filename.toLowerCase()+".jpg'>&nbsp;&nbsp;<b>"+filename.toUpperCase()+" &nbsp;Invoices # </b></td> </tr>";	
+							String[] fileList = new File(fuelInvoiceRootDirectory + "/"+req.getParameter("emailid")+"/"+filename).list();
+							for (String innerfileName : fileList) {								
+								if(innerfileName.contains("xml")) {
+									tableBody = tableBody + "<tr align='center'> "
+											+ "<td width='40%'>&nbsp;&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName+"'>"+innerfileName.substring(0,innerfileName.length()-3)+"xml</a>&nbsp;&nbsp;</td>"
+											+ "<td width='60%'><img src='xls.png'>&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xls'>" +innerfileName.substring(0,innerfileName.length()-3)+"xls&nbsp;&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
+											+ "</tr>";								
+								}
+					
+								
+							} //  End of Inner For loop							
+							
+						}//  End of if 
+						
+						
+						
+						
+					}//  End of outer For Loop
+					
+				}
+				
+				return tableBody;
+				
+				
+			}// End of Method
+			
 	
 	
 	
