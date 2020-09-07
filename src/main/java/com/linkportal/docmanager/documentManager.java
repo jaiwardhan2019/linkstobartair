@@ -4,7 +4,11 @@ package com.linkportal.docmanager;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
+
 import java.util.List;
 
 
@@ -32,7 +36,7 @@ public interface documentManager {
 	   
 	   
 	  //******** For Fuel  XML File Conversion to the Excel ********	   
-	   public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest filePath, MultipartFile[] files)throws IOException;
+	   public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest filePath, MultipartFile[] files)throws IOException, ParserConfigurationException, SAXException;
 	   
 	   
 	   

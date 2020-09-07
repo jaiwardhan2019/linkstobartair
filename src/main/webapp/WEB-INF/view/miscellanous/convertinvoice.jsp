@@ -13,13 +13,8 @@
 
 <script type="text/javascript">
 
-function contract_home(event){    
-	    document.convertinvoice.method="POST"
-	    document.convertinvoice.action="contractManager";
-        document.convertinvoice.submit();
-	    return true;
-	
-}//---------- End Of Function  ------------------
+//--- Validating Uploaded File
+// --https://www.codeproject.com/Questions/873759/How-do-I-read-contents-of-multiple-files-with-File
 
 
 function search_progress() {
@@ -51,6 +46,18 @@ function Validate_Xml_File(filePath) {
 }
 
 
+function validateSupplierInvoice(){	
+    var filelist = document.getElementById('cfile').files;
+    for(var i=0; i<filelist.length; i++){writefiles(filelist[i]);}
+}
+
+function writefiles(file){
+    var reader = new FileReader();
+    reader.onload = function(){
+        alert(reader.result);
+    }
+    reader.readAsText(file, "UTF-8");
+}
 
 	
 	
@@ -58,7 +65,6 @@ function Validate_Xml_File(filePath) {
 
 function Convert_Invoice() {
 
-	// document.getElementById("convertbtn").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Converting..&nbsp;&nbsp;";
 	if (document.convertinvoice.supplier.value == "all") {
 		alert("Please Select Supplier.");
 		document.convertinvoice.supplier.focus();
@@ -76,7 +82,7 @@ function Convert_Invoice() {
 		document.convertinvoice.submit();
 		return true;
 	}
-
+	
 }//---------- End Of Function  ------------------
 
 	

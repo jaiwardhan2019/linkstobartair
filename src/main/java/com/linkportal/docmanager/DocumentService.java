@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.maven.model.building.FileModelSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
 
 import com.google.common.base.Strings;
 import com.linkportal.exception.xmlToExcelInvoiceConversionException;
@@ -52,14 +54,14 @@ public class DocumentService {
 		
 	
 	// -------- For the Fuel Invoice XML to EXCEL Conversion -------
-	public boolean convertXmltoExcelFormat(HttpServletRequest req, MultipartFile[] files)throws IOException, SQLException, xmlToExcelInvoiceConversionException {
+	public boolean convertXmltoExcelFormat(HttpServletRequest req, MultipartFile[] files)throws IOException, SQLException, xmlToExcelInvoiceConversionException, ParserConfigurationException, SAXException {
 		
 		// -- Validation of Supplier
 		if (Strings.isNullOrEmpty(req.getParameter("supplier"))) {
 			throw new xmlToExcelInvoiceConversionException("Could not find Supplier Detail.");
 		}
 
-		// -- Validation of Attached File
+		// -- Validation of Attached File if it is .XML or not
 		Arrays.asList(files).stream().forEach(file -> {
 			if (file.isEmpty()) {
 				try {
@@ -67,20 +69,17 @@ public class DocumentService {
 				} catch (xmlToExcelInvoiceConversionException e) {e.printStackTrace();}
 			}
 			
-			if(!getFileExtension(file.getName()).equals("xml")) {
+			if(!getFileExtension(file.getName()).equalsIgnoreCase("xml")) {
 				try {
 					throw new xmlToExcelInvoiceConversionException("File Type Should be XML.");
-				} catch (xmlToExcelInvoiceConversionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				} catch (xmlToExcelInvoiceConversionException e) {e.printStackTrace();}
 			}
 			
 			
 		});
 
 		
-		// -- File Conversion and Download
+		// -- File Conversion from .XML to .EXL
 		if (repository.convertMultipleXmlfiletoExcelFile(req, files)) {	return true;} else {return false;}
 
 		

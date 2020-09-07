@@ -75,10 +75,10 @@ public class ajaxRestControllerFinance {
 		model.addAttribute("emailid", req.getParameter("emailid"));
 		model.addAttribute("password", req.getParameter("password"));
 
-		if (docserv.convertXmltoExcelFormat(req, files)) {
-			model.put("status", buildFileLinkTodownload(req,files) );
+		if (docserv.convertXmltoExcelFormat(req, files)) {		
+			model.put("status", displayLastConvertedFile(req));
 		} else {
-			model.put("status", "Error while uploading !!! Please check log file.");
+			model.put("status", "Error while uploading !!! \n  Please make sure the XML File Belong to the Selected Supplier.");
 		}	
 	
 		logger.info("User id:" + req.getParameter("emailid") + " File Updated to the Folder :" + req.getParameter("cat"));
@@ -87,32 +87,6 @@ public class ajaxRestControllerFinance {
 		modelAndView.setViewName("miscellanous/convertinvoice");
 		return modelAndView;
 	}	
-	
-	
-	
-	
-	
-	//------- Will Create List of file in a String to display for download --------------
-	String buildFileLinkTodownload(HttpServletRequest req, MultipartFile[] files) {
-	
-		String tableBody = "";
-		String fileName  = null;
-		tableBody = tableBody + "<tr align='left'><td colspan='2'><img src='"+req.getParameter("supplier").toLowerCase()+".jpg'>&nbsp;&nbsp;<b>"+req.getParameter("supplier").toUpperCase()+" &nbsp;Invoices # </b></td> </tr>";		
-		for (MultipartFile multipartFile : files) {
-			
-			//--Build the download link only for the XML File not for other file 
-			if(multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().length() - 3).equalsIgnoreCase("xml")){
-				fileName =  multipartFile.getOriginalFilename().toString().substring(0,multipartFile.getOriginalFilename().toString().length() - 3)+"xls";
-				tableBody = tableBody + "<tr align='center'> "
-						+ "<td width='40%'>&nbsp;&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+multipartFile.getOriginalFilename()+"'>"+fileName.substring(0,fileName.length()-3)+"xml&nbsp;&nbsp;</a></td>"
-						+ "<td width='60%'><img src='xls.png'>&nbsp;&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+req.getParameter("supplier")+"/"+fileName+"'>" +fileName+ "&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
-						+ "</tr>";
-			}
-			
-		}
-		return tableBody;
-	}
-	
 	
 	
 	
@@ -133,9 +107,9 @@ public class ajaxRestControllerFinance {
 							String[] fileList = new File(fuelInvoiceRootDirectory + "/"+req.getParameter("emailid")+"/"+filename).list();
 							for (String innerfileName : fileList) {								
 								if(innerfileName.contains("xml")) {
-									tableBody = tableBody + "<tr align='center'> "
-											+ "<td width='40%'>&nbsp;&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName+"'>"+innerfileName.substring(0,innerfileName.length()-3)+"xml</a>&nbsp;&nbsp;</td>"
-											+ "<td width='60%'><img src='xls.png'>&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xls'>" +innerfileName.substring(0,innerfileName.length()-3)+"xls&nbsp;&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
+									tableBody = tableBody + "<tr align='left'> "
+											+ "<td width='40%' align='left>&nbsp;&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName+"'>"+innerfileName.substring(0,innerfileName.length()-3)+"xml</a>&nbsp;&nbsp;</td>"
+											+ "<td width='60%' align='left><img src='xls.png'>&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xls'>" +innerfileName.substring(0,innerfileName.length()-3)+"xls&nbsp;&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
 											+ "</tr>";								
 								}
 					

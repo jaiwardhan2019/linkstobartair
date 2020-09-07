@@ -376,11 +376,17 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 	}// End of Function
 
 	
+	
+	
+	
+	@Value("${fuelinvoices.documentroot.folder}")
+	String fuelInvoiceRootDirectory;
 	@Override
-	public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest req, MultipartFile[] files) throws IOException {
+	public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest req, MultipartFile[] files) throws IOException, ParserConfigurationException, SAXException {
 
 		File fileuploaddirectory = new File(fuelInvoiceRootFolder);
 		String supplierName=null;
+		boolean convertAndUploadStatus=true;
 	
 		if (!fileuploaddirectory.exists()) {
 			fileuploaddirectory.mkdir();
@@ -410,48 +416,26 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		FileUtils.cleanDirectory(fileuploaddirectory);
 		
 		
-		// --------- Loop For Multiple File
+		
+		// --------- This Part of code Will Loop For Multiple File and Save on the local Folder
 		Arrays.asList(files).stream().forEach(file -> {
-
-			byte[] bytes;
-			try {
-				
-				//---------- This Part will Upload the XML File into the Folder
+		byte[] bytes;
+		try {			
 				bytes = file.getBytes();
 				Path path = Paths.get(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/"+req.getParameter("supplier") + "/"+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
-				
-				
-                
 				String fileNameExt=file.getOriginalFilename().substring(file.getOriginalFilename().length() - 3);
-				
-				if(fileNameExt.equalsIgnoreCase("xml")){
-					//--- Save file to folder
+				if(fileNameExt.equalsIgnoreCase("xml")){ 
 					Files.write(path, bytes);
-					
-					//-----------This part will  Here write code for reading XML File and making EXEL......
-					if(req.getParameter("supplier").equalsIgnoreCase("shell")){ shellInvoiceParser(path);	}					
-				    if(req.getParameter("supplier").equalsIgnoreCase("wfs")){worldFuelServiceInvoiceParser(path);}	
-				
-				}
-				
-				
-				
-				
-				
-
-			} catch (IOException e) {e.printStackTrace();} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+			  		if(req.getParameter("supplier").equalsIgnoreCase("shell")){shellInvoiceParser(path);}
+			  		if(req.getParameter("supplier").equalsIgnoreCase("wfs")){ worldFuelServiceInvoiceParser(path);}		
+				}			
+			} catch (IOException | ParserConfigurationException | SAXException e) {e.printStackTrace();}
 		});
         //------- End Of loop ---------
 			
+	
 		
-		return true;
+		return convertAndUploadStatus;
 	}
 
 	

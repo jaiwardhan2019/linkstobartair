@@ -76,7 +76,8 @@ abstract class xmlFileConverterToExcel {
 		Document doc = dBuilder.parse(inputFile);
 		doc.getDocumentElement().normalize();
 
-		logger.info("EXCEL Format Of Shell Invoice Creation Started at:"+ new Date());	
+		
+		logger.info("Shell Invoice Conversion from XML to  EXCEL Creation Started at:"+ new Date());	
         
 		HSSFWorkbook workbook = new HSSFWorkbook();	
 		HSSFRow row = null;
@@ -211,7 +212,7 @@ abstract class xmlFileConverterToExcel {
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(inputFile);
 		doc.getDocumentElement().normalize();
-
+		
 		logger.info("EXCEL Format Of Shell Invoice Creation Started at:"+ new Date());	
         
 		HSSFWorkbook workbook = new HSSFWorkbook();	
@@ -291,7 +292,7 @@ abstract class xmlFileConverterToExcel {
        
         try{
 	         
-	         int rowcounter=6;         
+	         int rowcounter=6;   //  Start from 6th line on the excel sheet      
 	         
 	         //-----------  This Part of code will print lineItem of Invoice -----------
 	         NodeList lineitem = doc.getElementsByTagName("InvoiceLine");	 
@@ -341,7 +342,37 @@ abstract class xmlFileConverterToExcel {
 	
 	
 	
+	boolean isSupplierReleventFile(Path fileWithPath , String supplierName) throws ParserConfigurationException, SAXException, IOException {
+		// --- This part of code will Load the XML file name  and load into parser---------
+		File inputFile = new File(fileWithPath.toString());
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(inputFile);
+		doc.getDocumentElement().normalize();
+
 	
+        //-----------  This Part of code will print Invoice Header Content -----------
+        NodeList summaryh = doc.getElementsByTagName("InvoiceHeader");     
+
+        boolean findSupplierStatus=false;
+        
+        for(int temph = 0; temph < summaryh.getLength(); temph++){	        	 
+       	Node nNodeh = summaryh.item(temph);	           	            
+           if (nNodeh.getNodeType() == Node.ELEMENT_NODE) {
+              Element eElementh = (Element)nNodeh;
+                System.out.println("JAI:"+eElementh.getElementsByTagName("IssuingEntityName").item(0).getTextContent());	
+                findSupplierStatus=true;
+           }//--- End of If -------------------
+           else
+           { 
+        	   System.out.println("JAI else:");
+        	   findSupplierStatus=false;
+           }
+        }// -------------------End of for loop 
+
+		
+	  return findSupplierStatus;
+	}
 	
 	
 	
