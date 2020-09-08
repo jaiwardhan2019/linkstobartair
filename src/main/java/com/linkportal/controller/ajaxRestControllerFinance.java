@@ -48,13 +48,13 @@ public class ajaxRestControllerFinance {
 	private Logger logger = Logger.getLogger(HomeController.class);
 	
 
-	//-------THis Will be FOR Finance invoice conversion tool  ----------------- 
+	//-------THis Will be Called when link is clicked form the Header ----------------- 
 	@RequestMapping(value = "/invoiceconversiontool",method = {RequestMethod.POST,RequestMethod.GET}, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
 	public ModelAndView invoiceConversionTool(HttpServletRequest req,ModelMap model) throws Exception{	
 		model.addAttribute("emailid",req.getParameter("emailid"));
 		model.addAttribute("password",req.getParameter("password"));
 		model.put("profilelist",req.getSession().getAttribute("profilelist"));
-		model.put("status", displayLastConvertedFile(req));
+		model.put("status", displayAllConvertedFile(req));
 		logger.info("User id:"+req.getParameter("emailid")+" Called Invoice Conversion Tool");		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("miscellanous/convertinvoice");
@@ -65,7 +65,7 @@ public class ajaxRestControllerFinance {
 
 
 	
-
+	//-------THis Will be Called when Convert Invoice Button will be clicked ----------------- 
 	@RequestMapping(value = "/convertXmltoExcelandDownload", method = { RequestMethod.POST, RequestMethod.GET }, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
 	public ModelAndView convert_Xml_Excel_Download(@RequestParam("cfile") MultipartFile[] files, HttpServletRequest req,
 			ModelMap model) throws Exception, xmlToExcelInvoiceConversionException {		
@@ -76,9 +76,9 @@ public class ajaxRestControllerFinance {
 		model.addAttribute("password", req.getParameter("password"));
 
 		if (docserv.convertXmltoExcelFormat(req, files)) {		
-			model.put("status", displayLastConvertedFile(req));
+			model.put("status", displayAllConvertedFile(req));
 		} else {
-			model.put("status", "Error while uploading !!! \n  Please make sure the XML File Belong to the Selected Supplier.");
+			model.put("status", "<ul><li><i class='fa fa-exclamation-triangle' aria-hidden='true'></i>&nbsp;&nbsp; Error !!! </li> <li> Please make sure file type is .XML </li> <li>Please make sure the XML File Belongs to the Relevant Supplier.</li></ul>");
 		}	
 	
 		logger.info("User id:" + req.getParameter("emailid") + " File Updated to the Folder :" + req.getParameter("cat"));
@@ -93,9 +93,8 @@ public class ajaxRestControllerFinance {
 	
 	//-------- This Method will display the Last Converted Invoices and their Link 
 	@Value("${fuelinvoices.documentroot.folder}")
-	String fuelInvoiceRootDirectory;
-	
-	String displayLastConvertedFile(HttpServletRequest req) {
+	String fuelInvoiceRootDirectory;	
+	String displayAllConvertedFile(HttpServletRequest req) {
 			String tableBody = "";
 			String fileName  = null;
 			File foldername = new File(fuelInvoiceRootDirectory + "/"+req.getParameter("emailid")+"/");
@@ -106,10 +105,10 @@ public class ajaxRestControllerFinance {
 							tableBody = tableBody + "<tr align='left'><td colspan='2'><img src='"+filename.toLowerCase()+".jpg'>&nbsp;&nbsp;<b>"+filename.toUpperCase()+" &nbsp;Invoices # </b></td> </tr>";	
 							String[] fileList = new File(fuelInvoiceRootDirectory + "/"+req.getParameter("emailid")+"/"+filename).list();
 							for (String innerfileName : fileList) {								
-								if(innerfileName.contains("xml")) {
+								if(innerfileName.contains("xls")) {
 									tableBody = tableBody + "<tr align='left'> "
-											+ "<td width='40%' align='left>&nbsp;&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName+"'>"+innerfileName.substring(0,innerfileName.length()-3)+"xml</a>&nbsp;&nbsp;</td>"
-											+ "<td width='60%' align='left><img src='xls.png'>&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xls'>" +innerfileName.substring(0,innerfileName.length()-3)+"xls&nbsp;&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
+											+ "<td width='40%' align='left'>&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName+"'>"+innerfileName.substring(0,innerfileName.length()-3)+"xml</a>&nbsp;&nbsp;</td>"
+											+ "<td width='60%' align='left'>&nbsp;<img src='xls.png'>&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xls'>" +innerfileName.substring(0,innerfileName.length()-3)+"xls&nbsp;&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
 											+ "</tr>";								
 								}
 					

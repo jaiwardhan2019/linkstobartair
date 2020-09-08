@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 
 abstract class xmlFileConverterToExcel {
@@ -339,40 +340,6 @@ abstract class xmlFileConverterToExcel {
 
 	}
 
-	
-	
-	
-	boolean isSupplierReleventFile(Path fileWithPath , String supplierName) throws ParserConfigurationException, SAXException, IOException {
-		// --- This part of code will Load the XML file name  and load into parser---------
-		File inputFile = new File(fileWithPath.toString());
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(inputFile);
-		doc.getDocumentElement().normalize();
-
-	
-        //-----------  This Part of code will print Invoice Header Content -----------
-        NodeList summaryh = doc.getElementsByTagName("InvoiceHeader");     
-
-        boolean findSupplierStatus=false;
-        
-        for(int temph = 0; temph < summaryh.getLength(); temph++){	        	 
-       	Node nNodeh = summaryh.item(temph);	           	            
-           if (nNodeh.getNodeType() == Node.ELEMENT_NODE) {
-              Element eElementh = (Element)nNodeh;
-                System.out.println("JAI:"+eElementh.getElementsByTagName("IssuingEntityName").item(0).getTextContent());	
-                findSupplierStatus=true;
-           }//--- End of If -------------------
-           else
-           { 
-        	   System.out.println("JAI else:");
-        	   findSupplierStatus=false;
-           }
-        }// -------------------End of for loop 
-
-		
-	  return findSupplierStatus;
-	}
 	
 	
 	
