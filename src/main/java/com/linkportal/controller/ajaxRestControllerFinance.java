@@ -107,7 +107,7 @@ public class ajaxRestControllerFinance {
 							for (String innerfileName : fileList) {								
 								if(innerfileName.contains("xls")) {
 									tableBody = tableBody + "<tr align='left'> "
-											+ "<td width='40%' align='left'>&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName+"'>"+innerfileName.substring(0,innerfileName.length()-3)+"xml</a>&nbsp;&nbsp;</td>"
+											+ "<td width='40%' align='left'>&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xml' target='_new'>"+innerfileName.substring(0,innerfileName.length()-3)+"xml</a>&nbsp;&nbsp;</td>"
 											+ "<td width='60%' align='left'>&nbsp;<img src='xls.png'>&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xls'>" +innerfileName.substring(0,innerfileName.length()-3)+"xls&nbsp;&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
 											+ "</tr>";								
 								}
