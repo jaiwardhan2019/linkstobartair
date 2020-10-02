@@ -22,6 +22,9 @@ public class businessAreaData {
 	public String getContent_header(){return content_header;}
 	public String getContent_text()  {return content_text;}
 	public String getUsers()         {return users;}
+
+
+
 	
 	
 
