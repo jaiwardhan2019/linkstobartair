@@ -66,15 +66,6 @@ public class InfrastructureConfig{
 
 	
 
-	
-	  //---  THIS IS FOR LINK - DATABASE MYSQL  
-	  @Bean(name = "dataSourcemysql")	  
-	  @ConfigurationProperties(prefix = "mysql.datasource") 
-	  public DataSource dataSource_sqlserver() { 
-		     return DataSourceBuilder.create().build(); 
-	  }
-	 
-	 
 	  @Bean(name = "dataSourcestafftravel")	  
 	  @ConfigurationProperties(prefix = "stafftravel.datasource") 
 	  public DataSource dataSource_flightops() {

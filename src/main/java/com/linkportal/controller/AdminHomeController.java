@@ -42,7 +42,7 @@ import com.linkportal.datamodel.Product;
 import com.linkportal.dbripostry.businessAreaContent;
 import com.linkportal.dbripostry.linkUsers;
 import com.linkportal.fltreport.flightReports;
-import com.mysql.cj.jdbc.Blob;
+
 
 
 @Controller
@@ -52,8 +52,7 @@ public class AdminHomeController {
     @Autowired
     businessAreaContent bac;
 
-    @Autowired
-    DataSource dataSourcemysql;
+
 
 
     @Autowired
@@ -427,41 +426,6 @@ public class AdminHomeController {
     }
 
 
-    //--https://www.codejava.net/java-ee/servlet/java-servlet-to-download-file-from-database
-    //---------- THIS FUNCTION WILL DOWNLOAD FILE FROM DATABASE TO YOUR DESKTOP -----------------------------
-    @RequestMapping(value = "/viewDownloadServlet", method = {RequestMethod.POST, RequestMethod.GET})
-    public String view_downloadd_fileFromDatabase(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-
-
-        Connection conn = dataSourcemysql.getConnection();
-        int BUFFER_SIZE = 4096;
-
-        String sql = "SELECT * FROM CORPORATE_PORTAL.contacts where contact_id=?";
-        PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setInt(1, Integer.parseInt(req.getParameter("docid")));
-        ResultSet result = statement.executeQuery();
-        if (result.next()) {
-            // gets file name and file blob data
-            String fileName = "Test File";
-            Blob blob = (Blob) result.getBlob("photo");
-            InputStream inputStream = blob.getBinaryStream();
-            res.setContentType("APPLICATION/OCTET-STREAM");
-            res.setHeader("Content-Disposition", "attachment Test File ");
-            ServletOutputStream outStream = res.getOutputStream();
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int bytesRead = -1;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, bytesRead);
-            }
-        }
-        else
-        {
-            // no file found
-            System.out.println("File not found for the id: ");
-        }
-
-        return "Upload";
-    }
 
 
 }//----------- End Of Main Controller --------------------

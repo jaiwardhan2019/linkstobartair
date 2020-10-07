@@ -45,9 +45,6 @@ public class flightReportsImp implements flightReports{
     @Autowired
     DataSource dataSourcesqlservercp;
     
-    @Autowired
-    DataSource dataSourcemysql;
-    
     
     @Autowired
     gopsAllapi gopsobj;
@@ -55,7 +52,6 @@ public class flightReportsImp implements flightReports{
 
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(flightReportsImp.class);
-	
 
 
     
