@@ -53,7 +53,6 @@ public class flightReportsImp implements flightReports{
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(flightReportsImp.class);
 
-
     
 	JdbcTemplate jdbcTemplateSqlServer;	
 	JdbcTemplate jdbcTemplateCorp;	
