@@ -509,6 +509,31 @@ public class groundOpsController1 {
 		   if(req.getParameter("cat").equals("trd")) {
 			   model.put("foldername","Dispatch and Load Control."); 
 		   }
+
+		   if(req.getParameter("cat").equals("trbg")) {
+			   model.put("foldername","Baggage Tracing General."); 
+		   }
+		   
+		   
+		   if(req.getParameter("cat").equals("tras")) {
+			   model.put("foldername","Air Lingus Airport Service Guide."); 
+		   }
+		   
+
+		   if(req.getParameter("cat").equals("trac")) {
+			   model.put("foldername","Air Lingus Checking and Boarding."); 
+		   }
+		   
+
+		   if(req.getParameter("cat").equals("trar")) {
+			   model.put("foldername","Air Lingus Reservations."); 
+		   }
+	
+		   if(req.getParameter("cat").equals("trs")) {
+			   model.put("foldername","Stobart Air Traning Modules."); 
+		   }
+	
+		   
 		   
 		   if(req.getParameter("cat").equals("scm")) {
 			   model.put("foldername","Safety Compliance Monitoring."); 
@@ -548,6 +573,11 @@ public class groundOpsController1 {
 		   if(req.getParameter("cat").equals("formsre")) {
 			   model.put("foldername","Stobart Air Forms."); 
 		   }
+		   
+		   if(req.getParameter("cat").equals("HOME")) {
+			   model.put("foldername","Recent Documents Update."); 
+		   }
+		   
 		   
 		   if(req.getParameter("operation") != null){
 			       

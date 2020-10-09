@@ -129,8 +129,7 @@ function add_new_user(){
 	 		 
   <table  style="width: 80%;" align="center">
 	  <tr>
-	  			    <td  align="right" width="40%">
-	  			
+	  			    <td  align="right" width="40%">	  			
 						<input autofocus  type="text" name="user"  id="user"  class="form-control"    placeholder="Enter First Name or Last Name"/>
 		        	</td>
 					<td align="left">

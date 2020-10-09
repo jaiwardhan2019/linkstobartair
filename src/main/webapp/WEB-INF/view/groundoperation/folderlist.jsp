@@ -89,8 +89,9 @@ function calDocumentUpdate(reportname){
 						     <h3 class="panel-title">
 						       
 						         <c:if test="${alfresco  != 'YES'}">
+						               ${foldername} &nbsp;&nbsp;&nbsp;
 								       <a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=update');">
-								         ${foldername}   &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+								           <span class="label label-success">Update List &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
 								       </a>
 								  </c:if>
 								  

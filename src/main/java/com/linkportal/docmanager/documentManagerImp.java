@@ -77,7 +77,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 
 		String sqlListDocs = "  SELECT  doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department "
 				+ " , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date "
-				+ " , doc_addedby_name  from Gops_Document_Master  where len(doc_category) < 5 order by doc_added_date desc";
+				+ " , doc_addedby_name  from Gops_Document_Master  where len(doc_category) < 5 order by doc_id desc";
 
 		if (req.getParameter("cat") != null) {
 			// -- When calling from any other folder
@@ -86,7 +86,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 						+ "      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date "
 						+ "      , doc_addedby_name  from Gops_Document_Master where doc_category='"
 						+ req.getParameter("cat").toUpperCase() + "' and doc_department='" + foldername
-						+ "' order by doc_added_date desc";
+						+ "' order by doc_id desc";
 			}
 
 		}
@@ -95,7 +95,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		if (foldername.contains("-")) {
 			sqlListDocs = " SELECT doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department "
 					+ "      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date "
-					+ "      , doc_addedby_name  from Gops_Document_Master where len(doc_category) < 5 order by doc_added_date desc";
+					+ "      , doc_addedby_name  from Gops_Document_Master where len(doc_category) < 5 order by doc_id desc";
 		}
 
 		// -- If calling from Business Updated
@@ -105,7 +105,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 					+ "      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date "
 					+ "      , doc_addedby_name  from Gops_Document_Master where doc_category='"
 					+ req.getParameter("news").toUpperCase()
-					+ "' and doc_department='BUPDATES' order by doc_added_date desc";
+					+ "' and doc_department='BUPDATES' order by doc_id desc";
 
 			// -- When calling from any other folder
 			if (req.getParameter("news").toUpperCase().equals("latest")) {
@@ -113,7 +113,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 						+ "      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date "
 						+ "      , doc_addedby_name  from Gops_Document_Master where doc_category='"
 						+ req.getParameter("news").toUpperCase()
-						+ "' and doc_department='BUPDATES' order by doc_added_date desc";
+						+ "' and doc_department='BUPDATES' order by doc_id desc";
 			}
 
 			// -- When calling from any other folder
@@ -122,12 +122,12 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 						+ "      , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date "
 						+ "      , doc_addedby_name  from Gops_Document_Master where doc_category='"
 						+ req.getParameter("news").toUpperCase()
-						+ "' and doc_department='BUPDATES' order by doc_added_date desc";
+						+ "' and doc_department='BUPDATES' order by doc_id desc";
 			}
 
 		}
 
-		// System.out.println("SQL here :"+sqlListDocs);
+		//System.out.println("SQL here :"+sqlListDocs);
 
 		List documentList = jdbcTemplate.query(sqlListDocs, new DocumentEntityRowmapper());
 		return documentList;

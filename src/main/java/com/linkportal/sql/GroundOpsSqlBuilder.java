@@ -136,7 +136,7 @@ public class GroundOpsSqlBuilder implements Serializable{
 
 		//-------------- This Will Generate SQL for the  Delay Flights Report  ----------------------------------------------------------------
 		public String builtDelayFlightCommentSql(String ofdate,String todate) throws NullPointerException{	 		   
-			   return "Select * from Flight_Delay_Comment_Master WHERE Flight_Date between '"+ofdate+"' and '"+todate+"'";
+			   return "Select * from Gops_Flight_Delay_Comment_Master WHERE Flight_Date between '"+ofdate+"' and '"+todate+"'";
 		}//------------- End Of Myfly Report SQL --------------------------------
 
 	

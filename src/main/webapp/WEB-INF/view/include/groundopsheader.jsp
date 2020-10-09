@@ -206,14 +206,14 @@ function CalGopsSmsUserManager(){
     
 		<ul class="nav navbar-nav navbar-right">
 		
- 	<!-- 		
+ 		
 		 <li class="dropdown">
 	 
-	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Home</a>
+	  	    <a href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Link Home</a>
 					  
 		</li>
  
-    -->
+ 
     
     
     <c:if test="${profilelist.Flight_Report  == 'Y'}">        </c:if>	 
@@ -222,6 +222,7 @@ function CalGopsSmsUserManager(){
 	     <li class="dropdown">
 		 
 			  <a href="adminhome" onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;Reports <span class="caret"></span></a>
+	
 			  
 				  <ul class="dropdown-menu">
 				        
@@ -450,7 +451,9 @@ function CalGopsSmsUserManager(){
 	-->
  
       <input type="text"  id="myInput" name="myInput" placeholder="Search Document.." >
-      <!-- <span id="searchbutton" onclick="manage_contract('search');" class="btn btn-primary btn-sm">&nbsp;&nbsp;<i class="fa fa-search  fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;</span> -->
+       <!--
+      	<input autofocus  type="text" name="myInput"  id="myInput"  class="form-control"    placeholder="Search Document"/>
+      <span id="searchbutton" onclick="manage_contract('search');" class="btn btn-primary btn-sm">&nbsp;&nbsp;<i class="fa fa-search  fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;</span> -->
       <button type="submit"  id="myBtn" onclick="calDocumentReport('searchdocuments')"><i class="fa fa-search"></i></button>
 	
  </div>

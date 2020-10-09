@@ -124,35 +124,33 @@ function addDocument(category){
 				
 			   <c:if test="${profilelist.docmanager  == 'Y'}">
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"><a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=view');">${foldername}</a>
-						    <i class="fa fa-eye" aria-hidden="true"></i>
-						    &nbsp; &nbsp; &nbsp;${status}
+						<h3 class="panel-title">
+						${foldername}	&nbsp; &nbsp; &nbsp;			
+						<a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=view');"><span class="label label-success">View Mode &nbsp;<i class="fa fa-eye" aria-hidden="true"></i></span></a>
+						    ${status}
 						</h3>
 					</div>
 				</c:if>
 				
 				
-				<div class="panel-body">
-	
+				<div class="panel-body">	
 	
 					<table class="table" align="center" style="background:rgba(255,255,255);">	    
-	
-	
-	
-	   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
-       <c:if test = "${rowcount == 0}">
-          
-             <tr>
-             
-               <td colspan="5" align="center">
-                    <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
-                    
-              </td>
-             
-             </tr>
-       
-       </c:if>
-    
+					
+					   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
+				       <c:if test = "${rowcount == 0}">
+				          
+				             <tr>
+				             
+				               <td colspan="5" align="center">
+				                    <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
+				                    
+				              </td>
+				             
+				             </tr>
+				       
+				       </c:if>
+				    
     
     <tbody>  
     
