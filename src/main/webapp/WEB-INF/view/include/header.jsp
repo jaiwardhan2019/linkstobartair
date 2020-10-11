@@ -157,7 +157,7 @@ function calStaffTravelUsers(){
 		 
 			  <a href="adminhome" onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;Reports <span class="caret"></span></a>
 			  
-				  <ul class="dropdown-menu">
+				  <ul class="dropdown-menu" style="left:0;width:200px;">
 				        
 				        <c:if test="${profilelist.Flight_Report  == 'Y'}">   
 				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_mayFly_report?airportcode=ALL&airlineCode=ALL');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Flight Report (MayFly)</a></li>
@@ -203,7 +203,7 @@ function calStaffTravelUsers(){
 		 
 			  <a href="adminhome" onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;Miscellaneous <span class="caret"></span></a>
 			  
-				  <ul class="dropdown-menu">
+				  <ul class="dropdown-menu" style="left:0;width:200px;">
 				        
 				        <c:if test="${profilelist.Finance == 'Y'}">   
 				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('invoiceconversiontool');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Invoice-Conversion-Tool</a></li>
@@ -236,7 +236,7 @@ function calStaffTravelUsers(){
 	    <!-- SECOND  MENU -->	
 			<li class="dropdown">
 					  <a href="#" onmouseover="this.click()"  style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;<%=user_login_id %>&nbsp;<span class="caret"></span></a>
-					  <ul class="dropdown-menu">
+					  <ul class="dropdown-menu" style="left:0">
 					  
 					   <c:if test="${profilelist.admin  == 'Y'}">   
 		                       <li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome?emailid=<%=fullemail%>" target="_new"  style="font-size:09pt;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp;Admin</a></li>

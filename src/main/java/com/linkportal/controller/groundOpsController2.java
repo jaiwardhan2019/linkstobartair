@@ -160,7 +160,7 @@ public class groundOpsController2 {
 	
 	//****************** GROUND OPS SMS REPORT CONSUMER USER MANAGMENT ***********************************************
 	//-------THis Will be Called When Refis User Links is called from Ground Ops  
-	@RequestMapping(value = "/smsusermanager",method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/managesmscontacts",method = {RequestMethod.POST,RequestMethod.GET})
 	public String manageSmsUserlist(HttpServletRequest req, ModelMap model) throws Exception {	
 		   int status=0;
 			model.addAttribute("emailid",req.getParameter("emailid"));
@@ -175,12 +175,14 @@ public class groundOpsController2 {
 				//-- View  Ground Ops User --
 				if(req.getParameter("operation").equals("view")) {
 					
-					//smsConsumerEntity user = SmsConsumer.getSmsConsumerById();
+					System.out.println("View User");
 					
 				}
 				
 				//-- View  Ground Ops User --
 				if(req.getParameter("operation").equals("add")) {
+					
+					System.out.println("Add new User");
 					
 				}
 							
@@ -188,12 +190,13 @@ public class groundOpsController2 {
 				//-- View  Ground Ops User --
 				if(req.getParameter("operation").equals("remove")) {
 					
+					System.out.println("Remove User");
 				}
 										
 				
 			}	    
 		    
-		return "groundoperation/users/manageRefisusers";
+		return "groundoperation/smscontacts/manageSmscontacts";
 	
 	}
 	
