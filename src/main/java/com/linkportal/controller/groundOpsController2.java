@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -48,8 +49,9 @@ import com.linkportal.groundops.gopsAllapi;
 import com.linkportal.groundops.refisUsers;
 import com.linkportal.reports.excel.ReportMaster;
 import com.linkportal.security.EncryptDecrypt;
-import com.linkportal.smsreportconsumer.smsConsumerEntity;
-import com.linkportal.smsreportconsumer.smsConsumerRepository;
+import com.linkportal.smsreportconsumer.smsConsumerDto;
+import com.linkportal.smsreportconsumer.smsConsumerRepos;
+
 
 
 
@@ -67,10 +69,10 @@ public class groundOpsController2 {
 
 	@Autowired
 	DocumentService  docserv;
-
 	
-	//@Autowired
-	//smsConsumerService SmsConsumer; 
+	/*
+	 * @Autowired smsConsumerRepos sms;
+	 */      
 	
     //---------- Logger Initializer------------------------------- 
 	private Logger logger = Logger.getLogger(HomeController.class);
@@ -162,7 +164,8 @@ public class groundOpsController2 {
 	//-------THis Will be Called When Refis User Links is called from Ground Ops  
 	@RequestMapping(value = "/managesmscontacts",method = {RequestMethod.POST,RequestMethod.GET})
 	public String manageSmsUserlist(HttpServletRequest req, ModelMap model) throws Exception {	
-		   int status=0;
+		    String operationStatus="";
+		    String callingPage="groundoperation/smscontacts/manageSmscontacts";
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));	
 			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
@@ -172,31 +175,34 @@ public class groundOpsController2 {
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("operation") != null){	
 				
-				//-- View  Ground Ops User --
-				if(req.getParameter("operation").equals("view")) {
-					
-					System.out.println("View User");
-					
+				//--Add new user form --
+				if(req.getParameter("operation").equals("addnew")) {callingPage="groundoperation/smscontacts/updateSmsUser";}
+				
+				
+				//--Update User Form --
+				if(req.getParameter("operation").equals("updateexisting")) {
+					callingPage="groundoperation/smscontacts/updateSmsUser";
+				}
+	
+				
+				//-- Save User Detail to DB 
+				if(req.getParameter("operation").equals("save")) {					
+					System.out.println("Write Update Database Query");
+					operationStatus="User Updated Successfully";					
+				}							
+	
+				//-- Remove User from the list
+				if(req.getParameter("operation").equals("remove")) {					
+					System.out.println("Remove User");
+					operationStatus="User Removed.";
 				}
 				
-				//-- View  Ground Ops User --
-				if(req.getParameter("operation").equals("add")) {
-					
-					System.out.println("Add new User");
-					
-				}
-							
-	
-				//-- View  Ground Ops User --
-				if(req.getParameter("operation").equals("remove")) {
-					
-					System.out.println("Remove User");
-				}
-										
+				
+				model.put("operationStatus",operationStatus);						
 				
 			}	    
 		    
-		return "groundoperation/smscontacts/manageSmscontacts";
+		return callingPage;
 	
 	}
 	

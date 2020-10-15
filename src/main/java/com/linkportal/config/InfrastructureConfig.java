@@ -37,8 +37,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@ComponentScan(basePackages = { "com.linkportal.docmanager","com.linkportal.security.UserSecurityLdapDatabase","com.flightreports.dbripostry.flightReports"})
 //@ComponentScan(basePackages = { "com.linkportal.docmanager" })
-//@ComponentScan({"com.linkportal.email.linkPortalEmail"})
-
+//@ComponentScan(basePackages = {"com.linkportal.smsreportconsumer.smsConsumerRepos","com.linkportal.smsreportconsumer.smsConsumerDto"})
 
 @Configuration
 public class InfrastructureConfig{

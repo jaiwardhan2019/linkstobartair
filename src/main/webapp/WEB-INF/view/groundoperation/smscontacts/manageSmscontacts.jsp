@@ -28,9 +28,9 @@ function searchUser(){
       else
       {
 
-    	  document.refieUser.method="POST";
-		  document.refieUser.action="managegopssuser";
-	      document.refieUser.submit();
+    	  document.smsUser.method="POST";
+		  document.smsUser.action="managegopssuser";
+	      document.smsUser.submit();
 		  return true;
 
        }
@@ -45,11 +45,11 @@ function searchUser(){
 function remove_user_Profile(accountid){
 			
 		if(confirm("Are you sure about Removing This User ??")){
-			   document.refieUser.method="POST";
-			   document.refieUser.operation.value="remove";
-			   document.refieUser.userinsubject.value=accountid;
-			   document.refieUser.action="managegopssuser";
-			   document.refieUser.submit();
+			   document.smsUser.method="POST";
+			   document.smsUser.operation.value="remove";
+			   document.smsUser.userinsubject.value=accountid;
+			   document.smsUser.action="managesmscontacts";
+			   document.smsUser.submit();
 			   return true;		
 		 }
 	
@@ -59,17 +59,16 @@ function remove_user_Profile(accountid){
 
 
 
-function view_update_user_Profile(accountid){
-			
-	   
-		   document.refieUser.method="POST"
-		   document.refieUser.operation.value="view";
-		   document.refieUser.userinsubject.value=accountid;
-		   document.refieUser.action="managegopssuser";
-		   document.refieUser.submit();
-		   return true;		
+function update_user(){
 	
+	   document.smsUser.method="POST"
+	   document.smsUser.operation.value="addnew";
+	   document.smsUser.action="managesmscontacts";
+	   document.smsUser.submit();
+	   return true;		
+
 } //-------- End Of Function 
+
 
 
 
@@ -78,11 +77,10 @@ function view_update_user_Profile(accountid){
 
 function add_new_user(){
 	
-	   document.refieUser.method="POST"
-	   document.refieUser.userinsubject.value="NEWUSER";
-	   document.refieUser.operation.value="addnew";
-	   document.refieUser.action="managegopssuser";
-	   document.refieUser.submit();
+	   document.smsUser.method="POST"
+	   document.smsUser.operation.value="addnew";
+	   document.smsUser.action="managesmscontacts";
+	   document.smsUser.submit();
 	   return true;		
 
 } //-------- End Of Function 
@@ -106,7 +104,7 @@ function add_new_user(){
 <!----------------- RIGHT CONTENT -------------------->
 <div class="col-md-12 col-sm-12 col-xs-12" align="center" >
 
-<form method="post" name="refieUser" onSubmit="return searchUser()";>
+<form method="post" name="smsUser" onSubmit="return searchUser()";>
 
   <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
   <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
@@ -129,19 +127,10 @@ function add_new_user(){
 	 		 
   <table  style="width: 80%;" align="center">
 	  <tr>
-	  			    <td  align="right" width="40%">	  			
-						<input autofocus  type="text" name="user"  id="user"  class="form-control"    placeholder="Enter First Name or Last Name"/>
-		        	</td>
-					<td align="left">
-						&nbsp;&nbsp; <span onClick="searchUser();" id="buttonDemo1" class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Search </span> 
-					    &nbsp;&nbsp;<span style="color:white;font-weight:bold;">${status}</span> 
-					</td>
-					
-			        
 		
 		  <td align="right"> 
-		       
-        		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New User  </span> 
+		      ${operationStatus} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New</span> 
 		 
 		  </td>
 
@@ -157,66 +146,95 @@ function add_new_user(){
 				    
 				    <td bgcolor="#0070BA">
 					   <span style="color:white;" > <b> 
-					    User Name 	
+					   Group	
 					     </b></span>					 
 					 </td>
 					  
-					 <td bgcolor="#0070BA">
+					 <td bgcolor="#0070BA" width="20%">
 					   <span style="color:white;"> <b> 
-					      Account Description
+					      First Name 
 					     </b></span>					 
 					 </td>
 	
-					 <td bgcolor="#0070BA">
+					 <td bgcolor="#0070BA" width="20%">
 					   <span style="color:white;"> <b> 
-					      Status					     
+					      Last Name 				     
 					      </b></span>					 
 					 </td>
 	
-					 <td bgcolor="#0070BA">
+					 <td bgcolor="#0070BA" width="18%">
 					   <span style="color:white;"> <b> 
-					    ( View / Update ) Profile	
+					    Contact No 	
 					     </b></span>					 
 					 </td>
 					
 					     
-				     <td bgcolor="#0070BA">
+				     <td bgcolor="#0070BA" width="20%">
 					   <span style="color:white;"> <b> 
-					       Remove 
+					       Update /  Remove 
 					     </b></span>					 
 					 </td>
           </tr>
-           <%int ctr=1;%>
-           <c:forEach var="refisAccount" items="${refisAccountlist}">          
-		               
-		          <tr >
+          
+          
+          
+      	  <tr>
 		          
-		          <td><i class="fa fa-user-circle-o  fa-lg" aria-hidden="true"></i> &nbsp;${refisAccount.username}</td>
+		          <td><i class="fa fa-user-circle-o  fa-lg" aria-hidden="true"></i> &nbsp;Managment</td>
 		          
-		          <td>${refisAccount.description} </td>
+		          <td>First Name </td>
 		         
 		          <td>
-		          
-		            	<c:if test="${refisAccount.enabled == 'Active'}">
-		                     <i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <span style="color:green;font-weight:bold;"> Enable</span>
-		                </c:if>
-		          
-		          
-		            	<c:if test="${refisAccount.enabled == 'Dactive'}">
-		                    <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;  <span style="color:red;font-weight:bold;"> Disable  </span>
-		                </c:if>
-		          
-
-		                    
+		            &nbsp;   Last name 		     		                    
 		          
 		          </td>
 	
-		          <td align="center"> &nbsp;&nbsp; <span style="font-weight:bold;" onClick="view_update_user_Profile('${refisAccount.username}');"  class="btn btn-info btn-sm"> <i class="fa fa-eye fa-lg" aria-hidden="true"></i>&nbsp;View&nbsp; &nbsp;<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp;Update</span></td>
+		          <td align="center"> &nbsp;&nbsp; 
+		          0861787398
+		          </td>
+		           
+		           <td align="center"> 
+		                <span style="font-weight:bold;" onClick="update_user();"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp;Update</span>
+		          
+		                &nbsp;
+		                <span style="font-weight:bold;" onClick="remove_user_Profile('Test');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw  fa-lg"></i>Remove</span>
+		           
+		           </td>
+		          
+		          </tr>    
+          
+          
+          
+          
+          
+           <%int ctr=1;%>
+           <c:forEach var="smsAccount" items="${refisAccountlist}">          
+		               
+		       <tr>
+		          
+		          <td><i class="fa fa-user-circle-o  fa-lg" aria-hidden="true"></i> &nbsp;${smsAccount.username}</td>
+		          
+		          <td>${smsAccount.description} </td>
+		         
+		          <td>
+		            <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;  <span style="color:red;font-weight:bold;"> Disable  </span>
+		     		                    
+		          
+		          </td>
+	
+		          <td align="center"> &nbsp;&nbsp; 
+		          
+		          
+		          </td>
 		         
 		         
 		           
 		           <td align="center"> 
-		                <span style="font-weight:bold;" onClick="remove_user_Profile('${refisAccount.username}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw  fa-lg"></i>&nbsp;Delete</span>
+		          
+		                <span style="font-weight:bold;" onClick="view_update_user_Profile('${smsAccount.username}');"  class="btn btn-info btn-sm"> <i class="fa fa-eye fa-lg" aria-hidden="true"></i>&nbsp;View&nbsp; &nbsp;<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp;Update</span>
+		          
+		                &nbsp;
+		                <span style="font-weight:bold;" onClick="remove_user_Profile('${smsAccount.username}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw  fa-lg"></i>&nbsp;Delete</span>
 		           
 		           </td>
 		          
@@ -228,13 +246,11 @@ function add_new_user(){
            
            </c:forEach>
           
-       
           <tr>
             <td colspan="6" align="center">             
                 
 	             <% if (ctr == 1){%>
-	                Sorry There is no User Found based on your search criteria..!!  <br> Please try again.!!
-		
+	                Sorry There is no User Found Please add new User.	
 		    	<%
 		    	}
 		    	%>

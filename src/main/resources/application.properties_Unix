@@ -2,37 +2,6 @@ spring.mvc.view.prefix=/WEB-INF/view/
 spring.mvc.view.suffix=.jsp
 
 
-#--------------------- JPA -----------------------------
-# Hibernate ddl auto (create, create-drop, update)
-spring.jpa.hibernate.ddl-auto = update
-
-# Naming strategy
-spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
-
-# Use spring.jpa.properties.* for Hibernate native properties (the prefix is
-# stripped before adding them to the entity manager)
-
-# The SQL dialect makes Hibernate generate better SQL for the chosen database
-spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.SQLServer2012Dialect
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -53,14 +22,14 @@ mail.From=Stobart MIS<donotreply@stobartair.com>
 
 
 
-groundops.documentroot.folder=C:/data/groundops/
-#groundops.documentroot.folder=/data/groundops/
+#groundops.documentroot.folder=C:/data/groundops/
+groundops.documentroot.folder=/data/groundops/
 
 
 
 
-fuelinvoices.documentroot.folder=C:/data/fuelinvoices/
-#fuelinvoices.documentroot.folder=/data/fuelinvoices/
+#fuelinvoices.documentroot.folder=C:/data/fuelinvoices/
+fuelinvoices.documentroot.folder=/data/fuelinvoices/
 
 
 
@@ -68,26 +37,26 @@ fuelinvoices.documentroot.folder=C:/data/fuelinvoices/
 
 
 #------ FOR ALL Contract 
-stobart.contract.folder=C:/data/
-#stobart.contract.folder=/data/
+#stobart.contract.folder=C:/data/
+stobart.contract.folder=/data/
 
 
 
 
 
 #--------------Mapping for External Resources For windows--------------------
-spring.resources.static-locations=file:///C:/data/fuelinvoices/,file:///C:/data/operations/,file:///C:/data/media/video/,file:///C:/data/media/image/,file:///C:/data/ATRDICING/,file:///C:/data/groundops/,file:///C:/data/stobart_contract/,classpath:/static/
+#spring.resources.static-locations=file:///C:/data/fuelinvoices/,file:///C:/data/operations/,file:///C:/data/media/video/,file:///C:/data/media/image/,file:///C:/data/ATRDICING/,file:///C:/data/groundops/,file:///C:/data/stobart_contract/,classpath:/static/
 #----------- for Unix -------------------------------------------------------
-#spring.resources.static-locations=file:///data/fuelinvoices/,file:///data/operations/,file:///data/media/video/,file:///data/media/image/,file:///data/ATRDICING/,file:///data/groundops/,file:///data/stobart_contract/,classpath:/static/
+spring.resources.static-locations=file:///data/fuelinvoices/,file:///data/operations/,file:///data/media/video/,file:///data/media/image/,file:///data/ATRDICING/,file:///data/groundops/,file:///data/stobart_contract/,classpath:/static/
 
 
 
 
 
 
-spring.operations.excel.reportsfileurl=C:/data/operations/
+#spring.operations.excel.reportsfileurl=C:/data/operations/
 #----------- for Unix -------------------------------------------------------
-#spring.operations.excel.reportsfileurl=/data/operations/
+spring.operations.excel.reportsfileurl=/data/operations/
 
 
 

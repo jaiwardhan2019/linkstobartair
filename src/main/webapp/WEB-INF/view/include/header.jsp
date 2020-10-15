@@ -207,7 +207,13 @@ function calStaffTravelUsers(){
 				        
 				        <c:if test="${profilelist.Finance == 'Y'}">   
 				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('invoiceconversiontool');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Invoice-Conversion-Tool</a></li>
+					    </c:if>		
+					    
+					    <c:if test="${profilelist.Finance == 'Y'}">   
+				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Download Fuel Report</a></li>
 					    </c:if>					 
+					    
+					    			 
 			   		  
 			     </ul>	 
 			      
