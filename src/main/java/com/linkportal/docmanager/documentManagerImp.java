@@ -55,6 +55,8 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 
 	@Value("${spring.operations.excel.reportsfileurl}")
 	private String filepath;
+	
+	
 	@Value("${groundops.documentroot.folder}")
 	private String groundopsRootFolder;
 	
@@ -66,7 +68,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 	
 
 	// ***---------------- LOGGER------------------------------
-	private Logger logger = Logger.getLogger(documentManagerImp.class);
+	private final Logger logger = Logger.getLogger(documentManagerImp.class);
 
 	documentManagerImp(DataSource dataSourcesqlservercp) {
 		jdbcTemplate = new JdbcTemplate(dataSourcesqlservercp);
@@ -133,7 +135,11 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		return documentList;
 
 	}
+	
+	
+	
 
+	
 	@Override
 	public List<DocumentEntity> searchDocumentsFromFolder(String documentname) {
 
@@ -181,7 +187,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 
 		// This Part of Code Will Create Only Folder like GCI / GCM / GCR if not exist
 		// then create one
-		if (req.getParameter("cat").toString().length() < 5) {
+		if (req.getParameter("cat").length() < 5) {
 			File uploadDir = new File(groundopsRootFolder + req.getParameter("cat").toUpperCase() + "/");
 			if (!uploadDir.exists()) {
 				uploadDir.mkdir();
@@ -286,7 +292,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		if (directory.isDirectory()) {
 			String[] fileList = directory.list();
 			for (String filename : fileList) {
-				doclist.add(filename);
+				doclist.add(filename);			
 			}
 			return doclist;
 		} else {
@@ -438,6 +444,6 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		return convertAndUploadStatus;
 	}
 
-	
 
+	
 }// ------- END OF Class -----------

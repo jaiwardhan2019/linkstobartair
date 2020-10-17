@@ -9,34 +9,34 @@ import com.linkportal.datamodel.flightDelayComment;
 public interface gopsAllapi {
 	
 
-	public List<refisUsers> showRefisUser();
+	List<refisUsers> showRefisUser();
 	
-	public List<refisUsers> searchRefisUser(String name);
+	List<refisUsers> searchRefisUser(String name);
 	
-	public refisUsers viewGopsUserDetail(String username);	
+	refisUsers viewGopsUserDetail(String username);
 	
-	public int  updateGopsUserDetail(HttpServletRequest req);
+	int  updateGopsUserDetail(HttpServletRequest req);
 	
-	public int  addnewGopsUserDetail(HttpServletRequest req);
+	int  addnewGopsUserDetail(HttpServletRequest req);
 	
-	public int removeRefisUser_FromDb(String accountid);
+	int removeRefisUser_FromDb(String accountid);
 	
-	public String getAllStationList(String userid);
+	String getAllStationList(String userid);
 	
-	public String getAllAirlineList(String userid);
-	
-	
-	public String getAllEligibleAirlineforGH(String userid);
-	
-	public String getAllEligibleAirportforGH(String stobartUser);
+	String getAllAirlineList(String userid);
 	
 	
-	public boolean addDelayFeedback(HttpServletRequest req);
+	String getAllEligibleAirlineforGH(String userid);
 	
-	public List<flightDelayComment> showAllComment(HttpServletRequest req);
+	String getAllEligibleAirportforGH(String stobartUser);
 	
 	
-	public String getPuncStaticforGroundOpsHomePage();
+	boolean addDelayFeedback(HttpServletRequest req);
+	
+	List<flightDelayComment> showAllComment(HttpServletRequest req);
+	
+	
+	String getPuncStaticforGroundOpsHomePage();
 	
 	
 	

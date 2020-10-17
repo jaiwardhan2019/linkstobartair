@@ -59,10 +59,11 @@ function remove_user_Profile(accountid){
 
 
 
-function update_user(){
+function update_user(accountid){
 	
 	   document.smsUser.method="POST"
-	   document.smsUser.operation.value="addnew";
+	   document.smsUser.operation.value="updateexisting";
+	   document.smsUser.userinsubject.value=accountid;
 	   document.smsUser.action="managesmscontacts";
 	   document.smsUser.submit();
 	   return true;		
@@ -113,24 +114,13 @@ function add_new_user(){
   <input type="hidden" name="userinsubject" id="userinsubject"  value="">
   
 
-
-  <table  border="0" style="width: 50%;" align="center"> 
-				     <tr>
-				        <td align="center"><br>
-				              <span style="color:red;"> <b> ${deletestatus}    </b></span>	 
-				               
-				       </td>
-				     </tr>
-	
-  </table>	
-
 	 		 
   <table  style="width: 80%;" align="center">
 	  <tr>
-		
+			  <td> <font size="4">Manage SMS Report Consumer </font></td>
 		  <td align="right"> 
 		      ${operationStatus} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New</span> 
+        		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New User</span> 
 		 
 		  </td>
 
@@ -139,8 +129,17 @@ function add_new_user(){
 			
  </table>	
 	
- 	<br>	 
+ 	<br>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 		 
   <table class="table table-striped table-bordered" border="1" style="width: 80%;background:rgba(255,255,255,0.5);" align="center">	
+	
+	
 		
 	     <tr align="center">
 				    
@@ -176,89 +175,54 @@ function add_new_user(){
 					 </td>
           </tr>
           
-          
+       
+      
+       
+
+       
+           <%int ctr=1;%>
+           <c:forEach var="smsAccount" items="${listSmsUser}">          
+		     
           
       	  <tr>
 		          
-		          <td><i class="fa fa-user-circle-o  fa-lg" aria-hidden="true"></i> &nbsp;Managment</td>
+		          <td><i class="fa fa-user-circle-o  fa-lg" aria-hidden="true"></i> &nbsp;${smsAccount.mgmtGroup}</td>
 		          
-		          <td>First Name </td>
+		          <td>${smsAccount.firstName} </td>
 		         
 		          <td>
-		            &nbsp;   Last name 		     		                    
+		            &nbsp;  ${smsAccount.lastName}	     		                    
 		          
 		          </td>
 	
-		          <td align="center"> &nbsp;&nbsp; 
-		          0861787398
+		          <td > &nbsp;&nbsp; 
+		           ${smsAccount.phoneNo}	  
 		          </td>
 		           
 		           <td align="center"> 
-		                <span style="font-weight:bold;" onClick="update_user();"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp;Update</span>
+		                <span style="font-weight:bold;" onClick="update_user('${smsAccount.userId}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp;Update</span>
 		          
 		                &nbsp;
-		                <span style="font-weight:bold;" onClick="remove_user_Profile('Test');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw  fa-lg"></i>Remove</span>
+		                <span style="font-weight:bold;" onClick="remove_user_Profile('${smsAccount.userId}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw  fa-lg"></i>Remove</span>
 		           
 		           </td>
 		          
 		          </tr>    
-          
-          
-          
-          
-          
-           <%int ctr=1;%>
-           <c:forEach var="smsAccount" items="${refisAccountlist}">          
-		               
-		       <tr>
-		          
-		          <td><i class="fa fa-user-circle-o  fa-lg" aria-hidden="true"></i> &nbsp;${smsAccount.username}</td>
-		          
-		          <td>${smsAccount.description} </td>
-		         
-		          <td>
-		            <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;  <span style="color:red;font-weight:bold;"> Disable  </span>
-		     		                    
-		          
-		          </td>
-	
-		          <td align="center"> &nbsp;&nbsp; 
-		          
-		          
-		          </td>
-		         
-		         
-		           
-		           <td align="center"> 
-		          
-		                <span style="font-weight:bold;" onClick="view_update_user_Profile('${smsAccount.username}');"  class="btn btn-info btn-sm"> <i class="fa fa-eye fa-lg" aria-hidden="true"></i>&nbsp;View&nbsp; &nbsp;<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp;Update</span>
-		          
-		                &nbsp;
-		                <span style="font-weight:bold;" onClick="remove_user_Profile('${smsAccount.username}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw  fa-lg"></i>&nbsp;Delete</span>
-		           
-		           </td>
-		          
-		          </tr>
-		         
-		           <%
-		           ctr++;
-		           %>
+                     <%ctr++;%>
            
-           </c:forEach>
+           </c:forEach>  
           
-          <tr>
-            <td colspan="6" align="center">             
-                
-	             <% if (ctr == 1){%>
-	                Sorry There is no User Found Please add new User.	
-		    	<%
-		    	}
-		    	%>
-            
-            
-             </td>
-          </tr>
-          
+		           
+			      <c:set var = "rowcount"  value = "${fn:length(listSmsUser)}"/>
+			      <c:if test = "${rowcount == 0}">
+			      <tr>
+		            <td colspan="6" align="center">
+			                Sorry There is no User Found Please add new User.
+		             </td>
+		          </tr>
+		       
+      </c:if>
+      
           
          </table> 
 

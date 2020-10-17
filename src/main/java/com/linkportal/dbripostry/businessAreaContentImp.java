@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
 public class businessAreaContentImp implements businessAreaContent {
 	
 	    //---------- Logger Initializer------------------------------- 
-		private Logger logger = Logger.getLogger(businessAreaContentImp.class);
+		private final Logger logger = Logger.getLogger(businessAreaContentImp.class);
 	
 	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 	    LocalDateTime now = LocalDateTime.now();

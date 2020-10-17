@@ -17,12 +17,12 @@ public class EncryptDecrypt {
 	
     private static final String UNICODE_FORMAT = "UTF8";
     public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
-    private KeySpec ks;
-    private SecretKeyFactory skf;
-    private Cipher cipher;
+    private final KeySpec ks;
+    private final SecretKeyFactory skf;
+    private final Cipher cipher;
     byte[] arrayBytes;
-    private String myEncryptionKey;
-    private String myEncryptionScheme;
+    private final String myEncryptionKey;
+    private final String myEncryptionScheme;
     SecretKey key;
     
     
@@ -79,7 +79,7 @@ public class EncryptDecrypt {
 		        //System.out.println("Input String To Encrypt: "+ inputpassword);
 		        //System.out.println("Encrypted String: " + encrypted);
 		        //System.out.println("Decrypted String: " + decrypted);
-		        if(encrypted.equalsIgnoreCase(storedpassword)) {return true; } else{return false;}
+        return encrypted.equalsIgnoreCase(storedpassword);
 		        
 	}
 

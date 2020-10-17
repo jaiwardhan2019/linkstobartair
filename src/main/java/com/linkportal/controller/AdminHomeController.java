@@ -64,7 +64,7 @@ public class AdminHomeController {
 
 
     //---------- Logger Initializer------------------------------- 
-    private Logger logger = Logger.getLogger(HomeController.class);
+    private final Logger logger = Logger.getLogger(HomeController.class);
 
 
     //------------ FOR AJAX  SAMPLE CODE
@@ -77,7 +77,6 @@ public class AdminHomeController {
     //--- THIS IS FOR Dicing traning      
     @GetMapping("/atrdicing")
     String atr_diccing_traning_page(ModelMap model) {
-
         return "atrdicing/index";
     }
 

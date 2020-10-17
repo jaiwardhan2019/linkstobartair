@@ -37,7 +37,7 @@ public class crewReportsControler {
 
 	
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(crewReportsControler.class);
+	private final Logger logger = Logger.getLogger(crewReportsControler.class);
 	
 	
 	
@@ -57,9 +57,9 @@ public class crewReportsControler {
 		    Date today = new Date();               
 			SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar c = Calendar.getInstance();  
-			String todaydate = (String)(formattedDate.format(c.getTime()));
+			String todaydate = formattedDate.format(c.getTime());
 			c.add(Calendar.DATE, 1);  // number of days to add      
-			String tomorrow = (String)(formattedDate.format(c.getTime()));
+			String tomorrow = formattedDate.format(c.getTime());
 			
 			
 			
@@ -67,7 +67,7 @@ public class crewReportsControler {
 			//************ THIS PART WILL TAKE CARE OF DATE SELECTION AND CAPTION LIST POPULATION *************
 			if(req.getParameter("flightdate") != null) {
 				 
-				 if(req.getParameter("flightdate").toString().equalsIgnoreCase(todaydate)) 
+				 if(req.getParameter("flightdate").equalsIgnoreCase(todaydate))
 				 {todayselection="selected";}else{tomorrowselection="selected";}
 				 //------ ONCE DATE IS SELECTED -----------------------------------------------
 				 model.put("captionlist", crewInfo.showCrewList(req.getParameter("flightdate")));

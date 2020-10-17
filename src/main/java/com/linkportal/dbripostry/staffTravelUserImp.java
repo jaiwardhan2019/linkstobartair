@@ -37,7 +37,7 @@ public class staffTravelUserImp implements staffTravelUser{
 	 
 
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(staffTravelUserImp.class);
+	private final Logger logger = Logger.getLogger(staffTravelUserImp.class);
 	
 	
 

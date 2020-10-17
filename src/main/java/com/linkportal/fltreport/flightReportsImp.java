@@ -51,7 +51,7 @@ public class flightReportsImp implements flightReports{
     
 
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(flightReportsImp.class);
+	private final Logger logger = Logger.getLogger(flightReportsImp.class);
 
     
 	JdbcTemplate jdbcTemplateSqlServer;	
@@ -72,7 +72,7 @@ public class flightReportsImp implements flightReports{
 	@Override
 	public String Populate_Operational_Airline(String airlinecode, String useremail){
 		
-		   boolean isStobartUser           = useremail.indexOf("@stobartair.com") !=-1? true: false;		 
+		   boolean isStobartUser           = useremail.indexOf("@stobartair.com") != -1;
 		   String airlinelistwithcode      = null;
 		   String sqlforoperationalairline = "SELECT AirlineMaster.iata_code , AirlineMaster.airline_name  ,AirlineMaster.icao_code    \r\n" + 
 		   		"  FROM  AirlineMaster , Gops_Airline_Station_Access \r\n" + 
@@ -108,9 +108,9 @@ public class flightReportsImp implements flightReports{
 	
 	//--------------- This will Generate All Operational Airport For Select Combo Box-------------------------
 	@Override
-	public String Populate_Operational_Airport(String airportcode,String useremail) throws Exception,NullPointerException {
+	public String Populate_Operational_Airport(String airportcode,String useremail) throws Exception {
 		
-		   boolean isStobartUser = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		   boolean isStobartUser = useremail.indexOf("@stobartair.com") != -1;
 		   DateFormat dateFormat = new SimpleDateFormat("yyyy");
 		   Date date             = new Date();
 		   String curent_year    = dateFormat.format(date);		   
@@ -170,7 +170,7 @@ public class flightReportsImp implements flightReports{
 	@Override
 	public String Populate_Operational_AirlineReg(String aircraftreg, String useremail) throws Exception {
 		
-		   boolean isStobartUser = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		   boolean isStobartUser = useremail.indexOf("@stobartair.com") != -1;
 		   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		   Date date             = new Date();
 		   String curent_year    = dateFormat.format(date);		   
@@ -259,7 +259,7 @@ public class flightReportsImp implements flightReports{
 	@Override
 	public List<fligthSectorLog> PopulateFlightReport(String airline, String airport, String shortby, String dateofoperation, String flightno, String useremail) {
 
-		   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		   boolean StobartUser         = useremail.indexOf("@stobartair.com") != -1;
 		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
 		   String builtsql             = null;
 		   
@@ -312,7 +312,7 @@ public class flightReportsImp implements flightReports{
 	  //public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
    	  public  List<delayReportParentPojo> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
    		
-   	   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+   	   boolean StobartUser         = useremail.indexOf("@stobartair.com") != -1;
 		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
 		   String builtsql             = null;
 		   String commentsql           = gopssql.builtDelayFlightCommentSql(fltdate, todate);
@@ -400,7 +400,7 @@ public class flightReportsImp implements flightReports{
 
   	   @Override  //jai  Will be Called for the delay Flight Report 
 	   public List<fligthSectorLog> PopulateOnTimePerformanceReport(String airline, String airport, String fltdate ,String todate,String delaycode, String useremail){
-		   boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		   boolean StobartUser         = useremail.indexOf("@stobartair.com") != -1;
 		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
 		   String builtsql             = null;
 		   

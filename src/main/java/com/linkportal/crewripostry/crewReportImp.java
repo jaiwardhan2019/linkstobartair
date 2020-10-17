@@ -74,7 +74,7 @@ public class crewReportImp implements crewReport{
 	
 	
 	  //---------- Logger Initializer------------------------------- 
-	  private Logger logger = Logger.getLogger(businessAreaContentImp.class);
+	  private final Logger logger = Logger.getLogger(businessAreaContentImp.class);
 		
 	 	
 	    @Autowired

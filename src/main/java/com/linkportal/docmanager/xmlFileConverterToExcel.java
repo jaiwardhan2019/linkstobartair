@@ -42,7 +42,7 @@ abstract class xmlFileConverterToExcel {
 
 
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(HomeController.class);
+	private final Logger logger = Logger.getLogger(HomeController.class);
 	
 
 	

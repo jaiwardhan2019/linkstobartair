@@ -113,7 +113,7 @@ public class HomeController {
 	
 	
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(HomeController.class);
+	private final Logger logger = Logger.getLogger(HomeController.class);
 	
 	
 	
@@ -156,7 +156,7 @@ public class HomeController {
 		   model.addAttribute("emailid",req.getParameter("emailid"));
 		   model.addAttribute("password",req.getParameter("password"));
 		   
-		   boolean isStobartUser = req.getParameter("emailid").indexOf("@stobartair.com") !=-1? true: false;
+		   boolean isStobartUser = req.getParameter("emailid").indexOf("@stobartair.com") != -1;
 		 
 		   
 		   // -- If Ground Handler,External User
@@ -450,7 +450,7 @@ public class HomeController {
 	    Date today = new Date();               
 	    SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 	    Calendar c = Calendar.getInstance();  
-	    String todaydate = (String)(formattedDate.format(c.getTime()));
+	    String todaydate = formattedDate.format(c.getTime());
 	    model.put("datop",todaydate);
         
 	    if(req.getParameter("datop") != null) {
@@ -481,7 +481,7 @@ public class HomeController {
 		Date today = new Date();               
 		SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();  
-		String todaydate = (String)(formattedDate.format(c.getTime()));
+		String todaydate = formattedDate.format(c.getTime());
 		model.put("todaydate",todaydate);
 		
 		
@@ -550,7 +550,7 @@ public class HomeController {
 		  Date today = new Date();               
 		  SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		  Calendar c = Calendar.getInstance();  
-		  String todaydate = (String)(formattedDate.format(c.getTime()));
+		  String todaydate = formattedDate.format(c.getTime());
 		  
  	      model.put("startDate",todaydate);
 		  model.put("endDate",todaydate);		   
@@ -646,7 +646,7 @@ public class HomeController {
 		   Date today = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar c = Calendar.getInstance();  
-		   String todaydate = (String)(formattedDate.format(c.getTime()));
+		   String todaydate = formattedDate.format(c.getTime());
 		   model.put("todaydate",todaydate);
 		   logger.info("User id:"+req.getParameter("emailid")+" Run Daily Summary Report");
 		   return "flightreports/dailysummaryform";

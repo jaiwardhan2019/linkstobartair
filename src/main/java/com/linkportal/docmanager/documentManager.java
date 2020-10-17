@@ -17,31 +17,31 @@ public interface documentManager {
 	
 	
 	 //******** FOR THE GROUNDOPS  DOCUMENTS ********	
-	  public List<DocumentEntity> showAllDocumentsFromFolder(HttpServletRequest req,String foldername);
+	 List<DocumentEntity> showAllDocumentsFromFolder(HttpServletRequest req, String foldername);
 	  
-	  public List<DocumentEntity> searchDocumentsFromFolder(String documentname);
+	 List<DocumentEntity> searchDocumentsFromFolder(String documentname);
 	  
-	  public boolean addDocumentToFolder(HttpServletRequest req,MultipartFile file)throws IOException, SQLException;
+	 boolean addDocumentToFolder(HttpServletRequest req, MultipartFile file)throws IOException, SQLException;
   
-	  public boolean removeDocumentFromFolder(int id)throws IOException, SQLException;
+	 boolean removeDocumentFromFolder(int id)throws IOException, SQLException;
 	  
-	  public List<String> listFolder(String foldername);
-	
+	 List<String> listFolder(String foldername);
+	 
 
-	   
+	 
+	 
+	 
+	  
+
+
 	   //******** FOR THE DAILY SUMMARY REPORT ********
-	   public void createDailySummaryReport_PDF(String airline , String Operation , String datop , String useremail);
+	   void createDailySummaryReport_PDF(String airline, String Operation, String datop, String useremail);
 	   
-	   public void createDailySummaryReport_DOC(String airline , String Operation , String datop , String useremail);
+	   void createDailySummaryReport_DOC(String airline, String Operation, String datop, String useremail);
 	   
 	   
 	  //******** For Fuel  XML File Conversion to the Excel ********	   
-	   public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest filePath, MultipartFile[] files)throws IOException, ParserConfigurationException, SAXException;
-	   
-	   
+	  boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest filePath, MultipartFile[] files)throws IOException, ParserConfigurationException, SAXException;
 	   
 
-	   
-	   
-	
 }

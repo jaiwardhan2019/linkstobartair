@@ -63,7 +63,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 
 	    
 	    //---------- Logger Initializer------------------------------- 
-	    private Logger logger = Logger.getLogger(gopsAllapiImp.class);
+	    private final Logger logger = Logger.getLogger(gopsAllapiImp.class);
 
 	
 	 
@@ -421,8 +421,8 @@ public class gopsAllapiImp implements gopsAllapi  {
 	@Override
 	public String getAllEligibleAirportforGH(String useremail) {
 		   //-- For Ground Handler External Pull list of assigned airport 
-		   String eligibleairportlist=null;;
-		   SqlRowSet rowst =  jdbcTemplateRefis.queryForRowSet("SELECT distinct station_code FROM Gops_Airline_Station_Access where user_name='"+useremail+"' and station_code != 'NA'");
+		   String eligibleairportlist=null;
+		SqlRowSet rowst =  jdbcTemplateRefis.queryForRowSet("SELECT distinct station_code FROM Gops_Airline_Station_Access where user_name='"+useremail+"' and station_code != 'NA'");
 		   int counter=0;
 		   while(rowst.next()) {			   				   
 			   if(counter == 0) 
@@ -460,9 +460,9 @@ public class gopsAllapiImp implements gopsAllapi  {
 				   pstm.setString(3,req.getParameter("status"));
 				   pstm.setString(4,req.getParameter("astatus"));
 				   pstm.setString(5,req.getParameter("feedback"));
-				   pstm.setString(6,formatter.format(date).toString());
+				   pstm.setString(6, formatter.format(date));
 				   pstm.setString(7,req.getParameter("addedby"));	   	
-				   pstm.setString(8,formatter.format(date).toString());
+				   pstm.setString(8, formatter.format(date));
 			       int rows = pstm.executeUpdate();
 			       pstm=null;   
 			
@@ -505,7 +505,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 		  Date today                     = new Date();               
 		  SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		  Calendar                     c = Calendar.getInstance();  
-		  String dateofoperation         = (String)(formattedDate.format(c.getTime()));	
+		  String dateofoperation         = formattedDate.format(c.getTime());
 		   
 		  String sqlforpunctuality="select sum(case when status != 'RTR' then 1 else 0 end )  as totalflights ,"+
 		   		"      sum(case when status = 'ATA' then 1 else 0 end) as NumFlownsofar ,      \r\n"+

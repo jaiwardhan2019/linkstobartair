@@ -44,6 +44,7 @@ import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.datamodel.fligthSectorLog;
 import com.linkportal.dbripostry.linkUsers;
 import com.linkportal.docmanager.DocumentService;
+import com.linkportal.docmanager.documentManager;
 import com.linkportal.fltreport.flightReports;
 import com.linkportal.graphreport.piechart;
 import com.linkportal.groundops.gopsAllapi;
@@ -76,6 +77,7 @@ public class groundOpsController1 {
 	@Autowired
 	DocumentService  docserv;
 
+
 	
 	@Autowired
 	gopsAllapi  gopsobj; 
@@ -93,7 +95,7 @@ public class groundOpsController1 {
 	
 	
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(HomeController.class);
+	private final Logger logger = Logger.getLogger(HomeController.class);
 	
 	
 
@@ -154,7 +156,7 @@ public class groundOpsController1 {
 		   Date today                     = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar                     c = Calendar.getInstance();  
-		   String todaydate               = (String)(formattedDate.format(c.getTime()));
+		   String todaydate               = formattedDate.format(c.getTime());
 		   model.put("datop",todaydate);	        
 		   if(req.getParameter("datop") != null) {
 			   todaydate = req.getParameter("datop");
@@ -197,7 +199,7 @@ public class groundOpsController1 {
 		   Date today                     = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar                     c = Calendar.getInstance();  
-		   String fromdate               = (String)(formattedDate.format(c.getTime()));
+		   String fromdate               = formattedDate.format(c.getTime());
 		   String todate                 = fromdate;
 				   
 		   model.put("startdate",fromdate);
@@ -308,7 +310,7 @@ public class groundOpsController1 {
 		   Date today                     = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar                     c = Calendar.getInstance();  
-		   String fromdate                = (String)(formattedDate.format(c.getTime()));
+		   String fromdate                = formattedDate.format(c.getTime());
 		   String todate                  = fromdate;
 		   model.put("startdate",fromdate);
 		   model.put("enddate",todate);	
@@ -362,7 +364,7 @@ public class groundOpsController1 {
 		   Date today                     = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar                     c = Calendar.getInstance();  
-		   String fromdate                = (String)(formattedDate.format(c.getTime()));
+		   String fromdate                = formattedDate.format(c.getTime());
 		   String todate                  = fromdate;
 		   model.put("startdate",fromdate);
 		   model.put("enddate",todate);	
@@ -470,6 +472,9 @@ public class groundOpsController1 {
 		   int status              = 0;
 		   String readviewstring   = "groundoperation/folderlist";
 		   String updateviewstring = "groundoperation/folderupdate";
+		   
+		   String alfrescoFolder   = null;
+		   
 
 		   if(req.getParameter("cat").equals("home")) {
 			   model.put("foldername","All Latest Documents");
@@ -551,10 +556,6 @@ public class groundOpsController1 {
 		   }
            
 		   //-- Documentation Menu --
-		   if(req.getParameter("cat").equals("dchm")) {
-			   model.put("foldername","Catering - HAACP Manual."); 
-		   }
-		   
 		   if(req.getParameter("cat").equals("dcle")) {
 			   model.put("foldername","Cleaning."); 
 		   }
@@ -577,20 +578,28 @@ public class groundOpsController1 {
 		   if(req.getParameter("cat").equals("HOME")) {
 			   model.put("foldername","Recent Documents Update."); 
 		   }
+
+		   if(req.getParameter("cat").equals("dchm")) {
+			   model.put("foldername","Catering HAACP Manual."); 
+			   alfrescoFolder="alfresco/FlightOperations/CCM/HACCPMANUAL/";
+		   }
 		   
 		   
 		   if(req.getParameter("operation") != null){
-			       
-			       //--- If the data is comming from alfreso then this vaue will be passed to View 
-			       //-- Will avoid the Update Button on view 
-				   if(req.getParameter("alfresco") != null) {
+			
+			   
+			    //--- If the data is comming from alfreso then this value will be passed to View 
+			      if(req.getParameter("alfresco") != null) {
 				       if(req.getParameter("alfresco").equals("YES")) {
 				    	   model.put("alfresco","YES");
-				    	   //  Write a function whic will pull list of folder content from the 
-				    	   //  model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
+				    	   model.put("gopsfilelist",docserv.listAlfrescoDocumets(alfrescoFolder,req.getParameter("cat")));	
+				    	   return "groundoperation/alfrescofolderlist";
 				       }
 				   }    
-				   //-- END of  Alfresco 
+				  //-- END of  Alfresco 
+				   
+				   
+				   
 				   
 				   
 				   if(req.getParameter("operation").equals("update")) { 

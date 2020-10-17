@@ -46,12 +46,12 @@ import java.util.Properties;
 public class UserSecurityLdap{
 
 	 //---------- Logger Initializer------------------------------- 
-     private Logger logger = Logger.getLogger(UserSecurityLdap.class);
+     private final Logger logger = Logger.getLogger(UserSecurityLdap.class);
 		
 		
 		
 	//---------- This Function will check usr in LDAP and return true /  false status to the caller
-	public boolean Validate_User_With_Ldap(String useremailid,String userspassword,String ldapurl) throws NamingException,NullPointerException,IOException,UnknownHostException{
+	public boolean Validate_User_With_Ldap(String useremailid,String userspassword,String ldapurl) throws NamingException,NullPointerException,IOException {
           
 		try{		  
 		  

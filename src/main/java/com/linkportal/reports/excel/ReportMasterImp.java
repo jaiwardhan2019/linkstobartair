@@ -57,7 +57,7 @@ public class ReportMasterImp implements ReportMaster {
 	
 
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(ReportMasterImp.class);
+	private final Logger logger = Logger.getLogger(ReportMasterImp.class);
 	
 
 	
@@ -70,7 +70,7 @@ public class ReportMasterImp implements ReportMaster {
 	
 	
 	//-------------- First Sheet Header and Column width -------------------------------------
-	private static String[] standardTitlesList = {"Flight Date", "Flight No.", "A/C Type", "A/C Reg.",
+	private static final String[] standardTitlesList = {"Flight Date", "Flight No.", "A/C Type", "A/C Reg.",
 													"STD", "STA", "SCH DEP", "SCH ARR", 
 													"ATD", "ATA", "ACT DEP", "ACT ARR",
 													"AIRBORN", "TOT ON BOARD", "IATA Delay Code Groups",
@@ -80,7 +80,7 @@ public class ReportMasterImp implements ReportMaster {
 													"Captain ", "First Officer " };
 	
 
-	private static short[] standardWidthsList = {3000, 2500, 3000, 2500, 
+	private static final short[] standardWidthsList = {3000, 2500, 3000, 2500,
 												2000, 2000, 2500, 2500,
 												2500, 2500, 2500, 2500, 
 												2500, 2500, 8000,2500, 
@@ -96,25 +96,25 @@ public class ReportMasterImp implements ReportMaster {
 	
 		
 
-	private static String[] cancelledTitlesList = {"Flight Date", "Flight No.", "A/C Type", "A/C Reg.", 
+	private static final String[] cancelledTitlesList = {"Flight Date", "Flight No.", "A/C Type", "A/C Reg.",
 													"STD", "STA", "SCH DEP", "SCH ARR","ACT DEP", "ACT ARR",
 													"Planned Pax", "ATA - ATD", " Remarks " };
 	
-	private static short[] cancelledWidthsList = {3000, 2500, 3000, 2500, 
+	private static final short[] cancelledWidthsList = {3000, 2500, 3000, 2500,
 													2000, 2000, 2500, 2500,
 													2500, 2500,	2500, 2500, 12000
 													};
 	
 
 	
-	private static String[] sortedByDelayCodesTitlesList = {"Flight Date", "Flight No.", "A/C Type", "A/C Reg.", 
+	private static final String[] sortedByDelayCodesTitlesList = {"Flight Date", "Flight No.", "A/C Type", "A/C Reg.",
 															"STD", "STA",  "SCH DEP", "SCH ARR",
 															"ATD", "ATA", "ACT DEP", "ACT ARR", 
 															"AB", "TOB", "Iata Delay Code Groups",
 															"Delay Code", "Delay Time", "Total Delay", "ATA - ATD", "Delay Remarks" };
 	
 	
-	private static short[]  sortedByDelayCodesWidthsList = {3000, 2500, 3000, 2500,
+	private static final short[]  sortedByDelayCodesWidthsList = {3000, 2500, 3000, 2500,
 															2000, 2000, 2500, 2500,
 															2500, 2500, 2500, 2500,
 															2500, 3000, 10000,
@@ -440,7 +440,7 @@ private void createCancleFlightSheet(CellStyle style,HSSFWorkbook workbook, int 
 
 
 //----------------- This Will Create Sheet With the Delay Code only ------------------------------- 
-private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int rowNumber, String sql,Properties p )throws Exception,IOException, ParseException{
+private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int rowNumber, String sql,Properties p )throws Exception {
 
 	HSSFSheet sheet =  workbook.createSheet( "Report - All Delayed Flights");
 	setPrintSetup(sheet);
@@ -573,7 +573,7 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 
 	@Override
 	public int Populate_Delay_Report_ExcelFormat(String airline, String airport, String flightdate , String useremail)
-			throws IOException, ParseException, Exception {
+			throws Exception {
 
 		
 		    String[] delayFlightReportTitlesList = {"Flight Date", "Flight No.","A/C Reg.",

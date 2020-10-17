@@ -1,55 +1,32 @@
 package com.linkportal.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
+
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import com.linkportal.airLineManager.airDataManager;
+import com.linkportal.airLineManager.airLineEntity;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
-import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.dbripostry.linkUsers;
 import com.linkportal.docmanager.DocumentService;
 import com.linkportal.fltreport.flightReports;
-import com.linkportal.graphreport.piechart;
-import com.linkportal.groundops.gopsAllapi;
-import com.linkportal.groundops.refisUsers;
-import com.linkportal.reports.excel.ReportMaster;
-import com.linkportal.security.EncryptDecrypt;
-
+import com.linkportal.smsreportusers.smsConsumerEntity;
+import com.linkportal.smsreportusers.smsConsumerService;
 
 
 
@@ -69,12 +46,16 @@ public class groundOpsController2 {
 	@Autowired
 	DocumentService  docserv;
 	
-	/*
-	 * @Autowired smsConsumerRepos sms;
-	 */      
+	
+	 @Autowired 
+	 smsConsumerService smsSrvObj;
+
+	 @Autowired
+	 airDataManager airObj;
+	 
 	
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(HomeController.class);
+	private final Logger logger = Logger.getLogger(HomeController.class);
 	
 
     //*********************** FLIGHT REPORT SECTION ***********************
@@ -86,7 +67,7 @@ public class groundOpsController2 {
 		   Date today                     = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		   Calendar                     c = Calendar.getInstance();  
-		   String todaydate               = (String)(formattedDate.format(c.getTime()));
+		   String todaydate               = formattedDate.format(c.getTime());
 		   model.put("datop",todaydate);	        
    	       model.put("airlinecode",req.getParameter("airlinecode").toLowerCase());
  	       //model.addAttribute("airlinereg",req.getParameter("airlinereg").toLowerCase());
@@ -119,13 +100,14 @@ public class groundOpsController2 {
 
 	
 	
+	
+	
 	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
 		@RequestMapping(value = "/addwtstatement",method = {RequestMethod.POST,RequestMethod.GET}) 
 		public String addGroundOpsWeightstatement(@RequestParam("gfile") MultipartFile[] files,HttpServletRequest req,ModelMap model) throws Exception{
 		
         
 	   	       model.put("airlinecode",req.getParameter("airlinecode").toLowerCase());
-	 	       //model.addAttribute("airlinereg",req.getParameter("airlinereg").toLowerCase());
 	 	    
 	   	       
 	            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinereg"),req.getParameter("emailid")));		
@@ -171,41 +153,198 @@ public class groundOpsController2 {
 			model.put("usertype",req.getParameter("usertype"));	
 			
 			
+			
+			
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("operation") != null){	
 				
 				//--Add new user form --
 				if(req.getParameter("operation").equals("addnew")) {callingPage="groundoperation/smscontacts/updateSmsUser";}
 				
-				
 				//--Update User Form --
-				if(req.getParameter("operation").equals("updateexisting")) {
+				if(req.getParameter("operation").equals("updateexisting")){					
+					smsConsumerEntity smsUserObj = smsSrvObj.findSmsUser(req.getParameter("userinsubject"));					
+					model.put("smsUserEntity",smsUserObj); 
 					callingPage="groundoperation/smscontacts/updateSmsUser";
 				}
-	
 				
-				//-- Save User Detail to DB 
-				if(req.getParameter("operation").equals("save")) {					
-					System.out.println("Write Update Database Query");
-					operationStatus="User Updated Successfully";					
+	       			
+				//-- Add / Update  User Detail to the Database  
+				if(req.getParameter("operation").equals("save")) {	
+					
+					if(req.getParameter("userinsubject").length() > 0){
+						smsSrvObj.updateSmsUser(req);
+						operationStatus="User Updated";
+					}
+					else
+					{
+						smsSrvObj.addSmsUser(req);
+						operationStatus="User Created";
+					}
+					
+					callingPage="groundoperation/smscontacts/manageSmscontacts";
 				}							
 	
+				
 				//-- Remove User from the list
 				if(req.getParameter("operation").equals("remove")) {					
-					System.out.println("Remove User");
+					smsSrvObj.removeSmsUser(req.getParameter("userinsubject"));
 					operationStatus="User Removed.";
 				}
-				
-				
-				model.put("operationStatus",operationStatus);						
-				
-			}	    
+				model.put("operationStatus",operationStatus);
+			}
+		
+			model.put("listSmsUser",smsSrvObj.listSmsUser());
 		    
 		return callingPage;
 	
 	}
 	
 
+	
+	
+
+	//****************** AIRLINE ACCOUNT DATA MANAGMENT ***********************************************
+	@RequestMapping(value = "/manageairlinedata",method = {RequestMethod.POST,RequestMethod.GET})
+	public String manageAirline(HttpServletRequest req, ModelMap model) throws Exception {	
+		    String operationStatus="";
+		    String callingPage="groundoperation/airline/manageAirline";
+			model.addAttribute("emailid",req.getParameter("emailid"));
+			model.addAttribute("password",req.getParameter("password"));	
+			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
+			model.put("usertype",req.getParameter("usertype"));	
+			
+			
+			
+			
+			//--------- Start Remove Operation -------------------- 
+			if(req.getParameter("operation") != null){	
+				
+				//--Add new user form --
+				if(req.getParameter("operation").equals("addnew")) {callingPage="groundoperation/airline/updateAirlineData";}
+				
+				
+				//--Update Airline Form --
+				if(req.getParameter("operation").equals("updateexisting")){					
+					airLineEntity airData = airObj.findAirline(req.getParameter("userinsubject"));					
+					model.put("airlineEntity",airData); 
+					callingPage="groundoperation/airline/updateAirlineData";
+				}
+				
+	       			
+				//-- Add / Update  User Detail to the Database  
+				if(req.getParameter("operation").equals("save")) {	
+					
+					if(req.getParameter("userinsubject").length() > 0){
+						if(airObj.updateAirline(req)) {operationStatus="Updated";}else {operationStatus="Not Updated !!";}						
+					}
+					else
+					{
+						airObj.addAirLine(req);
+						operationStatus="Airline Created";
+					}
+					
+					callingPage="groundoperation/airline/manageAirline";
+				}							
+	
+				
+				//-- Remove User from the list
+				if(req.getParameter("operation").equals("remove")) {					
+					airObj.removeAirLine(req.getParameter("userinsubject"));
+					operationStatus="Airlin Removed.";
+				}
+				model.put("operationStatus",operationStatus);
+			}
+		
+			model.put("listAirline",airObj.listAirLineData());
+		    
+		return callingPage;
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+
+	//****************** CREW BRIEFING MANAGMENT ***********************************************
+	@RequestMapping(value = "/managecrewbriefing",method = {RequestMethod.POST,RequestMethod.GET})
+	public String manageCrewbriefing(HttpServletRequest req, ModelMap model) throws Exception {	
+		    String operationStatus="";
+		    String callingPage="groundoperation/crewbreafing/managecrewbreafing";
+			model.addAttribute("emailid",req.getParameter("emailid"));
+			model.addAttribute("password",req.getParameter("password"));	
+			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
+			model.put("usertype",req.getParameter("usertype"));	
+			
+			
+			
+			//--------- Start Remove Operation -------------------- 
+			if(req.getParameter("operation") != null){	
+				
+				//--Add new user form --
+				if(req.getParameter("operation").equals("addnew")) {callingPage="groundoperation/crewbreafing/managecrewbreafing";}
+				
+				
+				//--Update Airline Form --
+				if(req.getParameter("operation").equals("updateexisting")){					
+					airLineEntity airData = airObj.findAirline(req.getParameter("userinsubject"));					
+					model.put("airlineEntity",airData); 
+					callingPage="groundoperation/crewbreafing/managecrewbreafing";
+				}
+				
+	       			
+				//-- Add / Update  User Detail to the Database  
+				if(req.getParameter("operation").equals("save")) {	
+					
+					if(req.getParameter("userinsubject").length() > 0){
+						if(airObj.updateAirline(req)) {operationStatus="Updated";}else {operationStatus="Not Updated !!";}						
+					}
+					else
+					{
+						airObj.addAirLine(req);
+						operationStatus="Airline Created";
+					}
+					
+					callingPage="groundoperation/crewbreafing/managecrewbreafing";
+				}							
+	
+				
+				//-- Remove User from the list
+				if(req.getParameter("operation").equals("remove")) {					
+					airObj.removeAirLine(req.getParameter("userinsubject"));
+					operationStatus="Airlin Removed.";
+				}
+				model.put("operationStatus",operationStatus);
+			}
+		
+			model.put("listAirline",airObj.listAirLineData());
+		    
+		return callingPage;
+	
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 } //---- END OF CONTROLLER CLASS ----------

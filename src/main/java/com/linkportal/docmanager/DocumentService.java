@@ -3,13 +3,25 @@ package com.linkportal.docmanager;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.concurrent.TimeUnit;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,6 +32,7 @@ import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.maven.model.building.FileModelSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -28,10 +41,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import com.google.common.base.Strings;
 import com.linkportal.exception.xmlToExcelInvoiceConversionException;
-import com.linkportal.exceptions.RecordNotFoundException;
+import com.google.common.base.Strings;
 import com.linkportal.docmanager.xmlFileConverterToExcel;
 
 @Service
@@ -39,14 +50,14 @@ public class DocumentService {
 
 	@Autowired
 	documentManager repository;
+	
+	
+	@Value("${groundops.documentroot.folder}")
+	private String gopsRootFolder;
 
 	public boolean addUploadFiletoDatabaseAndFolder(HttpServletRequest req, MultipartFile file)
 			throws IOException, SQLException {
-		if (repository.addDocumentToFolder(req, file)) {
-			return true;
-		} else {
-			return false;
-		}
+		return repository.addDocumentToFolder(req, file);
 	}
 
 	public List<DocumentEntity> getAllDocuments(HttpServletRequest req, String department) {
@@ -63,6 +74,65 @@ public class DocumentService {
 		return result;
 	}
 
+	
+	
+	//--- This will display all Alfresco documents as per parameter folder name and all 
+	public List<DocumentEntity> listAlfrescoDocumets(String sourceFolder,String cataogery){
+		
+		
+		//----Getting Content of the folder
+		List<String> documentList = repository.listFolder(sourceFolder);
+		
+		
+		//https://www.geeksforgeeks.org/custom-arraylist-java/
+		List<DocumentEntity> listDoc = new ArrayList<DocumentEntity>();
+		
+		if(documentList != null) {			
+			for(String tempFileName : documentList) {
+				listDoc.add(new DocumentEntity(1, tempFileName, tempFileName,getFileExtension(tempFileName) 
+						,sourceFolder, cataogery, cataogery, getFileCreationDate(gopsRootFolder+sourceFolder+tempFileName), tempFileName));
+			
+			}
+		
+		}
+		
+		return listDoc;
+		
+	}
+	
+	
+
+	
+	// ------- Return File Creation Date...
+	public String getFileCreationDate(String fileName) {
+		File file = new File(fileName);
+		Path filePath = file.toPath();
+
+		BasicFileAttributes attributes = null;
+
+		String fileCreationDate = null;
+
+		try {
+			attributes = Files.readAttributes(filePath, BasicFileAttributes.class);
+
+		} catch (IOException exception) {
+			exception.getMessage();
+		}
+
+		long milliseconds = attributes.creationTime().to(TimeUnit.MILLISECONDS);
+		if ((milliseconds > Long.MIN_VALUE) && (milliseconds < Long.MAX_VALUE)) {
+			Date creationDate = new Date(attributes.creationTime().to(TimeUnit.MILLISECONDS));
+			fileCreationDate = creationDate.getDate() + "-" + (creationDate.getMonth() + 1) + "-"
+					+ (creationDate.getYear() + 1900);
+		}
+
+		return fileCreationDate;
+
+	}	
+	
+	
+	
+	
 	// -------- For the Fuel Invoice XML to EXCEL Conversion -------
 	public boolean convertXmltoExcelFormat(HttpServletRequest req, MultipartFile[] files) throws IOException,
 			SQLException, xmlToExcelInvoiceConversionException, ParserConfigurationException, SAXException {
@@ -73,11 +143,14 @@ public class DocumentService {
 		if (validateFormEntity(req, files)) {
 			methodStatus = repository.convertMultipleXmlfiletoExcelFile(req, files);
 		}
-
 		return methodStatus;
-
 	}
 
+	
+	
+	
+	
+	
 	boolean validateFormEntity(HttpServletRequest req, MultipartFile[] files)
 			throws xmlToExcelInvoiceConversionException, ParserConfigurationException, SAXException, IOException {
 
@@ -109,12 +182,16 @@ public class DocumentService {
 
 	
 	
+	
+	
 	String getFileExtension(String fullName) {
 		String fileName = new File(fullName).getName();
 		int dotIndex = fileName.lastIndexOf('.');
 		return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
 	}
 
+	
+	
 	
 	
 	
@@ -148,6 +225,9 @@ public class DocumentService {
 		return findSupplierStatus;
 	}
 
+	
+	
+	
 	public File getTempFile(MultipartFile multipartFile) throws IOException {
 		CommonsMultipartFile commonsMultipartFile = (CommonsMultipartFile) multipartFile;
 		FileItem fileItem = commonsMultipartFile.getFileItem();
@@ -164,4 +244,17 @@ public class DocumentService {
 
 		return file;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

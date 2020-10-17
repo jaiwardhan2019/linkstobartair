@@ -37,7 +37,7 @@ public class DocumentEntity {
 			this.docAddedDate = docAddedDate;
 			this.docAddedbyName = docAddedbyName;
 		}
-
+	  
 		public int getDocId() {
 		       return docId;
 	    }

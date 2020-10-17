@@ -37,7 +37,7 @@ public class manageStobartContractImp implements manageStobartContract {
 
 	JdbcTemplate jdbcTemplateRefis;
 
-	private Logger logger = Logger.getLogger(manageStobartContractImp.class);
+	private final Logger logger = Logger.getLogger(manageStobartContractImp.class);
 
 	public manageStobartContractImp(DataSource dataSourcesqlservercp) {
 

@@ -45,7 +45,7 @@ public class ajaxRestControllerFinance {
 	
 
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(HomeController.class);
+	private final Logger logger = Logger.getLogger(HomeController.class);
 	
 
 	//-------THis Will be Called when link is clicked form the Header ----------------- 
@@ -68,7 +68,7 @@ public class ajaxRestControllerFinance {
 	//-------THis Will be Called when Convert Invoice Button will be clicked ----------------- 
 	@RequestMapping(value = "/convertXmltoExcelandDownload", method = { RequestMethod.POST, RequestMethod.GET }, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
 	public ModelAndView convert_Xml_Excel_Download(@RequestParam("cfile") MultipartFile[] files, HttpServletRequest req,
-			ModelMap model) throws Exception, xmlToExcelInvoiceConversionException {		
+			ModelMap model) throws Exception {
 		
 
 		model.put("profilelist", req.getSession().getAttribute("profilelist"));

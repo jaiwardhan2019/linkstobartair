@@ -82,9 +82,9 @@ function calHomePage(){
 
 
 
-function calRefisReport(reportname){
+function calRefisReport(reportname,category){
 	document.refisheader.method="POST";
-	document.refisheader.action=reportname;
+	document.refisheader.action=reportname+"?cat="+category;
     document.refisheader.submit();
 	return true;
 }
@@ -381,8 +381,8 @@ function CalGopsSmsUserManager(){
 					  <a href="refisadmin" onmouseover="this.click()" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-md" aria-hidden="true"></i>&nbsp;&nbsp;Admin <span class="caret"></span></a>
 					  
 						  <ul class="dropdown-menu" style="left:0;width:200px;">
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managegopssuser');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;REFIS User Manager</a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managesmscontacts');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;SMS Contacts Manager</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managegopssuser','Manage Refis Users');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;REFIS User Manager</a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managesmscontacts','SMS Report Users');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;SMS Contacts Manager</a></li>
                                 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('manageairlinedata');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Airline Data Manager</a></li>
 					       		
 					       		<!-- 
@@ -429,8 +429,6 @@ function CalGopsSmsUserManager(){
   
   <c:if test="${usertype == 'I'}">
      <a onclick="cal_groundops_home('I');" href="javascript:void();"> <h5 style="font-weight:600;color:#0071ba;"><i class="fa fa-home"></i> Ground Ops</h5></a>
-     
-        
   </c:if>
   
   <c:if test="${usertype == 'E'}">

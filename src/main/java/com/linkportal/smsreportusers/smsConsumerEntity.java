@@ -1,28 +1,43 @@
-package com.linkportal.smsReportUsers;
+package com.linkportal.smsreportusers;
 
 public class smsConsumerEntity {
 	
 	
     //--------- All Variable Declaration And Mapping with the Table--------------
-    
+	private int userId;
     private String mgmtGroup;
     private String firstName;
     private String lastName;
     private String phoneNo;
-    private String addedBy;
+    private final String addedBy;
     private String addedDate;
 
-    
-    
-	public smsConsumerEntity(String mgmtGroup, String firstName, String lastName, String phoneNo, String addedBy,
-			String addedDate) {
+
+
+
+	public smsConsumerEntity(int userId, String mgmtGroup, String firstName, String lastName, String phoneNo,
+			String addedBy, String addedDate) {
 		super();
+		this.userId = userId;
 		this.mgmtGroup = mgmtGroup;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNo = phoneNo;
 		this.addedBy = addedBy;
 		this.addedDate = addedDate;
+	}
+
+	
+	
+	
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 
@@ -86,14 +101,18 @@ public class smsConsumerEntity {
 	}
 
 
+
+
+
 	@Override
 	public String toString() {
-		return "smsConsumerDto [mgmtGroup=" + mgmtGroup + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", phoneNo=" + phoneNo + ", AddedBy=" + addedBy + ", addedDate=" + addedDate + ", getMgmtGroup()="
-				+ getMgmtGroup() + ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName()
-				+ ", getPhoneNo()=" + getPhoneNo() + ", getAddedBy()=" + getAddedBy() + ", getAddedDate()="
-				+ getAddedDate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+		return "smsConsumerEntity [userId=" + userId + ", mgmtGroup=" + mgmtGroup + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", phoneNo=" + phoneNo + ", addedBy=" + addedBy + ", addedDate="
+				+ addedDate + ", getUserId()=" + getUserId() + ", getMgmtGroup()=" + getMgmtGroup()
+				+ ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName() + ", getPhoneNo()="
+				+ getPhoneNo() + ", getAddedBy()=" + getAddedBy() + ", getAddedDate()=" + getAddedDate()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
 	}
 
 

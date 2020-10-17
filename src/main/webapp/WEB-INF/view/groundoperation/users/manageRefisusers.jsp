@@ -19,22 +19,10 @@
 function searchUser(){
 
 
-	  var userid = document.getElementById("user").value.trim();
-      if(userid == ''){
-	      alert("Please Enter User First Name , Last Name or Anything you remember.");
-	      document.getElementById("user").focus();
-	      return false;
-	  }
-      else
-      {
-
     	  document.refieUser.method="POST";
 		  document.refieUser.action="managegopssuser";
 	      document.refieUser.submit();
 		  return true;
-
-       }
-          
              
 
 }
@@ -128,24 +116,43 @@ function add_new_user(){
 
 	 		 
   <table  style="width: 80%;" align="center">
-	  <tr>
-	  			    <td  align="right" width="40%">	  			
-						<input autofocus  type="text" name="user"  id="user"  class="form-control"    placeholder="Enter First Name or Last Name"/>
-		        	</td>
-					<td align="left">
-						&nbsp;&nbsp; <span onClick="searchUser();" id="buttonDemo1" class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Search </span> 
-					    &nbsp;&nbsp;<span style="color:white;font-weight:bold;">${status}</span> 
-					</td>
-					
-			        
+  
+        <c:set var = "rowcount"  value = "${fn:length(status)}"/>
+		<c:if test = "${rowcount > 0}">
+	           <tr>
+	              <td colspan="3" align="center">	    
+		           ${status}
+		           </td> 
+		       </tr>    
 		
-		  <td align="right"> 
-		       
-        		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New User  </span> 
-		 
-		  </td>
+		</c:if>
+       
+  
+	  <tr>
+	  
+	  
+	  <td> <font size="4">Manage External REFIS User </font></td>
+	  
+	        <td  align="right" width="30%">	  			
+				<input autofocus  type="text" name="user"  id="user"  class="form-control"    placeholder="Enter First Name or Last Name"/>
+	       	</td>
+
+			<td align="left">
+				&nbsp;&nbsp; <span onClick="searchUser();" id="buttonDemo1" class="btn btn-primary" ><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Search </span> 
+			   
+			</td>
+		
+			  <td align="right"> 
+			       
+	        		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New User  </span> 
+			 
+			  </td>
 
 	   </tr>
+	   
+	
+	   
+	   
 	
 			
  </table>	

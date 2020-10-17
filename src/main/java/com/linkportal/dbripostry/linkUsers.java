@@ -9,34 +9,34 @@ import com.linkportal.datamodel.Users;
 
 public interface linkUsers {
 	
-	   public void updateUser_detail_LastLoginDateTime(String useremail);
+	   void updateUser_detail_LastLoginDateTime(String useremail);
 	   
-	   public Map getUser_Profile_List_From_DataBase(String useremail);
+	   Map getUser_Profile_List_From_DataBase(String useremail);
 	   
-	   public List getLinkUserListFromDatabase(String username);
+	   List getLinkUserListFromDatabase(String username);
 	  
-	   public Users getLinkUserDetails(String emailid);	
+	   Users getLinkUserDetails(String emailid);
 
-	   public  String[] getUserpProfileAndLinkProfile(String emailid);
+	   String[] getUserpProfileAndLinkProfile(String emailid);
 	   
-	   public  String[] getUserpProfileandAllgroundopsProfile(String emailid);
-	   
-	   
+	   String[] getUserpProfileandAllgroundopsProfile(String emailid);
 	   
 	   
-	   public boolean Validate_External_User(String username, String password);  
+	   
+	   
+	   boolean Validate_External_User(String username, String password);
 	   
          
-	   public  void UpdateUserpProfileAndActiveStatustoDataBase(String emailid,String activestatus,String adminstatus);
+	   void UpdateUserpProfileAndActiveStatustoDataBase(String emailid, String activestatus, String adminstatus);
 	   
-	   public  void UpdateLinkProfiletoDataBase(String emailid,String activestatus,String adminstatus, List alllinkprof);
+	   void UpdateLinkProfiletoDataBase(String emailid, String activestatus, String adminstatus, List alllinkprof);
 	   
-	   public  void RemoveUserpProfileAndLinkProfiletoDataBase(String emailid,List alllinkprof);
+	   void RemoveUserpProfileAndLinkProfiletoDataBase(String emailid, List alllinkprof);
 	   
 	   
 
 	   
-	   public  void  UpdateGopsProfiletoDataBase(String emailid , List alllinkprof);
+	   void  UpdateGopsProfiletoDataBase(String emailid, List alllinkprof);
 	   
 	
 	   

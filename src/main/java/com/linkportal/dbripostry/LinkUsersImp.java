@@ -53,7 +53,7 @@ public class LinkUsersImp implements linkUsers{
 
 
 	    //---------- Logger Initializer------------------------------- 
-		private Logger logger = Logger.getLogger(LinkUsersImp.class);
+		private final Logger logger = Logger.getLogger(LinkUsersImp.class);
 	
 	
 
@@ -361,9 +361,9 @@ public class LinkUsersImp implements linkUsers{
 		  try {
 			  
 		  String sqlForUser = "SELECT gh_password FROM  LINK_USER_MASTER where active_status='Active' and  FIRST_NAME=?"; 		  
-		  String password   = (String) jdbcTemplatSqlserver.queryForObject(sqlForUser, new Object[] { username }, String.class);			  
+		  String password   = jdbcTemplatSqlserver.queryForObject(sqlForUser, new Object[] { username }, String.class);
 		  String decrypted  = encdec.decrypt(password);
-		  if(decrypted.equals(ghpassword)) {return true;} else {return false;}
+			  return decrypted.equals(ghpassword);
 		  
 		  }catch(Exception dbex) {					  
 			  logger.error("Ground Handler User Id:"+username+" is Not Validated:"+dbex.toString());

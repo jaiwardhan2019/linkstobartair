@@ -263,7 +263,7 @@ public class fligthSectorLog implements Serializable{
 	
 	
 	//------  USED IN THE VIEW JSP PAGE ---------------------------------
-	public  List<String> getFlightNoteRemarks() throws IOException, ParseException, Exception {
+	public  List<String> getFlightNoteRemarks() throws Exception {
 	        
 		
 			 ClassLoader classLoader = this.getClass().getClassLoader();
@@ -292,7 +292,7 @@ public class fligthSectorLog implements Serializable{
 	
 	
 	//------  USED FOR EXCEL REPORT ---------------------------------
-	public  String getFlightNoteRemarks_For_Excel() throws IOException, ParseException, Exception {
+	public  String getFlightNoteRemarks_For_Excel() throws Exception {
 	        
 		
 			 ClassLoader classLoader = this.getClass().getClassLoader();

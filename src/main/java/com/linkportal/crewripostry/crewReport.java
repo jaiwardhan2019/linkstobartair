@@ -7,9 +7,9 @@ import com.linkportal.datamodel.crewFlightRoster;
 
 public interface crewReport {
 
-	public List<crewDetail>  showCrewList(String datop);
+	List<crewDetail>  showCrewList(String datop);
 	
-	public List<crewFlightRoster>  showCrewFlightSchedule(String crewid, String datop);
+	List<crewFlightRoster>  showCrewFlightSchedule(String crewid, String datop);
 	
 	
 	

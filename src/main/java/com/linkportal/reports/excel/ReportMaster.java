@@ -9,13 +9,13 @@ public interface ReportMaster {
 	
 
     //----------- This Will Generate Excel Report --------------------------------------	
-	public int Populate_Reliablity_Report_ExcelFormat(String airline,String airport,
-			String startDate,String endDate,String tolerance ,String delayCodeGroupCode , String useremai) throws  IOException, ParseException, Exception ;
+    int Populate_Reliablity_Report_ExcelFormat(String airline, String airport,
+                                               String startDate, String endDate, String tolerance, String delayCodeGroupCode, String useremai) throws Exception ;
 	
 
 
     //----------- This Will Generate Excel Report --------------------------------------	
-	public int Populate_Delay_Report_ExcelFormat(String airline,String airport, String flightdate , String emailid) throws  IOException, ParseException, Exception ;
+    int Populate_Delay_Report_ExcelFormat(String airline, String airport, String flightdate, String emailid) throws Exception ;
 
 	
 

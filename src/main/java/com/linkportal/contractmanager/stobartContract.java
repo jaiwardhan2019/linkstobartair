@@ -389,7 +389,7 @@ public class stobartContract {
 
 
 	//--------- THIS FUNCTION WILL SHOW THE NO OF FILE IN THE ONTRACT FOLDER -----------------------------
-	public int getFilesCount() throws IOException, NotDirectoryException {	    
+	public int getFilesCount() throws IOException {
 		   int fileCount=0;
 		   String rootdirectory = new java.io.File( "/" ).getCanonicalPath();
 		   File directory=new File(rootdirectory+"/data/stobart_contract/"+this.refrence_no);

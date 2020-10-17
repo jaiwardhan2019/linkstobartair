@@ -32,7 +32,6 @@ function add_new_user(){
 
 
 function update_user(){
-
 	
 	var firstname = document.getElementById("firstname").value;
 	var lastname  = document.getElementById("lastname").value;
@@ -96,7 +95,7 @@ function update_user(){
   <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" name="operation" id="operation" value="">
-  <input type="hidden" name="userinsubject" id="userinsubject"  value="${gopsuserdetail.username}">
+  <input type="hidden" name="userinsubject" id="userinsubject"  value="${smsUserEntity.userId}">
 
   <table  border="0" style="width: 50%;" align="center"> 
 		     <tr>
@@ -127,7 +126,7 @@ function update_user(){
 							<label> First Name </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
-										<input type="text"  name="firstname" id="firstname" class="form-control" value="">					
+										<input type="text"  name="firstname" id="firstname" class="form-control" value="${smsUserEntity.firstName}">					
 												
 							</div>
 				    </div>
@@ -142,7 +141,7 @@ function update_user(){
 							<label  >Last Name</label>  
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></span>
-										<input type="text"   name="lastname" id="lastname" class="form-control"  value="">										
+										<input type="text"   name="lastname" id="lastname" class="form-control"  value="${smsUserEntity.lastName}">										
 							</div>
 				    </div>
 		           </td>
@@ -158,7 +157,7 @@ function update_user(){
 							<label >Phone no </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-									<input type="text"  name="phoneno"  id="phoneno" value="" class="form-control" >  										
+									<input type="text"  name="phoneno"  id="phoneno" value="${smsUserEntity.phoneNo}" class="form-control" >  										
 							</div>
 			            </div>
 	               </td>
@@ -169,9 +168,9 @@ function update_user(){
 							<label>Group </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="status" name="status" class="form-control" onchange="view_contract()" >	
-                                               <option value="Active" <c:if test ="${gopsuserdetail.enabled == 'Active'}"> selected </c:if> > -  Management - </option>
-                                               <option value="Dactive" <c:if test ="${gopsuserdetail.enabled == 'Dactive'}"> selected </c:if> > -  General - </option>     					
+										<select id="department" name="department" class="form-control" onchange="view_contract()" >	
+                                               <option value="Management" <c:if test ="${smsUserEntity.mgmtGroup == 'Management'}"> selected </c:if> > -  Management - </option>
+                                               <option value="General" <c:if test ="${smsUserEntity.mgmtGroup == 'General'}"> selected </c:if> > -  General - </option>     					
 										</select>
 							</div>	
 						</div>

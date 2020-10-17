@@ -38,7 +38,7 @@ public class staffTravelControler {
 
 	
     //---------- Logger Initializer------------------------------- 
-	private Logger logger = Logger.getLogger(staffTravelControler.class);
+	private final Logger logger = Logger.getLogger(staffTravelControler.class);
 	
 	
 	

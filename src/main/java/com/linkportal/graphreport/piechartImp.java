@@ -238,7 +238,7 @@ public class piechartImp implements piechart{
 		    
 		    
 		    //-------- IF  GH USER is Selected then Populate their assign Airport /  Airline  
-		    boolean StobartUser         = useremail.indexOf("@stobartair.com") !=-1? true: false;	
+		    boolean StobartUser         = useremail.indexOf("@stobartair.com") != -1;
 		    if(!StobartUser) {		    	
 	    	  
 		      String eligibleAirportlist ="";  

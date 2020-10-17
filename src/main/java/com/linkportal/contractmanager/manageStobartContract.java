@@ -13,36 +13,36 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface manageStobartContract {
 	
-	public List<stobartContract> showAllContract(String emailid,String dept,String subdept, String cdetail , String isarchived);
+	List<stobartContract> showAllContract(String emailid, String dept, String subdept, String cdetail, String isarchived);
 
-	public stobartContract viewContract(String crefno, String useremail);
+	stobartContract viewContract(String crefno, String useremail);
 	
-	public stobartContract renewContract(String crefno , String emailid)throws SQLException;
+	stobartContract renewContract(String crefno, String emailid)throws SQLException;
 	
-	public String populate_Department(String usremail ,String dept)throws SQLException;
+	String populate_Department(String usremail, String dept)throws SQLException;
 	
-	public String populate_SubDepartment(String usremail,String dept,String subdept)throws SQLException;
+	String populate_SubDepartment(String usremail, String dept, String subdept)throws SQLException;
 	
 	
-	public int addNewContract(HttpServletRequest req)throws SQLException;       // Will add new  contract to the database     return 1 means success
+	int addNewContract(HttpServletRequest req)throws SQLException;       // Will add new  contract to the database     return 1 means success
 	
-	public int updateNewContract(HttpServletRequest req)throws SQLException;    // Will update new  contract to the database  return 1 means success
+	int updateNewContract(HttpServletRequest req)throws SQLException;    // Will update new  contract to the database  return 1 means success
 	
-	public void removeContract(String crefno);       // Will remove contract from database     return 1 means success  
+	void removeContract(String crefno);       // Will remove contract from database     return 1 means success
 	
-	public List<String> showFilesFromFolder(String foldername);
+	List<String> showFilesFromFolder(String foldername);
 	
-	public boolean removeFolderWithallFile(File foldername);	
+	boolean removeFolderWithallFile(File foldername);
 
 	
-	public List<contractProfile> showProfileListOfUser(String useremailid); 
+	List<contractProfile> showProfileListOfUser(String useremailid);
 	
-	public int addNewContractProfiletoUser(HttpServletRequest req)throws SQLException;
+	int addNewContractProfiletoUser(HttpServletRequest req)throws SQLException;
 	
-	public void removeContractProfileofUser(int profileid, String useremailid)throws SQLException;
+	void removeContractProfileofUser(int profileid, String useremailid)throws SQLException;
 	
 	
-	public void appenFiletoDataBase(HttpServletRequest req,@RequestParam("photo") MultipartFile file)throws IOException, ServletException,SQLException;
+	void appenFiletoDataBase(HttpServletRequest req, @RequestParam("photo") MultipartFile file)throws IOException, ServletException,SQLException;
 	
 	
 	

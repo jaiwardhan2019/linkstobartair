@@ -6,9 +6,9 @@ package com.linkportal.beans;
 
 public class businessAreaData {
 	
-	private String content_header;
-	private String content_text;
-	private String users;
+	private final String content_header;
+	private final String content_text;
+	private final String users;
 	
 	
 	public businessAreaData(String content_header,String content_text,String users) {

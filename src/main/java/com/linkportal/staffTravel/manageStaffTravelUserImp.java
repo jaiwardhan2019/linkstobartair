@@ -41,7 +41,7 @@ public class manageStaffTravelUserImp implements manageStaffTravelUser {
 
 	    
 	    //---------- Logger Initializer------------------------------- 
-	    private Logger logger = Logger.getLogger(manageStaffTravelUserImp.class);
+	    private final Logger logger = Logger.getLogger(manageStaffTravelUserImp.class);
 
 	
 	    

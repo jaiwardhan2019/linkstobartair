@@ -6,11 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface manageStaffTravelUser {	
 	
-	public List<staffTravelUsers> showStaffTravelUsers();	
+	List<staffTravelUsers> showStaffTravelUsers();
 	
-	public List<staffTravelUsers> searchStaffTravelUsers(String name);
+	List<staffTravelUsers> searchStaffTravelUsers(String name);
 	
-	public int removeStaff_FromDb(int accountid, String name);
+	int removeStaff_FromDb(int accountid, String name);
 
 	
 }
