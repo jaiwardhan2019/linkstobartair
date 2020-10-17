@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -37,30 +38,29 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@ComponentScan(basePackages = { "com.linkportal.docmanager","com.linkportal.security.UserSecurityLdapDatabase","com.flightreports.dbripostry.flightReports"})
 //@ComponentScan(basePackages = { "com.linkportal.docmanager" })
-//@ComponentScan(basePackages = {"com.linkportal.smsreportconsumer.smsConsumerRepos","com.linkportal.smsreportconsumer.smsConsumerDto"})
 
 @Configuration
 public class InfrastructureConfig{
       
 	
 	
+		
+		//------- PDC DB----------------
+		@Bean(name = "dataSourcesqlserver")
+		@ConfigurationProperties(prefix = "sqlserver.datasource")
+		public DataSource dataSourcesqlserver() {
+	 	       return DataSourceBuilder.create().build();
+		}
+		
 	
-	//------- PDC DB----------------
-	@Bean(name = "dataSourcesqlserver")
-	@ConfigurationProperties(prefix = "sqlserver.datasource")
-	public DataSource dataSourcesqlserver() {
- 	       return DataSourceBuilder.create().build();
-	}
 	
-	
-
-	//------- LINK PORTAL----------------
-	@Bean(name = "dataSourcesqlservercp")
-	@ConfigurationProperties(prefix = "cpsqlserver.datasource")
-	public DataSource dataSourcesqlservercp() {
- 	       return DataSourceBuilder.create().build();
-	}
-	
+		//------- LINK PORTAL----------------
+		@Bean(name = "dataSourcesqlservercp")
+		@ConfigurationProperties(prefix = "cpsqlserver.datasource")
+		public DataSource dataSourcesqlservercp() {
+	 	       return DataSourceBuilder.create().build();
+		}
+		
 	
 
 	
@@ -81,7 +81,7 @@ public class InfrastructureConfig{
 	  }
 
 	 
-	 
+	
 	
 	 
 }
