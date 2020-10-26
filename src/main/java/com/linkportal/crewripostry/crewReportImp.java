@@ -1,7 +1,10 @@
 package com.linkportal.crewripostry;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -105,16 +108,26 @@ public class crewReportImp implements crewReport{
 
 		@Override
 		public List<crewFlightRoster> showCrewFlightSchedule(String crewid, String datop) {
-			
 			   List crewflightrost =  jdbcTemplate.query("",new crewDetailRowmapper());
-			   
-			   
-			   
-			
-			// TODO Auto-generated method stub
-			
-			
 			return null;
+		}
+
+
+
+
+		@Override
+		public List<crewDetail> showCrewCaptionFirstOfficer() {
+		
+			//------ BUILTING TODAY AND TOMORROW VARRIABLE ------------
+		    Date today = new Date();               
+			SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();  
+			String todaydate = formattedDate.format(c.getTime());
+		
+			String sqlstr="select DISTINCT CREW_NO , CREW_NAME , POSITION from crewinfo where  POSITION in('CAPT','FO') and DATOP='"+todaydate+"' order by CREW_NAME";
+			   //System.out.println(sqlstr);
+			   List  linkusers = jdbcTemplate.query(sqlstr,new crewDetailRowmapper());
+			  return linkusers;
 		}
 
 		

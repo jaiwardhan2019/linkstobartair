@@ -59,13 +59,12 @@ function calDocumentUpdate(reportname){
 
 <body>
 
- 
- <form name="documentmaster" id="documentmaster">   
+ <form name="documentmaster" id="documentmaster" enctype="multipart/form-data">   
   
   <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
   <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
-  <input type="hidden" id="cat" value="<%=request.getParameter("cat")%>">
+  <input type="hidden" name="cat" id="cat" value="<%=request.getParameter("cat")%>">
  
  <br>
  <br>		
@@ -102,15 +101,17 @@ function calDocumentUpdate(reportname){
 						<li><a data-toggle="pill" href="#dynamicmenu2">Token Maintenance</a></li>
 						<li><a data-toggle="pill" href="#dynamicmenu3">Config Update</a></li>
 					</ul>
-					
+
+
+					<!-- FIRST TAB -->					
 					<div class="tab-content">
 						<div id="dynamicmenu1" align="left" class="tab-pane fade in active">
 						<br>
 										
-				       <table class="table table-bordered" border="1" style="width: 50%;" align="left">	    
+				       <table class="table table-bordered" border="1" style="width: 50%;" align="center">	    
 				    			<tbody>				     
 							     
-			     		   <tr>
+			     		     <tr>
 								   <td style="padding: 05px;">								          
 								   			   <label>Search By Crew Member </label>
 									
@@ -125,8 +126,13 @@ function calDocumentUpdate(reportname){
 											
 												<span class="input-group-addon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>								
 														<select id="status" name="status" class="form-control" onchange="view_contract()" >	
-     	   	                                                   <option value="Enable" <c:if test ="${airlineEntity.status == 'Enable'}"> selected </c:if> > -  CAP - JAI WARDHAN (JEA) - </option>
-							                                   <option value="Disable" <c:if test ="${airlineEntity.status == 'Disable'}"> selected </c:if> > - NO  - </option>     					
+														
+															 <c:forEach var="caplst" items="${captionlist}"> 
+											                    <option value="${caplst.getCrewid()}"> ${caplst.getPosition()} -  ${caplst.getCrewName()}- (${caplst.getCrewid()})</option>
+											                </c:forEach>
+									
+													    
+													    
 													    </select>
 													    
 												</div>	
@@ -146,11 +152,14 @@ function calDocumentUpdate(reportname){
 						</div>
 					
 						
-						<div id="dynamicmenu2" class="tab-pane fade">
+					
+					<!-- SECOND  TAB -->
+					<div id="dynamicmenu2" class="tab-pane fade">
 				       <table class="table table-bordered" border="1" style="width: 50%;" align="center">	    
-				    			<tbody>				     
+				    		
+				    		<tbody>				     
 							     
-			     		   <tr>
+			     		      <tr>
 								   <td style="padding: 05px;align:center;">								          
 								   			   <label>Update Crew Briefing Auto Logon Tokens: </label>
 									
@@ -163,8 +172,8 @@ function calDocumentUpdate(reportname){
 									<td>
 									
 										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></span>	
-											<input readonly type="text" name="flightno" id="flightno" class="form-control" value="Available-> 23498">					
+											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i>&nbsp;Available</span>	
+											<input readonly type="text" name="flightno" id="flightno" class="form-control" value=" 23498">					
 															
 										</div>
 									
@@ -172,48 +181,54 @@ function calDocumentUpdate(reportname){
 									</td>
 								</tr>
 			
+			
 								<tr> 
 								
 									<td>
 									
 										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></span>	
-											<input  type="text" name="flightno" id="flightno" class="form-control" value="Lower Level -> 23498">					
+											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i>&nbsp;Low Level</span>	
+											<input  readonly type="text" name="flightno" id="flightno" class="form-control" value="100">					
 															
 										</div>
-									
 									
 									</td>
 								</tr>
 
+
 							   <tr>
 									<td align="left" style="padding: 05px;">
+									
 									 			<div class="col-xs-05">
+									
 													<div class="input-group"> 
 														<span class="input-group-addon"><i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;<b>Upload New Token</b></span>							
 															 <input type="file"  id="gfile"  name="gfile" multiple  class="form-control"/>
 													 </div>
 														 
 										        </div>
-							
-	
-							              
+													              
 							              </td>	               
 							   </tr>
 		
 							   <tr>
 								   <td align="center" style="padding: 05px;">
-								   		 <span onclick="searchUser();" id="buttonDemo1" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; &nbsp; Search </span>
-						                  			
+								      <span onClick="addDocument('<%=request.getParameter("cat")%>');" id="addnew" class="btn btn-primary" >&nbsp;Upload&nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
+                                        			
 								   </td>
 							   </tr>
+		                	
 		                	</table>						
-							
 							
 							
 							
 						</div>
 						
+						
+						
+						
+						
+						<!-- THIRD  TAB -->
 						
 						<div id="dynamicmenu3" class="tab-pane fade">
 							<h3>Cargo Flights</h3>

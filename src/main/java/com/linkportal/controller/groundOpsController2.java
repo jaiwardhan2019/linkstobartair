@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.linkportal.airLineManager.airDataManager;
 import com.linkportal.airLineManager.airLineEntity;
 
+
+import com.linkportal.crewripostry.crewReport;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,7 +55,12 @@ public class groundOpsController2 {
 
 	 @Autowired
 	 airDataManager airObj;
-	 
+
+
+	  
+	 @Autowired
+	 crewReport crewInfo;
+	
 	
     //---------- Logger Initializer------------------------------- 
 	private final Logger logger = Logger.getLogger(HomeController.class);
@@ -287,9 +295,11 @@ public class groundOpsController2 {
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));	
 			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
-			model.put("usertype",req.getParameter("usertype"));	
+			model.put("usertype",req.getParameter("usertype"));
+
 			
-			
+			model.put("captionlist", crewInfo.showCrewCaptionFirstOfficer());
+			 
 			
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("operation") != null){	

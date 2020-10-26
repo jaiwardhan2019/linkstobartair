@@ -226,8 +226,10 @@ function addDocument(category){
 		
 								
 							<td align="left">
-							  <br>															 
+							  <br>						
+							  									 
                                  <span onClick="addDocument('<%=request.getParameter("cat")%>');" id="addnew" class="btn btn-primary" >&nbsp;Upload&nbsp;<i class="fa fa-cloud-upload" aria-hidden="true"></i>  </span>  
+                              
                                   
 							</td>
 								

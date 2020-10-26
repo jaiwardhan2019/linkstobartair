@@ -11,7 +11,7 @@ public interface crewReport {
 	
 	List<crewFlightRoster>  showCrewFlightSchedule(String crewid, String datop);
 	
-	
+	List<crewDetail>  showCrewCaptionFirstOfficer();	
 	
 	
 }
