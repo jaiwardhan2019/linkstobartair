@@ -7,11 +7,16 @@ import com.linkportal.datamodel.crewFlightRoster;
 
 public interface crewReport {
 
-	List<crewDetail>  showCrewList(String datop);
+	public List<crewDetail>  showCrewList(String datop);
 	
-	List<crewFlightRoster>  showCrewFlightSchedule(String crewid, String datop);
+	public List<crewFlightRoster>  showCrewFlightSchedule(String crewid, String datop);
 	
-	List<crewDetail>  showCrewCaptionFirstOfficer();	
+	public List<crewDetail>  showCrewCaptionFirstOfficer();
+
+	public String getLoginToken();
 	
+	public Integer getTokenBalance();
+
+	public void insertTokenNotoDatabase(String Token, String addedby , String addedDate);
 	
 }

@@ -1,4 +1,4 @@
-package com.linkportal.airLineManager;
+package com.linkportal.airlinemanager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,11 +16,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Strings;
-import com.linkportal.exception.airlineDataManagerException;
-import com.linkportal.exception.airlineDataManagerException;
+import com.linkportal.exception.airlineDataException;
 import com.linkportal.fltreport.flightReportsImp;
-import com.linkportal.smsreportusers.smsConsumerEntity;
-import com.linkportal.smsreportusers.smsConsumerEntityRowmapper;
 
 @Repository
 public class airDataManagerImp implements airDataManager {
@@ -38,7 +35,7 @@ public class airDataManagerImp implements airDataManager {
 	}
 
 	@Override
-	public boolean addAirLine(HttpServletRequest req) throws airlineDataManagerException, SQLException {
+	public boolean addAirLine(HttpServletRequest req) throws airlineDataException, SQLException {
 
 		boolean updateStatus = false;
 		if (validateAirlineData(req)) {
@@ -71,7 +68,7 @@ public class airDataManagerImp implements airDataManager {
 	}
 
 	@Override
-	public boolean updateAirline(HttpServletRequest req) throws airlineDataManagerException, SQLException {
+	public boolean updateAirline(HttpServletRequest req) throws airlineDataException, SQLException {
 
 		boolean updateStatus = false;
 		if (validateAirlineData(req)) {
@@ -121,27 +118,27 @@ public class airDataManagerImp implements airDataManager {
 	}
 
 	// -------- form field validation..
-	private boolean validateAirlineData(HttpServletRequest req) throws airlineDataManagerException {
+	private boolean validateAirlineData(HttpServletRequest req) throws airlineDataException {
 		boolean validationStatus = false;
 		if (Strings.isNullOrEmpty(req.getParameter("iatacode"))) {
-			throw new airlineDataManagerException("Iata Code Missing ");
+			throw new airlineDataException("Iata Code Missing ");
 		} else {
 			validationStatus = true;
 		}
 		if (Strings.isNullOrEmpty(req.getParameter("icaocode"))) {
-			throw new airlineDataManagerException("Icao Code Missing ");
+			throw new airlineDataException("Icao Code Missing ");
 		} else {
 			validationStatus = true;
 		}
 
 		if (Strings.isNullOrEmpty(req.getParameter("airlinename"))) {
-			throw new airlineDataManagerException("Airline Name missing ");
+			throw new airlineDataException("Airline Name missing ");
 		} else {
 			validationStatus = true;
 		}
 
 		if (Strings.isNullOrEmpty(req.getParameter("status"))) {
-			throw new airlineDataManagerException("Status Missing ");
+			throw new airlineDataException("Status Missing ");
 		} else {
 			validationStatus = true;
 		}

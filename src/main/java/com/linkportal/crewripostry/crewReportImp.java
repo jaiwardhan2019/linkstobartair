@@ -82,15 +82,21 @@ public class crewReportImp implements crewReport{
 	 	
 	    @Autowired
 	    DataSource dataSourcesqlserver;
+
+	    @Autowired
+		DataSource dataSourcesqlservercp;
 	    
 		
-		JdbcTemplate jdbcTemplate;
+		JdbcTemplate jdbcTemplatePdc;
+
+	    JdbcTemplate jdbcTemplateCorPortal;
 		
 		
 
-		crewReportImp(DataSource dataSourcesqlserver){ 			
+		crewReportImp(DataSource dataSourcesqlserver,DataSource dataSourcesqlservercp){
 		
-			jdbcTemplate = new JdbcTemplate(dataSourcesqlserver);
+			jdbcTemplatePdc = new JdbcTemplate(dataSourcesqlserver);
+			jdbcTemplateCorPortal = new JdbcTemplate(dataSourcesqlservercp);
 		  
 		  }
 
@@ -100,7 +106,7 @@ public class crewReportImp implements crewReport{
 		public List<crewDetail> showCrewList(String datop) {
 			   String sqlstr="select DISTINCT CREW_NO , CREW_NAME , POSITION from crewinfo where DATOP='"+datop+"' and POSITION='CAPT' order by CREW_NAME";
 			   //System.out.println(sqlstr);
-			   List  linkusers = jdbcTemplate.query(sqlstr,new crewDetailRowmapper());
+			   List  linkusers = jdbcTemplatePdc.query(sqlstr,new crewDetailRowmapper());
 			  return linkusers;
 		}
 
@@ -108,29 +114,56 @@ public class crewReportImp implements crewReport{
 
 		@Override
 		public List<crewFlightRoster> showCrewFlightSchedule(String crewid, String datop) {
-			   List crewflightrost =  jdbcTemplate.query("",new crewDetailRowmapper());
+			   List crewflightrost =  jdbcTemplatePdc.query("",new crewDetailRowmapper());
 			return null;
 		}
 
 
+	
+	
+		@Override
+		public List<crewDetail> showCrewCaptionFirstOfficer() {
+	
+			// ------ BUILTING TODAY AND TOMORROW VARRIABLE ------------
+			Date today = new Date();
+			SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cFrom = Calendar.getInstance();
+			cFrom.add(Calendar.DATE, -30);
+			String fromData = formattedDate.format(cFrom.getTime());
+			Calendar cTo = Calendar.getInstance();
+			cTo.add(Calendar.DATE, 30); // number of days to add
+			String toDate = formattedDate.format(cTo.getTime());
+			String sqlstr = "select DISTINCT CREW_NO , CREW_NAME , POSITION from crewinfo where  POSITION in('CAPT','FO') and DATOP between '"
+					+ fromData + "' and  '" + toDate + "' order by CREW_NAME , POSITION ";
+			List linkusers = jdbcTemplatePdc.query(sqlstr, new crewDetailRowmapper());
+			return linkusers;	
+		}
+		
+			
+		@Override
+		public String getLoginToken() {
+			String sql = "  select TOP(1) Flight_Planing_Token from Gops_Crew_Planning_Token";
+			String tokenName = (String) jdbcTemplateCorPortal.queryForObject( sql, new Object[0],String.class);
+			jdbcTemplateCorPortal.execute("delete from Gops_Crew_Planning_Token where Flight_Planing_Token='"+tokenName+"'");
+			return tokenName;
+		}
+
 
 
 		@Override
-		public List<crewDetail> showCrewCaptionFirstOfficer() {
-		
-			//------ BUILTING TODAY AND TOMORROW VARRIABLE ------------
-		    Date today = new Date();               
-			SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
-			Calendar c = Calendar.getInstance();  
-			String todaydate = formattedDate.format(c.getTime());
-		
-			String sqlstr="select DISTINCT CREW_NO , CREW_NAME , POSITION from crewinfo where  POSITION in('CAPT','FO') and DATOP='"+todaydate+"' order by CREW_NAME";
-			   //System.out.println(sqlstr);
-			   List  linkusers = jdbcTemplate.query(sqlstr,new crewDetailRowmapper());
-			  return linkusers;
+		public Integer getTokenBalance() {			
+			String sqlFortoken = "select count(flight_Planing_Token) as TotalNo  FROM Gops_Crew_Planning_Token";
+			Integer tokenNum = jdbcTemplateCorPortal.queryForObject( sqlFortoken, new Object[0],Integer.class);
+			return tokenNum;
 		}
 
-		
-		
-		
+		@Override
+		public void insertTokenNotoDatabase(String Token, String addedby, String addedDate) {
+			String insertStr="insert into Gops_Crew_Planning_Token (Flight_Planing_Token ,Created_By_Email ,Created_Date) values ('"+Token+"','"+addedby+"','"+addedDate+"')";
+			jdbcTemplateCorPortal.execute(insertStr);
+	
+			//System.out.println(insertStr);
+		}
+
+
 }

@@ -2,6 +2,7 @@ package com.linkportal.controller;
 
 import java.io.IOException;
 
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -9,9 +10,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.linkportal.airLineManager.airDataManager;
-import com.linkportal.airLineManager.airLineEntity;
+import com.google.common.base.Strings;
+import com.linkportal.airlinemanager.airDataManager;
+import com.linkportal.airlinemanager.airLineEntity;
 
 
 import com.linkportal.crewripostry.crewReport;
@@ -234,7 +237,7 @@ public class groundOpsController2 {
 				
 				//--Update Airline Form --
 				if(req.getParameter("operation").equals("updateexisting")){					
-					airLineEntity airData = airObj.findAirline(req.getParameter("userinsubject"));					
+					airLineEntity airData = airObj.findAirline(req.getParameter("userinsubject"));
 					model.put("airlineEntity",airData); 
 					callingPage="groundoperation/airline/updateAirlineData";
 				}
@@ -289,8 +292,8 @@ public class groundOpsController2 {
 
 	//****************** CREW BRIEFING MANAGMENT ***********************************************
 	@RequestMapping(value = "/managecrewbriefing",method = {RequestMethod.POST,RequestMethod.GET})
-	public String manageCrewbriefing(HttpServletRequest req, ModelMap model) throws Exception {	
-		    String operationStatus="";
+	public String manageCrewbriefing(HttpServletRequest req, HttpServletResponse resp, ModelMap model) throws Exception {
+
 		    String callingPage="groundoperation/crewbreafing/managecrewbreafing";
 			model.addAttribute("emailid",req.getParameter("emailid"));
 			model.addAttribute("password",req.getParameter("password"));	
@@ -299,52 +302,20 @@ public class groundOpsController2 {
 
 			
 			model.put("captionlist", crewInfo.showCrewCaptionFirstOfficer());
-			 
-			
-			//--------- Start Remove Operation -------------------- 
-			if(req.getParameter("operation") != null){	
-				
-				//--Add new user form --
-				if(req.getParameter("operation").equals("addnew")) {callingPage="groundoperation/crewbreafing/managecrewbreafing";}
-				
-				
-				//--Update Airline Form --
-				if(req.getParameter("operation").equals("updateexisting")){					
-					airLineEntity airData = airObj.findAirline(req.getParameter("userinsubject"));					
-					model.put("airlineEntity",airData); 
-					callingPage="groundoperation/crewbreafing/managecrewbreafing";
-				}
-				
-	       			
-				//-- Add / Update  User Detail to the Database  
-				if(req.getParameter("operation").equals("save")) {	
-					
-					if(req.getParameter("userinsubject").length() > 0){
-						if(airObj.updateAirline(req)) {operationStatus="Updated";}else {operationStatus="Not Updated !!";}						
-					}
-					else
-					{
-						airObj.addAirLine(req);
-						operationStatus="Airline Created";
-					}
-					
-					callingPage="groundoperation/crewbreafing/managecrewbreafing";
-				}							
+			model.put("tokenbalance", crewInfo.getTokenBalance());
+
+
+		    //--------- Start Operation --------------------
+			if(req.getParameter("operation") != null){
+
+
 	
-				
-				//-- Remove User from the list
-				if(req.getParameter("operation").equals("remove")) {					
-					airObj.removeAirLine(req.getParameter("userinsubject"));
-					operationStatus="Airlin Removed.";
-				}
-				model.put("operationStatus",operationStatus);
-			}
-		
-			model.put("listAirline",airObj.listAirLineData());
-		    
+
+			} //  End of  if(req.getParameter("operation")
+
+
+
 		return callingPage;
-	
-	
 	}
 	
 	

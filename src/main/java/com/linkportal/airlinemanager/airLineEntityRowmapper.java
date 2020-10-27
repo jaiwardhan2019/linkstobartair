@@ -1,4 +1,4 @@
-package com.linkportal.airLineManager;
+package com.linkportal.airlinemanager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

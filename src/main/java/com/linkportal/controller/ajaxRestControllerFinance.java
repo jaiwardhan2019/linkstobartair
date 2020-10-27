@@ -38,11 +38,9 @@ import com.google.common.base.Strings;
 public class ajaxRestControllerFinance {
 
 
-
 	@Autowired
 	DocumentService  docserv;
-	
-	
+
 
     //---------- Logger Initializer------------------------------- 
 	private final Logger logger = Logger.getLogger(HomeController.class);
@@ -69,7 +67,6 @@ public class ajaxRestControllerFinance {
 	@RequestMapping(value = "/convertXmltoExcelandDownload", method = { RequestMethod.POST, RequestMethod.GET }, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
 	public ModelAndView convert_Xml_Excel_Download(@RequestParam("cfile") MultipartFile[] files, HttpServletRequest req,
 			ModelMap model) throws Exception {
-		
 
 		model.put("profilelist", req.getSession().getAttribute("profilelist"));
 		model.addAttribute("emailid", req.getParameter("emailid"));

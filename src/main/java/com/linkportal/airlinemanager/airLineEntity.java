@@ -1,4 +1,4 @@
-package com.linkportal.airLineManager;
+package com.linkportal.airlinemanager;
 
 public class airLineEntity {
 	

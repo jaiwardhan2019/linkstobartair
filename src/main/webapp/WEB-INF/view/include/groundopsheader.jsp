@@ -384,7 +384,7 @@ function CalGopsSmsUserManager(){
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managegopssuser','Manage Refis Users');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;REFIS User Manager</a></li>
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managesmscontacts','SMS Report Users');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;SMS Contacts Manager</a></li>
                                 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('manageairlinedata');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Airline Data Manager</a></li>
-					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managecrewbriefing');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Briefing Manager </a></li>
+					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calRefisReport('managecrewbriefing','PPS Crew Briefing Integration');" style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Briefing Manager </a></li>
 					       		
 					       		<!-- 
 					       		<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:9pt;"><img src="images/folder.png"> &nbsp;Crew Flight Reports</a></li>
