@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,11 +20,13 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +53,11 @@ public class ajaxRestControllerDelayComment {
 	@Autowired
 	crewReport crewRep;
 	
+	
+	@Autowired
+	DataSource dataSourcesqlservercp;
+		 
+
 	
 	@RequestMapping(value = "test", method = RequestMethod.GET, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> test() {
@@ -176,36 +185,26 @@ public class ajaxRestControllerDelayComment {
 
 
 		try {
+			
+			
 			if(files.isEmpty()) {
 				ResponseEntity<String> responseEntity = new ResponseEntity<String>("File Added there is Empty # ", HttpStatus.OK);
 				return responseEntity;
 			}
 
 			// Converting MultipartFile to file
-			File file = new File("src/main/resources/targetFile.txt");
-			files.transferTo(file);
-
-			// Creating Streaming Pipe line
-			FileInputStream fis = new FileInputStream(file);
-			InputStreamReader isr = new InputStreamReader(fis);
-			BufferedReader br = new BufferedReader(isr);			
-			String TempStr = "";
-			int counter = 1; // counter for number of lines in the file
-			StringTokenizer st; // declare the String Tokenizer here
-			TempStr = br.readLine(); // read the first line of the file
-
-			// Loop for line reading
-			while (TempStr != null) { // for each line of the File...
-				st = new StringTokenizer(TempStr, ","); // separate based on a #
-				// Loop for parshing line
-				while (st.hasMoreTokens()) { // for each token in the line
-					crewRep.insertTokenNotoDatabase(st.nextToken(),addedByemailid,addedDate);
-					counter++;
-				}
-				System.out.println("new Line -");
-				TempStr = br.readLine(); // read the next line of the File
-
-			}	
+			File fileName = new File("src/main/resources/targetFile.txt");
+			files.transferTo(fileName);
+			
+			
+			//-------- Reading File and Uploading to the database
+			int noOfTokenLoaded=crewRep.readTokenFromFileAndInsertToDatabase(fileName, addedByemailid, addedDate);
+			
+			
+			//------ Removing the "src/main/resources/targetFile.txt" file from folder 
+			fileName.delete();
+			
+			
 			ResponseEntity<String> responseEntity = new ResponseEntity<String>(String.valueOf(crewRep.getTokenBalance()), HttpStatus.OK);
 			return responseEntity;
 	

@@ -15,7 +15,14 @@
 
 
 // ------------ This will get the PPS Token Code from Database and built a URL and open in a new windows
-function open_crew_breifing_page() {    
+function open_crew_breifing_page() {
+	
+	 if(document.getElementById("crewid").value == ""){ 
+		 $('#crewstatus').text("Select Crew Member Frome List");
+		 document.crewform.crewid.focus();
+		 return false;
+	  }
+	
      document.getElementById("operation").value="viewcrewdetail";
      var urlStr = document.getElementById("callingurl").value+document.getElementById("crewid").value+"&Code=";
      var callingurl="ajaxrest/getCrewToken";
@@ -28,7 +35,8 @@ function open_crew_breifing_page() {
 			},
 
 			error : function(result) {
-	         alert("Seems Like Login Token is finish \n Please Check the Balance Under Token Maintenance on the next Tab.");
+	         //alert("Seems Like Login Token is finish \n Please Check the Balance Under Token Maintenance on the next Tab.");
+	         $('#crewstatus').text("Seems Like Login Token is finish !! Please Check the Balance Under Token Maintenance on the next Tab.");
 			},
 
 	  });    
@@ -58,7 +66,8 @@ function Validate_File_Type(filePath) {
 	var allowedExtensions = /(\.txt)$/i;
 
 	if (!allowedExtensions.exec(filePath)) {
-		alert('Invalid file type\n You have to select .TXT File Only..!!');
+		 //alert('Invalid file type\n You have to select .TXT File Only..!!');
+		 $('#tokenupdatestatus').text('Invalid file type\n You have to select .TXT File Only..!!');
 		document.crewform.cfile.focus();
 		return false;
 	} else {
@@ -72,7 +81,8 @@ function Validate_File_Type(filePath) {
 function Upload_PPS_Token_File() {
 
 	if (document.crewform.cfile.value == "") {
-		alert("Please Select File..");
+		//alert("Please Select File..");
+		 $('#tokenupdatestatus').text("Please Select a .txt file content with token..");
 		document.crewform.cfile.focus();
 		return false;
 	}
@@ -92,7 +102,8 @@ function Upload_PPS_Token_File() {
                   document.crewform.tokenbalance.value=data;
                   document.crewform.tokenbalance.focus();
                   document.crewform.cfile.value="";
-                  uploade_progress();
+                  uploade_progress();                  
+                  $('#tokenupdatestatus').text(data+" :# Token Loaded to the Database");
               }
           });
 		
@@ -183,7 +194,7 @@ function Upload_PPS_Token_File() {
 											
 												<span class="input-group-addon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>								
 														<select id="crewid" name="crewid" class="form-control"  >
-														
+														 <option value="">----------- Select Crew Member ---------</option>
 															 <c:forEach var="caplst" items="${captionlist}"> 
 											                    <option value="${caplst.getCrewid()}"> ${caplst.getPosition()} - (${caplst.getCrewid()}) - ${caplst.getCrewName()}</option>
 											                </c:forEach>
@@ -205,7 +216,10 @@ function Upload_PPS_Token_File() {
 								   </td>
 							   </tr>
 		                	</table>
-							
+								<p  style="color:blue;font-size:12px;" id="crewstatus" align="center">  </p>
+								<br>
+								<br>
+								<br><br>
 						</div>
 					
 						
@@ -218,26 +232,23 @@ function Upload_PPS_Token_File() {
 							     
 			     		      <tr>
 								   <td style="padding: 05px;align:center;">								          
-								   			   <label>Update Crew Briefing Auto Logon Tokens: </label>
+								   		<label>Update Crew Briefing Auto Logon Tokens: </label>
 									
 								   </td>
 							   </tr>
 							
 							
-								<tr> 
-								
-									<td>
-									
+								<tr> 								
+									<td>									
 										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i>&nbsp;Available</span>	
+											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i>&nbsp;Token Balance</span>	
 											<input readonly type="text" name="tokenbalance" id="tokenbalance" class="form-control" value="${tokenbalance}">
-										</div>
-									
+										</div>								
 									
 									</td>
 								</tr>
 			
-			
+							<!-- 
 								<tr> 
 								
 									<td>
@@ -250,7 +261,7 @@ function Upload_PPS_Token_File() {
 									
 									</td>
 								</tr>
-
+							 -->
 
 							   <tr>
 									<td align="left" style="padding: 05px;">
@@ -284,7 +295,8 @@ function Upload_PPS_Token_File() {
 							   </tr>
 		                	
 		                	</table>						
-							
+							<span style="color:blue;font-size:12px;" id="tokenupdatestatus" align="center"> Note: Only .TXT file is allowed  with the Token content separated with <b>,</b> <br> 
+							               Example : The content of file should be in this fashion =>  3550881218<b>,</b>35509E518B  </p>
 							
 							
 						</div>
@@ -305,23 +317,6 @@ function Upload_PPS_Token_File() {
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 				</div>
 			
 		</div>
@@ -329,7 +324,6 @@ function Upload_PPS_Token_File() {
  
  </form>
 </body>
-
 <br>
 <br>
 <br>
@@ -338,10 +332,6 @@ function Upload_PPS_Token_File() {
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-
 <%@include file="../../include/gopsfooter.jsp" %>
 
 

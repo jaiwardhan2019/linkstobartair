@@ -30,16 +30,15 @@ public class tokenPPmsUpload {
 	public static void main(String[] args) throws IOException {
 		
 
-		String addedByemailid ="jai.wardhan@stobartair.com";
-		Date today                     = new Date();
-		SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar c = Calendar.getInstance();
-		String addedDate               = formattedDate.format(c.getTime());
-
-		// Converting MultipartFile to file
-			File file = new File("src/main/resources/ppstoken.txt");
+			String addedByemailid ="jai.wardhan@stobartair.com";
+			Date today                     = new Date();
+			SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			String addedDate               = formattedDate.format(c.getTime());
+	
 			
-
+		
+		    File file = new File("src/main/resources/ppstoken.txt");			
 			// Creating Streaming Pipe line
 			FileInputStream fis = new FileInputStream(file);
 			InputStreamReader isr = new InputStreamReader(fis);
@@ -49,15 +48,26 @@ public class tokenPPmsUpload {
 			StringTokenizer st; // declare the String Tokenizer here
 			TempStr = br.readLine(); // read the first line of the file
 
+			final int batchSize = 10;
+			
 			// Loop for line reading
 			while (TempStr != null) { // for each line of the File...
 				st = new StringTokenizer(TempStr, ","); // separate based on a #
 				// Loop for parshing line
-				while (st.hasMoreTokens()) { // for each token in the line
-					//crewRep.insertTokenNotoDatabase(st.nextToken(),addedByemailid,addedDate);
-					System.out.println(st.nextToken());
-					counter++;
+				while (st.hasMoreTokens()) { // for each token in the line					
+					st.nextToken();
+					++counter;
+					
+					if(counter % batchSize == 0 || counter == st.countTokens()) {
+				        //ps.executeBatch();
+				        //ps.clearBatch(); 
+						System.out.println("Inside Batch Update");    
+				    }
+					
+					
+					
 				}
+				
 				System.out.println("new Line -");
 				TempStr = br.readLine(); // read the next line of the File
 

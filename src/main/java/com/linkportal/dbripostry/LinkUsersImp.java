@@ -126,6 +126,7 @@ public class LinkUsersImp implements linkUsers{
 								//------- For Miscellaneous  Menu ---------------------
 								if(rs.getString("MAIN_PROFILE").equals("Miscellaneous")) {mapRet.put("Miscellaneous", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Finance")) {mapRet.put("Finance", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("RemoveStaffTravelUser")) {mapRet.put("RemoveStaffTravelUser", rs.getString("ACTIVE_STATUS"));}
 
 								
 								if(rs.getString("SUB_PROFILE").equals("Daily_Summary")) {mapRet.put("Daily_Summary", rs.getString("ACTIVE_STATUS"));}

@@ -1,5 +1,7 @@
 package com.linkportal.crewripostry;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import com.linkportal.datamodel.crewDetail;
@@ -17,6 +19,6 @@ public interface crewReport {
 	
 	public Integer getTokenBalance();
 
-	public void insertTokenNotoDatabase(String Token, String addedby , String addedDate);
+	public int readTokenFromFileAndInsertToDatabase(File fileName, String addedby , String addedDate)throws FileNotFoundException;
 	
 }

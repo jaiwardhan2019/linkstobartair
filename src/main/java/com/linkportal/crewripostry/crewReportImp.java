@@ -1,11 +1,20 @@
 package com.linkportal.crewripostry;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
 
@@ -14,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.linkportal.controller.HomeController;
 import com.linkportal.datamodel.UsersRowmapper;
 import com.linkportal.datamodel.crewDetail;
 import com.linkportal.datamodel.crewDetailRowmapper;
@@ -23,7 +33,7 @@ import com.linkportal.dbripostry.businessAreaContentImp;
 @Repository
 public class crewReportImp implements crewReport{
 
-
+	
 	private static final String CREW_INFO_QUERY = "Select BASE_RANK.Rank, CrewMember.Namefirst, CREWMember.Namelast, CREWMember.Initials, BASE_RANK.stn, Crew_Email.Addr, CrewMember.EmploymentEndDate, CrewMember.Gender, CrewMember.DateOfBirth"
 				+ " from (select CREW_employment.CrewSeqno, BASE.stn, CrewPos_Rank.Rank from CREW_employment,BASE,CrewPos_Rank,\n"
 				+ "(select max(validFrom) as validFrom, CrewSeqno from CREW_employment where CREW_employment.validFrom<=:TODAYS_DATE group by CrewSeqno) as \"LATEST_EMPLOYMENT\"\n"
@@ -157,12 +167,72 @@ public class crewReportImp implements crewReport{
 			return tokenNum;
 		}
 
+		
+		//------ This method will read token from the File and insert into the table in a Batch process
 		@Override
-		public void insertTokenNotoDatabase(String Token, String addedby, String addedDate) {
-			String insertStr="insert into Gops_Crew_Planning_Token (Flight_Planing_Token ,Created_By_Email ,Created_Date) values ('"+Token+"','"+addedby+"','"+addedDate+"')";
-			jdbcTemplateCorPortal.execute(insertStr);
+		public int readTokenFromFileAndInsertToDatabase(File fileName , String addedby, String addedDate) throws FileNotFoundException {
+			
+			int tokenCounter = 1;
+			try {
+
+				// Creating Streaming Pipe line to read the source file 
+				FileInputStream fis = new FileInputStream(fileName);
+				InputStreamReader isr = new InputStreamReader(fis);
+				BufferedReader br = new BufferedReader(isr);			
+				String TempStr = "";
+				          
+				StringTokenizer st;       // declare the String Tokenizer here
+				TempStr = br.readLine();  // read the first line of the file
 	
-			//System.out.println(insertStr);
+				
+				
+				//--------- Creating Connection -----------
+				JdbcTemplate jdbcTemplateCorPortal = new JdbcTemplate(dataSourcesqlservercp);
+				DataSource ds = jdbcTemplateCorPortal.getDataSource();
+				Connection connection = ds.getConnection();
+				connection.setAutoCommit(false);
+				String sql = "insert into Gops_Crew_Planning_Token (Flight_Planing_Token ,Created_By_Email ,Created_Date) values (?, ?, ?)";
+				PreparedStatement ps = connection.prepareStatement(sql);			
+				final int batchSize = 1000;
+				
+				
+				// Loop for line reading
+				while (TempStr != null) { // for each line of the File...
+					st = new StringTokenizer(TempStr, ","); // separate based on a #
+					
+					// Loop for parshing line
+					while (st.hasMoreTokens()) { // for each token in the line
+						
+					    ps.setString(1, st.nextToken());
+					    ps.setString(2, addedby);
+					    ps.setString(3, addedDate);
+					    ps.addBatch();
+						++tokenCounter;
+						
+						if((tokenCounter % batchSize == 0) || (tokenCounter == st.countTokens()) || (!st.hasMoreTokens())) {							
+					        ps.executeBatch();
+					        ps.clearBatch();	        
+					    }
+
+
+					}//-- End of Line reader loop  				
+					TempStr = br.readLine(); // read the next line of the File
+					
+
+				}//-------- End of Outer While loop  For Line Reading 
+				
+				connection.commit();
+				ps.close();
+				connection.setAutoCommit(true);
+				connection.close();
+				
+				
+			
+			}catch(Exception e) {logger.error("Error While Reading Token File :"+e.toString());}		
+			
+			
+			
+			return tokenCounter;
 		}
 
 

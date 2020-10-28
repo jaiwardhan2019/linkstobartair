@@ -208,17 +208,29 @@ function add_new_airline(){
 		          
 		  		    <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"   data-content="${airLineData.comment}"> 
 					          
-		             ${airLineData.airline_name}
+		           
+		                            <c:set var="string1" value="${airLineData.airline_name} "/>
+                            <c:set var="string2" value="${fn:substring(string1, 0,25)}" />
+			                   ${string2}
+		
 		             
 		             </a>    		                    
 		          
 		          </td>
 		          <td>
-		            &nbsp; ${airLineData.sla_one}    		                    
+		
+		                <c:set var="string1" value="${airLineData.sla_one} "/>
+                            <c:set var="string2" value="${fn:substring(string1, 0,22)}" />
+			                   ${string2}
+		          
+		                                
 		          
 		          </td>
 		          <td>
-		            &nbsp; ${airLineData.sla_two}    		                    
+		 
+		                   <c:set var="string1" value="${airLineData.sla_two} "/>
+                            <c:set var="string2" value="${fn:substring(string1, 0,22)}" />
+		            ${string2}
 		          
 		          </td>
 	
