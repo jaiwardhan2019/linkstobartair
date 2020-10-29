@@ -135,9 +135,7 @@ public class linkBatchJobImp implements linkBatchJob {
 
 			LOGGER.error("Issue in Method :=> linkbatch.notify_Contarct_Admin_About_ContractExpiry() @:"
 					+ dateTimeFormatter.format(LocalDateTime.now()) + exc.toString());
-			// emailinst.sendTextHtmlEmail(mailhostserver,
-			// emailfrom,"jai.wardhan@stobartair.com","Contract Notification batch job is
-			// failing",exc.toString(),null);
+
 		}
 
 	}// ---------- END OF FUNCTION ---------------

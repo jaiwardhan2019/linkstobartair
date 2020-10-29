@@ -1,7 +1,11 @@
 package com.linkportal.datamodel;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;  
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -126,7 +130,27 @@ public class flightDelayComment implements Serializable {
 		return serialVersionUID;
 	}
 
+    //JAITODO
+	public long noofDaysOpened() throws ParseException {		
+		
+		if((this.dateTimeEntered != null) && (this.dateTimeClosed == null)) {
+			SimpleDateFormat sdformat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		    Date d1 = sdformat.parse(this.dateTimeEntered);
+		    Date d2 = sdformat.parse(sdformat.format(new Date())); 
+			return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+		}
+		if((this.dateTimeEntered != null) && (this.dateTimeClosed != null)) {
+			SimpleDateFormat sdformat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		    Date d3 = sdformat.parse(this.dateTimeEntered);
+		    Date d4 = sdformat.parse(this.dateTimeClosed); 
+			return (int)( (d4.getTime() - d3.getTime()) / (1000 * 60 * 60 * 24));
+		}
+			else {return 0;}
+	}
+	
 
+	
+	
 
 	@Override
 	public String toString() {

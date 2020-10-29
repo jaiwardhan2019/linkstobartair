@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="sun.util.calendar.LocalGregorianCalendar.Date"%>
 
 <jsp:include page="../../include/groundopsheader.jsp" />
 
@@ -410,9 +411,7 @@ function Download_ExcelReport(){
 		 <% 
 		  int ctr=0;
 		%>  
-		
-		
-	
+			
 				 
 		<!-- Write DB Loops to display Data --> 
 		 <c:forEach var="fltleg" items="${reportbody}"> 
@@ -575,24 +574,32 @@ function Download_ExcelReport(){
 					 </td>
 					 
 					 
-					 
-					 
 	 
 					 <td align="left">
-				       ???
-				    </td>
+				      
+				        <c:if test="${fn:length(fltleg.comment.comments) > 0}">	
+				          
+				            <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover" 
+					              data-content="To see detail click on the Green Comment Button at the end.">
+					              YES
+					          </a>
+				        	 				        
+				        </c:if>
+				      
+				      </td>
 				  
 					 
 					 <td>
-					     
-					     ??
+					  
+					    <c:if test="${fltleg.comment.noofDaysOpened() > 0}">
+					          ${fltleg.comment.noofDaysOpened()}   
+					    </c:if>     
+					        
 					      					 
 					 </td>
 					 
 					 
-					 <td width="7%">		
-						      
-		                  
+					 <td width="7%">
 		                     ${fltleg.comment.dateTimeClosed} 
 					 </td>
 				 
@@ -735,7 +742,7 @@ function Download_ExcelReport(){
 					  	<a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover" 
 					    title="  CAPTION       |   ${fltleg.flightCaption} " 
 					    data-content="FIR. OFFI | ${fltleg.flightFirstOfficer}">  
-					      <span style="color:red;"> <b>${fltleg.sect.flightNo} </b></span>			
+					      <span style="color:red;"> <b>${fltleg.flightNo} </b></span>			
 					    </a>
 					      		 
 					 </td>

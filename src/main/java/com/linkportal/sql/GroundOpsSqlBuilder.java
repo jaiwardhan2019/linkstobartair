@@ -125,7 +125,7 @@ public class GroundOpsSqlBuilder implements Serializable{
 
 				//sqlmaster +="\n AND  (DUR1+DUR2+DUR3+DUR4 > 0)";
 
-				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by ETD_DATE_TIME";}
+				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by  FLIGHT_DATE desc";}
 			    
 				//System.out.println(sqlmaster);
 				

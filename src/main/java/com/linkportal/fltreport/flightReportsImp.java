@@ -10,7 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -309,85 +312,105 @@ public class flightReportsImp implements flightReports{
 
 
    	   @Override  //Will be Called for the delay Flight Report 
-	  //public List<fligthSectorLog> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
-   	  public  List<delayReportParentPojo> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
+	  public  List<delayReportParentPojo> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
    		
-   	   boolean StobartUser         = useremail.indexOf("@stobartair.com") != -1;
-		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
-		   String builtsql             = null;
-		   String commentsql           = gopssql.builtDelayFlightCommentSql(fltdate, todate);
-		   
-		 //---- FOR STOBART USER----
-		   if(StobartUser) {
-			  builtsql= gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);
-		   }
-		   
-		   //---- FOR NON STOBART USER LIKE GH ----
-		   if(!StobartUser) {
-			 //System.out.println("Not a stobart user please built Air line and airport code");
-			 
-			   //-- For Ground Handler External Pull list of assigned airport 
-			   String eligibleairportlist = gopsobj.getAllEligibleAirportforGH(useremail);
-			   String eligibleairlinelist = gopsobj.getAllEligibleAirlineforGH(useremail);
+				boolean StobartUser = useremail.indexOf("@stobartair.com") != -1;
+				GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
+				String builtsql = null;
+				String commentsql = gopssql.builtDelayFlightCommentSql(fltdate, todate);
 			   
-			   
-			 if(airline.equals("ALL")) {   	        	 
-				//--- When Search button click for the GH User -- 
-				airline=eligibleairlinelist;
-   	         }
-			 
-			 if(airport.equals("ALL")) {   	        	 
-				//--- When Search button click for the GH User --
-			    airport=eligibleairportlist;
-	   	     }	
-			 
-			 if(airport.equals("ALL") && airline.equals("ALL")) {
-				 airport=eligibleairportlist;
-				 airline=eligibleairlinelist;
-			 }
-			 
-			 builtsql   = gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);	
+				 //---- FOR STOBART USER----
+				   if(StobartUser) {
+					  builtsql= gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);
+				   }
+		
+		   
+			   //---- FOR NON STOBART USER LIKE GH ----
+			   if(!StobartUser) {
+				 //System.out.println("Not a stobart user please built Air line and airport code");
 				 
-		   }//end of if  FOR GH
-		   
-		   
-		   
-		   
-		  List<fligthSectorLog>  flightseclog1 = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
-		   
-		  List<flightDelayComment>  flightcomment = jdbcTemplateCorp.query(commentsql,new flightDelayCommentRowmapper());
-
-  	     List<delayReportParentPojo> list = new ArrayList<>();
-  	     
-		 for(fligthSectorLog fligthSector : flightseclog1) {
-			 
-			 for(flightDelayComment flightDComment : flightcomment) {
+				   //-- For Ground Handler External Pull list of assigned airport 
+				   String eligibleairportlist = gopsobj.getAllEligibleAirportforGH(useremail);
+				   String eligibleairlinelist = gopsobj.getAllEligibleAirlineforGH(useremail);
+				   
+				   
+				 if(airline.equals("ALL")) {   	        	 
+					//--- When Search button click for the GH User -- 
+					airline=eligibleairlinelist;
+	   	         }
 				 
-				 if(fligthSector.getFlightNo().equalsIgnoreCase(flightDComment.getFlightNumber()) &&
-						 fligthSector.getFlightDate().equalsIgnoreCase(flightDComment.getFlightDate())) {
-					 
-					 list.add(new delayReportParentPojo(fligthSector, flightDComment));
-					 
+				 if(airport.equals("ALL")) {   	        	 
+					//--- When Search button click for the GH User --
+				    airport=eligibleairportlist;
+		   	     }	
+				 
+				 if(airport.equals("ALL") && airline.equals("ALL")) {
+					 airport=eligibleairportlist;
+					 airline=eligibleairlinelist;
 				 }
-			 }
-		 }
-		  
+				 
+				 builtsql   = gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);	
+					 
+			   }//end of if  FOR GH
 			   
+			   
+			   
+		  //--- Reading Data from 2 Database   
+		  List<fligthSectorLog>  flightseclog1    = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());		   
+		  List<flightDelayComment>  flightcomment = jdbcTemplateCorp.query(commentsql,new flightDelayCommentRowmapper());
+			  
+		  
+		  
+		  
+		  //------- Building Final List which need to be render on the screen
+		 List<delayReportParentPojo> list = new ArrayList<>();
+		  
+  	      
+		 
+		
+  
+  	      //----- Check for all flight comment and build a List 
+		  for(fligthSectorLog fligthSector : flightseclog1) {
+			  
+			  flightDelayComment tempComment = isCommentExitForThisFlightandDate(fligthSector.getFlightNo(), fligthSector.getFlightDate(),flightcomment);
+			  if(tempComment != null) {
+				  list.add(new delayReportParentPojo(fligthSector, tempComment));				  
+			  }
+			  else 
+			  {
+				  list.add(new delayReportParentPojo(fligthSector,null));
+					  
+			  }
+				 
+		   }
+		     
 		   gopssql   = null;
 		   builtsql  = null;
 	
-		   
-		   //return flightseclog1;	 
 		   return list;	 
-		   
-		   
 	
-	   }//  End of Function 
+   }//  End of Function 
 		
 	
 	   
-	   
-	   
+   /* This method will take Parameter as flightno and flightDate and FlightSectorList
+    * check for the flight and date if there is any comment available then return true or else false
+   */	  
+   private flightDelayComment isCommentExitForThisFlightandDate(String flightNo, String flightDate,List<flightDelayComment> flightcomment) {
+		  
+	   flightDelayComment  flightComment=null;
+		 for(flightDelayComment flightDComment : flightcomment) {
+			 
+			 if(flightNo.equalsIgnoreCase(flightDComment.getFlightNumber()) && flightDate.equalsIgnoreCase(flightDComment.getFlightDate()))
+			 {
+			
+				 flightComment = flightDComment;
+		         
+			 }
+		 }		 
+			   
+	   return flightComment;
+   }	   
 	   
 	   
 	   
@@ -529,10 +552,9 @@ public class flightReportsImp implements flightReports{
 			String endDate, String tolerance) throws Exception {
 		
 		    linkPortalSqlBuilder sqlb1 = new linkPortalSqlBuilder();		    
-		    String sql = sqlb1.builtReliabilityReportSQL_For_Calcle_Flights(airline, airport, startDate, endDate,tolerance);		    
-		    
-		    List<fligthSectorLog>  flightseclog_C = jdbcTemplateSqlServer.query(sql,new flightSectorLogRowmapper());		
-		    sql=null;
+		    String sqlForCancelFlight = sqlb1.builtReliabilityReportSQL_For_Calcle_Flights(airline, airport, startDate, endDate,tolerance);
+		    List<fligthSectorLog>  flightseclog_C = jdbcTemplateSqlServer.query(sqlForCancelFlight,new flightSectorLogRowmapper());		
+		    sqlForCancelFlight=null;
 		    sqlb1=null;
 		    return flightseclog_C;
 	}
