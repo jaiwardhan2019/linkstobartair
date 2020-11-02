@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
@@ -18,6 +19,10 @@ public interface documentManager {
 	
 	 //******** FOR THE GROUNDOPS  DOCUMENTS ********	
 	 List<DocumentEntity> showAllDocumentsFromFolder(HttpServletRequest req, String foldername);
+    
+	 String showVoiceOfGuestImage(String foldername)throws EmptyResultDataAccessException;
+	 
+	 String showEmergencyResponsPlanDocument(String foldername)throws EmptyResultDataAccessException;
 	  
 	 List<DocumentEntity> searchDocumentsFromFolder(String documentname);
 	  

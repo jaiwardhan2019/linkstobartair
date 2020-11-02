@@ -1,0 +1,351 @@
+
+	body {
+		height: 100%;
+		margin: 0;
+	}
+	
+	#report-wrapper {
+		width:100%;
+		font-family: arial,verdana;
+		border:1px solid #000000;
+		font-size: 8pt;
+	}
+	
+	#flightReportHeader {
+		border:1px solid #000000;
+		width:100%;
+	}
+	
+	#flightReportHeader th {
+		width:33.33%;
+	
+	}
+	
+	#flightReportHeaderLeft {
+		text-align:center;
+	}
+	
+	#flightReportHeaderCenter {
+		text-align:center;
+		font-style:italic;
+		font-size: 20pt;
+	}
+	
+	#flightReportHeaderRight {
+
+	}
+	
+		
+	#initialData {
+		 width:100%;
+		 table-layout: fixed;
+		 font-size: 10pt;
+	}
+	
+	
+	#flightReportBody {
+		width: 100%;
+	}
+	
+	#flightReportBody td {
+		padding-top:2pt;
+		border:1px solid #000000;
+	}
+	
+	#section1>tr>td, #section2>tr>td, #section3>tr>td, #section4>tr>td {
+		border:1px solid #000000;
+		text-align:center;
+	}
+	
+	.subSection {
+		font-size: 8pt;
+		font-weight: normal;
+		border-collapse: collapse;
+	}
+	
+	.subSection td, .subSection th{
+		padding-left:2pt;
+		padding-right:2pt;
+	}
+	
+	.subSection td {
+		
+	}
+	
+	.subSection th {
+		text-align:center;
+		font-weight: normal;
+		font-size: 7pt;
+	}
+	
+	.subSection caption {
+		text-align:center;
+		background-color:#fff;
+		border:1px solid #000000;
+		font-size: 8pt;	
+		font-weight: bold;
+		font-style: italic;
+		margin-bottom: 2pt;
+		
+	}
+	
+	.subSection .columnData {
+		padding-top:1pt;
+		padding-bottom:1pt;
+		border:1px solid #000000;
+		vertical-align: middle;
+	}
+	
+	.sectorId {
+		width:16pt;
+	}
+	
+	
+	#section1{
+		width:100%;
+	}
+	
+	#flightData {
+	}
+	
+	
+	#flightData .sectorId {
+		
+	}
+	
+	#flightData .flightDate {
+		width: 36pt;
+	}
+	
+	#flightData .regNo {
+		width: 34pt;
+	}
+	
+	#flightData td.fltNo {
+		width: 37pt;
+	}
+	
+	#sectorData {
+		
+	}
+	
+	#sectorData .destFrom,
+	#sectorData .destTo {
+		width:20pt;
+		text-align:center;
+	}
+	
+	#scheduleData {
+		border-collapse : collapse;
+	}
+	
+	#scheduleData .std,
+	#scheduleData .sta,
+	#scheduleData .onBlock{
+		width:23pt;
+		text-align:center;
+	}
+	
+	
+	#timeData {
+		
+	}
+	
+	#timeData .outOff,
+	#timeData .landOnBlk {
+		width: 40pt;
+		text-align:center;
+	}
+	
+	#timeData .onBlock,
+	#timeData .airTime {
+		width: 32pt;
+	}
+	
+	#paxData {
+		
+	}
+	
+	#paxData .bookedPax,
+	#paxData .actPax {
+		width: 20pt;
+	}
+	
+	#paxData td.bookedPax,
+	#paxData td.actPax {
+		text-align: right;
+		padding-right: 3pt;
+	}
+	
+	#paxData td.bookedPax {
+		font-weight:bold;
+	}
+	
+	#section2{
+		padding-top:2pt;
+		width:100%;
+	}
+	
+	
+	#fuelData .initWt,
+	#fuelData .fuelUplift,
+	#fuelData .departureWt,
+	#fuelData .arriveWt,
+	#fuelData .fuelBurn {
+		width: 38pt;
+	}
+	
+	
+	#deIceData .deIceLitres{
+		width:35pt;
+	}
+	
+	
+	#delayData .col_time {
+		width: 30pt;
+		text-align:center;
+	}
+	
+	#delayData .col_code {
+		width: 18pt;
+		text-align:center;
+	}
+	
+	
+	#catiiData .rwy {
+		width:25pt;
+	}
+	
+	#catiiData .satis {
+		width:25pt;
+	}
+	
+	#catiiData .unsatis {
+		width:25pt;
+	}
+	
+	
+	#section3 {
+		padding-top: 0pt;
+		width:100%;
+	}
+	
+	#crewData-wrapper {
+		vertical-align:top;
+	}
+	
+	#crewData .crewName {
+		width: 140pt;
+		text-align:left;
+		padding: 1pt 5pt 1pt 5pt;
+	}
+	
+	#crewData th.columnHeader.sectorsOperated {
+		text-align:center;
+	}
+	
+	#crewData th.columnHeader.dutyTimes {
+		text-align:center;
+	}
+	
+	#crewData td.sectorsOperated {
+		width:14pt;
+		text-align:center;
+	}
+	
+
+	#crewData thead .columnHeader {
+		border-top: 1px solid #fff;
+		border-left: 1px solid #fff;
+		border-right: 1px solid #fff;
+	}
+	
+	
+	#crewData .onDuty,
+	#crewData .offDuty{
+		width: 30pt;
+		text-align:center;
+	}
+	
+	
+	
+	#catiiReasonData-wrapper {
+		vertical-align:top;
+	}
+	
+	#catiiReasonData td.reason {
+		width:110pt !important;
+		text-align:left;
+	}
+	
+	#catiiReasonData td.check-box {
+		width:20pt !important;
+		text-align:left;
+	}
+	
+	
+	#section4 {
+		width:100%;
+	}
+	
+	#miscData {
+		height:210pt !important;
+		width:100%;
+		margin-left:auto;
+		margin-right:auto;
+	}
+	
+	
+	#miscData .fltNo,
+	#miscData .acReg {
+		width:32pt;
+		text-align:center;
+		white-space: nowrap;
+	}
+	
+	#miscData .comments {
+		width:340pt;
+		text-align:left;
+	}
+	
+	#miscData .freespace {
+		height:100%;
+	}
+	
+	
+	
+	#signatureAndFooterData {
+		width:100%;
+		margin-left:auto;
+		margin-right:auto;
+		font-size:7pt;
+	}
+	
+	#signatureAndFooterData td {
+		border: 0px solid #fff;
+	}
+	
+	#signatureAndFooterData td.footerNotice {
+		padding-bottom:10pt;
+	}
+	
+	#signatureRow td{
+		padding-top:10pt;
+		border-bottom:1px solid #000 !important;
+	}
+	
+	.signatureHeader{
+		text-align: left;
+	}
+	
+	.signatureDottedLine {
+		
+	}
+	
+	.footerNotice {
+		text-align:center;
+		border: 0px;
+	}
+
+
+		

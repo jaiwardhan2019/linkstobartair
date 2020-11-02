@@ -51,12 +51,12 @@ function CalStaffTravel1(){
 
 <form id="loginForm" name="loginForm">
  
-      <input type="hidden" class="text_" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>"/>
- 
+      <input type="hidden" class="text_" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>"/> 
       <input type="hidden" class="text_" name="j_username" id="j_username" value="<%=request.getParameter("j_username")%>"/>
-
 	  <input type="hidden" class="text_" name="j_password" id="j_password" value="<%=request.getParameter("j_password")%>"/>
-		
+	  <input type="hidden" id="profilelist" name="profilelist" value="<%=request.getParameter("profilelist")%>">
+	  
+	  
             	<table class="table table-bordered table-condensed" style="width:50%">
       	
       	     

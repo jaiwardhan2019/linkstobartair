@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../include/groundopsheader.jsp" />
+<jsp:include page="../include/gopsheader.jsp" />
 
 <head>
     <title> Dashboard | Show  Documents. </title>    
@@ -81,7 +81,7 @@ function calDocumentUpdate(reportname){
 				
 			
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"> Documents with name :->  &nbsp; ${docname} 
+						<h3 class="panel-title"> Documents with name #  &nbsp; ${docname} 
 						 		    
 						</h3>
 					</div>
@@ -151,7 +151,14 @@ function calDocumentUpdate(reportname){
 										
 										</td>
 										<td >${contract.docAddedDate}</td>
-										<td align="center">${contract.docCategory}</td>
+										<td align="center">
+										
+											<c:set var="string1" value="${contract.docCategory}"/>
+                                               <c:set var="string2" value="${fn:substring(string1, 0,7)}" />
+			                                            ${string2}
+										
+										
+										</td>
 									    
 									</tr>
 					</c:forEach>

@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -53,6 +54,18 @@ public class flightReportsImp implements flightReports{
     gopsAllapi gopsobj;
     
 
+    @Value("${groundops.delay.code}")
+    String groundOpsDelayCodeGroup;
+    
+    @Value("${stobartair.delay.code}")
+    String stobartAirDelayCodeGroup;
+    
+	@Value("${nonstobartair.delay.code}")
+	String nonStobartAirDelayCodeGroup;
+	
+	
+    
+    
     //---------- Logger Initializer------------------------------- 
 	private final Logger logger = Logger.getLogger(flightReportsImp.class);
 
@@ -118,6 +131,7 @@ public class flightReportsImp implements flightReports{
 		   Date date             = new Date();
 		   String curent_year    = dateFormat.format(date);		   
 		   
+		  
 		   	
 		  
 		   String sqlforoperationalairport="";
@@ -311,7 +325,7 @@ public class flightReportsImp implements flightReports{
 	}
 
 
-   	   @Override  //Will be Called for the delay Flight Report 
+   	  @Override  //Will be Called for the delay Flight Report 
 	  public  List<delayReportParentPojo> PopulateDelayFlightReport(String airline, String airport, String fltdate ,String todate,String flightno, String useremail){
    		
 				boolean StobartUser = useremail.indexOf("@stobartair.com") != -1;
@@ -319,10 +333,10 @@ public class flightReportsImp implements flightReports{
 				String builtsql = null;
 				String commentsql = gopssql.builtDelayFlightCommentSql(fltdate, todate);
 			   
-				 //---- FOR STOBART USER----
-				   if(StobartUser) {
+				//---- FOR STOBART USER----
+				if(StobartUser) {
 					  builtsql= gopssql.builtDelayFlightReportSql(airline,airport,null,fltdate,todate,flightno);
-				   }
+				}
 		
 		   
 			   //---- FOR NON STOBART USER LIKE GH ----
@@ -353,13 +367,12 @@ public class flightReportsImp implements flightReports{
 					 
 			   }//end of if  FOR GH
 			   
-			   
-			   
+				   
 		  //--- Reading Data from 2 Database   
 		  List<fligthSectorLog>  flightseclog1    = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());		   
 		  List<flightDelayComment>  flightcomment = jdbcTemplateCorp.query(commentsql,new flightDelayCommentRowmapper());
 			  
-		  
+
 		  
 		  
 		  //------- Building Final List which need to be render on the screen
@@ -394,7 +407,7 @@ public class flightReportsImp implements flightReports{
 	
 	   
    /* This method will take Parameter as flightno and flightDate and FlightSectorList
-    * check for the flight and date if there is any comment available then return true or else false
+    * check for the flight and date if there is any comment available then return flightDelayComment
    */	  
    private flightDelayComment isCommentExitForThisFlightandDate(String flightNo, String flightDate,List<flightDelayComment> flightcomment) {
 		  
@@ -403,9 +416,8 @@ public class flightReportsImp implements flightReports{
 			 
 			 if(flightNo.equalsIgnoreCase(flightDComment.getFlightNumber()) && flightDate.equalsIgnoreCase(flightDComment.getFlightDate()))
 			 {
-			
-				 flightComment = flightDComment;
-		         
+				 flightComment = flightDComment;				 
+			     
 			 }
 		 }		 
 			   
@@ -421,7 +433,7 @@ public class flightReportsImp implements flightReports{
 	   
 	   
 
-  	   @Override  //jai  Will be Called for the delay Flight Report 
+  	   @Override  
 	   public List<fligthSectorLog> PopulateOnTimePerformanceReport(String airline, String airport, String fltdate ,String todate,String delaycode, String useremail){
 		   boolean StobartUser         = useremail.indexOf("@stobartair.com") != -1;
 		   GroundOpsSqlBuilder gopssql = new GroundOpsSqlBuilder();
@@ -460,18 +472,18 @@ public class flightReportsImp implements flightReports{
 		   }//end of if  FOR GH 
 		   
 		   
-		  
 		   
-		   //List<fligthSectorLog>  flightotp = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
+		 
+		   List<fligthSectorLog>  flightotp = jdbcTemplateSqlServer.query(builtsql,new flightSectorLogRowmapper());
+		   
+		 
+		   
 		   gopssql   = null;
 		   builtsql  = null;
 	
 		   
-		   //return flightotp;	 
-		   return null;	 
+		   return flightotp;	 
 		   
-		   
-	
 	   }//  End of Function 
 		
 		
@@ -537,11 +549,13 @@ public class flightReportsImp implements flightReports{
 		   linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();
 		   String sql=sqlb.builtReliabilityReportSQL(airline,airport,startDate,endDate,tolerance,delayCodeGroupCode);
 		   List<fligthSectorLog>  flightseclog = jdbcTemplateSqlServer.query(sql,new flightSectorLogRowmapper());		
-		   sql=null;
-		   sqlb=null;
+		   sql  = null;
+		   sqlb = null;
 		return flightseclog;
 	}
 
+	
+	
 	
 
 

@@ -26,8 +26,6 @@ public class EncryptDecrypt {
     SecretKey key;
     
     
-    
-
 	public EncryptDecrypt() throws Exception {
         myEncryptionKey = "ThisIsSpartaThisIsSparta";
         myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
@@ -71,25 +69,14 @@ public class EncryptDecrypt {
     
     //---- Function will take string password and validated with the db stored encripted password
 	public boolean validatePassword(String rawinputpassword , String storedpassword) throws Exception {
-		    
-		        //inputpassword="password@123";		     
 		        String encrypted=encrypt(rawinputpassword);
 		        String decrypted=decrypt(storedpassword);  	
-		        
 		        //System.out.println("Input String To Encrypt: "+ inputpassword);
 		        //System.out.println("Encrypted String: " + encrypted);
 		        //System.out.println("Decrypted String: " + decrypted);
         return encrypted.equalsIgnoreCase(storedpassword);
 		        
 	}
-
 	
-	public String Test_Message() {
-		
-		return "Hi this is test message";
-	}
-
-
- 
 	
 }

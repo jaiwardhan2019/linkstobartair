@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../include/groundopsheader.jsp" />
+<jsp:include page="../include/gopsheader.jsp" />
 
 <head>
     <title> Dashboard | Show  Documents. </title>    
@@ -62,77 +62,53 @@ function calDocumentUpdate(reportname){
  
  <form name="documentmaster" id="documentmaster">   
   
-  <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
-  <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
+ <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" id="cat" value="<%=request.getParameter("cat")%>">
  
- <br>
- <br>		
-
+ 
+<div class="container-fluid" style="margin-top:80px;">	
 		
 	<div class="row" align="center">
-	
-
-		<div  align="center" style="width:65%;">
 			
-			<div class="panel panel-primary" style="background:rgba(255,255,255);">
-		
+	    <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">		     
+			
+		 	<div class="panel panel-primary" style="overflow-x:auto;">
+			
+							<div class="panel-heading" >  
+							
+								  <c:if test = "${fn:contains(profilelist, 'docmanager')}"> 
+					 		          
+											<c:if test="${alfresco  != 'YES'}">
+											           ${foldername} &nbsp;&nbsp;&nbsp;
+												<a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=update');">
+												    <span class="label label-success">Update List &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+												</a>
+											</c:if>
+											
+											<c:if test="${alfresco  == 'YES'}">
+												${foldername}								    
+											</c:if>
+				                 
+				   	                </c:if>
+				   	           
+				   	           
+				   	                 <c:if test="${fn:indexOf(profilelist,'docmanager') == -1}">
+						
+									         ${foldername}
+							
+						 	          </c:if>
+							
+								
+							</div> <!-- End of class="panel-heading"> -->
+						
+						
+			<div class="panel-body" style="overflow-x:auto;">
 				
-				
-			   <c:if test="${profilelist.docmanager  == 'Y'}">
-			              
-			          
-			              
-						  <div class="panel-heading" style="background:#0070BA;">
-						  
-						     <h3 class="panel-title">
-						       
-						         <c:if test="${alfresco  != 'YES'}">
-						               ${foldername} &nbsp;&nbsp;&nbsp;
-								       <a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=update');">
-								           <span class="label label-success">Update List &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-								       </a>
-								  </c:if>
-								  
-						         <c:if test="${alfresco  == 'YES'}">
-								         ${foldername}								    
-								  </c:if>
-								  
-								  
-								  
-						       
-						     
-						     </h3>
-					      
-					      
-					      
-					      </div>
-					 
-				
-					  
-				</c:if>
-				
-				
-				
-			   <c:if test="${profilelist.docmanager  != 'Y'}">
-					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title">${foldername}
-						 		    
-						</h3>
-					</div>
-				</c:if>
-				
-				
-				
-				
-				
-				
-				
-				<div class="panel-body">
-				
-				<table class="table" align="center" style="background:rgba(255,255,255);">	   
-				
+		     	<table class="table table-responsive"  style="background:rgba(255,255,255);">	
+				      
+				      <tbody>
+			         
 					   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
 					       <c:if test = "${rowcount == 0}">
 					          
@@ -157,56 +133,76 @@ function calDocumentUpdate(reportname){
 
 		    					
 					 
-				<thead>
+			
 							<tr>
 								<th>Sr.</th>
 								<th>Description</th>
 								<th>Dated</th>
 								<th align="center">Category</th>							
 							</tr>
-                 <tbody>
+          
 								
 					<c:forEach var="contract" items="${gopsfilelist}">    
-									<tr>
-										<td width="4%"><%=ctr++%>.</td>
-										<td width="70%"><img src="${contract.docType}.png"> &nbsp; 
+							 
+							 <tr>
+										<td width="2%"><%=ctr++%>.</td>
+										<td width="70%"><img src="${contract.docType}.png">&nbsp;
 										
-										 <c:if test = "${fn:contains(contract.docCategory, 'FORM')}">
-										    <a href="forms/${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
-									     </c:if>
-										
-									    <c:if test = "${!fn:contains(contract.docCategory, 'FORM')}">
-										    <a href="${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
-									     </c:if>
-										
+										<c:choose>
+										  <c:when test = "${fn:contains(contract.docCategory, 'FORM')}">
+										    <a href="FORMS/${contract.docCategory}/${contract.docName}" target="_new">
+										    
+										     <c:set var="string1" value=" ${contract.docName}"/>
+                                                    <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
+			                                            ${string2}
+										    </a>
+											  </c:when>
+										  <c:when test = "${fn:contains(contract.docPath, 'WEIGHTSTATEMENT')}">
+										    <a href="WEIGHTSTATEMENT/${contract.docCategory}/${contract.docName}" target="_new">
+										    
+										        <c:set var="string1" value=" ${contract.docName}"/>
+                                                    <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
+			                                            ${string2}
+										       </a>
+										  </c:when>
+										  <c:otherwise>
+										     <a href="${contract.docCategory}/${contract.docName}" target="_new">										    
+										        <c:set var="string1" value=" ${contract.docName}"/>
+                                                    <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
+			                                              ${string2}
+										       </a>
+										  </c:otherwise>
+										</c:choose>										
 										
 										
 										</td>
 										<td >${contract.docAddedDate}</td>
-										<td align="left">
-										 
+										<td align="left">										 
 										 		<c:set var="string1" value="${contract.docCategory}"/>
-                                                <c:set var="string2" value="${fn:substring(string1, 0,4)}" />
+                                                <c:set var="string2" value="${fn:substring(string1, 0,6)}" />
 			                                      ${string2}
-										 
-										 
 										 </td>
 									    
 									</tr>
 					</c:forEach>
 									
 		       </c:if>
-		       
 		        
-	
-							</tbody>
-					</table>
-				</div>
-			</div>
+		        </tbody>
+		 				
+			</table>
 			
-		</div>
- </div>
- 
+			</div> <!-- End of  <div class="panel-body"> -->
+					
+			    </div>  <!-- Primary end   -->
+			
+			
+			  </div> <!-- Row   -->
+			
+			</div> <!-- Column   -->
+			
+		</div><!-- Container Flued   -->
+
  </form>
 </body>
 

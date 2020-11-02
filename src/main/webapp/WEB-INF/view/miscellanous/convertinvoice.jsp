@@ -115,10 +115,8 @@ function Convert_Invoice() {
  
  <form name="convertinvoice" id="convertinvoice" method="post" enctype="multipart/form-data">
   
-      <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
-      <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
- 
-         
+    <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+       
       <table class="table table-striped table-bordered" border="1" style="width: 50%;" align="center">	    
     		<tbody>				     
 			     <tr align="center">

@@ -13,7 +13,9 @@ import com.linkportal.datamodel.fligthSectorLog;
 public interface flightReports {
 	
 	String Populate_Operational_Airport(String airportcode, String useremail) throws Exception;
+
 	String Populate_Operational_Airline(String airlinecode, String useremail) throws Exception;
+
 	String Populate_Operational_AirlineReg(String airlinecode, String useremail) throws Exception;
 	
 	

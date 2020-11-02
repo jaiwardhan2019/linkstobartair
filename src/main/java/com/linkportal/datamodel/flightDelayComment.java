@@ -12,9 +12,7 @@ import org.apache.commons.codec.binary.Base64;
 
 public class flightDelayComment implements Serializable {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -9035123784258555856L;
 
 	
@@ -24,12 +22,13 @@ public class flightDelayComment implements Serializable {
 	private String status;
 	private String action;
 	private String comments;
+	private String stobartdelay;
 	private String dateTimeEntered;
 	private String dateTimeClosed;
 	private String enteredBy;
 	
 	
-	public flightDelayComment(String flightNumber, String flightDate, String status, String action, String comments,
+	public flightDelayComment(String flightNumber, String flightDate, String status, String action, String comments, String stobartdelay,
 			String dateTimeEntered,String dateTimeClosed, String enteredBy) {
 		super();
 		this.flightNumber = flightNumber;
@@ -37,6 +36,7 @@ public class flightDelayComment implements Serializable {
 		this.status = status;
 		this.action = action;
 		this.comments = comments;
+		this.stobartdelay = stobartdelay;
 		this.dateTimeEntered = dateTimeEntered;
 		this.dateTimeClosed = dateTimeClosed;
 		this.enteredBy = enteredBy;
@@ -101,6 +101,18 @@ public class flightDelayComment implements Serializable {
 	}
 
 
+	public String getStobartdelay() {
+		return stobartdelay;
+	}
+
+
+
+	public void setStobartdelay(String stobartdelay) {
+		this.stobartdelay = stobartdelay;
+	}
+
+
+
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
@@ -130,36 +142,41 @@ public class flightDelayComment implements Serializable {
 		return serialVersionUID;
 	}
 
-    //JAITODO
-	public long noofDaysOpened() throws ParseException {		
-		
-		if((this.dateTimeEntered != null) && (this.dateTimeClosed == null)) {
-			SimpleDateFormat sdformat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		    Date d1 = sdformat.parse(this.dateTimeEntered);
-		    Date d2 = sdformat.parse(sdformat.format(new Date())); 
-			return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
-		}
-		if((this.dateTimeEntered != null) && (this.dateTimeClosed != null)) {
-			SimpleDateFormat sdformat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		    Date d3 = sdformat.parse(this.dateTimeEntered);
-		    Date d4 = sdformat.parse(this.dateTimeClosed); 
-			return (int)( (d4.getTime() - d3.getTime()) / (1000 * 60 * 60 * 24));
-		}
-			else {return 0;}
-	}
-	
 
-	
-	
+
+	public long noofDaysOpened() throws ParseException {
+
+		SimpleDateFormat sdformat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date firstDate = sdformat.parse(this.dateTimeEntered);
+		long noOfDateDifference=0;
+		
+		
+		if(this.status.equalsIgnoreCase("close")){
+			Date secondDate = sdformat.parse(this.dateTimeClosed);
+			noOfDateDifference= ( (secondDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24));
+			this.setAction("taken");
+		}
+
+
+		if(this.status.equalsIgnoreCase("open")){
+			Date secondDate = sdformat.parse(sdformat.format(new Date()));
+			noOfDateDifference=(int)( (secondDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24));
+		}
+		return noOfDateDifference;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "flightDelayComment [flightNumber=" + flightNumber + ", flightDate=" + flightDate + ", status=" + status
-				+ ", action=" + action + ", comments=" + comments + ", dateTimeEntered=" + dateTimeEntered
-				+ ", dateTimeClosed=" + dateTimeClosed + ", enteredBy=" + enteredBy + "]";
+				+ ", action=" + action + ", comments=" + comments + ", stobartdelay=" + stobartdelay
+				+ ", dateTimeEntered=" + dateTimeEntered + ", dateTimeClosed=" + dateTimeClosed + ", enteredBy="
+				+ enteredBy + "]";
 	}
-
-
+	
+	
+	
 		
 	
 	

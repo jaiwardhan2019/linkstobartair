@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <!DOCTYPE html>
 <html>
@@ -32,34 +32,34 @@ function add_new_user(){
 
 
 function update_user(){
-	
-	var firstname = document.getElementById("firstname").value;
-	var lastname  = document.getElementById("lastname").value;
-	var phoneno   = document.getElementById("phoneno").value;
+
+	var iatacode = document.getElementById("iatacode").value;
+	var icaocode  = document.getElementById("icaocode").value;
+	var airlinename   = document.getElementById("airlinename").value;
 
 
-	if(firstname == "" || firstname == " ") {
-		alert("Please Enter First Name..");
-		document.getElementById("firstname").focus();	
+	if(iatacode == "" || iatacode == " ") {
+		alert("Please Enter IATA Code..");
+		document.getElementById("iatacode").focus();	
 		return false;
 	}
 	
 	
 
-	if(lastname == "" || lastname == " ") {
-		alert("Please Enter Last Name..");
-		document.getElementById("lastname").focus();	
+	if(icaocode == "" || icaocode == " ") {
+		alert("Please Enter ICAO Code..");
+		document.getElementById("icaocode").focus();	
 		return false;
 	}
 	
 	
 
-	if(phoneno == "" || phoneno == " ") {
-		alert("Please Enter Phone no..");
-		document.getElementById("phoneno").focus();	
+	if(airlinename == "" || airlinename == " ") {
+		alert("Please Enter Airline Name .");
+		document.getElementById("airlinename").focus();	
 		return false;
 	}
-	
+
 	
 	if(confirm("Are you sure about Updating detail.. ??")){			  
 		   document.smsreportuser.method="POST"
@@ -95,7 +95,7 @@ function update_user(){
   <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" name="operation" id="operation" value="">
-  <input type="hidden" name="userinsubject" id="userinsubject"  value="${smsUserEntity.userId}">
+  <input type="hidden" name="userinsubject" id="userinsubject"  value="${airlineEntity.id}">
 
   <table  border="0" style="width: 50%;" align="center"> 
 		     <tr>
@@ -112,7 +112,7 @@ function update_user(){
      	     
 			     <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">
-					   <span style="color:white;"> <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> &nbsp;<b>
+					   <span style="color:white;"> <i class="fa fa-plane fa-lg" aria-hidden="true"></i> &nbsp;<b>
 					    (Add / Update) Airline Data &nbsp;&nbsp;
 					   </b></span>					 
 					 </td>
@@ -123,10 +123,10 @@ function update_user(){
                 
                   <td align="left" bgcolor="white" width="50%">
 					<div class="col-xs-10">
-							<label> First Name </label>
+							<label> IATA Code </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
-										<input type="text"  name="firstname" id="firstname" class="form-control" value="${smsUserEntity.firstName}">					
+										<input type="text"  name="iatacode" id="iatacode" class="form-control" value="${airlineEntity.iata_code}">					
 												
 							</div>
 				    </div>
@@ -138,10 +138,10 @@ function update_user(){
 				            
 	              <td align="left" bgcolor="white" width="50%">
 					<div class="col-xs-10">
-							<label  >Last Name</label>  
+							<label  >ICAO Code</label>  
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></span>
-										<input type="text"   name="lastname" id="lastname" class="form-control"  value="${smsUserEntity.lastName}">										
+										<input type="text"   name="icaocode" id="icaocode" class="form-control"  value="${airlineEntity.icao_code}">										
 							</div>
 				    </div>
 		           </td>
@@ -154,10 +154,10 @@ function update_user(){
 	           <tr>        
 	               <td align="left" bgcolor="white" width="50%">
 					     <div class="col-xs-10">
-							<label >Phone no </label>
+							<label >Airline Name </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-									<input type="text"  name="phoneno"  id="phoneno" value="${smsUserEntity.phoneNo}" class="form-control" >  										
+									<input type="text"  name="airlinename"  id="airlinename" value="${airlineEntity.airline_name}" class="form-control" >  										
 							</div>
 			            </div>
 	               </td>
@@ -165,12 +165,12 @@ function update_user(){
 		               
 	               <td align="left" bgcolor="white" width="50%">
 					     <div class="col-xs-10">
-							<label>Group </label>
+							<label>Operational </label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>								
-										<select id="department" name="department" class="form-control" onchange="view_contract()" >	
-                                               <option value="Management" <c:if test ="${smsUserEntity.mgmtGroup == 'Management'}"> selected </c:if> > -  Management - </option>
-                                               <option value="General" <c:if test ="${smsUserEntity.mgmtGroup == 'General'}"> selected </c:if> > -  General - </option>     					
+										<select id="status" name="status" class="form-control" onchange="view_contract()" >	
+                                               <option value="Enable" <c:if test ="${airlineEntity.status == 'Enable'}"> selected </c:if> > -  YES - </option>
+                                               <option value="Disable" <c:if test ="${airlineEntity.status == 'Disable'}"> selected </c:if> > - NO  - </option>     					
 										</select>
 							</div>	
 						</div>
@@ -181,7 +181,52 @@ function update_user(){
 						  
 	           </tr>
 	           
-	           
+				
+			   <tr>
+                
+                  <td align="left" bgcolor="white" width="50%">
+					<div class="col-xs-10">
+							<label> SLA One  </label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
+										<textarea rows="02"  name="slaone" id="slaone" class="form-control" value="${airlineEntity.sla_one}">${airlineEntity.sla_one}</textarea>		 			
+												
+							</div>
+				    </div>
+				    
+	    
+		                
+	                </td>
+	 				
+				            
+	              <td align="left" bgcolor="white" width="50%">
+					<div class="col-xs-10">
+							<label>SLA Two</label>  
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></span>
+										<textarea rows="02"   name="slatwo" id="slatwo" class="form-control"  value="${airlineEntity.sla_two}">${airlineEntity.sla_two} </textarea>										
+							</div>
+				    </div>
+		           </td>
+      	                
+	           </tr>
+	            
+	            <tr>
+	            
+	             <td align="left" bgcolor="white" colspan="2">
+					<div class="col-xs-10">
+							<label>Any Comment</label>  
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></span>
+										<textarea rows="02"   name="comment" id="comment" class="form-control"  value="${airlineEntity.comment}">${airlineEntity.comment} </textarea>										
+							</div>
+				    </div>
+		           </td>
+      	                
+	           </tr>
+	            
+	            
+	            
 
  		      <tr align="center"> 
 				     					
@@ -198,20 +243,20 @@ function update_user(){
       
 
       <table width="65%" align="center" border="0">
-      		     <tr align="center" > 
-				     					
-						<td  bgcolor="white" colspan="2" >			                   
-			                 
-			                <span style="display:none" id="uploadstatus">   
-			                  <div  class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							         <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-lg"></i>
-			                  </div>
-			                 </span> 
-    		            </td>
-			         
-			         </tr> 
-		
-      
+   		  
+   		  <tr align="center" > 
+	     					
+			<td  bgcolor="white" colspan="2" >			                   
+                <span style="display:none" id="uploadstatus">   
+                  <div  class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+				         <b>Updating..</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-lg"></i>
+                  </div>
+                 </span> 
+ 		    </td>
+         
+         </tr> 
+
+    
       
       </table>
     

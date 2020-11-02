@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <!DOCTYPE html>
 <html>
@@ -107,8 +107,9 @@ function add_new_airline(){
 
 <form method="post" name="airlineAcount" onSubmit="return searchUser()";>
 
-  <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
-  <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
+<input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+
+ 
   <input type="hidden" name="usertype"  value="${usertype}">
   <input type="hidden" name="operation" id="operation" value="">
   <input type="hidden" name="userinsubject" id="userinsubject"  value="">
@@ -118,7 +119,7 @@ function add_new_airline(){
 	 		 
   <table  style="width: 100%;" align="center">
 	  <tr>
-			  <td> <font size="4">Manage Airline  Static Data and SLA</font></td>
+			  <td> <font size="4"><b>Manage Airline  Static Data and SLA</b></font></td>
 		  <td align="right"> 
 		      ${operationStatus} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         		<span onClick="add_new_airline();" id="addnew" class="btn btn-primary" ><i class="fa fa-plane" aria-hidden="true"></i>&nbsp;&nbsp;Add New</span> 
@@ -138,7 +139,7 @@ function add_new_airline(){
  	
  	
  		 
-  <table class="table table-striped table-bordered" border="1" style="width:100%;background:rgba(255,255,255,0.5);" align="center">	
+  <table class="table  table-bordered" border="1" style="width:100%;background:white;" align="center">	
 	
 	
 		

@@ -22,6 +22,33 @@
 	  color: white;
 	}
 	
+	
+	/* ------- Code for the Sub Menu Back Ground Color */	
+	.navclass {
+	   color: #000 !important;
+	   background-color: #fff !important;
+	   display: none;
+	}
+	
+	.navclass:hover {
+	  color: #fff !important;
+	  background-color: #0071ba !important;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 /* --------PANEL & BODY------------- */
 	.tooltip-inner {
 		background-color: #0071BA;

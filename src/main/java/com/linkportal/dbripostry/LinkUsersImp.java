@@ -5,13 +5,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
+import javax.sql.RowSet;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,26 +62,30 @@ public class LinkUsersImp implements linkUsers{
 
 	@Override
 	public void updateUser_detail_LastLoginDateTime(String useremail) {
-		
-		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-		   LocalDateTime now = LocalDateTime.now();
-		 
-		   String[] FirstName_LastName=useremail.split("[@._]"); 
-		   String sql="SELECT login_count FROM  link_user_master where email_id='"+useremail+"' or first_name='"+useremail+"'";		   
-		   SqlRowSet logincount = jdbcTemplatSqlserver.queryForRowSet(sql);
-		   
-		   if(logincount.next()) {
-			  jdbcTemplatSqlserver.execute("UPDATE LINK_USER_MASTER SET LAST_LOGIN_DATE_TIME='"+now+"' , LOGIN_COUNT='"+(logincount.getInt(1)+1)+"' WHERE EMAIL_ID='"+useremail+"' or first_name='"+useremail+"'");
+		try {
+ 
+			
+			   SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			   Date date = new Date();			   
+			   String now=formatter.format(date);
+			
+			 
+			   String[] FirstName_LastName=useremail.split("[@._]"); 
+			   String sql="SELECT login_count FROM  link_user_master where email_id='"+useremail+"'";		   
+			   SqlRowSet logincount = jdbcTemplatSqlserver.queryForRowSet(sql);
 			   
-		   }
-		   else
-		   {
-          	   sql="INSERT INTO LINK_USER_MASTER (FIRST_NAME,LAST_NAME,EMAIL_ID,ADMIN_STATUS,LOGIN_COUNT,LAST_LOGIN_DATE_TIME,ACTIVE_STATUS,INTERNAL_EXTERNAL_USER,gops_user_creation_date,created_by) "
-         	 		+ "VALUES ('"+FirstName_LastName[0]+"', '"+FirstName_LastName[1]+"','"+useremail+"', 'N', '1','"+now+"','Active','I','"+now+"','LDAP')";
-          	    jdbcTemplatSqlserver.execute(sql);
-		   }
+			   if(logincount.next()) {
+				  jdbcTemplatSqlserver.execute("UPDATE LINK_USER_MASTER SET LAST_LOGIN_DATE_TIME='"+now+"' , LOGIN_COUNT='"+(logincount.getInt(1)+1)+"' WHERE EMAIL_ID='"+useremail+"'");
+				   
+			   }
+			   else
+			   {
+			  	   sql="INSERT INTO LINK_USER_MASTER (FIRST_NAME,LAST_NAME,EMAIL_ID,ADMIN_STATUS,LOGIN_COUNT,LAST_LOGIN_DATE_TIME,ACTIVE_STATUS,INTERNAL_EXTERNAL_USER,gops_user_creation_date,created_by) "
+			          + "VALUES ('"+FirstName_LastName[0]+"', '"+FirstName_LastName[1]+"','"+useremail+"', 'N', '1','"+now+"','Active','I','"+now+"','LDAP')";
+			  	    jdbcTemplatSqlserver.execute(sql);
+			   }
 		   
-
+	  }catch(Exception upd) {logger.error("While Updating  User Last Login Date and Time : # "+upd.toString());}
 		
 	}//---------- End of Function updateUser_detail_LastLoginDateTime
 
@@ -88,7 +95,7 @@ public class LinkUsersImp implements linkUsers{
 	
 	
 	
-
+/*
 	@Override
 	public Map getUser_Profile_List_From_DataBase(String useremail) {
 		   
@@ -140,17 +147,18 @@ public class LinkUsersImp implements linkUsers{
 								if(rs.getString("SUB_PROFILE").equals("documentation")) {mapRet.put("documentation", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("forms")) {mapRet.put("forms", rs.getString("ACTIVE_STATUS"));}
 								
+								//------- For Admin Menu ---------------------
 								if(rs.getString("SUB_PROFILE").equals("gopsadmin")) {mapRet.put("gopsadmin", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("ManageUsers")) {mapRet.put("ManageUsers", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("ManageSmscontact")) {mapRet.put("ManageSmscontact", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("AirlineDataManager")) {mapRet.put("AirlineDataManager", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("CrewBrifingManager")) {mapRet.put("CrewBrifingManager", rs.getString("ACTIVE_STATUS"));}
+								if(rs.getString("SUB_PROFILE").equals("profileManager")) {mapRet.put("profileManager", rs.getString("ACTIVE_STATUS"));}
 							
 								
 								
 								
-								if(rs.getString("SUB_PROFILE").equals("Cascade")) {mapRet.put("Cascade", rs.getString("ACTIVE_STATUS"));}
-								
+								if(rs.getString("SUB_PROFILE").equals("Cascade")) {mapRet.put("Cascade", rs.getString("ACTIVE_STATUS"));}								
 								if(rs.getString("SUB_PROFILE").equals("Contract")) {mapRet.put("Contract", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("SUB_PROFILE").equals("Refis")) {mapRet.put("Refis", rs.getString("ACTIVE_STATUS"));}
 								if(rs.getString("ADMIN_STATUS").equals("Y")) {mapRet.put("admin","Y");}	 
@@ -176,39 +184,76 @@ public class LinkUsersImp implements linkUsers{
 	}
 
 
+*/
 
-
-
-
-
-
-
-
-	@Override //-------- Display FULL LIST OF LINK USER FROM  DATABASE / BASED ON SEARCH QUERY   
-	public List<Users> getLinkUserListFromDatabase(String usersname) {   
-		
-		String sqlstr="";
-		
-		
-		 
-		   if(usersname == null) {
-			   
-			   sqlstr="SELECT * FROM  LINK_USER_MASTER  order by FIRST_NAME";
-			   
-		   }
-		   else
-		   {
-
-				sqlstr="SELECT * FROM  LINK_USER_MASTER where FIRST_NAME like '"+usersname.trim()+"%'  or  LAST_NAME like '"+usersname.trim()+"%' order by FIRST_NAME";
-				
-		   }
+	@Override
+	public String getUser_Profile_List_From_DataBase(String useremail , String PassWord) {
 		   
-		   List  linkusers = jdbcTemplatSqlserver.query(sqlstr,new UsersRowmapper());
+		   String userProfileListSql= "SELECT    LINK_USER_MASTER.ADMIN_STATUS, LINK_PROFILE_MASTER.PROFILE_ID , LINK_PROFILE_MASTER.MAIN_PROFILE, LINK_PROFILE_MASTER.SUB_PROFILE ,USER_EMAIL,LINK_USER_PROFILE_LIST.ACTIVE_STATUS\r\n" + 
+					   		  "FROM  LINK_PROFILE_MASTER,  LINK_USER_PROFILE_LIST ,  LINK_USER_MASTER\r\n" + 
+					   		  "WHERE  LINK_PROFILE_MASTER.PROFILE_ID =   LINK_USER_PROFILE_LIST.PROFILE_ID "
+					   		  + "and  LINK_USER_MASTER.EMAIL_ID= LINK_USER_PROFILE_LIST.USER_EMAIL  \r\n" + 
+					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'  order by LINK_PROFILE_MASTER.MAIN_PROFILE";
 	
-		   return linkusers;
-		
+		  // System.out.println(userProfileListSql);
+		   
+		   //---------- THIS PART WILL COLLECT ALL USER PROFILE INTO A MAP WITH THE KEY AND VALUE----------
+	       String  profileList  = useremail+"#"+PassWord;
+	    
+	    	    
+	       SqlRowSet rowProfile =  jdbcTemplatSqlserver.queryForRowSet(userProfileListSql);
+	       while(rowProfile.next()) {
+	    	   profileList = profileList + "#"+rowProfile.getString("MAIN_PROFILE")+"#"+rowProfile.getString("SUB_PROFILE");
+	    	   
+	       }
+	       //System.out.println(profileList);       
+	       
+		return profileList;
 	}
 
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+	@Override // -------- Display FULL LIST OF LINK USER FROM DATABASE / BASED ON SEARCH QUERY
+	public List<Users> getLinkUserListFromDatabase(String usersname) {
+
+		String sqlstr = "";
+
+		if (usersname == null) {
+			sqlstr = "SELECT * FROM  LINK_USER_MASTER  order by FIRST_NAME";
+		} else {
+			sqlstr = "SELECT * FROM  LINK_USER_MASTER where FIRST_NAME like '" + usersname.trim()
+					+ "%'  or  LAST_NAME like '" + usersname.trim() + "%' order by FIRST_NAME";
+		}
+		List linkusers = jdbcTemplatSqlserver.query(sqlstr, new UsersRowmapper());
+		return linkusers;
+
+	}
 
 
 
@@ -298,7 +343,7 @@ public class LinkUsersImp implements linkUsers{
 	
 
 	@Override  //  THIS FUNCTION WILL ADD NEW PROFILE TO THE USER AFTER CHECKING IN THE DATABASE IF EXIST SKIP IF NOT THEN ADD
-	public void UpdateLinkProfiletoDataBase(String emailid,String activestatus,String adminstatus, List linkallprof){
+	public void UpdateLinkProfiletoDataBase(String emailid,List linkallprof){
 	
 		   
 		   try{
@@ -360,14 +405,14 @@ public class LinkUsersImp implements linkUsers{
 	@Override
 	public boolean Validate_External_User(String username, String ghpassword) {		 
 		  try {
-			  
-		  String sqlForUser = "SELECT gh_password FROM  LINK_USER_MASTER where active_status='Active' and  FIRST_NAME=?"; 		  
-		  String password   = jdbcTemplatSqlserver.queryForObject(sqlForUser, new Object[] { username }, String.class);
-		  String decrypted  = encdec.decrypt(password);
+				  
+			  String sqlForUser = "SELECT gh_password FROM  LINK_USER_MASTER where active_status='Active' and internal_external_user='E' and  FIRST_NAME=?"; 		  
+			  String password   = jdbcTemplatSqlserver.queryForObject(sqlForUser, new Object[] { username }, String.class);
+			  String decrypted  = encdec.decrypt(password);
 			  return decrypted.equals(ghpassword);
 		  
 		  }catch(Exception dbex) {					  
-			  logger.error("Ground Handler User Id:"+username+" is Not Validated:"+dbex.toString());
+			  logger.error("Ground Handler User Id:"+username+" is Not Validated !! Because of : #"+dbex.toString());
 			  return false;
 		  }
 		

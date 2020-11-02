@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../include/groundopsheader.jsp" />
+<jsp:include page="../include/gopsheader.jsp" />
 
 <!--  
   https://www.w3schools.com/Bootstrap/bootstrap_grid_examples.asp

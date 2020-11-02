@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <!DOCTYPE html>
 <html>
@@ -107,8 +107,9 @@ function add_new_user(){
 
 <form method="post" name="smsUser" onSubmit="return searchUser()";>
 
-  <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
-  <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+
+ 
   <input type="hidden" name="usertype"  value="${usertype}">
   <input type="hidden" name="operation" id="operation" value="">
   <input type="hidden" name="userinsubject" id="userinsubject"  value="">
@@ -117,7 +118,7 @@ function add_new_user(){
 	 		 
   <table  style="width: 80%;" align="center">
 	  <tr>
-			  <td> <font size="4">Manage SMS Report Consumer </font></td>
+			  <td> <font size="4"><b>Manage SMS Report Consumer </b></font></td>
 		  <td align="right"> 
 		      ${operationStatus} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New User</span> 
@@ -136,11 +137,7 @@ function add_new_user(){
  	
  	
  	
- 		 
-  <table class="table table-striped table-bordered" border="1" style="width: 80%;background:rgba(255,255,255,0.5);" align="center">	
-	
-	
-		
+ 	  <table class="table  table-bordered" border="1" style="width: 80%;background:white;" align="center">			
 	     <tr align="center">
 				    
 				    <td bgcolor="#0070BA">

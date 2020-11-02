@@ -18,24 +18,13 @@ public class flightDelayCommentRowmapper implements  RowMapper<flightDelayCommen
 				   rs.getString("Status"),
 				   rs.getString("Action_Status"),
 				   rs.getString("Comment"),
+				   rs.getString("stobart_attributable_Delay"),
 				   rs.getString("Entry_Date_Time"),
 				   rs.getString("Closing_Date_Time"),
 				   rs.getString("Entery_By"));	
 	       return delcomment;
 	}
-	
 
 
 }//  End of function 
 
-
-
-  /*****  SAMPLE RETURNING STRING LIST FROM JDBCTEMPLET ******************
-   List<String> names = jdbcTemplateMysql.query(sql1, new RowMapper<String>() {
-	      public String mapRow(ResultSet resultSet, int i) throws SQLException {
-	        return resultSet.getString("name");
-	      }
-	    });
-   
-   System.out.println(names);
-   */

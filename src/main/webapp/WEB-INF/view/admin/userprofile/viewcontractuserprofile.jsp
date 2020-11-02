@@ -127,7 +127,7 @@ tr:nth-child(even) {
 <form method="post" name="contractuser" id="contractuser">   
    
 
-  <input type="hidden" name="emailid" id="emailid" value="${emailid}">
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
   <input type="hidden" name="userid" id="userid" value="${userid}">
   <input type="hidden" name="operation" id="operation" value="">
   <input type="hidden" name="profileid" id="profileid" value="">

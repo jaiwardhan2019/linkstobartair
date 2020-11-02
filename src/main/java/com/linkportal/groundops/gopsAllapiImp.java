@@ -1,5 +1,9 @@
 package com.linkportal.groundops;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.DateFormat;
@@ -11,6 +15,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
@@ -18,6 +23,7 @@ import javax.sql.DataSource;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -26,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.linkportal.datamodel.flightDelayComment;
 import com.linkportal.datamodel.flightDelayCommentRowmapper;
+import com.linkportal.email.linkPortalEmail;
 import com.linkportal.security.*;
 
 
@@ -46,6 +53,13 @@ public class gopsAllapiImp implements gopsAllapi  {
 	
 	
 
+	@Autowired
+	linkPortalEmail emaiObj;
+	
+
+	@Value("${mail.body.delaycomment}") String emailBodyContent;
+	
+	
 	
 	
 	
@@ -108,6 +122,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 			   status = jdbcTemplateRefis.update("DELETE FROM  link_user_master WHERE internal_external_user='E' and email_id='"+emailid+"'");
 		       status = jdbcTemplateRefis.update("DELETE FROM  link_user_profile_list WHERE user_email='"+emailid+"'");
 		       status = jdbcTemplateRefis.update("DELETE FROM  Gops_Airline_Station_Access WHERE USER_NAME='"+emailid+"'");
+		       status = jdbcTemplateRefis.update("delete from link_user_profile_list where user_email='"+emailid+"'");
 		       
 		       //jdbcTemplateRefis.execute("SET FOREIGN_KEY_CHECKS=1");		
 		       
@@ -229,8 +244,6 @@ public class gopsAllapiImp implements gopsAllapi  {
 			   String sqlinsert=null;
 			   PreparedStatement pstm =null;
 			   
-			   
-			   
 			   //--- Find the duplicate entry --
 			   String sqlforname="select first_name  from link_user_master where first_name='"+req.getParameter("userid").trim()+"' and internal_external_user='E'";
 			   SqlRowSet row1 =  jdbcTemplateRefis.queryForRowSet(sqlforname);
@@ -238,9 +251,6 @@ public class gopsAllapiImp implements gopsAllapi  {
 			   
 			   //-- Encrypting password --
 			   String passwordencripted= encdec.encrypt(req.getParameter("userpassword"));
-			   //System.out.println("EncriptedPass:"+passwordencripted);
-			 
-			   
 			   
 			   String SQL_UPDATE ="INSERT INTO link_user_master (first_name ,  email_id, active_status ,admin_status, internal_external_user ,gh_password ,description, gops_user_creation_date , created_by )  VALUES " + 
 	          	   		"( ?,?,?,?,?,?,?,?,?)";
@@ -258,8 +268,6 @@ public class gopsAllapiImp implements gopsAllapi  {
 			       pstm=null;   
 						   
 				   
-				   
-				   
 				//--- UPDATING Gops_Airline_Station_Access   AirLine Step 1(Remove All data) Step 2(Insert Station and Insert Airline)
 				
 				//-- Remove all AirLine && Station for this User   
@@ -267,33 +275,31 @@ public class gopsAllapiImp implements gopsAllapi  {
 				pstm = conn.prepareStatement(SQL_UPDATE);
 				rows = pstm.executeUpdate();
 				
-				
-				  if(req.getParameterValues("airline") != null) {
-						
-						//-- Inserting Airline Code   
-						String[] selectedprofile = req.getParameterValues("airline");
-					    List profilelist = Arrays.asList(selectedprofile);
-					    
-					    for(int i = 0; i < profilelist.size(); i++) {
-						    sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,airline_code,station_code)  VALUES('"+req.getParameter("userid")+"','"+profilelist.get(i)+"','NA')";	
-						    int statstatus=jdbcTemplateRefis.update(sqlinsert);	
-						 }// End of For Loop --- 
-						 
+				if (req.getParameterValues("airline") != null) {
+
+					// -- Inserting Airline Code
+					String[] selectedprofile = req.getParameterValues("airline");
+					List profilelist = Arrays.asList(selectedprofile);
+
+					for (int i = 0; i < profilelist.size(); i++) {
+						sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,airline_code,station_code)  VALUES('"
+								+ req.getParameter("userid") + "','" + profilelist.get(i) + "','NA')";
+						int statstatus = jdbcTemplateRefis.update(sqlinsert);
+					} // End of For Loop ---
+
 				}
-			    
-				  
-					  
-				  if(req.getParameterValues("station") != null) {		  
-				    //-- Inserting Station Code  
+	  
+				if (req.getParameterValues("station") != null) {
+					// -- Inserting Station Code
 					String[] selectedprofile = req.getParameterValues("station");
-				    List profilelist = Arrays.asList(selectedprofile);
-				    for(int i = 0; i < profilelist.size(); i++) {
-				    	sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,station_code,airline_code)  VALUES('"+req.getParameter("userid")+"','"+profilelist.get(i)+"','NA')";	
-					    int statstatus=jdbcTemplateRefis.update(sqlinsert);					  
-					
-					 }// End of For Loop --- 
-			      }
-				  
+					List profilelist = Arrays.asList(selectedprofile);
+					for (int i = 0; i < profilelist.size(); i++) {
+						sqlinsert = "INSERT INTO Gops_Airline_Station_Access (user_name,station_code,airline_code)  VALUES('"
+								+ req.getParameter("userid") + "','" + profilelist.get(i) + "','NA')";
+						int statstatus = jdbcTemplateRefis.update(sqlinsert);
+
+					} // End of For Loop ---
+				}
 
 			    pstm = null;
 			    conn.close();
@@ -439,40 +445,57 @@ public class gopsAllapiImp implements gopsAllapi  {
 
 	  
 	
-	/// For the  Delay Feedbac ---
+	/// This method will add delay feedback to the database---
 	@Override
 	public boolean addDelayFeedback(HttpServletRequest req) {
 		   try {
 			
 	
-			   SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
+			   SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			   Date date = new Date();			   
+			   String closingDate=formatter.format(date);
 			   
-			   Date date = new Date();
 			   Connection conn        = dataSourcesqlservercp.getConnection();
 			   PreparedStatement pstm = null;
 			   
-			   String sqlinsert ="INSERT INTO Gops_Flight_Delay_Comment_Master ( Flight_No ,  Flight_Date , Status , Action_Status , Comment ,Entry_Date_Time, Entery_By, Closing_Date_Time )  VALUES " + 
-	          	   		"( ?,?,?,?,?,?,?,?)";
+			   String sqlinsert ="INSERT INTO Gops_Flight_Delay_Comment_Master ( Flight_No ,  Flight_Date , Status , Action_Status , stobart_attributable_Delay , Comment ,Entry_Date_Time, Entery_By, Closing_Date_Time )  VALUES " + 
+	          	   		"( ?,?,?,?,?,?,?,?,?)";
+			   
+			   if(req.getParameter("status").equalsIgnoreCase("open")) {				
+				   closingDate=null;			   				   
+			   }
+				 
+			   //System.out.println("Stobart Att Delay :"+req.getParameter("stobartad"));
 			   
 	           pstm = conn.prepareStatement(sqlinsert);
 				   pstm.setString(1,req.getParameter("flightno"));
 				   pstm.setString(2,req.getParameter("datop"));
 				   pstm.setString(3,req.getParameter("status"));
 				   pstm.setString(4,req.getParameter("astatus"));
-				   pstm.setString(5,req.getParameter("feedback"));
-				   pstm.setString(6, formatter.format(date));
-				   pstm.setString(7,req.getParameter("addedby"));	   	
-				   pstm.setString(8, formatter.format(date));
+				   pstm.setString(5,req.getParameter("stobartad"));				   
+				   pstm.setString(6,req.getParameter("feedback"));
+				   pstm.setString(7, formatter.format(date));
+				   pstm.setString(8,req.getParameter("addedby"));	   	
+				   pstm.setString(9,closingDate);
 			       int rows = pstm.executeUpdate();
-			       pstm=null;   
-			
-			    pstm = null;
-			    conn.close();
+			       pstm=null;
+
+			       pstm = conn.prepareStatement("Update Gops_Flight_Delay_Comment_Master set Action_Status=? , Status=? , stobart_attributable_Delay=? ,Closing_Date_Time=? where Flight_No=? and Flight_Date=?");
+			   	   pstm.setString(1,req.getParameter("astatus"));
+			   	   pstm.setString(2,req.getParameter("status"));
+			   	   pstm.setString(3,req.getParameter("stobartad"));
+			   	   pstm.setString(4,closingDate);
+			   	   pstm.setString(5,req.getParameter("flightno"));
+			   	   pstm.setString(6,req.getParameter("datop"));
+			       rows = pstm.executeUpdate();
+
+			   pstm = null;
+			   conn.close();
 		
 			   }catch(Exception ex) {logger.error("While Adding Deley Comment on Delay  Report BY Ground Handler  :"+ex.toString()); return false;}	
 				
 		
-		return false;
+		return true;
 	}
 
 
@@ -562,7 +585,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> On Time Date </span></td>" + 
 						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+ontimedep + 
 						   		      " %</span></td></tr>";
-						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Within 15 Minutes. </span></td>" + 
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Within 15 Minutes </span></td>" + 
 						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+lessthen15minutesdep + 
 						   		      " %</span></td></tr>";
 
@@ -572,32 +595,32 @@ public class gopsAllapiImp implements gopsAllapi  {
 						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+ontimearr + 
 						   		      " %</span></td></tr>";
 	
-						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Within 15 Minutes. </span></td>" + 
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Within 15 Minutes </span></td>" + 
 						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+lessthen15minutesarr + 
 						   		      " %</span></td></tr>";
 
 						   reportbody = reportbody+"<tr><td colspan='2' align='left' height='30px'><u><span style='font-size:09pt;font-weight:600;'> No of Flights</span></u></td> </tr>"; 
 						   							          
 							
-						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Schedule for Today . </span></td>" + 
-						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+totalflights + 
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Schedule for Today  </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'> <i class='fa fa-clock-o' aria-hidden='true'></i>&nbsp; "+totalflights +
 						   		      " </span></td></tr>";
 					   		
 
 							
-						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Completed So Far. </span></td>" + 
-						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;color:green;'>"+NumFlownsofar + 
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Completed So Far </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;color:green;'><i class='fa fa-check' aria-hidden='true'></i>&nbsp; "+NumFlownsofar +
 						   		      " </span></td></tr>";
 					   		
 
 							
-						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Cancelled. </span></td>" + 
-						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;color:red;'>"+cancelledsofar + 
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Cancelled </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;color:red;'><i class='fa fa-times' aria-hidden='true'></i>&nbsp; "+cancelledsofar +
 						   		      " </span></td></tr>";
 					   		
 							
-						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Air Born. </span></td>" + 
-						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+totalairborn + 
+						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> Airborne </span></td>" + 
+						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'><i class='fa fa-plane' aria-hidden='true'></i>&nbsp; "+totalairborn +
 						   		      " </span></td></tr>";
 
 						   
@@ -615,6 +638,110 @@ public class gopsAllapiImp implements gopsAllapi  {
 	}
 	//-------- END OF FUNCTION ---------------
 
+
+
+	
+	
+	@Override  
+	public void notifyGroundHandlersForDelayComment(HttpServletRequest req) throws Exception {         
+		 //------- Load Email List Property file emailjai
+		 ClassLoader classLoader = this.getClass().getClassLoader();
+		 File configFile=new File(classLoader.getResource("airportcontactemail.properties").getFile());
+		 FileReader reader=new FileReader(configFile);
+		 Properties p=new Properties(); 
+		 p.load(reader); 		 
+		 String flightInfostr = req.getParameter("flightno")+ " ("+req.getParameter("fromstn")+" - "+req.getParameter("tostn")+") Dated: "+req.getParameter("datop");		 
+		 //if(req.getParameter("astatus").equalsIgnoreCase("taken")) {flightInfostr=flightInfostr+" Issue Resolved ";}		 
+		 String emailBody     = emailBodyContent.replaceAll("FLIGHT", flightInfostr);
+		 emailBody            = emailBody.replaceFirst("CONTENT", req.getParameter("feedback")); 		 
+		 emaiObj.sendTextHtmlEmail(p.getProperty(req.getParameter("fromstn")),"Update on Flight No: "+flightInfostr ,emailBody);
+		 //emaiObj.sendTextHtmlEmailWithAttachment(p.getProperty(req.getParameter("fromstn")),"Update on Flight No: "+flightInfostr ,emailBody,"c://data//groundops//alfresco//Company Policies//Email Policy.pdf");
+		 //emaiObj.sendHtmlEmailOnTemplate(p.getProperty(req.getParameter("fromstn")),"Update on Flight No: "+flightInfostr ,emailBody);
+		 
+		 
+	} //  End of method 	
+
+
+
+
+	
+	
+	
+	@Override
+	public void updateGroudopsHomePageFlashingMessage(String Message, String addedBy) {
+		   try {
+			   SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			   Date date = new Date();			   
+			   String addedDate=formatter.format(date);
+			   Connection conn        = dataSourcesqlservercp.getConnection();
+			   PreparedStatement pstm = conn.prepareStatement("delete from Gops_Home_Page_Message");
+			   pstm.execute();
+			   pstm = null;			   
+			   String sqlinsert ="INSERT INTO Gops_Home_Page_Message ( messageDetail ,  enteredbyEmail , enteredDate)  VALUES " + 
+	          	   		"( ?,?,?)";
+		       pstm = conn.prepareStatement(sqlinsert);
+				   pstm.setString(1,Message);
+				   pstm.setString(2,addedBy);
+				   pstm.setString(3,addedDate);				   
+			       int rows = pstm.executeUpdate();	
+			   pstm = null;
+			  
+			   }catch(Exception ex) {logger.error("While Adding Flashing Message on the Gops Home Page BY :"+addedBy+ " =>"+ex.toString());}	
+				
+		
+	}
+
+	
+	@Override
+	public String getGroudopsHomePageFlashingMessage() {
+
+		String MessageValue = null;
+		String sqlStr = "select * from Gops_Home_Page_Message";
+		SqlRowSet row1 = jdbcTemplateRefis.queryForRowSet(sqlStr);
+		if (row1.next()) {
+			MessageValue = row1.getString("messageDetail");
+		}
+        
+		return MessageValue;
+	}
+	
+	
+	
+	@Override 
+	public String updateGroundOpsUsersProfile(String emailid, String profileid, String action) {
+
+		String sqlProfileManager = null;	
+		String updateStatus = null;
+		// ----- Create New Entry into Table
+		if (action.equalsIgnoreCase("ADD")) {
+			String sqlStr = "select * from link_user_profile_list where user_email='" + emailid + "' and profile_id="
+					+ profileid;
+			SqlRowSet row1 = jdbcTemplateRefis.queryForRowSet(sqlStr);
+			if (!row1.next()) {	
+				sqlProfileManager = "INSERT INTO link_user_profile_list ( user_email ,  profile_id , active_status)  VALUES "
+						+ "('" + emailid + "'," + profileid + ",'Y')";
+				jdbcTemplateRefis.execute(sqlProfileManager);
+				updateStatus = "User Profile Added.";
+			}
+		}
+		
+		// ----- Remove Entry from Table
+		if (action.equalsIgnoreCase("REM")) {
+			sqlProfileManager = "delete from link_user_profile_list where user_email='" + emailid + "' and profile_id="
+					+ profileid;
+			jdbcTemplateRefis.execute(sqlProfileManager);
+			updateStatus = "User Profile Removed.";
+		}
+		
+		logger.info(emailid + " : Profile Updated : with Id :"+profileid);
+        return updateStatus;  
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 

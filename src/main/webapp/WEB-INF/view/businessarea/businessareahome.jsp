@@ -33,9 +33,7 @@ function calBusinessCategory(category){
 <form name="stobart_businesupdates" id="stobart_businesupdates">
 
 <input type="hidden" id="cat" name="cat" value="">
-<input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
-<input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
-
+<input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
 <br>
    <div class="container-fluid" style="margin-top:60px;">	
 	

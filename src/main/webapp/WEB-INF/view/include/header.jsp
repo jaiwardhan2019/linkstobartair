@@ -7,7 +7,7 @@
 
 <script>
 /*
-//--- THIS PIECE OF CODE WILL DISABLE THE MOUSE RIGHT CLICK ------------ 
+--- THIS PIECE OF CODE WILL DISABLE THE MOUSE RIGHT CLICK ------------ 
     var isNS = (navigator.appName == "Netscape") ? 1 : 0;
 	if(navigator.appName == "Netscape") document.captureEvents(Event.MOUSEDOWN||Event.MOUSEUP);
 
@@ -24,7 +24,18 @@
 	document.oncontextmenu = mischandler;
 	document.onmousedown = mousehandler;
 	document.onmouseup = mousehandler;
+	
 	*/
+	
+
+	function calCrewBreafingReport(reportname,category){
+		document.stobart_home_page.method="POST";
+		document.stobart_home_page.action=reportname+"?cat="+category;
+	    document.stobart_home_page.submit();
+		return true;
+	}
+	
+
 </script>
  
     <meta charset="utf-8">
@@ -65,13 +76,14 @@
 
 
 <% 
-String fullemail            = request.getAttribute("emailid").toString();
-String password             = request.getAttribute("password").toString();
-if(fullemail.trim().length() < 2){response.sendRedirect("index");}
-String[] FirstName_LastName = fullemail.split("@");
-String user_login_id        = FirstName_LastName[0];
 
-
+String[] userProfileList   =  request.getAttribute("profilelist").toString().split("#");
+String userFullEmailid     =  userProfileList[0];
+String userPassword        =  userProfileList[1];
+if(userFullEmailid.length() < 2){response.sendRedirect("index");}
+String[] userFirstLastName  = userFullEmailid.split("@");
+String userLoginId          = userFirstLastName[0];
+// Url Encoding 
 //https://stackoverflow.com/questions/5053975/how-to-encode-a-string-representing-url-path-with-jstl
 %>
 
@@ -105,42 +117,55 @@ function calStaffTravelUsers(){
 }
 
 
+function calAdminHomePage(){
+	document.stobart_home_page.method="POST";
+	document.stobart_home_page.action="adminhome";
+	document.stobart_home_page.target="_new";
+    document.stobart_home_page.submit();
+	return true;
+}
+
+
+
+
 </script>
 
 
 
 <form name="stobart_home_page" id="stobart_home_page">
-
-  <input type="hidden" id="emailid" name="emailid" value="<%=fullemail%>">
-  <input type="hidden" id="password" name="password" value="<%=password%>">
-
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
 </form>
+
 
 
 <!-- Menu --->	 
 <nav class="navbar navbar-default navbar-fixed-top panel-shadow">
 
-	<div class="container-fluid" style="background:#0071ba;" >
+ <div class="container-fluid" style="background:#0071ba;" >
    
 	
-
-    <div class="navbar-header"  >
-         
-		<a href="javascript:void();" onClick="calHomePage();"  class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Link Home Page" style="margin-left:3px;margin-top:04px;padding:0px;" >
+    <div class="navbar-header">
+    	<a href="javascript:void();" onClick="calHomePage();"  class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Link Home Page" style="margin-left:3px;margin-top:04px;padding:0px;" >
 			<img src="images/logo-menu-new.png" alt="Link Home Page" class="img-responsive" style="margin-top:-px;" />
-			
 		</a>	
     </div>
-  
-    
+ 
+     
+		  
+    <div class="navbar-header navbar-right">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href=""></a>
+    </div>
 
- <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    
-		<ul class="nav navbar-nav navbar-right">
-		
-			
-		 <li class="dropdown">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+      		
+			 <li class="dropdown">
 	 
 	  	    <a  href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Link Home Page"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Link Home </a>
 		  
@@ -149,55 +174,52 @@ function calStaffTravelUsers(){
 
 
 		
-         <!-- REPORT  MENU -->
+      <!-- REPORT  MENU -->
          
-    <c:if test="${profilelist.Reports  == 'Y'}">   
+
+      
+     	 <c:if test = "${fn:contains(profilelist, 'Reports')}"> 
+      
+        
          		
-	     <li class="dropdown">
+	       <li class="dropdown">
 		 
 			  <a href="adminhome" onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;Reports <span class="caret"></span></a>
 			  
 				  <ul class="dropdown-menu" style="left:0;width:200px;">
 				        
-				        <c:if test="${profilelist.Flight_Report  == 'Y'}">   
-				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_mayFly_report?airportcode=ALL&airlineCode=ALL');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Flight Report (MayFly)</a></li>
+				        <c:if test = "${fn:contains(profilelist, 'Flight_Report')}"> 
+				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_mayFly_report?airportcode=ALL&airlineCode=ALL');"  style="font-size:09pt;color:black;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Flight Report (MayFly)</a></li>
 					    </c:if>
-					    <c:if test="${profilelist.Reliablity  == 'Y'}"> 
-					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityReportForm');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Reliability Report</a></li>
+					 	   			
+     	 	   	  	    <c:if test = "${fn:contains(profilelist, 'Reliablity')}"> 	    
+					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityReport?airlinecode=ALL&airportcode=ALL&delayCodeGroupCode=ALL&tolerance=0&flightno=');"  style="font-size:09pt;color:black;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Reliability Report</a></li>
 					    </c:if> 
-					    <!--
-					    <c:if test="${profilelist.DelayReport  == 'Y'}"> 
-					         <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('reliabilityAction');"  style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Delay Report</a></li>
-					    </c:if> 
-					    -->
-					     <c:if test="${profilelist.Daily_Summary  == 'Y'}"> 					     
-					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_daily_summary_report_form?airlineCode=ALL');"   style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Daily Summary Report</a></li>
+					    
+					    			     
+					    <c:if test = "${fn:contains(profilelist, 'Daily_Summary')}"> 	    
+					    
+					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_daily_summary_report_form?airlineCode=ALL');"   style="font-size:09pt;color:black;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Daily Summary Report</a></li>
 					     </c:if> 
 					     
-					 
-					     <c:if test="${profilelist.Voyager  == 'Y'}">  
-					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('voyagerReport?airlineCode=ALL');" style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Voyager Report</a></li>
+						 <c:if test = "${fn:contains(profilelist, 'Voyager')}"> 	    
+					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('voyagerReport?airlineCode=ALL');" style="font-size:09pt;color:black;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Voyager Report</a></li>
 				         </c:if> 
-	<!-- 			         
-					     <c:if test="${profilelist.Flybe_Today  == 'Y'}">  
-							  <li style="margin-top:3px;margin-bottom:3px;"><a href="http://www.stobartair.com/flight-status/" target="_new"  style="font-size:09pt;"><i class="fa fa-database" ></i> &nbsp;Flybe Today Flight Status &nbsp;&nbsp;</a></li>
-			    		 </c:if> 
-     -->						 
+	   
+	
 			   		  
 			     </ul>	 
 			     
 			     
 			      
-		</li>
-  </c:if> 
-    <!-- END OF REPORT MENU -->	 
+				</li>
+		  </c:if> 
+		    <!-- END OF REPORT MENU -->	 
+		  
   
-    
-    
-    
     <!-- Miscellaneous  MENU -->
-         
-    <c:if test="${profilelist.Miscellaneous  == 'Y'}">   
+    <c:if test = "${fn:contains(profilelist, 'Miscellaneous')}">      
+    
          		
 	     <li class="dropdown" >
 		 
@@ -205,22 +227,31 @@ function calStaffTravelUsers(){
 			  
 				  <ul class="dropdown-menu" style="left:0;width:200px;">
 				        
-				        <c:if test="${profilelist.Finance == 'Y'}">   
-				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('invoiceconversiontool');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Invoice-Conversion-Tool</a></li>
+				        <c:if test = "${fn:contains(profilelist, 'Finance')}">    
+				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('invoiceconversiontool');"  style="font-size:09pt;color:black;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Invoice-Conversion-Tool</a></li>
 					    </c:if>		
 					    <!-- 
-					    <c:if test="${profilelist.Finance == 'Y'}">   
-				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Download Fuel Report</a></li>
+					     <c:if test = "${fn:contains(profilelist, 'Finance')}">   
+				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:09pt;color:black;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Download Fuel Report</a></li>
 					    </c:if>					 
 					         -->
-				      <c:if test="${profilelist.RemoveStaffTravelUser  == 'Y'}">  
+				    
+				      <c:if test = "${fn:contains(profilelist, 'RemoveStaffTravelUser')}">   
 											
-							<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calStaffTravelUsers();"  style="font-size:09pt;"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp;Remove Staff Travel Account</a></li>
+							<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calStaffTravelUsers();"  style="font-size:09pt;color:black;"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp;Remove Staff Travel Account</a></li>
 						  
 				      </c:if> 
-							
+					
+		              
+				     
+				      <c:if test = "${fn:contains(profilelist, 'CrewBrifingManager')}">
+		              
+		              	    <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calCrewBreafingReport('managecrewbriefing','PPS Crew Briefing Integration');" style="font-size:9pt;"><i class="fa fa-hashtag" aria-hidden="true"></i> &nbsp;Crew Briefing Manager </a></li>
+						  
+				      </c:if> 
+					
 					    
-					    			 
+				    	 
 			   		  
 			     </ul>	 
 			      
@@ -237,29 +268,32 @@ function calStaffTravelUsers(){
 	 		
 	    <!-- SECOND  MENU -->	
 			<li class="dropdown">
-					  <a href="#" onmouseover="this.click()"  style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;<%=user_login_id %>&nbsp;<span class="caret"></span></a>
+					  <a href="#" onmouseover="this.click()"  style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user-circle"></i>&nbsp;&nbsp;<%=userLoginId %>&nbsp;<span class="caret"></span></a>
 					  <ul class="dropdown-menu" style="left:0">
 					  
-					   <c:if test="${profilelist.admin  == 'Y'}">   
-		                       <li style="margin-top:3px;margin-bottom:3px;"><a href="adminhome?emailid=<%=fullemail%>" target="_new"  style="font-size:09pt;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp;Admin</a></li>
+				
+					   <c:if test = "${fn:contains(profilelist, 'admin')}">
+					     
+		                       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calAdminHomePage();"   style="font-size:09pt;color:black;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp;Admin</a></li>
                         </c:if> 
 			                 
-						  <li style="margin-top:3px;margin-bottom:3px;"><a href="logout" style="font-size:09pt;"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;Logout</a></li>
+						  <li style="margin-top:3px;margin-bottom:3px;"><a href="logout" style="font-size:09pt;color:black;"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;Logout</a></li>
 					  
 					  </ul>
 			 </li>	
-			 
-				
-		</ul>
+
+        </ul>
     </div>
-
-
+    <!-- /.navbar-collapse -->
+      
+ 
 </div>	<!-- /.container-fluid -->
 	
 </nav>
 
 
 <!-- End of  Menu  --->	 
+
 
 
 
@@ -271,6 +305,4 @@ function calStaffTravelUsers(){
    <script src="js/bootstrap.min.js"></script>
    <script src="js/bootstrap-datepicker.js"></script>
    
-   
-
-   
+  

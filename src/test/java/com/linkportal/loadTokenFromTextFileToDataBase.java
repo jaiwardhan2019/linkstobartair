@@ -25,7 +25,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.linkportal.crewripostry.crewReport;
 
-public class tokenPPmsUpload {
+public class loadTokenFromTextFileToDataBase {
 
 	public static void main(String[] args) throws IOException {
 		

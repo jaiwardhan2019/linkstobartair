@@ -128,8 +128,7 @@ function contract_home(event){
  
  <form name="contract" id="contract" method="post">  
   
-      <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
-      <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
+      <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
       <input type="hidden" name="refno" id="refno" value="">
       <input type="hidden" name="departmentselected" id="departmentselected" value="null">
       <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="null">

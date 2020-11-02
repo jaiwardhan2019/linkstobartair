@@ -37,12 +37,19 @@
 
 </head>
 
+
 <% 
-String fullemail            = request.getParameter("emailid");
-if(fullemail.trim().length() < 2){response.sendRedirect("index");System.out.println(fullemail);}
-String[] FirstName_LastName = fullemail.split("@");
-String user_login_id        = FirstName_LastName[0];
+
+String[] userProfileList   =  request.getAttribute("profilelist").toString().split("#");
+String userFullEmailid     =  userProfileList[0];
+String userPassword        =  userProfileList[1];
+if(userFullEmailid.length() < 2){response.sendRedirect("index");}
+String[] userFirstLastName  = userFullEmailid.split("@");
+String userLoginId          = userFirstLastName[0];
+// Url Encoding 
+//https://stackoverflow.com/questions/5053975/how-to-encode-a-string-representing-url-path-with-jstl
 %>
+
 
 
    
@@ -63,10 +70,42 @@ function Logout_Admin(){
 }
 
 
+function calLinkUserListPage(){
+	document.stobart_admin_page.method="POST";
+	document.stobart_admin_page.action="profilemanager";
+	//document.stobart_admin_page.target="_new";
+    document.stobart_admin_page.submit();
+	return true;
+}
+
+function calLinkAdminHomePage(){
+	document.stobart_admin_page.method="POST";
+	document.stobart_admin_page.action="adminhome";
+	//document.stobart_admin_page.target="_new";
+    document.stobart_admin_page.submit();
+	return true;
+}
+
+
+function calLinkAdminBusinessHomePage(){
+	document.stobart_admin_page.method="POST";
+	document.stobart_admin_page.action="businessareahome";
+	//document.stobart_admin_page.target="_new";
+    document.stobart_admin_page.submit();
+	return true;
+}
+
+
+
 </script>
 
 
 
+<body>
+<form name="stobart_admin_page" id="stobart_admin_page">
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+</form>
+</body>
 
 <!-- Menu --->	 
 <nav class="navbar navbar-default navbar-fixed-top panel-shadow">
@@ -77,7 +116,7 @@ function Logout_Admin(){
 
  <div class="navbar-header" >
 
-		<a class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Stobart Air" style="margin-left:3px;margin-top:04px;padding:0px;" href="adminhome?emailid=<%=fullemail%>" >
+		<a class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Stobart Air" style="margin-left:3px;margin-top:04px;padding:0px;"href="javascript:void();" onClick="calLinkAdminHomePage();" >
 			<img src="<c:url value="images/logo-menu-new.png"/>" alt="Admin Home" class="img-responsive" style="margin-top:-px;" />
 		</a>
   </div>
@@ -94,7 +133,7 @@ function Logout_Admin(){
         
         
           <li class="dropdown">		 
-			  <a href="profilemanager?emailid=<%=fullemail%>" style="font-size:9pt;font-weight:600;color:#FDFEFE;" aria-expanded="false"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Manage Link Users Profile<span class="caret"></span></a>			  
+			  <a href="javascript:void();" onClick="calLinkUserListPage();"  style="font-size:9pt;font-weight:600;color:#FDFEFE;" aria-expanded="false"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Manage Link Users Profile<span class="caret"></span></a>			  
 								  
 	       </li>
         
@@ -103,14 +142,14 @@ function Logout_Admin(){
 		<li class="dropdown">		 
 			  <a href="#" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Content Managment<span class="caret"></span></a>			  
 				  <ul class="dropdown-menu">
-					 <li style="margin-top:3px;margin-bottom:3px;"><a href="businessareahome?emailid=<%=fullemail%>"  style="font-size:9pt;"><i class="fa fa-suitcase" aria-hidden="true"></i>&nbsp;Business Area</a></li>
+					 <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calLinkAdminBusinessHomePage();"  style="font-size:9pt;"><i class="fa fa-suitcase" aria-hidden="true"></i>&nbsp;Business Area</a></li>
 					 
                   </ul>						  
 	     </li>
 	
 			
 		<li class="dropdown">
-			  <a href="#" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle"></i> <%=user_login_id%><span class="caret"></span></a>
+			  <a href="#" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle"></i> <%=userFullEmailid%><span class="caret"></span></a>
 			  <ul class="dropdown-menu">				
 				<li style="margin-top:3px;margin-bottom:3px;"><a href="" onClick="Logout_Admin();" style="font-size:9pt;"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Logout Admin</a></li>
 			  </ul>

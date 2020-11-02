@@ -48,10 +48,9 @@ public class staffTravelControler {
 	@RequestMapping(value = "/stafflist",method = {RequestMethod.POST,RequestMethod.GET})
 	public String staffListReport(HttpServletRequest req, ModelMap model) throws Exception {	
 		
-			model.addAttribute("emailid",req.getParameter("emailid"));
-			model.addAttribute("password",req.getParameter("password"));			
-			//model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
+			String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+		    model.addAttribute("profilelist",req.getParameter("profilelist"));	
+
 			
 			//--------- Start Remove Operation -------------------- 
 			if(req.getParameter("account") != null){	

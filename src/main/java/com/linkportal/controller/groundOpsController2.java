@@ -74,6 +74,10 @@ public class groundOpsController2 {
 	@RequestMapping(value = "/wtstatement",method = {RequestMethod.POST,RequestMethod.GET}) 
 	public String GroundOpsWeightstatement(HttpServletRequest req,ModelMap model) throws Exception{
 		
+		   
+	      String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	      model.addAttribute("profilelist",req.getParameter("profilelist"));
+		
 		   //Formatting today date...
 		   Date today                     = new Date();               
 		   SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -84,8 +88,8 @@ public class groundOpsController2 {
  	       //model.addAttribute("airlinereg",req.getParameter("airlinereg").toLowerCase());
  	    
    	       
-            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinereg"),req.getParameter("emailid")));		
-	        model.put("airlinelist",fltobj.Populate_Operational_Airline(req.getParameter("airlinecode"),req.getParameter("emailid")));		
+            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinereg"),userEmailId[0]));		
+	        model.put("airlinelist",fltobj.Populate_Operational_Airline(req.getParameter("airlinecode"),userEmailId[0]));		
 	        
 	        if(!req.getParameter("airlinecode").equals("ALL")) {
 	           model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
@@ -99,12 +103,9 @@ public class groundOpsController2 {
 	        	}
 	        	
 	        }
-	        
- 	     	model.put("profilelist",req.getSession().getAttribute("profilelist"));
-			model.addAttribute("emailid",req.getParameter("emailid"));
-			model.addAttribute("password",req.getParameter("password"));
+
 			model.put("usertype",req.getParameter("usertype"));
-			logger.info("User id:"+req.getParameter("emailid")+" Checked the Weight Statement..");
+			logger.info("User id:"+userEmailId[0]+" Checked the Weight Statement..");
 			return "groundoperation/weightstatement"; 
 			
 	}
@@ -116,13 +117,16 @@ public class groundOpsController2 {
 	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
 		@RequestMapping(value = "/addwtstatement",method = {RequestMethod.POST,RequestMethod.GET}) 
 		public String addGroundOpsWeightstatement(@RequestParam("gfile") MultipartFile[] files,HttpServletRequest req,ModelMap model) throws Exception{
-		
+		   
+			  String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+		      model.addAttribute("profilelist",req.getParameter("profilelist"));
+
         
 	   	       model.put("airlinecode",req.getParameter("airlinecode").toLowerCase());
 	 	    
 	   	       
-	            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinereg"),req.getParameter("emailid")));		
-		        model.put("airlinelist",fltobj.Populate_Operational_Airline(req.getParameter("airlinecode"),req.getParameter("emailid")));		
+	            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinereg"),userEmailId[0]));		
+		        model.put("airlinelist",fltobj.Populate_Operational_Airline(req.getParameter("airlinecode"),userEmailId[0]));		
 		   	
                		
 	       		 int status=0;
@@ -136,9 +140,7 @@ public class groundOpsController2 {
 	    		//******* Pupulate List of File *******************
 	  		    model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
 	  		
-	  	     	model.put("profilelist",req.getSession().getAttribute("profilelist"));
-				model.addAttribute("emailid",req.getParameter("emailid"));
-				model.addAttribute("password",req.getParameter("password"));
+	  	 
 				model.put("usertype",req.getParameter("usertype"));
 				logger.info("User id:"+req.getParameter("emailid")+" Added Weight Statement.");
 				return "groundoperation/weightstatement"; 
@@ -158,9 +160,10 @@ public class groundOpsController2 {
 	public String manageSmsUserlist(HttpServletRequest req, ModelMap model) throws Exception {	
 		    String operationStatus="";
 		    String callingPage="groundoperation/smscontacts/manageSmscontacts";
-			model.addAttribute("emailid",req.getParameter("emailid"));
-			model.addAttribute("password",req.getParameter("password"));	
-			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
+		    
+			 String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+		     model.addAttribute("profilelist",req.getParameter("profilelist"));
+		
 			model.put("usertype",req.getParameter("usertype"));	
 			
 			
@@ -218,13 +221,12 @@ public class groundOpsController2 {
 	//****************** AIRLINE ACCOUNT DATA MANAGMENT ***********************************************
 	@RequestMapping(value = "/manageairlinedata",method = {RequestMethod.POST,RequestMethod.GET})
 	public String manageAirline(HttpServletRequest req, ModelMap model) throws Exception {	
-		    String operationStatus="";
-		    String callingPage="groundoperation/airline/manageAirline";
-			model.addAttribute("emailid",req.getParameter("emailid"));
-			model.addAttribute("password",req.getParameter("password"));	
-			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
-			model.put("usertype",req.getParameter("usertype"));	
-			
+
+		    String operationStatus = "";
+			String callingPage = "groundoperation/airline/manageAirline";
+			String[] userEmailId = req.getParameter("profilelist").toString().split("#");
+			model.addAttribute("profilelist", req.getParameter("profilelist"));
+			model.put("usertype", req.getParameter("usertype"));
 			
 			
 			
@@ -294,26 +296,17 @@ public class groundOpsController2 {
 	@RequestMapping(value = "/managecrewbriefing",method = {RequestMethod.POST,RequestMethod.GET})
 	public String manageCrewbriefing(HttpServletRequest req, HttpServletResponse resp, ModelMap model) throws Exception {
 
-		    String callingPage="groundoperation/crewbreafing/managecrewbreafing";
-			model.addAttribute("emailid",req.getParameter("emailid"));
-			model.addAttribute("password",req.getParameter("password"));	
-			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
-			model.put("usertype",req.getParameter("usertype"));
+		    String callingPage="crewbreafing/managecrewbreafing";
+			
+		    
+	  		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+		    model.addAttribute("profilelist",req.getParameter("profilelist"));	
 
 			
+			model.put("usertype",req.getParameter("usertype"));
+
 			model.put("captionlist", crewInfo.showCrewCaptionFirstOfficer());
 			model.put("tokenbalance", crewInfo.getTokenBalance());
-
-
-		    //--------- Start Operation --------------------
-			if(req.getParameter("operation") != null){
-
-
-	
-
-			} //  End of  if(req.getParameter("operation")
-
-
 
 		return callingPage;
 	}

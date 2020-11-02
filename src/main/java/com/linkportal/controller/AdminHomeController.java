@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.itextpdf.text.pdf.codec.Base64.OutputStream;
 import com.linkportal.contractmanager.manageStobartContract;
@@ -51,7 +52,9 @@ public class AdminHomeController {
 
     @Autowired
     businessAreaContent bac;
-
+    
+	@Autowired
+	linkUsers dbusr;
 
 
 
@@ -149,13 +152,15 @@ public class AdminHomeController {
     public String Admin_home_page(ModelMap model, HttpServletRequest req) {
         model.addAttribute("cat", "img");
         model.addAttribute("emailid", req.getParameter("emailid"));
+        model.addAttribute("profilelist",req.getParameter("profilelist"));
         return "admin/adminhome";
     }
 
 
     @RequestMapping(value = "/businessareahome", method = {RequestMethod.POST, RequestMethod.GET})
-    public String business_area_home(ModelMap model) {
+    public String business_area_home(ModelMap model,HttpServletRequest req) {
         model.addAttribute("cat", "img");
+        model.addAttribute("profilelist",req.getParameter("profilelist"));
         return "admin/contentmanagment/stobartairbusinessarea";
     }
 
@@ -163,10 +168,14 @@ public class AdminHomeController {
     //------------  Call FOR UPDATE CONTENT Button ------------
     @RequestMapping(value = "/updatebusiness_area_content", method = {RequestMethod.POST, RequestMethod.GET})
     public String Update_BusinessAreaContent(HttpServletRequest req, ModelMap model) {
-        boolean update_status = bac.Update_Content(req.getParameter("content"), Integer.parseInt(req.getParameter("cat")), req.getParameter("emailid"));
+    	
+        String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+        model.addAttribute("profilelist",req.getParameter("profilelist"));
+        boolean update_status = bac.Update_Content(req.getParameter("content"), Integer.parseInt(req.getParameter("cat")), userEmailId[0]);
         model.addAttribute("cat", req.getParameter("cat"));
         model.addAttribute("content", req.getParameter("content"));
         return "admin/contentmanagment/stobartairbusinessarea";
+        
     }
 
 
@@ -174,8 +183,8 @@ public class AdminHomeController {
     @RequestMapping(value = "/showbusiness_area_content", method = {RequestMethod.POST, RequestMethod.GET})
     public String Show_Businessupdate(HttpServletRequest req, ModelMap model) {
         model.addAttribute("content", bac.Show_Content(Integer.parseInt(req.getParameter("cat"))));
-        model.addAttribute("cat", req.getParameter("cat"));
-        model.addAttribute("emailid", req.getParameter("emailid"));
+        model.addAttribute("cat", req.getParameter("cat"));      
+        model.addAttribute("profilelist",req.getParameter("profilelist"));
         return "admin/contentmanagment/stobartairbusinessarea";
     }
 
@@ -183,29 +192,59 @@ public class AdminHomeController {
     //---------- WILL SHOW LIST OF LINK USER BASED ON SEARCH CRITERIA  -----------------------------
     @RequestMapping(value = "/profilemanager", method = {RequestMethod.POST, RequestMethod.GET})
     public String profile_manager(ModelMap model, HttpServletRequest req) {
-
-        model.put("linkuserlist", lkuser.getLinkUserListFromDatabase(req.getParameter("user")));
-        model.put("emailid", req.getParameter("emailid"));
+        model.put("linkuserlist", lkuser.getLinkUserListFromDatabase(req.getParameter("user")));       
+        model.addAttribute("profilelist",req.getParameter("profilelist"));
         return "admin/userprofile/profilemanager";
     }
 
+    
+
+	// ---------- WILL SHOW LIST OF GOPS USER BASED ON SEARCH CRITERIA
+	// ---------------------
+	@RequestMapping(value = "/gopsusersprofilemanager", method = { RequestMethod.POST, RequestMethod.GET })
+	public String gops_profile_manager(ModelMap model, HttpServletRequest req) throws NullPointerException {
+		
+		   
+	      String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	      model.addAttribute("profilelist",req.getParameter("profilelist"));
+		
+		
+		model.put("usertype", req.getParameter("usertype"));
+		
+		//--- This is for list all and make search
+		model.put("linkuserlist", lkuser.getLinkUserListFromDatabase(req.getParameter("user")));
+		
+		//---------- View Update Screen &&  Update to Database -----------
+		if (!Strings.isNullOrEmpty(req.getParameter("operation"))) {
+			
+			//--- Display Update Screen with the user detail and profile detail 
+			if (req.getParameter("operation").equalsIgnoreCase("update")) {
+				model.put("userinsubjectdetail", lkuser.getLinkUserDetails(req.getParameter("user")));                  // Fetch User Detail 
+				model.put("userinsubjectgopsprofile",dbusr.getUser_Profile_List_From_DataBase(req.getParameter("user"),req.getParameter("password"))); // Fetch User Profile  
+			}
+			return "groundoperation/users/gopsuserprofileupdate";
+		}		
+		logger.info("User id:" + userEmailId[0] + " Login to Ground Ops User Profile Manager");
+		return "groundoperation/users/gopsusersprofilemanager";
+	}
+    
+    
+    
 
     //---------- WILL SHOW USER DETAIL WITH PROFILE -----------------------------
     @RequestMapping(value = "/updatelinkuserprofile", method = {RequestMethod.POST, RequestMethod.GET})
     public String update_linkuser_profile(ModelMap model, HttpServletRequest req) {
-
-        model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
-
-        String[] userprofile_linkprofile = new String[2];
-
-        userprofile_linkprofile = lkuser.getUserpProfileAndLinkProfile(req.getParameter("id"));
-
-        model.put("userprofilelist", userprofile_linkprofile[0]);
-        model.put("linkprofilelist", userprofile_linkprofile[1]);
-
-
-        model.put("emailid", req.getParameter("emailid"));
-        return "admin/userprofile/updateuserprofile";
+    	
+			String[] userEmailId = req.getParameter("profilelist").toString().split("#");
+			model.addAttribute("profilelist", req.getParameter("profilelist"));
+			model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
+			String[] userprofile_linkprofile = new String[2];
+			userprofile_linkprofile = lkuser.getUserpProfileAndLinkProfile(req.getParameter("id"));
+			model.put("userprofilelist", userprofile_linkprofile[0]);
+			model.put("linkprofilelist", userprofile_linkprofile[1]);
+			model.put("emailid", userEmailId[0]);
+			return "admin/userprofile/updateuserprofile";
+			
     }
 
 
@@ -213,12 +252,16 @@ public class AdminHomeController {
     @RequestMapping(value = "/updatelinkuserprofileToDataBase", method = {RequestMethod.POST, RequestMethod.GET})
     public String update_linkuser_profileToDatabase(ModelMap model, HttpServletRequest req) {
 
+		String[] userEmailId = req.getParameter("profilelist").toString().split("#");
+		model.addAttribute("profilelist", req.getParameter("profilelist"));
+
+    	
         lkuser.UpdateUserpProfileAndActiveStatustoDataBase(req.getParameter("id"), req.getParameter("activestatus"), req.getParameter("adminstatus"));
         if (req.getParameterValues("linkprofile") != null) {
             String[] selectedlikprofile = req.getParameterValues("linkprofile");
             List profilelist = Arrays.asList(selectedlikprofile);
             // THIS FUNCTION WILL UPDATE USER MASTER AND USER PROFILE LIST
-            lkuser.UpdateLinkProfiletoDataBase(req.getParameter("id"), req.getParameter("activestatus"), req.getParameter("adminstatus"), profilelist);
+            lkuser.UpdateLinkProfiletoDataBase(req.getParameter("id"), profilelist);
         }
 
 
@@ -228,7 +271,7 @@ public class AdminHomeController {
         model.put("userprofilelist", userprofile_linkprofile[0]);
         model.put("linkprofilelist", userprofile_linkprofile[1]);
         model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
-        model.put("emailid", req.getParameter("emailid"));
+        model.put("emailid",userEmailId[0]);
 
 
         return "admin/userprofile/updateuserprofile";
@@ -238,6 +281,9 @@ public class AdminHomeController {
     //---------- THIS PART WILL REMOVE EXISTING LINK PROFILE FROM DATABASE FOR A USER -----------------------------
     @RequestMapping(value = "/removelinkuserprofile", method = {RequestMethod.POST, RequestMethod.GET})
     public String remove_linkuser_profileToDatabase(ModelMap model, HttpServletRequest req) {
+   
+    	String[] userEmailId = req.getParameter("profilelist").toString().split("#");
+		model.addAttribute("profilelist", req.getParameter("profilelist"));
 
         lkuser.UpdateUserpProfileAndActiveStatustoDataBase(req.getParameter("id"), req.getParameter("activestatus"), req.getParameter("adminstatus"));
 
@@ -256,7 +302,7 @@ public class AdminHomeController {
         model.put("userprofilelist", userprofile_linkprofile[0]);
         model.put("linkprofilelist", userprofile_linkprofile[1]);
         model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
-        model.put("emailid", req.getParameter("emailid"));
+        model.put("emailid",userEmailId[0]);
         return "admin/userprofile/updateuserprofile";
 
     }
@@ -268,8 +314,9 @@ public class AdminHomeController {
     //---------- WILL SHOW USER DETAIL WITH PROFILE -----------------------------
     @RequestMapping(value = "/showcontractaccessprofile", method = {RequestMethod.POST, RequestMethod.GET})
     public String show_user_profile_for_contract_access(ModelMap model, HttpServletRequest req) throws SQLException {
-
-        model.put("emailid", req.getParameter("emailid"));
+    	  
+        String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+        model.addAttribute("profilelist",req.getParameter("profilelist"));	
         model.put("userid", req.getParameter("userid"));
 
 
@@ -293,7 +340,7 @@ public class AdminHomeController {
                 }
 
                 model.put("departmentlist", stobartcontract.populate_Department("ALL", req.getParameter("department")));
-                model.put("subdepartmentlist", stobartcontract.populate_SubDepartment(req.getParameter("emailid"), req.getParameter("department"), req.getParameter("subdepartment")));
+                model.put("subdepartmentlist", stobartcontract.populate_SubDepartment(userEmailId[0], req.getParameter("department"), req.getParameter("subdepartment")));
                 model.put("usercontractprofilelist", stobartcontract.showProfileListOfUser(req.getParameter("userid")));
                 return "admin/userprofile/viewcontractuserprofile";
 
@@ -305,7 +352,7 @@ public class AdminHomeController {
                 stobartcontract.removeContractProfileofUser(Integer.parseInt(req.getParameter("profileid")), req.getParameter("userid"));
                 model.put("statusmessage", "Profile Removed..<i class='fa fa-thumbs-o-up fa-lg'></i>");
                 model.put("departmentlist", stobartcontract.populate_Department("ALL", req.getParameter("department")));
-                model.put("subdepartmentlist", stobartcontract.populate_SubDepartment(req.getParameter("emailid"), req.getParameter("department"), req.getParameter("subdepartment")));
+                model.put("subdepartmentlist", stobartcontract.populate_SubDepartment(userEmailId[0], req.getParameter("department"), req.getParameter("subdepartment")));
                 model.put("usercontractprofilelist", stobartcontract.showProfileListOfUser(req.getParameter("userid")));
                 return "admin/userprofile/viewcontractuserprofile";
 
@@ -315,7 +362,7 @@ public class AdminHomeController {
             //--- ON CHANGE OF DEPARTMENT THIS WILL BE CALLED ----------
             if (req.getParameter("operation").equals("LOAD")) {
                 model.put("departmentlist", stobartcontract.populate_Department("ALL", req.getParameter("department")));
-                model.put("subdepartmentlist", stobartcontract.populate_SubDepartment(req.getParameter("emailid"), req.getParameter("department"), req.getParameter("subdepartment")));
+                model.put("subdepartmentlist", stobartcontract.populate_SubDepartment(userEmailId[0], req.getParameter("department"), req.getParameter("subdepartment")));
                 model.put("usercontractprofilelist", stobartcontract.showProfileListOfUser(req.getParameter("userid")));
                 return "admin/userprofile/viewcontractuserprofile";
             }//  End of Load
@@ -337,18 +384,13 @@ public class AdminHomeController {
     //---------- WILL SHOW USER DETAIL WITH PROFILE OF GROUND OPS-----------------------------
     @RequestMapping(value = "/gopsprofilemanager", method = {RequestMethod.POST, RequestMethod.GET})
     public String gopsprofile_manager(ModelMap model, HttpServletRequest req) {
-
+     
+        model.addAttribute("profilelist",req.getParameter("profilelist"));	
         model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userid")));
-
         String[] userprofile_linkprofile = new String[2];
-
         userprofile_linkprofile = lkuser.getUserpProfileandAllgroundopsProfile(req.getParameter("userid"));
-
         model.put("userprofilelist", userprofile_linkprofile[0]);
         model.put("gopsprofilelist", userprofile_linkprofile[1]);
-
-
-        model.put("emailid", req.getParameter("emailid"));
         return "admin/userprofile/gopsuserprofilemanager";
     }
 
@@ -356,7 +398,9 @@ public class AdminHomeController {
     //---------- THIS PART WILL UPDATE NEW LINK PROFILE FOR A USER TO DATABASE -----------------------------
     @RequestMapping(value = "/updateGopsProfileToDataBase", method = {RequestMethod.POST, RequestMethod.GET})
     public String update_Gops_profileToDatabase(ModelMap model, HttpServletRequest req) {
-        model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userid")));
+
+    	model.addAttribute("profilelist",req.getParameter("profilelist"));	
+    	model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userid")));
 
         if (req.getParameterValues("gopsprofile") != null) {
             String[] selectedGopsprofile = req.getParameterValues("gopsprofile");
@@ -372,7 +416,6 @@ public class AdminHomeController {
         userprofile_linkprofile = lkuser.getUserpProfileandAllgroundopsProfile(req.getParameter("userid"));
         model.put("userprofilelist", userprofile_linkprofile[0]);
         model.put("gopsprofilelist", userprofile_linkprofile[1]);
-        model.put("emailid", req.getParameter("emailid"));
         return "admin/userprofile/gopsuserprofilemanager";
 
     }
@@ -381,7 +424,9 @@ public class AdminHomeController {
     //---------- THIS PART WILL REMOVE EXISTING LINK PROFILE FROM DATABASE FOR A USER -----------------------------
     @RequestMapping(value = "/removegopsprofile", method = {RequestMethod.POST, RequestMethod.GET})
     public String remove_Groundops_profilefromDatabase(ModelMap model, HttpServletRequest req) {
-
+        
+        model.addAttribute("profilelist",req.getParameter("profilelist"));	
+ 
         if (req.getParameterValues("userprofile") != null) {
             String[] selectedUserprofile = req.getParameterValues("userprofile");
             List userprofilelist = Arrays.asList(selectedUserprofile);
@@ -396,8 +441,7 @@ public class AdminHomeController {
         String[] userprofile_linkprofile = new String[2];
         userprofile_linkprofile = lkuser.getUserpProfileandAllgroundopsProfile(req.getParameter("userid"));
         model.put("userprofilelist", userprofile_linkprofile[0]);
-        model.put("gopsprofilelist", userprofile_linkprofile[1]);
-        model.put("emailid", req.getParameter("emailid"));
+        model.put("gopsprofilelist", userprofile_linkprofile[1]);        
         model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userid")));
         return "admin/userprofile/gopsuserprofilemanager";
 

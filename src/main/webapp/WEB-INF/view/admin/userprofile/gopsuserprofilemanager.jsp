@@ -172,7 +172,7 @@ tr:nth-child(even) {
 <div class="col-md-12 col-sm-12 col-xs-12" align="center">
 <form method="post" name="linkuser" id="linkuser">  
  
-  <input type="hidden" name="emailid"  id="emailid"  value="${emailid}">
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
   <input type="hidden" name="userid"  id="userid"  value="${linkuserdetail.getEmailId()}">
    <input type="hidden" name="application"  id="application"  value="gops">
 		 

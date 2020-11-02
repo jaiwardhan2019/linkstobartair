@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.linkportal.batchjob.linkBatchJob;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
@@ -28,8 +29,19 @@ public class ScheduledTasks {
 	linkBatchJob  linkbatch;
 	
 	
+    private boolean isJobEnabled = true;
+	
+	
 	  
     /*
+     *   ________Pending Batch Job ________
+     *   
+     * - Amos .xml file loading from pdc. 
+     * - Link User removal if they dont login for 3 year.
+     * - Aerobytes creating .excel file and sending them via email.
+     * 
+     * 
+     
     
     
     @Scheduled(fixedRate = 2000)
@@ -91,7 +103,7 @@ public class ScheduledTasks {
 
 	
 	
-	//@Scheduled(cron = "0 * * * * ?")
+
 	
 	@Scheduled(cron = "${mail.body.contract.cornsetting}")
     public void stobartContractManager() {
@@ -103,15 +115,40 @@ public class ScheduledTasks {
     
 	
 	/*
+	 * This corn job will check the Corporate Portal Database
+	 * (CORPORATE_PORTAL.Gops_Flight_Delay_Comment_Master) for all the flight comment which is 3 year
+	 * old and remove them for good
+	 */
+
+	@Value("${delayflight.comment.ageindays}")
+	int commentAge;
 	
-	@Scheduled(cron = "0 * * * * ?")
-    public void Test() {
-    	  
-		   System.out.println("Hi there this is testing ");
-  		   
-    } // ------- END OF FUNCTION 
-   
-    */
-    
+	@Scheduled(cron = "${delayflight.comment.removal.cornsetting}") 
+	public void removeDelayFlightCommentOverthreeYear() throws SQLException {
+
+		linkbatch.removeDelayFlightComment(commentAge);
+
+	} // ------- END OF FUNCTION    
+	
+	
+	/*
+	 * This corn job will check the Corporate Portal Database
+	 * (CORPORATE_PORTAL.Gops_Crew_Planning_Token) for the Crew Planning Application Login Token 
+	 * Once the total count is less then 100 then it update to admin user
+	 */
+    @Scheduled(cron = "${ppstoken.lowlevel.cornsetting}")  
+	public void notifyAdminAboutTheLowLevelOFToken(){
+		
+		linkbatch.notify_PPS_Login_Token_LowLevel();
+		
+	} // ------- END OF FUNCTION    
+	
+	
+	
+	
+	
+	
+	
+	
     
 }

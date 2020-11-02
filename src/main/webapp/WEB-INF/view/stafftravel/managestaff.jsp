@@ -86,10 +86,9 @@ function remove_user_Profile(accountid,firstname,lastname){
 <div class="col-md-12 col-sm-12 col-xs-12" align="center">
 
 <form method="post" name="staffTravel" onSubmit="return searchUser()";>
-
-  <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
-  <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
-  <input type="hidden" id="flname" name="flname" value="">
+  
+   <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+   <input type="hidden" id="flname" name="flname" value="">
    
     <table  border="0" style="width: 50%;" align="center"> 
     			

@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../include/groundopsheader.jsp" />
+<jsp:include page="../include/gopsheader.jsp" />
 
 <head>
     <title> Aircraft Weight Statements </title>    
@@ -122,10 +122,10 @@ function showAddingFile(){
  
  <form name="wtstatement" id="wtstatement" enctype="multipart/form-data">      
   
-  <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
-  <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" name="cat" id="cat" value="">
+
     <input type="hidden" name="wtstm" id="wtstm" value="YES">
   
     
@@ -143,7 +143,7 @@ function showAddingFile(){
 				 <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">
 					   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
-					     Weight Statement  &nbsp;&nbsp; <i class="fad fa-plane-departure"> </i>
+					     Weight Statements  &nbsp;&nbsp; <i class="fad fa-plane-departure"> </i>
 					   </b></span>					 
 					 </td>
 				 </tr>
@@ -227,7 +227,7 @@ function showAddingFile(){
 	   	   <tr>
 		         <td colspan="3" align="center">
 		             <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
-		             <c:if test="${profilelist.docmanager  == 'Y'}">
+		             <c:if test = "${fn:contains(profilelist,'docmanager')}"> 
 		                &nbsp;&nbsp;&nbsp;<a href="javascript:void();" onClick="showAddingFile();"><span class="label label-success"> Add Document <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
 		             </c:if>
 		       </td>
@@ -242,7 +242,7 @@ function showAddingFile(){
          	     		
 	       <tr style="font-size:09pt">									
 				<td width="74%" ><img src="pdf.png"> &nbsp; 
-				     <a href="weightstatement/${contract.docCategory}/${contract.docName}" target="_new" ><b>									     
+				     <a href="WEIGHTSTATEMENT/${contract.docCategory}/${contract.docName}" target="_new" ><b>									     
              	            <c:set var="string1" value=" ${contract.docName}"/>
                                 <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
                                 ${string2}</b>
@@ -254,7 +254,7 @@ function showAddingFile(){
 				</td>
 		        
 		        <td align="center">
-					 <c:if test="${profilelist.docmanager  == 'Y'}">
+					 <c:if test = "${fn:contains(profilelist,'docmanager')}"> 
 					     <i  class="fa fa-trash" aria-hidden="true"></i>
 						  <span style="font-size:9pt;">
 	  					     <a style="color:red;" href="javascript:void();" onClick="showWtstatement('remove&docid=${contract.docId}');"> <b>Rem </b> </a>
@@ -266,7 +266,7 @@ function showAddingFile(){
 	  </c:forEach>    			
 	       			
 		       			           
-		   <c:if test="${profilelist.docmanager  == 'Y'}">
+		   <c:if test = "${fn:contains(profilelist,'docmanager')}"> 
 				 
 				<tr style="display:none" id="fileadding">
 					<td align="right" colspan="2">

@@ -1,21 +1,22 @@
 
 package com.linkportal.config;
 
+
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
+
+
+
+
+
 
 
 
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySources({ @PropertySource("classpath:application.properties"),
 	               @PropertySource("classpath:email.properties"),
 	               @PropertySource("classpath:message.properties"),
+	               @PropertySource("classpath:airportcontactemail.properties"),
 	               @PropertySource("classpath:log4j.properties"),
 	               @PropertySource("classpath:delaycodegroup.properties"),	             
 		           @PropertySource("classpath:database.properties") })
@@ -37,13 +39,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 //@ComponentScan(basePackages = { "com.linkportal.docmanager","com.linkportal.security.UserSecurityLdapDatabase","com.flightreports.dbripostry.flightReports"})
-//@ComponentScan(basePackages = { "com.linkportal.docmanager" })
+//@ComponentScan(basePackages = { "org.springframework.mail.javamail.JavaMailSender" })
+//@ComponentScan(basePackages = "com.linkportal")
+
 
 @Configuration
 public class InfrastructureConfig{
       
-	
-	
 		
 		//------- PDC DB----------------
 		@Bean(name = "dataSourcesqlserver")
@@ -61,9 +63,7 @@ public class InfrastructureConfig{
 	 	       return DataSourceBuilder.create().build();
 		}
 		
-	
-
-	
+		
 
 	  @Bean(name = "dataSourcestafftravel")	  
 	  @ConfigurationProperties(prefix = "stafftravel.datasource") 
@@ -80,8 +80,6 @@ public class InfrastructureConfig{
 		     return DataSourceBuilder.create().build(); 
 	  }
 
-	 
-	
 	
 	 
 }

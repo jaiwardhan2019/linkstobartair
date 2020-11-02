@@ -211,18 +211,18 @@ public class fligthSectorLog implements Serializable{
 		   
 		    
 		    if(this.getDelayCode1() != null) {
-		    	Delay_Code_Group= Delay_Code_Group + p.getProperty(this.getDelayCode1());
+		    	Delay_Code_Group= Delay_Code_Group + p.getProperty(this.getDelayCode1().trim());
 		       	commastatus=true;
 		    }
 		    
 		   
 		   if(this.getDelayCode2() != null) {
 		       if(commastatus) {
-		         Delay_Code_Group= Delay_Code_Group + ","+p.getProperty(this.getDelayCode2());
+		         Delay_Code_Group= Delay_Code_Group + ","+p.getProperty(this.getDelayCode2().trim());
 		       }
 		       else
 		       {
-		    	   Delay_Code_Group= Delay_Code_Group+p.getProperty(this.getDelayCode2()); 
+		    	   Delay_Code_Group= Delay_Code_Group+p.getProperty(this.getDelayCode2().trim()); 
 		    	   commastatus=true;
 		       }
 		    	
@@ -230,11 +230,11 @@ public class fligthSectorLog implements Serializable{
 		    
 		   if(this.getDelayCode3() != null) {
 			       if(commastatus) {
-			         Delay_Code_Group= Delay_Code_Group + ","+p.getProperty(this.getDelayCode3());
+			         Delay_Code_Group= Delay_Code_Group + ","+p.getProperty(this.getDelayCode3().trim());
 			       }
 			       else
 			       {
-			    	   Delay_Code_Group= Delay_Code_Group+p.getProperty(this.getDelayCode3()); 
+			    	   Delay_Code_Group= Delay_Code_Group+p.getProperty(this.getDelayCode3().trim()); 
 			    	   commastatus=true;
 			       }
 			    	
@@ -242,11 +242,11 @@ public class fligthSectorLog implements Serializable{
 		    
 		   if(this.getDelayCode4() != null) {
 			       if(commastatus) {
-			         Delay_Code_Group= Delay_Code_Group + ","+p.getProperty(this.getDelayCode4());
+			         Delay_Code_Group= Delay_Code_Group + ","+p.getProperty(this.getDelayCode4().trim());
 			       }
 			       else
 			       {
-			    	   Delay_Code_Group= Delay_Code_Group+p.getProperty(this.getDelayCode4()); 
+			    	   Delay_Code_Group= Delay_Code_Group+p.getProperty(this.getDelayCode4().trim()); 
 			    	   commastatus=true;
 			       }
 			    	
@@ -944,11 +944,6 @@ public class fligthSectorLog implements Serializable{
 
 
 	public String getDelayCode2_time() throws ParseException {
-		  /* SimpleDateFormat sdf = new SimpleDateFormat("mm");
-		   Date dt = sdf.parse(this.delayCode2_time);
-		   sdf = new SimpleDateFormat("mmmm");
-		return sdf.format(dt);
-		*/
 		return this.delayCode2_time;
 	}
 
@@ -1064,10 +1059,6 @@ public class fligthSectorLog implements Serializable{
 
 
 	public String getDelayCode4_time() throws ParseException {
-		   /*SimpleDateFormat sdf = new SimpleDateFormat("mm");
-		   Date dt = sdf.parse(this.delayCode4_time);
-		   sdf = new SimpleDateFormat("mmmm");
-		return sdf.format(dt);*/
 		return this.delayCode4_time;
 	}
 

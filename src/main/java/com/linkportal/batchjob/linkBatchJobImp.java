@@ -44,22 +44,41 @@ public class linkBatchJobImp implements linkBatchJob {
 			+ "   FROM CONTRACT_DEPT_SUBDET,CONTRACT_MASTER , CONTRACT_ACCESS  WHERE CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_DEPT_SUBDET.ID "
 			+ "   AND  CONTRACT_MASTER.DEPT_SUB_CODE = CONTRACT_ACCESS.dept_sub_code  AND  CONTRACT_MASTER.entered_by_email=CONTRACT_ACCESS.user_email AND CONTRACT_MASTER.STATUS in ('Active','Dactive')";
 
+	
+	
+	
+	
+	
 	@Autowired
 	linkPortalEmail emailinst;
 
 	// -------------- reading application.properties file -----------------
 	@Value("${mail.host}")
 	String mailhostserver;
+	
 	@Value("${mail.From}")
 	String emailfrom;
+	
 	@Value("${mail.subject.contract}")
 	String emailsubject;
+	
 	@Value("${mail.body.contractRenew}")
 	String emailBodyRenew1;
+	
 	@Value("${mail.body.contractExpiry}")
 	String emailBodyExpired1;
+	
 	@Value("${stobart.contract.folder}")
 	String contractpath;
+	
+	@Value("${mail.body.ppstokenlowlevel}")
+	String mailbodyppstokenlowlevel;
+	
+	@Value("${adminemail.list.forppstoken}")
+	String adminemaillistforppstoken;
+	
+	
+	
 
 	@Autowired
 	DataSource dataSourcesqlservercp;
@@ -101,9 +120,10 @@ public class linkBatchJobImp implements linkBatchJob {
 					emailBodyRenew = emailBodyRenew.replaceAll("CONTRACTNO", contr.getRefrence_no());
 					emailBodyRenew = emailBodyRenew.replaceAll("NDAYS", Integer.toString(noofDaysToExpire));
 					emailBodyRenew = emailBodyRenew.replaceAll("EXDT", dateString);
-					emailinst.sendTextHtmlEmail(mailhostserver, emailfrom,
-							collectAdminEmailList(contr.getRefrence_no()), (emailsubject + contr.getRefrence_no()),
+					emailinst.sendTextHtmlEmailWithAttachment(collectAdminEmailList(contr.getRefrence_no()), (emailsubject + contr.getRefrence_no()),
 							emailBodyRenew, contractpath + "stobart_contract/" + contr.getRefrence_no() + ".zip");
+					
+					
 
 				}
 
@@ -120,17 +140,17 @@ public class linkBatchJobImp implements linkBatchJob {
 					// --- Send email notification to all Admin and Qualified User
 					emailBodyExpired = emailBodyExpired.replaceAll("CONTRACTNO", contr.getRefrence_no());
 					emailBodyExpired = emailBodyExpired.replaceAll("EXDT", dateString);
-					emailinst.sendTextHtmlEmail(mailhostserver, emailfrom,
-							collectAdminEmailList(contr.getRefrence_no()), (emailsubject + contr.getRefrence_no()),
+					emailinst.sendTextHtmlEmailWithAttachment(collectAdminEmailList(contr.getRefrence_no()), (emailsubject + contr.getRefrence_no()),
 							emailBodyExpired, contractpath + "stobart_contract/" + contr.getRefrence_no() + ".zip");
 
 				}
 
-				emailBodyRenew = "";
+				emailBodyRenew   = "";
 				emailBodyExpired = "";
 
 			} // ------ END OF WHILE LOOP
-
+			LOGGER.info("BATCH JOB :# Admin of Contract Department is notified via email about Expiery.");
+			
 		} catch (Exception exc) {
 
 			LOGGER.error("Issue in Method :=> linkbatch.notify_Contarct_Admin_About_ContractExpiry() @:"
@@ -195,13 +215,35 @@ public class linkBatchJobImp implements linkBatchJob {
 		LOGGER.info("Contract no :" + refNo + " Been Zipped and Downloaded on:" + new Date());
 
 	}
-
+	
+	
 	@Override
 	public void notify_PPS_Login_Token_LowLevel() {
-		// TODO Auto-generated method stub
-		//  Once the Token Count is Less then 100 then send email to admin and brian to get new token and 
-		// Uploade here in the DB -->> FROM Gops_Crew_Planning_Token
+		Integer noOfAvailableToken = jdbcTempBatch.queryForObject("select count(Flight_Planing_Token) as availableNo from  Gops_Crew_Planning_Token", Integer.class);
+		if(noOfAvailableToken.intValue() < 100) {			
+			emailinst.sendTextHtmlEmail(adminemaillistforppstoken , "Crew Planning Application Login Token Level is Low ", mailbodyppstokenlowlevel.replaceAll("AVAILABLE", noOfAvailableToken.toString()));
+			LOGGER.info("BATCH JOB :# Crew Planning Login Token Low lever ("+noOfAvailableToken+") email is sent. to :"+adminemaillistforppstoken);	
+		}
 		
 	}
 
+		
+	@Override
+	public void removeDelayFlightComment(int noOfDayOld) {
+		try { 
+			String SqlForRemovingDelayFlightComment ="delete from Gops_Flight_Delay_Comment_Master where CONVERT(DATETIME,Entry_Date_Time,103) < DATEADD(DAY,-"+noOfDayOld+",GetDate()) "; 
+			jdbcTempBatch.execute(SqlForRemovingDelayFlightComment);
+			LOGGER.info("BATCH JOB :# Delay Flight Comment Over 3 year Old is removed.");			
+		}catch(Exception ex) {LOGGER.error(ex);}
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }// ---------END OF CLASS FILE

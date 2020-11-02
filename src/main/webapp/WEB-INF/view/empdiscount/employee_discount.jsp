@@ -1,8 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../include/header.jsp">
-    <jsp:param name="emailid" value="${emailid}" />
-    <jsp:param name="password" value="${password}" />
-</jsp:include>
+<jsp:include page="../include/header.jsp" />
 
 <head>
     <meta charset="utf-8">

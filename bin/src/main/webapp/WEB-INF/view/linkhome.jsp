@@ -36,43 +36,6 @@ http://googlechart.blogspot.com/  <<--- JSP / AJAX
 
 <!-- https://canvasjs.com/jsp-charts/  -->
 
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
- 
-<script type="text/javascript">
-window.onload = function() { 
- 
-var chart = new CanvasJS.Chart("top_x_div", {
-	theme: "light1",
-	subtitles: [{
-		text: "December 2017"
-	}],
-	axisY: {
-		title: "Number of Users",
-		labelFormatter: addSymbols
-	},
-	data: [{
-		type: "bar",
-		indexLabel: "{y}",
-		indexLabelFontColor: "#444",
-		indexLabelPlacement: "inside",
-		dataPoints: ${dataPoints}
-	}]
-});
-chart.render();
- 
-function addSymbols(e) {
-	var suffixes = ["", "K", "M", "B"];
- 
-	var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
-	if(order > suffixes.length - 1)
-	order = suffixes.length - 1;
- 
-	var suffix = suffixes[order];
-	return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
-}
- 
-}
-</script>
 
 
 
@@ -131,16 +94,15 @@ function CalHrManagement(){
 
 
 
-
-function CalAlfresco(){
-	
+<!--
+function CalAlfresco(){	
 	document.alfresco.action="logonalfresco.jsp";
 	document.alfresco.method="POST"
 	document.alfresco.target="_blank"
     document.alfresco.submit();
 	return true;
 }
-
+-->
 
 function CalFuelreport(){
 	
@@ -253,12 +215,7 @@ function cal_manage_contract(){
 
 
 
-
-
 setTimeout(function(){window.location.href="index"},60000000);	
-
-
-
   
   
   
@@ -732,7 +689,16 @@ setTimeout(function(){window.location.href="index"},60000000);
   --> 
  
  
-<br>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		
+	
+			<div class="panel-body">
+			
+			 This is TEST Message 
+
+			</div>
+	
+	</div>
 
 
 <!--END OF  Updated Area  For the Video Display -->

@@ -99,9 +99,10 @@ function goto_admin_home(){
 					</div>
 				
 					  <div class="col-sm-8" align="center">
-				  <form name="businessarea" id="businessarea"  method="POST" action="updatebusiness_area_content">
-				  <input type="hidden" id="emailid" name="emailid" value="<%=request.getParameter("emailid")%>"> 
-				   <input type="hidden" id="cat" name="cat" value="${cat}">
+						  <form name="businessarea" id="businessarea"  method="POST" action="updatebusiness_area_content">
+						   <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+						    
+						   <input type="hidden" id="cat" name="cat" value="${cat}">
 						<% if(request.getAttribute("cat").equals("img")){ %>
 						
 						    

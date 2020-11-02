@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -40,7 +41,16 @@ public class piechartImp implements piechart{
     @Autowired
     gopsAllapi gopsobj;
     
-  
+
+    @Value("${groundops.delay.code}")
+    String groundOpsDelayCodeGroup;
+    
+    @Value("${stobartair.delay.code}")
+    String stobartAirDelayCodeGroup;
+    
+	@Value("${nonstobartair.delay.code}")
+	String nonStobartAirDelayCodeGroup;
+	
 
     
 	JdbcTemplate jdbcTemplate;	
@@ -89,9 +99,6 @@ public class piechartImp implements piechart{
 		  		//"	   sum(case when status = 'ATA' and (datediff(minute, convert(datetime, REPLACE(LEGS.STD, '.', ':'), 120), convert(datetime, REPLACE(LEGS.ATD, '.', ':'), 120)) = 0) then 1 else 0 end) as ontimeflights \r\n" + 		  		
 		  		"	   from LEGS  where  DATOP between '"+startdate+"' and  '"+enddate+"'"+andstring;
 		  
-		  
-		   
-          System.out.println(sqlstrkpi);
 		   
 		   
 		   Connection connection = dataSourcesqlserver.getConnection();
@@ -436,54 +443,7 @@ public class piechartImp implements piechart{
 		   			     Late_morethen5minute = Integer.parseInt(rsc.getString("Late_morethen5minute"));
 		   			     Late_morethen15Minute= Integer.parseInt(rsc.getString("Late_morethen15Minute"));
 		   			     Late_morethen30Minute   = Integer.parseInt(rsc.getString("Late_morethen30Minute"));	
-		   			     
-		   		        
-		   		         
-		   			    /*
-		   			    
-		   			    Map<Object,Object> map1 = null;
-		   			    List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
-		   			     
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Total Flights"); 
-		   			    map1.put("Total Flights", totalflights); 
-		   			    list.add(map1);
-		   			    
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Total Flown"); 
-		   			    map1.put("y", NumFlown); 
-		   			    list.add(map1);
-		   			    
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Cancelled"); 
-		   			    map1.put("y", NumCancelled); 
-		   			    list.add(map1);
-
-		   			    
-		   			    
-		   			    
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "On Time"); 
-		   			    map1.put("y", ontimeflights); 
-		   			    list.add(map1);
-		   			    
-		   			    
-		   			    
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Delay More Then 5 Minutes"); 
-		   			    map1.put("y", Late_morethen5minute); 
-		   			    list.add(map1);
-		   			    
-		   			    
-		   			    map1 = new HashMap<Object,Object>(); 
-		   			    map1.put("label", "Delay More Then 15 Minute"); 
-		   			    map1.put("y", Late_morethen15Minute); 
-		   			    list.add(map1);
-		   			    
-		   			    
-		   			    
-		    		    graphstring = gsonObj.toJson(list);
-		   		   		*/	
+		   	
 		   		   }
 	   	     
 	   	      } 
@@ -512,13 +472,102 @@ public class piechartImp implements piechart{
 
 		   
 		  String dataPoints = gsonObj.toJson(list);
-		  
-	   	   
-	   	   
 	   	   
 		return dataPoints;
 	}
 
+
+
+
+	@Override 
+	public String createPieChart_For_OTP_Flight_Report(String airline, String airportcode, String fromDate,
+			String toDate, String delyCode) throws Exception {
+		
+		   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		   Date date = new Date();
+		   String curent_date=dateFormat.format(date);
+		
+	  	
+		
+		   String graphstring="[0]";
+		
+		   //------------ REPORT ITEMS -------------------
+		   int totaldelay=0;
+		   int groundopsdelay=0;
+		   int stobartairdelay=0;
+		   int nonstobartairdelay=0;		   
+		
+		   //------------ SQL TO PULL OFF DETAIL FROM PDC -------------
+			
+			 String sqlstrkpi="select sum(case when legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 > 0 then 1 else 0 end ) as totaldelay, \r\n" + 
+			 		"	   sum(case when legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 in ("+ groundOpsDelayCodeGroup +") then 1 else 0 end) as groundopsdelay,\r\n" + 
+			 		"	   sum(case when legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 in ("+ stobartAirDelayCodeGroup+") then 1 else 0 end) as stobartairdelay,\r\n" + 
+			 		"	   sum(case when legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 in ("+ nonStobartAirDelayCodeGroup+") then 1 else 0 end) as nonstobartairdelay\r\n" + 
+			 		"	   from LEGS  where DATOP between '" + fromDate + "' AND '"+toDate+"' AND  legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 > 0";
+				   
+		   
+
+        if(!airline.equalsIgnoreCase("ALL")) {	sqlstrkpi = sqlstrkpi + " and SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')";  } 
+		
+
+		Connection connection = dataSourcesqlserver.getConnection();
+		Statement stac = connection.createStatement();
+		ResultSet rsc = stac.executeQuery(sqlstrkpi);
+
+		if (rsc.next()) {
+
+			if (rsc.getString("totaldelay") != null) {
+
+				totaldelay          = Integer.parseInt(rsc.getString("totaldelay"));
+				groundopsdelay         = Integer.parseInt(rsc.getString("groundopsdelay"));
+				stobartairdelay     = Integer.parseInt(rsc.getString("stobartairdelay"));
+				nonstobartairdelay  = Integer.parseInt(rsc.getString("nonstobartairdelay"));
+		
+				Gson gsonObj = new Gson();
+				Map<Object, Object> map1 = null;
+				List<Map<Object, Object>> list = new ArrayList<Map<Object, Object>>();
+
+				map1 = new HashMap<Object, Object>();
+				map1.put("label", "All Delay");
+				map1.put("y", totaldelay);
+				list.add(map1);
+
+				if (groundopsdelay > 0) {
+					map1 = new HashMap<Object, Object>();
+					map1.put("label", "Ground Ops");
+					map1.put("y", groundopsdelay);
+					list.add(map1);
+				}
+
+				if (stobartairdelay > 0) {
+					map1 = new HashMap<Object, Object>();
+					map1.put("label", "Stobart Air Attrib.");
+					map1.put("y", stobartairdelay);
+					list.add(map1);
+				}
+
+				if (nonstobartairdelay > 0) {
+					map1 = new HashMap<Object, Object>();
+					map1.put("label", "Non Stobart");
+					map1.put("y", nonstobartairdelay);
+					list.add(map1);
+				}
+		
+				graphstring = gsonObj.toJson(list);
+
+			}
+
+		}
+
+
+		sqlstrkpi = null;
+		rsc.close();
+		stac.close();
+		connection.close();
+
+		return graphstring;
+
+	}
 
 
 

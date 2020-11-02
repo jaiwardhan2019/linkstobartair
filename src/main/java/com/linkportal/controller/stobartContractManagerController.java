@@ -65,11 +65,11 @@ public class stobartContractManagerController {
 	@RequestMapping(value = "/contractManager",method = {RequestMethod.POST,RequestMethod.GET})
 	public String ManageContract(HttpServletRequest req, ModelMap model) throws Exception {	
 		
-			model.addAttribute("emailid",req.getParameter("emailid"));
-			model.addAttribute("password",req.getParameter("password"));			
-			//model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-			model.put("profilelist",req.getSession().getAttribute("profilelist")); 
-		    String rootdirectory = new java.io.File( "/" ).getCanonicalPath();
+		
+	      String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	      model.addAttribute("profilelist",req.getParameter("profilelist"));	
+
+		  String rootdirectory = new java.io.File( "/" ).getCanonicalPath();
 
 		    
 			
@@ -80,8 +80,8 @@ public class stobartContractManagerController {
 					//--------- This Part will display Add  Contract View------------
 					if(req.getParameter("event").equals("addnew")){
 						
-						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));
-						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),"ALL"));
+						model.put("departmentlist", contract.populate_Department(userEmailId[0],req.getParameter("department")));
+						model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],req.getParameter("department"),"ALL"));
 
 						
 						if(req.getParameter("departmentselected") != null){
@@ -139,15 +139,15 @@ public class stobartContractManagerController {
 					    
 						 
 						
-						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment"),req.getParameter("cdescription"),status.trim()));
-						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));
+						model.put("contractlist", contract.showAllContract(userEmailId[0],req.getParameter("department"),req.getParameter("subdepartment"),req.getParameter("cdescription"),status.trim()));
+						model.put("departmentlist", contract.populate_Department(userEmailId[0],req.getParameter("department")));
 					
 						if(req.getParameter("department").equals("ALL")) {
-						   model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),"ALL"));	
+						   model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],req.getParameter("department"),"ALL"));	
 						}
 						else
 						{
-						   model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
+						   model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],req.getParameter("department"),req.getParameter("subdepartment")));
 						}
 						
 						 model.put("cdescription",req.getParameter("cdescription"));
@@ -174,9 +174,9 @@ public class stobartContractManagerController {
 					if(req.getParameter("event").equals("view")){		
 						
 					        //------ Select Contract from database
-						model.put("contractdetail", contract.viewContract(req.getParameter("refno"),req.getParameter("emailid")));
-						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("departmentselected")));						
-						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("departmentselected"),req.getParameter("subdepartmentselected")));
+						model.put("contractdetail", contract.viewContract(req.getParameter("refno"),userEmailId[0]));
+						model.put("departmentlist", contract.populate_Department(userEmailId[0],req.getParameter("departmentselected")));						
+						model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],req.getParameter("departmentselected"),req.getParameter("subdepartmentselected")));
 						
 						
 						//------ Select Contract file list from File System
@@ -195,7 +195,7 @@ public class stobartContractManagerController {
 					if(req.getParameter("event").equals("showcontract")){		
 						
 					        //------ Select Contract from database
-						model.put("contractdetail", contract.viewContract(req.getParameter("refno"),req.getParameter("emailid")));
+						model.put("contractdetail", contract.viewContract(req.getParameter("refno"),userEmailId[0]));
 						//------ Select Contract file list from File System
 						model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));	
 					   return "contractmanager/showcontract";
@@ -207,9 +207,9 @@ public class stobartContractManagerController {
 					if(req.getParameter("event").equals("renew")){		
 						
 					    //------ Select Contract from database						
-						model.put("contractdetail", contract.renewContract(req.getParameter("refno"),req.getParameter("emailid")));
-						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("departmentselected").trim()));
-						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("departmentselected").trim(),req.getParameter("subdepartmentselected").trim()));
+						model.put("contractdetail", contract.renewContract(req.getParameter("refno"),userEmailId[0]));
+						model.put("departmentlist", contract.populate_Department(userEmailId[0],req.getParameter("departmentselected").trim()));
+						model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],req.getParameter("departmentselected").trim(),req.getParameter("subdepartmentselected").trim()));
 						model.put("contractupdate","<br><p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> Contract Renewed .&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");
 			    	    return "contractmanager/updatecontract";
 					   
@@ -244,10 +244,10 @@ public class stobartContractManagerController {
 					    
 					    
 						model.put("contractupdate","<span style='color:green;font-weight:bold;font-size:10pt;'> Contract no:"+req.getParameter("refno")+" Removed Successfully.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span>");
-						model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null));
+						model.put("contractlist", contract.showAllContract(userEmailId[0],"ALL","ALL",null,null));
 
-						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),"All"));						
-						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),"ALL","ALL"));
+						model.put("departmentlist", contract.populate_Department(userEmailId[0],"All"));						
+						model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],"ALL","ALL"));
 						model.put("Active", "checked");
 						return "contractmanager/contractmanager";
 							
@@ -270,10 +270,10 @@ public class stobartContractManagerController {
 						File filenametoremove=new File(rootdirectory+"/data/stobart_contract/"+req.getParameter("refno").trim()+"/"+req.getParameter("filename"));
 						boolean delstatus=filenametoremove.delete();
 							
-						model.put("contractdetail", contract.viewContract(req.getParameter("refno"),req.getParameter("emailid")));
+						model.put("contractdetail", contract.viewContract(req.getParameter("refno"),userEmailId[0]));
 						model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
-						model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));						
-						model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
+						model.put("departmentlist", contract.populate_Department(userEmailId[0],req.getParameter("department")));						
+						model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],req.getParameter("department"),req.getParameter("subdepartment")));
 						model.put("contractupdate","<br><p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> File Removed Successfully .&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");
 
 						
@@ -290,9 +290,9 @@ public class stobartContractManagerController {
 			
 			
 			
-			model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null));
-			model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),"ALL"));
-			model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),"ALL","ALL"));
+			model.put("contractlist", contract.showAllContract(userEmailId[0],"ALL","ALL",null,null));
+			model.put("departmentlist", contract.populate_Department(userEmailId[0],"ALL"));
+			model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],"ALL","ALL"));
 			model.put("Active", "checked");
 			
 			
@@ -318,11 +318,9 @@ public class stobartContractManagerController {
 	@RequestMapping(value = "/addcontracttodatabase",method = {RequestMethod.POST,RequestMethod.GET})
     public String singleFileUpload(@RequestParam("cfile") MultipartFile file,HttpServletRequest req,ModelMap model) throws SQLException {
         
-		   
-		   model.addAttribute("emailid",req.getParameter("emailid"));
-		   model.addAttribute("password",req.getParameter("password"));			
-		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-		   model.put("profilelist",req.getSession().getAttribute("profilelist")); 
+		  
+	      String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	      model.addAttribute("profilelist",req.getParameter("profilelist"));	
 		
 	       
 	        try {
@@ -346,11 +344,11 @@ public class stobartContractManagerController {
 		            byte[] bytes = file.getBytes();
 		            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename().replaceAll("[\\\\/:*&?\"<>|]",""));
 		            Files.write(path, bytes);		    
-		            logger.info("Contract File Uploaded to the folder by:"+req.getParameter("emailid"));
+		            logger.info("Contract File Uploaded to the folder by:"+userEmailId[0]);
 		            
  		            // This Part will Insert Form Data to the database 		            
 		            if(contract.addNewContract(req) == 1) {	
-			           logger.info("Contract no:"+req.getParameter("refno")+" is added to the database by :"+req.getParameter("emailid")); 
+			           logger.info("Contract no:"+req.getParameter("refno")+" is added to the database by :"+userEmailId[0]); 
 			           model.put("fileuploadstatus","Contract File is Uploaded..");		            	
 		            }
 		            
@@ -360,18 +358,18 @@ public class stobartContractManagerController {
 	        	logger.error(e);	        	
 	        	model.put("contractupdate","<p align='center'><span style='color:red;font-weight:bold;font-size:10pt;'> Contract  Not Added Please Try Again !!!..&nbsp;<i class='fa fa-frown-o fa-2x'><br>"+e.toString()+"</i></span></p>");	
 	        	
-	        	model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null)); 
+	        	model.put("contractlist", contract.showAllContract(userEmailId[0],"ALL","ALL",null,null)); 
 	        	return "contractmanager/contractmanager";
 	        }
 	        
 	        
 	        
 			model.put("contractupdate","<p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> Contract no:( "+req.getParameter("refno")+" ) Successfully Added.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");
-			model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null)); 
-			model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),"ALL"));						
-			model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),"ALL","ALL"));
+			model.put("contractlist", contract.showAllContract(userEmailId[0],"ALL","ALL",null,null)); 
+			model.put("departmentlist", contract.populate_Department(userEmailId[0],"ALL"));						
+			model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],"ALL","ALL"));
 			model.put("Active", "checked"); 
-			logger.info("Contract no:"+req.getParameter("refno")+" Created in System by :"+req.getParameter("emailid")); 
+			logger.info("Contract no:"+req.getParameter("refno")+" Created in System by :"+userEmailId[0]); 
 	        return "contractmanager/contractmanager";
     	
 	       
@@ -385,14 +383,11 @@ public class stobartContractManagerController {
 	@RequestMapping(value = "/updatecontracttodatabase",method = {RequestMethod.POST,RequestMethod.GET})
     public String UpdateFileUploadAddData(@RequestParam("cfile") MultipartFile file,HttpServletRequest req,ModelMap model) throws SQLException {
         
-		   
-		   model.addAttribute("emailid",req.getParameter("emailid"));
-		   model.addAttribute("password",req.getParameter("password"));			
-		   //model.put("profilelist", dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-		   model.put("profilelist",req.getSession().getAttribute("profilelist")); 
-		
-	       
-	        try {
+		 
+	      String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	      model.addAttribute("profilelist",req.getParameter("profilelist"));
+	      
+	      try {
 	        	
 	        	   if(file.getSize() > 0) { 
 			        	
@@ -417,7 +412,7 @@ public class stobartContractManagerController {
 				            byte[] bytes = file.getBytes();
 				            Path path = Paths.get(UPLOAD_DIRECTORY+"stobart_contract/"+req.getParameter("refno").trim()+"/"+file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]",""));
 				            Files.write(path, bytes);		    
-				            logger.info("Contract File Uploaded to the folder by:"+req.getParameter("emailid"));
+				            logger.info("Contract File Uploaded to the folder by:"+userEmailId[0]);
 			
 	        	   } 
 	        	   // END OF FILE UPLOAD PART -------
@@ -425,7 +420,7 @@ public class stobartContractManagerController {
 	        	   
  		            // This Part will Update Form Data to the database 		            
 		            if(contract.updateNewContract(req) == 1) {		            	
-		            	logger.info("Contract no:"+req.getParameter("refno")+" Update in System by :"+req.getParameter("emailid")); 
+		            	logger.info("Contract no:"+req.getParameter("refno")+" Update in System by :"+userEmailId[0]); 
 			          		            	
 		            }
 		            
@@ -434,9 +429,9 @@ public class stobartContractManagerController {
 	        } catch (Exception e) {
 	        	logger.error(e);	        	
 	        	model.put("contractupdate","<p align='center'><span style='color:red;font-weight:bold;font-size:10pt;'> Contract  Not Update. Please Try Again !!!..&nbsp;<i class='fa fa-frown-o fa-2x'> </i><br>"+e.toString()+"</span></p>");	
-	        	model.put("contractlist", contract.showAllContract(req.getParameter("emailid"),"ALL","ALL",null,null)); 
-				model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),"ALL"));						
-				model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),"ALL","ALL"));
+	        	model.put("contractlist", contract.showAllContract(userEmailId[0],"ALL","ALL",null,null)); 
+				model.put("departmentlist", contract.populate_Department(userEmailId[0],"ALL"));						
+				model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],"ALL","ALL"));
 				model.put("Active", "checked"); 
 	        	return "contractmanager/contractmanager";
 	        }
@@ -444,10 +439,10 @@ public class stobartContractManagerController {
 	        
 	       
 	        
-			model.put("contractdetail", contract.viewContract(req.getParameter("refno"),req.getParameter("emailid")));
+			model.put("contractdetail", contract.viewContract(req.getParameter("refno"),userEmailId[0]));
 			model.put("filelist",contract.showFilesFromFolder(req.getParameter("refno")));
-			model.put("departmentlist", contract.populate_Department(req.getParameter("emailid"),req.getParameter("department")));						
-			model.put("subdepartmentlist", contract.populate_SubDepartment(req.getParameter("emailid"),req.getParameter("department"),req.getParameter("subdepartment")));
+			model.put("departmentlist", contract.populate_Department(userEmailId[0],req.getParameter("department")));						
+			model.put("subdepartmentlist", contract.populate_SubDepartment(userEmailId[0],req.getParameter("department"),req.getParameter("subdepartment")));
 			model.put("contractupdate","<p align='center'><span style='color:green;font-weight:bold;font-size:10pt;'> Contract  Successfully Updated.&nbsp;<i class='fa fa-smile-o  fa-2x'> </i></span></p>");
 			return "contractmanager/updatecontract";
 	        

@@ -18,24 +18,10 @@
 
 function searchUser(){
 
-
-	  var userid = document.getElementById("user").value.trim();
-      if(userid == ''){
-	      alert("Please Enter User First Name , Last Name or Anything you remember.");
-	      document.getElementById("user").focus();
-	      return false;
-	  }
-      else
-      {
-
     	  document.linkuser.method="POST"
 		  document.linkuser.action="profilemanager?emailid=${emailid}";
 	      document.linkuser.submit();
 		  return true;
-
-       }
-          
-             
 
 }
 
@@ -45,9 +31,7 @@ function show_contract_user_Profile(useremail){
 		  document.linkuser.method="POST";
 		  document.linkuser.action="showcontractaccessprofile";
 		  document.linkuser.submit();
-		  return true;
-
-	
+		  return true;	
 }
 
 

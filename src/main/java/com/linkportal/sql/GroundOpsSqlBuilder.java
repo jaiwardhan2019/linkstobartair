@@ -91,15 +91,16 @@ public class GroundOpsSqlBuilder implements Serializable{
 				if((airline != null) && (!airline.equals("ALL"))){ 				    
 					if(airline.length() == 2) {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')"; }else {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ("+airline+")"; }
 				}
+				
+				
+				
 				if((airport != null) && (!airport.equals("ALL"))){ 
-				    if(airport.length() == 3) {sqlmaster += " AND LEGS.DEPSTN in ('"+airport+"')"; }else {sqlmaster += " AND LEGS.DEPSTN in ("+airport+")";}
+					if(airport.length() == 3) {sqlmaster += " AND (LEGS.DEPSTN in ('"+airport+"') or LEGS.ARRSTN in ('"+airport+"') )";}
+					else {sqlmaster += " AND (LEGS.DEPSTN in ("+airport+") or LEGS.ARRSTN in ("+airport+") )";}				 
 				}	
 				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by ETD_DATE_TIME";}
-				
-				//System.out.println(sqlmaster);
-				
-				
-			return sqlmaster;
+	
+				return sqlmaster;
 		}//------------- End Of Myfly Report SQL --------------------------------
 
 		
@@ -126,8 +127,6 @@ public class GroundOpsSqlBuilder implements Serializable{
 				//sqlmaster +="\n AND  (DUR1+DUR2+DUR3+DUR4 > 0)";
 
 				if(shortby != null){sqlmaster +=  " order by '"+shortby+"'";}else {sqlmaster +=  " order by  FLIGHT_DATE desc";}
-			    
-				//System.out.println(sqlmaster);
 				
 			return sqlmaster;
 		}//------------- End Of SQL --------------------------------
@@ -136,7 +135,7 @@ public class GroundOpsSqlBuilder implements Serializable{
 
 		//-------------- This Will Generate SQL for the  Delay Flights Report  ----------------------------------------------------------------
 		public String builtDelayFlightCommentSql(String ofdate,String todate) throws NullPointerException{	 		   
-			   return "Select * from Gops_Flight_Delay_Comment_Master WHERE Flight_Date between '"+ofdate+"' and '"+todate+"'";
+			   return "Select * from Gops_Flight_Delay_Comment_Master WHERE Flight_Date between '"+ofdate+"' and '"+todate+"'  order by Entry_Date_Time desc";
 		}//------------- End Of Myfly Report SQL --------------------------------
 
 	
@@ -147,25 +146,26 @@ public class GroundOpsSqlBuilder implements Serializable{
 		//-------------- This Will Generate SQL for the  MayFly Report FOR JSP ----------------------------------------------------------------
 		public String builtOnTimePerformanceReportSql(String airline,String airport,String fromdate,String todate,String delaycodegroup) throws NullPointerException{
 	 		    
-			    lightSqlMaster += " WHERE legs.datop between '"+fromdate+"' and '"+todate+"'";   	
+			    sqlmaster += " WHERE legs.datop between '"+fromdate+"' and '"+todate+"'";   	
 			   
 	 			if((airline != null) && (!airline.equals("ALL"))){ 				    
-					if(airline.length() == 2) {lightSqlMaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')"; }else {lightSqlMaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ("+airline+")"; }
+					if(airline.length() == 2) {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ('"+airline+"')"; }else {sqlmaster += " AND SUBSTRING(LEGS.FLTID,1,3) in ("+airline+")"; }
 				}
 				
 				
 				if((airport != null) && (!airport.equals("ALL"))){ 
-				    if(airport.length() == 3) {lightSqlMaster += " AND LEGS.DEPSTN in ('"+airport+"')"; }else {lightSqlMaster += " AND LEGS.DEPSTN in ("+airport+")";}
+				    if(airport.length() == 3) {sqlmaster += " AND LEGS.DEPSTN in ('"+airport+"')"; }else {sqlmaster += " AND LEGS.DEPSTN in ("+airport+")";}
 				}	
 				
 				
-				if(!delaycodegroup.equals("ALL")){ 
-				    lightSqlMaster += " AND  legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 in ("+delaycodegroup+")";
-				}	
-
-				// Flight_Note and Legs Table Joint  where flight notes all row should be displayed 
-				
-				//System.out.println(lightSqlMaster);
+				if(!delaycodegroup.equalsIgnoreCase("ALL")){ 
+				    sqlmaster += " AND  legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 in ("+delaycodegroup+")";
+				}
+				else 
+				{
+				    sqlmaster += " AND  legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 > 0 ";
+						
+				}
 				
 			return sqlmaster;
 		}//------------- End Of Myfly Report SQL --------------------------------

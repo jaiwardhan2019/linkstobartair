@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <head>
     <title> Dashboard |Delay Flight Report </title>    
@@ -48,11 +48,12 @@ function Download_ExcelReport(){
 
 	  search_progress();
 	  document.getElementById("downloading").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Downloading..&nbsp;&nbsp;";
-      var urldetail ="CreateExcelReliabilityReport?delay=no&airlinecode="+document.getElementById("airlinecode").value; 
+      var urldetail ="CreateExcelReport?delay=no&airlinecode="+document.getElementById("airlinecode").value; 
       urldetail = urldetail +"&airportcode="+document.getElementById("airportcode").value;
       urldetail = urldetail +"&startdate="+document.getElementById("startdate").value;		
       urldetail = urldetail +"&enddate="+document.getElementById("enddate").value;	
-      urldetail = urldetail +"&emailid="+document.getElementById("emailid").value;		
+      urldetail = urldetail +"&emailid="+document.getElementById("emailid").value;	
+      urldetail = urldetail +"&delayCodeGroupCode="+document.getElementById("delayCodeGroupCode").value;  	
 	
       $.ajax({
           
@@ -163,24 +164,7 @@ function Download_ExcelReport(){
 								
 								
 				       </td>
-	<!-- 		       				
 					<td>
-							             
-							<div class="col-xs-12">
-										<label> Flight No </label>
-										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
-													<input type="text"  name="flightno" id="flightno" class="form-control" value="">					
-															
-										</div>
-							    </div>
-				    
-	    
-							
-				       </td>
-		-->
-		
-							<td>
 				             
 		               <div class="col-xs-12">
 							<label for="startDate">End Date:</label>
@@ -211,13 +195,10 @@ function Download_ExcelReport(){
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height" aria-hidden="true"></i></span>
 								<select id="delayCodeGroupCode" name="delayCodeGroupCode" class="form-control">
-								<option value="ALL">All Delay Codes</option>
-									
-										<option value="GOPS" >Ground Ops</option>
-									
-										<option value="SAD" >Stobart Attributable Delays</option>
-									
-										<option value="NSAD" >Non Stobart Delays</option>
+								<option value="ALL" <c:if test="${delaycode == 'ALL'}"> selected </c:if> >------All-------</option>									
+										<option value="GOPS" <c:if test = "${delaycode == 'GOPS'}"> selected </c:if>  >Ground Ops </option>									
+										<option value="SAD" <c:if test = "${delaycode == 'SAD'}"> selected </c:if> >Stobart Attributable Delays</option>									
+										<option value="NSAD" <c:if test = "${delaycode == 'NSAD'}"> selected </c:if> >Non Stobart Delays</option>
 	
 									
 								</select>
@@ -252,7 +233,7 @@ function Download_ExcelReport(){
 							<td colspan="2">
 								<span style="display:none" id="searchbutton1">
 									<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-									   . 
+									   Please have some patience as this might take a while ... 
 									</div>   
 								</span>
 							</td>

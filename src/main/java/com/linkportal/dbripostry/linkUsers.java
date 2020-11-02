@@ -11,7 +11,8 @@ public interface linkUsers {
 	
 	   void updateUser_detail_LastLoginDateTime(String useremail);
 	   
-	   Map getUser_Profile_List_From_DataBase(String useremail);
+	   //Map getUser_Profile_List_From_DataBase(String useremail);
+	   String getUser_Profile_List_From_DataBase(String useremail , String passWord);
 	   
 	   List getLinkUserListFromDatabase(String username);
 	  
@@ -29,7 +30,7 @@ public interface linkUsers {
          
 	   void UpdateUserpProfileAndActiveStatustoDataBase(String emailid, String activestatus, String adminstatus);
 	   
-	   void UpdateLinkProfiletoDataBase(String emailid, String activestatus, String adminstatus, List alllinkprof);
+	   void UpdateLinkProfiletoDataBase(String emailid, List alllinkprof);
 	   
 	   void RemoveUserpProfileAndLinkProfiletoDataBase(String emailid, List alllinkprof);
 	   

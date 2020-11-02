@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../include/groundopsheader.jsp" />
+<jsp:include page="../include/gopsheader.jsp" />
 
 <!--  
   https://www.w3schools.com/Bootstrap/bootstrap_grid_examples.asp
@@ -15,6 +15,11 @@
 <script type="text/javascript">
 
 //https://codepen.io/yemon/pen/pWoROm   <<-- For the Text Annimation 
+
+// ---------- Every 15 minutes this function will be called and refresh the ground Ops Home page 
+setInterval(function(){ 	
+	cal_groundops_home('${usertype}');
+}, 900000);
 
 
 
@@ -59,14 +64,14 @@
 				          </tr>
 				
 				               ${DailyPunctStatistics}
-					     
+					   <!--   
 				           <tr>
 					          <td colspan="2" align="right" height="30px"><br>
 		                            <a href="javascript:void();" onClick="cal_groundops_home('${usertype}');"> <span class="label label-primary"> Refresh &nbsp;<i class="fa fa-refresh" aria-hidden="true"></i></span></a>
 				 
 					          </td>
 				          </tr>
-				
+				       -->
 			        
 		      </table>   					
 				
@@ -201,10 +206,27 @@
 			<div class="panel pane-default panel-shadow">
 				<div class="panel-body">
 				     <p>
-						<span  style="font-weight:600;font-size:12pt;color:#0071ba;"><b>Voice OF Guest</b>&nbsp;<i class="fa fa-bullhorn fa-lg" aria-hidden="true"></i></span>	 				  
+						<span  style="font-weight:600;font-size:12pt;color:#0071ba;"><b>Voice of Guest</b>&nbsp;<i class="fa fa-bullhorn fa-lg" aria-hidden="true"></i></span>	 				  
 					    ________________________________________________________
-					</p>
-  			             &nbsp;&nbsp; <img src="images/vog1.jpg"  width="95%">
+					</p>  			           
+
+                       <table>
+	                     <tr>
+		                     <td> 
+		                       &nbsp;&nbsp; <img src="VOICEOFGUESTIMAGE/${voiceofguest}"  width="95%">
+		                     </td>
+	                     </tr>
+	                     <c:if test="${profilelist.docmanager  == 'Y'}">
+							    <tr align="center">
+								       <td  align="center">
+								       <a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=VOICEOFGUESTIMAGE&operation=update');"><span class="label label-success">Update <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
+								       </td>
+								   </tr>  
+				         </c:if> 
+
+				     </table>     						          			
+
+		  
                     
 	
 				</div>

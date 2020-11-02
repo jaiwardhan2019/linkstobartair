@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -57,6 +59,11 @@ public class ajaxRestControllerDelayComment {
 	@Autowired
 	DataSource dataSourcesqlservercp;
 		 
+
+
+    //---------- Logger Initializer------------------------------- 
+	private final Logger logger = Logger.getLogger(HomeController.class);
+	
 
 	
 	@RequestMapping(value = "test", method = RequestMethod.GET, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
@@ -123,6 +130,34 @@ public class ajaxRestControllerDelayComment {
 		}
 	}
 
+	
+
+	//-- Will Update Ground Ops User Profile 
+	@RequestMapping(value = "updategroundopsuserprofile", method = RequestMethod.GET, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> updateGroundopsUserprofile(HttpServletRequest req) {
+		try {		
+			String updateStatus=gopsobj.updateGroundOpsUsersProfile(req.getParameter("usersemailid"),req.getParameter("profileid"),req.getParameter("operation"));			
+			return new ResponseEntity<String>(updateStatus, HttpStatus.OK);
+		} catch (Exception e) {return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);}
+	}
+
+	
+	
+	
+
+	//-- Will Update Ground Ops Home Page Flashing Message  
+	@RequestMapping(value = "updateflashingmessageonhomepage", method = RequestMethod.GET, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> updateFlashingMessageonHomepage(HttpServletRequest req) {
+		try {			
+			
+			String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+			gopsobj.updateGroudopsHomePageFlashingMessage(req.getParameter("messagevalue"), userEmailId[0]);
+			return new ResponseEntity<String>("Message Update.", HttpStatus.OK);
+		} catch (Exception e) {return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);}
+	}
+
+	
+	
 	// --- FOR DELAY REPORT FETCH FLIGHT COMMENT DATE FROM DB
 	@RequestMapping(value = "getflightcomment", method = { RequestMethod.POST, RequestMethod.GET }, produces = {
 			MimeTypeUtils.APPLICATION_JSON_VALUE })
@@ -136,7 +171,8 @@ public class ajaxRestControllerDelayComment {
 		}
 
 	}
-
+	
+	
 	// --- FOR DELAY REPORT FETCH FLIGHT COMMENT DATE FROM DB
 	@RequestMapping(value = "delayflightreport", method = { RequestMethod.POST, RequestMethod.GET }, produces = {
 			MimeTypeUtils.APPLICATION_JSON_VALUE })
@@ -171,18 +207,21 @@ public class ajaxRestControllerDelayComment {
 
 
 
-
+	@Value("${stobart.contract.folder}")
+	String temp_directory;
+    
 	//-- This will Load the PPS Token to the Database 
 	//http://www2.hawaii.edu/~tp_212/fall2004/StringTok3.java
 	@RequestMapping(value = "loadtokentodatabase",method = { RequestMethod.POST, RequestMethod.GET }, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> loadTokentoDatabase(@RequestParam("cfile") MultipartFile files,HttpServletRequest req) {
-
-		String addedByemailid = req.getParameter("emailid");
+ 	    
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+		String addedByemailid  = userEmailId[0];
+		
 		Date today                     = new Date();
 		SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		String addedDate               = formattedDate.format(c.getTime());
-
 
 		try {
 			
@@ -193,22 +232,26 @@ public class ajaxRestControllerDelayComment {
 			}
 
 			// Converting MultipartFile to file
-			File fileName = new File("src/main/resources/targetFile.txt");
+			File fileName = new File(temp_directory+"/targetfile.txt");
 			files.transferTo(fileName);
+			
+		
 			
 			
 			//-------- Reading File and Uploading to the database
 			int noOfTokenLoaded=crewRep.readTokenFromFileAndInsertToDatabase(fileName, addedByemailid, addedDate);
 			
 			
-			//------ Removing the "src/main/resources/targetFile.txt" file from folder 
-			fileName.delete();
+			//------ Removing the "targetFile.txt" file from folder 
+		    fileName.deleteOnExit();
+		    fileName.delete();
+	
 			
 			
 			ResponseEntity<String> responseEntity = new ResponseEntity<String>(String.valueOf(crewRep.getTokenBalance()), HttpStatus.OK);
 			return responseEntity;
 	
-		} catch (Exception  e) {return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);}
+		} catch (Exception  e) {logger.error(e);return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);}
 	}
 
 

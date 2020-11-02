@@ -28,9 +28,8 @@ function BusinessUpdates(category){
 
  
  <form name="businessupdates" method="POST">
-   <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
-   <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
-
+ 
+   <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
 
 <!-- Body Banner -->
 <div class="container-fluid" style="margin-top:75px;">

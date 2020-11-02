@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.FileVisitResult;
@@ -18,15 +19,18 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.linkportal.email.linkPortalEmail;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +43,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.common.base.Strings;
 import com.linkportal.contractmanager.manageStobartContract;
 import com.linkportal.datamodel.fligthSectorLog;
 import com.linkportal.dbripostry.linkUsers;
@@ -78,6 +83,7 @@ public class groundOpsController1 {
 	@Autowired
 	ReportMaster excel;
 
+
 	@Value("${spring.operations.excel.reportsfileurl}")
 	String filepath;
 	@Value("${stobartair.delay.code}")
@@ -87,57 +93,73 @@ public class groundOpsController1 {
 	@Value("${groundops.delay.code}")
 	String GroundopsDelayCode;
 
+	
+
+
+
+
 	// ---------- Logger Initializer-------------------------------
 	private final Logger logger = Logger.getLogger(HomeController.class);
 
 	// ------- This Part Will be Called from the Login Page index.jsp
 	@RequestMapping(value = "/groundopsHomePage", method = { RequestMethod.POST, RequestMethod.GET })
-	public String HomePage(HttpServletRequest req, ModelMap model) throws Exception {
+	public String HomePage(HttpServletRequest req, ModelMap model) throws Exception{
 
-		if (req.getParameter("emailid") == null) {
-			return "index";
-		}
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
-		// model.put("profilelist",
-		// dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-		// //<<-- Populate Profile List with the map object
+
+	    String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
+
+		
+		
 
 		// --- Show today Punctuality Status
 		model.put("DailyPunctStatistics", gopsobj.getPuncStaticforGroundOpsHomePage());
 
 		// --- List top 10 document
 		model.put("gopsfilelist", docserv.getAllDocuments(req, "home"));
-
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
+		
+		model.put("voiceofguest", docserv.getVoiceOfGuestImage(req.getParameter("cat")));
+		
+		model.put("emergencyresponseplan", docserv.getEmergencyResponsPlanDocument(req.getParameter("cat")));
+		
+		model.put("gopsflashingmessage",gopsobj.getGroudopsHomePageFlashingMessage());		
+		
+		
 		model.put("usertype", req.getParameter("usertype"));
 		return "groundoperation/groundopshome";
 
 	}// ----------- End of Function
+	
+	
+	
+	
 
 	// ------- This Part Will be Called from the Login Page index.jsp
 	@RequestMapping(value = "/groundopskeycontact", method = { RequestMethod.POST, RequestMethod.GET })
 	public String GroundopsKeyContact(HttpServletRequest req, ModelMap model) throws Exception {
 
-		if (req.getParameter("emailid") == null) {
-			return "index";
-		}
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
-		// model.put("profilelist",
-		// dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-		// //<<-- Populate Profile List with the map object
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
+	    String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
+
 		model.put("usertype", req.getParameter("usertype"));
 		return "groundoperation/keycontacts";
 
 	}// ----------- End of Function
+	
+	
+	
+	
+	
+	
 
 	// *********************** FLIGHT REPORT SECTION ***********************
 	// -------THis Will be Called When MayFly Report link is called from the Home
 	// Page -----------------
 	@RequestMapping(value = "/flightreport", method = { RequestMethod.POST, RequestMethod.GET })
 	public String GroundOpsflightreport(HttpServletRequest req, ModelMap model) throws Exception {
+
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
 
 		// Formatting today date...
 		Date today = new Date();
@@ -151,37 +173,40 @@ public class groundOpsController1 {
 		}
 
 		model.put("airlinelist",
-				flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));
+				flt.Populate_Operational_Airline(req.getParameter("airlinecode"), userEmailId[0]));
 		model.put("airportlist",
-				flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
+				flt.Populate_Operational_Airport(req.getParameter("airportcode"), userEmailId[0]));
 
 		// -------------- FOR AIRCRAFT REPORT ---------------------------------
 		model.put("reportbody",
 				flt.PopulateFlightReport(req.getParameter("airlinecode"), req.getParameter("airportcode"),
 						req.getParameter("sortby"), todaydate, req.getParameter("flightno"),
-						req.getParameter("emailid")));
+						userEmailId[0]));
 		model.put("reportbody_cancle",
 				flt.Populate_MayFly_Report_body(req.getParameter("airlinecode"), req.getParameter("airportcode"),
-						req.getParameter("sortby"), todaydate, 0, req.getParameter("emailid")));
+						req.getParameter("sortby"), todaydate, 0, userEmailId[0]));
 
 		// -------------- FOR GRAPH ---------------------------------
 		String dataPoints = chart.createPieChart_For_Flight_Report(req.getParameter("airlinecode"),
-				req.getParameter("airportcode"), req.getParameter("datop"), req.getParameter("emailid"));
+				req.getParameter("airportcode"), req.getParameter("datop"), userEmailId[0]);
 		model.addAttribute("dataPoints", dataPoints);
 
 		model.addAttribute("airlinecode", req.getParameter("airlinecode").toLowerCase());
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
 		model.put("usertype", req.getParameter("usertype"));
-		logger.info("User id:" + req.getParameter("emailid") + " Login to flightreports Report");
+		logger.info("User id:" + userEmailId[0] + " Login to flightreports Report");
 		return "groundoperation/reports/flightreports";
 	}
 
+	
+	
+	
 	// -------THis Will be Called When Reliablity Flight Report link is called from
 	// the Home Page -----------------
 	@RequestMapping(value = "/reliablityflightreport", method = { RequestMethod.POST, RequestMethod.GET })
 	public String GroundOpsReliablityflightreport(HttpServletRequest req, ModelMap model) throws Exception {
+
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
 
 		// Formatting today date...
 		Date today = new Date();
@@ -201,70 +226,88 @@ public class groundOpsController1 {
 
 		model.put("tolerance", req.getParameter("tolerance"));
 		model.put("airlinelist",
-				flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));
+				flt.Populate_Operational_Airline(req.getParameter("airlinecode"), userEmailId[0]));
 		model.put("airportlist",
-				flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
+				flt.Populate_Operational_Airport(req.getParameter("airportcode"), userEmailId[0]));
+		
+		model.addAttribute("delaycode",req.getParameter("delayCodeGroupCode"));
 
+		
+		
+		String delayCode = req.getParameter("delayCodeGroupCode");
+		if(delayCode.equalsIgnoreCase("ALL"))
+		{ 
+			delayCode = null;
+		}
+		else 
+		{
+			if(delayCode.equalsIgnoreCase("GOPS")) { delayCode = GroundopsDelayCode;}
+			if(delayCode.equalsIgnoreCase("SAD"))  { delayCode = StobartairDelayCode;}
+			if(delayCode.equalsIgnoreCase("NSAD")) { delayCode = NonstobartairDelayCode;}
+		 }
+		
+		
+		
+		
 		// --------- FOR GENERAL FLIGHTS----------------------------
 		model.put("reportbody",
 				flt.Populate_Reliablity_Report_body(req.getParameter("airlinecode"), req.getParameter("airportcode"),
-						fromdate, todate, req.getParameter("tolerance"), req.getParameter("delayCodeGroupCode")));
+						fromdate, todate, req.getParameter("tolerance"), delayCode));
 
 		// --------- FOR CANCLE FLIGHTS---------------------
 		model.put("reportbody_C", flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
 				req.getParameter("airportcode"), fromdate, todate, req.getParameter("tolerance")));
 
 		model.addAttribute("airlinecode", req.getParameter("airlinecode").toLowerCase());
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
 		model.put("usertype", req.getParameter("usertype"));
-		logger.info("User id:" + req.getParameter("emailid") + " Login to reliablity flight Report");
+		logger.info("User id:" + userEmailId[0] + " Login to reliablity flight Report");
 		return "groundoperation/reports/reliablity";
 
 	}
 
 	// --------- THIS PART WILL DO DB UPDATE FROM THE AJAX
-	@RequestMapping(value = "/CreateExcelReliabilityReport", method = { RequestMethod.POST, RequestMethod.GET })
-	public void CreateExcelReliabilityReport(ModelMap model, HttpServletRequest req, HttpServletResponse res)
+	@RequestMapping(value = "/CreateExcelReport", method = { RequestMethod.POST, RequestMethod.GET })
+	public void CreateExcelReport(ModelMap model, HttpServletRequest req, HttpServletResponse res)
 			throws Exception {
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
 
 		String filename = "";
+
+		// ---Building Delay Code Group	
+		String delaycodegroup = req.getParameter("delayCodeGroupCode");
+		if(!Strings.isNullOrEmpty(delaycodegroup)) {
+			if(delaycodegroup.equalsIgnoreCase("GOPS")) { delaycodegroup = GroundopsDelayCode;}
+			if(delaycodegroup.equalsIgnoreCase("SAD"))  { delaycodegroup = StobartairDelayCode;}
+			if(delaycodegroup.equalsIgnoreCase("NSAD")) { delaycodegroup = NonstobartairDelayCode;}
+		}
+		
 
 		if (req.getParameter("delay").equals("no")) {
 			excel.Populate_Reliablity_Report_ExcelFormat(req.getParameter("airlinecode"),
 					req.getParameter("airportcode"), req.getParameter("startdate"), req.getParameter("enddate"),
-					req.getParameter("tolerance"), req.getParameter("delayCodeGroupCode"), req.getParameter("emailid"));
-
+					req.getParameter("tolerance"), delaycodegroup, userEmailId[0]);
 			filename = "viewExcelReliabilityReportFlights.xls";
 		}
 
 		if (req.getParameter("delay").equals("yes")) {
 			excel.Populate_Delay_Report_ExcelFormat(req.getParameter("airlinecode"), req.getParameter("airportcode"),
-					req.getParameter("startdate"), req.getParameter("emailid"));
+					req.getParameter("startdate"),req.getParameter("enddate"), userEmailId[0]);
 			filename = "delayFlightReport.xls";
 		}
 
-		/*----------------------- Here Below is the File  Download Code not working with the AJAX cal --------------------
-		res.setContentType("text/html");
-		PrintWriter out = res.getWriter();
 		
-		System.out.println(filepath +req.getParameter("emailid")+"/"+filename.trim());
+		if (req.getParameter("delay").equals("otp")) {	
+			excel.Populate_On_Time_Performance_Report_ExcelFormat(req.getParameter("airlinecode"), req.getParameter("airportcode"),
+					req.getParameter("startdate"),req.getParameter("enddate"), userEmailId[0],delaycodegroup);		
 		
-		res.setContentType("APPLICATION/OCTET-STREAM");   
-		res.setHeader("Content-Disposition","attachment; filename=\"" + filename.trim() + "\"");
-		FileInputStream fileInputStream = new FileInputStream(filepath +req.getParameter("emailid")+"/"+filename.trim());  
-		//FileInputStream fileInputStream = new FileInputStream("C:/data/operations/jai.wardhan@stobartair.com/delayFlightReport.xls");
-		int i;   
-		while ((i=fileInputStream.read()) != -1) { System.out.println(i);out.write(i); }
-		fileInputStream.close();   
-		out.close();
-		*/
-
-		logger.info(req.getParameter("emailid") + " : Have Download the Reliablity Report on:" + new Date());
+		}
+			
+		logger.info(userEmailId[0] + " : Have Download the Reliablity Report on:" + new Date());
 
 	}
 
+	
 	
 	
 	
@@ -273,6 +316,9 @@ public class groundOpsController1 {
 	@RequestMapping(value = "/delayflightreport", method = { RequestMethod.POST, RequestMethod.GET })
 	public String GroundOpsDelayflightreport(HttpServletRequest req, ModelMap model) throws Exception {
 
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
+
 		// Formatting today date...
 		Date today = new Date();
 		SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -290,35 +336,38 @@ public class groundOpsController1 {
 		}
 
 		model.put("airlinelist",
-				flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));
+				flt.Populate_Operational_Airline(req.getParameter("airlinecode"), userEmailId[0]));
 
 		model.put("airportlist",
-				flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
+				flt.Populate_Operational_Airport(req.getParameter("airportcode"), userEmailId[0]));
 
-		// --------- FOR GENERAL FLIGHTS----------------------------
+		// --------- FOR Delay FLIGHTS----------------------------
 		model.put("reportbody",
 				flt.PopulateDelayFlightReport(req.getParameter("airlinecode"), req.getParameter("airportcode"),
-						fromdate, todate, req.getParameter("flightno"), req.getParameter("emailid")));
+						fromdate, todate, req.getParameter("flightno"), userEmailId[0]));
 
 		// --------- FOR CANCLE FLIGHTS---------------------
 		model.put("reportbody_C",flt.Populate_Reliablity_Report_body_Cancle_Flights(req.getParameter("airlinecode"),
 		req.getParameter("airportcode"),fromdate,todate,"0"));
 
 		model.addAttribute("airlinecode", req.getParameter("airlinecode").toLowerCase());
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
 		model.put("usertype", req.getParameter("usertype"));
-		logger.info("User id:" + req.getParameter("emailid") + " Login to DELAY Flight Report");
+		logger.info("User id:" + userEmailId[0] + " Login to DELAY Flight Report");
 		return "groundoperation/reports/delayreport";
 
 	}
+	
+	
+	
 
 	// -------THis Will be Called When Delay Flight Report link is called from the
 	// Home Page -----------------
 	@RequestMapping(value = "/otpflightreport", method = { RequestMethod.POST, RequestMethod.GET })
 	public String Otpflightreport(HttpServletRequest req, ModelMap model) throws Exception {
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
 
+		
 		// Formatting today date...
 		Date today = new Date();
 		SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -336,32 +385,29 @@ public class groundOpsController1 {
 		}
 
 		model.put("airlinelist",
-				flt.Populate_Operational_Airline(req.getParameter("airlinecode"), req.getParameter("emailid")));
+				flt.Populate_Operational_Airline(req.getParameter("airlinecode"), userEmailId[0]));
 		model.put("airportlist",
-				flt.Populate_Operational_Airport(req.getParameter("airportcode"), req.getParameter("emailid")));
+				flt.Populate_Operational_Airport(req.getParameter("airportcode"), userEmailId[0]));
 
-		// ---Builting Delay Code Group
+		// ---Building Delay Code Group	
 		String delaycodegroup = req.getParameter("delayCodeGroupCode");
-		if (delaycodegroup.equals("GOPSDELAYCODE")) {
-			delaycodegroup = GroundopsDelayCode;
-		}
-		if (delaycodegroup.equals("NONSTOBARTDELAYCODE")) {
-			delaycodegroup = NonstobartairDelayCode;
-		}
-		if (delaycodegroup.equals("STOBARTDELAYCODE")) {
-			delaycodegroup = StobartairDelayCode;
-		}
-
+		if(delaycodegroup.equalsIgnoreCase("GOPS")) { delaycodegroup = GroundopsDelayCode;}
+		if(delaycodegroup.equalsIgnoreCase("SAD"))  { delaycodegroup = StobartairDelayCode;}
+		if(delaycodegroup.equalsIgnoreCase("NSAD")) { delaycodegroup = NonstobartairDelayCode;}
+	
 		// --------- FLIGHT NOTES REPORT ----------------------------
 		model.put("flightnotes", flt.PopulateOnTimePerformanceReport(req.getParameter("airlinecode"),
-				req.getParameter("airportcode"), fromdate, todate, delaycodegroup, req.getParameter("emailid")));
+				req.getParameter("airportcode"), fromdate, todate, delaycodegroup, userEmailId[0]));
+		
+		  
+		//-------------- FOR GRAPH --------------------------------- 			     
+		String dataPoints = chart.createPieChart_For_OTP_Flight_Report(req.getParameter("airlinecode"), req.getParameter("airportcode"), fromdate, todate, delaycodegroup);
+		model.addAttribute("dataPoints",dataPoints); 
+		
+		
 
 		model.addAttribute("airlinecode", req.getParameter("airlinecode").toLowerCase());
-		model.put("delaycode", req.getParameter("delayCodeGroupCode"));
-
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
+		model.addAttribute("delaycode", req.getParameter("delayCodeGroupCode"));
 		model.put("usertype", req.getParameter("usertype"));
 		logger.info("User id:" + req.getParameter("emailid") + " Login to OTP Flight Report");
 		return "groundoperation/reports/otpreport";
@@ -369,159 +415,73 @@ public class groundOpsController1 {
 	}
 
 	// --------- THIS PART WILL DO DB UPDATE FROM THE AJAX CALL FROM DELAY FLIGHT
-	// REPORT
 	@ResponseBody
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/delayaction")
-	public int delayAction(ModelMap model, HttpServletRequest req) {
-		if (refisuser.addDelayFeedback(req)) {
-			model.put("status", "Feedback updated");
-			// Trigger Email Notification to all User
-			return 1;
-		} else {
+	public int delayAction(ModelMap model, HttpServletRequest req) throws Exception{
+		
+		if(refisuser.addDelayFeedback(req)){
+			
+		   //------- This will send email to all  
+		   refisuser.notifyGroundHandlersForDelayComment(req);			
+		   model.put("status", "Feedback updated && Email sent out to Airport Manager");  
+		   return 1;
+		   
+		} 
+		else
+		{
 			model.put("status", "Not updated plz check log. Or contact IT on it@stobartair.com");
 			return 0;
 		}
 
 	}
 
-	// ****************** GROUND OPS DOCUMENT SEARCH
-	// ***********************************************
-	// -------THis Will be Called from header search document TOP Right.
+	
+	
+	/* 
+	 * All GROUND OPS DOCUMENT SEARCH
+	 * This Will be Called from header search document TOP Right.
+	 * 
+	 */
 	@RequestMapping(value = "/searchdocuments", method = { RequestMethod.POST, RequestMethod.GET })
 	public String groundopsdocumentsearch(HttpServletRequest req, ModelMap model) throws Exception {
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
+		
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));
 		model.put("usertype", req.getParameter("usertype"));
 		model.put("gopsfilelist", docserv.seachDocuments(req.getParameter("myInput")));
 		model.put("docname", req.getParameter("myInput"));
-
 		return "groundoperation/searchdocument";
 	}
+	
+	
+	
+	
+	
 
 	// ****************** GROUND OPS DOCUMENT REPORT AND MANAGMENT GCI GCM
-	// GCR***********************************************
-	// -------THis Will be Called When GCI GCM GCR called from Ground Ops
 	@RequestMapping(value = "/listdocuments", method = { RequestMethod.POST, RequestMethod.GET })
 	public String groundopsdocumentlist(HttpServletRequest req, ModelMap model) throws Exception {
 
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));
 		model.put("usertype", req.getParameter("usertype"));
 
 		int status = 0;
-		String readviewstring = "groundoperation/folderlist";
+		String readviewstring   = "groundoperation/folderlist";
 		String updateviewstring = "groundoperation/folderupdate";
 
 		String alfrescoFolder = null;
-
-		if (req.getParameter("cat").equals("home")) {
-			model.put("foldername", "All Latest Documents");
-		}
-
-		if (req.getParameter("cat").equals("gci")) {
-			model.put("foldername", "Ground Crew Instructions");
-		}
-
-		if (req.getParameter("cat").equals("gcm")) {
-			model.put("foldername", "Ground Crew Memo");
-		}
-
-		if (req.getParameter("cat").equals("gcr")) {
-			model.put("foldername", "Ground Crew Reminder");
-		}
-
-		if (req.getParameter("cat").equals("mand")) {
-			model.put("foldername", "De-Icing Manuals");
-		}
-
-		if (req.getParameter("cat").equals("mang")) {
-			model.put("foldername", "Ground Ops Manual");
-		}
-
-		if (req.getParameter("cat").equals("mans")) {
-			model.put("foldername", "Safety Manual");
-		}
-
-		if (req.getParameter("cat").equals("saf")) {
-			model.put("foldername", "Safety Compliance");
-		}
-
-		if (req.getParameter("cat").equals("trd")) {
-			model.put("foldername", "Dispatch and Load Control.");
-		}
-
-		if (req.getParameter("cat").equals("trbg")) {
-			model.put("foldername", "Baggage Tracing General.");
-		}
-
-		if (req.getParameter("cat").equals("tras")) {
-			model.put("foldername", "Air Lingus Airport Service Guide.");
-		}
-
-		if (req.getParameter("cat").equals("trac")) {
-			model.put("foldername", "Air Lingus Checking and Boarding.");
-		}
-
-		if (req.getParameter("cat").equals("trar")) {
-			model.put("foldername", "Air Lingus Reservations.");
-		}
-
-		if (req.getParameter("cat").equals("trs")) {
-			model.put("foldername", "Stobart Air Traning Modules.");
-		}
-
-		if (req.getParameter("cat").equals("scm")) {
-			model.put("foldername", "Safety Compliance Monitoring.");
-		}
-
-		if (req.getParameter("cat").equals("sgo")) {
-			model.put("foldername", "Ground Ops Statistics.");
-		}
-
-		if (req.getParameter("cat").equals("ssb")) {
-			model.put("foldername", "Safety Bulletins.");
-		}
-		if (req.getParameter("cat").equals("ssm")) {
-			model.put("foldername", "Safety Manual.");
-		}
-
-		// -- Documentation Menu --
-		if (req.getParameter("cat").equals("dcle")) {
-			model.put("foldername", "Cleaning.");
-		}
-
-		if (req.getParameter("cat").equals("dcom")) {
-			model.put("foldername", "Compliance Monitoring.");
-		}
-
-		// Forms Menu
-		if (req.getParameter("cat").equals("formsei")) {
-			model.put("foldername", "Aer Lingus Forms.");
-		}
-		if (req.getParameter("cat").equals("formsbe")) {
-			model.put("foldername", "Fly Be Forms.");
-		}
-		if (req.getParameter("cat").equals("formsre")) {
-			model.put("foldername", "Stobart Air Forms.");
-		}
-
-		if (req.getParameter("cat").equals("HOME")) {
-			model.put("foldername", "Recent Documents Update.");
-		}
-
-		if (req.getParameter("cat").equals("dchm")) {
-			model.put("foldername", "Catering HAACP Manual.");
-			alfrescoFolder = "alfresco/FlightOperations/CCM/HACCPMANUAL/";
-		}
-
+		model.put("foldername", Build_Folder_Label(req.getParameter("cat")));
+	
+	 
 		if (req.getParameter("operation") != null) {
 
 			// --- If the data is comming from alfreso then this value will be passed to
 			// View
 			if (req.getParameter("alfresco") != null) {
 				if (req.getParameter("alfresco").equals("YES")) {
+					//----- This will create path of alfresco folder
+					alfrescoFolder = Build_Folder_Label("PATH"+req.getParameter("cat").trim());
 					model.put("alfresco", "YES");
 					model.put("gopsfilelist", docserv.listAlfrescoDocumets(alfrescoFolder, req.getParameter("cat")));
 					return "groundoperation/alfrescofolderlist";
@@ -529,6 +489,7 @@ public class groundOpsController1 {
 			}
 			// -- END of Alfresco
 
+			
 			if (req.getParameter("operation").equals("update")) {
 				model.put("gopsfilelist", docserv.getAllDocuments(req, "GOPS"));
 				return updateviewstring;
@@ -543,11 +504,11 @@ public class groundOpsController1 {
 				if (docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))) {
 					model.put("status", "Successfully Removed");
 					logger.info("User id:" + req.getParameter("emailid") + " Removed Document ID:"
-							+ req.getParameter("docid"));
+							+ req.getParameter("docid") + " From Folder :"+Build_Folder_Label(req.getParameter("cat")));
 				} else {
 					model.put("status", "File not Removed please check with IT.");
 					logger.error("User id:" + req.getParameter("emailid") + "Couldnt Removed Document ID:"
-							+ req.getParameter("docid"));
+							+ req.getParameter("docid") + " From Folder :"+Build_Folder_Label(req.getParameter("cat")));
 				}
 				model.put("gopsfilelist", docserv.getAllDocuments(req, "GOPS"));
 				return updateviewstring;
@@ -560,15 +521,18 @@ public class groundOpsController1 {
 
 	}// End of Ground Ops Document List Function
 
+	
+	
+	
+	
 	// -------THis Will be Called When Add File will be Called from the GCI - GCM -
 	// GCR edit Screen
 	@RequestMapping(value = "/addfiletofolder", method = { RequestMethod.POST, RequestMethod.GET })
 	public String addfiletofolde(@RequestParam("gfile") MultipartFile[] files, HttpServletRequest req, ModelMap model)
 			throws Exception {
 
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));
 		model.put("usertype", req.getParameter("usertype"));
 
 		/*
@@ -602,99 +566,26 @@ public class groundOpsController1 {
 
 		// ******* Pupulate List of File *******************
 		model.put("gopsfilelist", docserv.getAllDocuments(req, "GOPS"));
-
-		if (req.getParameter("cat").equals("home")) {
-			model.put("foldername", "All Latest Documents");
+		model.put("foldername", Build_Folder_Label(req.getParameter("cat")));
+		if (req.getParameter("cat").equals("home")) {			
 			return "groundoperation/folderupdate";
 		}
 
-		if (req.getParameter("cat").equals("gci")) {
-			model.put("foldername", "Ground Crew Instructions");
-		}
-
-		if (req.getParameter("cat").equals("gcm")) {
-			model.put("foldername", "Ground Crew Memo");
-		}
-
-		if (req.getParameter("cat").equals("gcr")) {
-			model.put("foldername", "Ground Crew Reminder");
-		}
-
-		if (req.getParameter("cat").equals("mand")) {
-			model.put("foldername", "De-Icing Manuals");
-		}
-
-		if (req.getParameter("cat").equals("mang")) {
-			model.put("foldername", "Ground Ops Manual");
-		}
-
-		if (req.getParameter("cat").equals("mans")) {
-			model.put("foldername", "Safety Manual");
-		}
-
-		if (req.getParameter("cat").equals("saf")) {
-			model.put("foldername", "Safety Compliance");
-		}
-
-		if (req.getParameter("cat").equals("trd")) {
-			model.put("foldername", "Dispatch and Load Control.");
-		}
-
-		if (req.getParameter("cat").equals("scm")) {
-			model.put("foldername", "Safety Compliance Monitoring.");
-		}
-		if (req.getParameter("cat").equals("sgo")) {
-			model.put("foldername", "Ground Ops Statistics.");
-		}
-
-		if (req.getParameter("cat").equals("ssb")) {
-			model.put("foldername", "Safety Bulletins.");
-		}
-
-		if (req.getParameter("cat").equals("ssm")) {
-			model.put("foldername", "Safety Manual.");
-		}
-
-		// -- Documentation Menu --
-		if (req.getParameter("cat").equals("dchm")) {
-			model.put("foldername", "Catering - HAACP Manual.");
-		}
-
-		if (req.getParameter("cat").equals("dcle")) {
-			model.put("foldername", "Cleaning.");
-		}
-
-		if (req.getParameter("cat").equals("dcom")) {
-			model.put("foldername", "Compliance Monitoring.");
-		}
-
-		// Forms Menu
-		if (req.getParameter("cat").equals("formsei")) {
-			model.put("foldername", "Aer Lingus Forms.");
-		}
-		if (req.getParameter("cat").equals("formsbe")) {
-			model.put("foldername", "Fly Be Forms.");
-		}
-		if (req.getParameter("cat").equals("formsre")) {
-			model.put("foldername", "Stobart Air Forms.");
-		}
-
 		logger.info(
-				"User id:" + req.getParameter("emailid") + " File Updated to the Folder :" + req.getParameter("cat"));
+				"User id:" + userEmailId[0] + " File Updated to the Folder :" +Build_Folder_Label(req.getParameter("cat")));
 		return "groundoperation/folderupdate";
 	}
 
+	
+	
+	
 	// ****************** GROUND OPS EXTERNAL USER MANAGMENT
-	// ***********************************************
 	// -------THis Will be Called When Refis User Links is called from Ground Ops
 	@RequestMapping(value = "/managegopssuser", method = { RequestMethod.POST, RequestMethod.GET })
 	public String groundopsuserlist(HttpServletRequest req, ModelMap model) throws Exception {
 		int status = 0;
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
-		// model.put("profilelist",
-		// dbusr.getUser_Profile_List_From_DataBase(req.getParameter("emailid")));
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));
 		model.put("usertype", req.getParameter("usertype"));
 
 		// --------- Start Remove Operation --------------------
@@ -732,29 +623,46 @@ public class groundOpsController1 {
 			if (req.getParameter("operation").equals("remove")) {
 				status = refisuser.removeRefisUser_FromDb(req.getParameter("userinsubject"));
 				if (status > 0) {
-					model.put("status", "User id :(&nbsp;&nbsp;" + req.getParameter("userinsubject")
-							+ "&nbsp;&nbsp;) Removed Successfully..");
+					model.put("status", "User id :&nbsp;&nbsp;" + req.getParameter("userinsubject")
+							+ "&nbsp;&nbsp; Removed Successfully..");
 				} else {
-					model.put("status", "User id :(&nbsp;&nbsp;" + req.getParameter("userinsubject")
-							+ "&nbsp;&nbsp;) Not Removed Please contact IT..");
+					model.put("status", "User id :&nbsp;&nbsp;" + req.getParameter("userinsubject")
+							+ "&nbsp;&nbsp; Not Removed Please contact IT..");
 				}
 
 			}
 
-			// -- Add new User page
+			// -- Add new User Form  Page To enter Data 
 			if (req.getParameter("operation").equals("addnew")) {
 				model.put("listofairline", refisuser.getAllAirlineList(req.getParameter("userinsubject").trim()));
 				model.put("listofstation", refisuser.getAllStationList(req.getParameter("userinsubject").trim()));
 				return "groundoperation/users/addNewRefisusers";
 			}
+			
 
-			// -- Add new User Create / Add new entry to datebase
+			// -- Add new User Create / Add new entry to database
 			if (req.getParameter("operation").equals("createuser")) {
 
 				int statusaddition = refisuser.addnewGopsUserDetail(req);
 
 				if (statusaddition == 1) {
 					model.put("status", "User Created Successfully ..");
+		            
+					/*  These Profile Need to be added to the new GH User   
+					 *  •	Mayfly       -> 1
+						•	Delay Report -> 7
+						•	Forms        -> 17
+						•	Documentation -> 16
+						•	Training      -> 14
+						•	Safety and Compliance -> 13
+						•	Manuals        -> 12
+						•	GCI/GCM/GCR    - > 11
+						•	Weight Statements -> 15
+					 * */
+					
+		            String[] alllinkprof = { "1", "7","17","16","14","13","12","11","15"};
+		            List profilelist = Arrays.asList(alllinkprof);
+					dbusr.UpdateLinkProfiletoDataBase(req.getParameter("userid").trim(),profilelist);
 				}
 
 				if (statusaddition == 0) {
@@ -784,5 +692,24 @@ public class groundOpsController1 {
 
 		return "groundoperation/users/manageRefisusers";
 	}
+	
+	
+	
+	/*
+	 * This Method will take Document Cateogery as parameter and return the label
+	 * after reading from the folderlabel.properties file in the resources folder
+	 */
+	private String Build_Folder_Label(String catogery) throws IOException {
+		if (Strings.isNullOrEmpty(catogery)) {
+			return null;
+		}
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		File configFile = new File(classLoader.getResource("folderlabel.properties").getFile());
+		FileReader reader = new FileReader(configFile);
+		Properties folderLabel = new Properties();
+		folderLabel.load(reader);
+		return folderLabel.getProperty(catogery.toUpperCase());
+	}
+	
 
 } // ---- END OF CONTROLLER CLASS ----------

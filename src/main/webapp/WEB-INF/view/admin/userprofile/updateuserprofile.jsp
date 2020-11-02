@@ -105,6 +105,7 @@ tr:nth-child(even) {
 <form method="post" name="linkuser" id="linkuser">   
    
      <input type="hidden" name="id"  value="${linkuserdetail.getEmailId()}">
+     <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
  	 	 
   <table class="table table-striped table-bordered" border="1" style="width: 80%;" align="center">	
 		

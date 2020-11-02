@@ -13,9 +13,11 @@
 </head>
 
 
+
+
 <script type="text/javascript">
 
-
+//https://stackoverflow.com/questions/33966181/how-to-pass-parameters-to-jasperreport-with-java-to-use-later-in-sql-query
 
 
 function showmyVoygerReport(){
@@ -32,11 +34,13 @@ function showmyVoygerReport(){
 
 
 function printVoygerReport() {
-	print();
-
-	
+	//print();
+	alert("Under Construction.. Please Use the Blank report By the time");	
 } 
 
+function printVoygerReport_Blank(){
+	print();
+}
 
 
 
@@ -44,7 +48,7 @@ function showOtherdDateCaption(){
 
          
     	  document.voygerReport.method="POST"
-		  document.voygerReport.action="voyagerReport?emailid=${emailid}";
+		  document.voygerReport.action="voyagerReport";
 	      document.voygerReport.submit();
 		  return true;
          
@@ -59,8 +63,10 @@ function showOtherdDateCaption(){
 
  <br>
  <br>
+
  <br>
- <br>  
+ <br>
+
  
    
  <div class="container" align="center">
@@ -69,7 +75,7 @@ function showOtherdDateCaption(){
  
  <form name="voygerReport" id="voygerReport">  
   
-      <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
+<input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
           <table class="table table-striped table-bordered" border="1" style="width: 30%;" align="center">	    
     			<tbody>				     
 				     <tr align="center">
@@ -177,7 +183,7 @@ function showOtherdDateCaption(){
 	<tr>
    
 	   <td width="80%" bgcolor="#FCF3CF">
-	       <b>Jai Wardhan  </b>  
+	       <b>Crew Name </b>  
 	   </td>
 	   
 	</tr>
@@ -185,7 +191,7 @@ function showOtherdDateCaption(){
 	<tr>
 	   
 	   <td width="80%" bgcolor="#FCF3CF">
-	       <b>Jai Wardhan</b>   
+	       <b>Crew Name </b>   
 	   </td>
 	   
    </tr>
@@ -194,7 +200,13 @@ function showOtherdDateCaption(){
 
 
 <p align="center">
- <input type="button" class="btn btn-primary" value=" Print Report" onclick="printVoygerReport();" /> 
+  <input type="button" class="btn btn-primary" value=" Print Report With Data" onclick="printVoygerReport();" /> 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   
+  <span onClick="printVoygerReport_Blank();"  class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i> Print Blank Report </span>
+  		            
+	  
+ 
 </p>
 </div>
 
@@ -345,13 +357,13 @@ function showOtherdDateCaption(){
 									<tr>
 										<td>Tail Reg:</td>
 										<td>
-											EI-FAS
+										
 										</td>
 									</tr>
 									<tr>
 										<td>Fuel On Board:</td>
 										<td>
-											1640
+											
 										</td>
 									</tr>
 								</table>
@@ -381,47 +393,48 @@ function showOtherdDateCaption(){
 							
 							<tr class="print-only">
 								<td class="columnData sectorId ">1</td>
-								<td class="columnData flightDate">01-10-19</td>
-								<td class="columnData regNo">EI-FAS</td>
-								<td class="columnData fltNo">EI3220</td>
+								<td class="columnData flightDate"></td>
+								<td class="columnData regNo"></td>
+								<td class="columnData fltNo"></td>
 							</tr>
-						
 							<tr class="print-only">
 								<td class="columnData sectorId ">2</td>
-								<td class="columnData flightDate">01-10-19</td>
-								<td class="columnData regNo">EI-FAS</td>
-								<td class="columnData fltNo">EI3221</td>
+								<td class="columnData flightDate"></td>
+								<td class="columnData regNo"></td>
+								<td class="columnData fltNo"></td>
 							</tr>
 						
-						<tr class="print-only">
+							<tr class="print-only">
 								<td class="columnData sectorId ">3</td>
-								<td class="columnData flightDate">01-10-19</td>
-								<td class="columnData regNo">EI-FAS</td>
-								<td class="columnData fltNo">EI3252</td>
+								<td class="columnData flightDate"></td>
+								<td class="columnData regNo"></td>
+								<td class="columnData fltNo"></td>
 							</tr>
-							
+						
 							<tr class="print-only">
 								<td class="columnData sectorId ">4</td>
-								<td class="columnData flightDate">01-10-19</td>
-								<td class="columnData regNo">EI-FAS</td>
-								<td class="columnData fltNo">EI3253</td>
+								<td class="columnData flightDate"></td>
+								<td class="columnData regNo"></td>
+								<td class="columnData fltNo"></td>
 							</tr>
+						
+						
 							<tr class="print-only">
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">5</td>
 								<td class="columnData flightDate">&nbsp;</td>
 								<td class="columnData regNo">&nbsp;</td>
 								<td class="columnData fltNo">&nbsp;</td>
 							</tr>
 						
 							<tr class="print-only">
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">6</td>
 								<td class="columnData flightDate">&nbsp;</td>
 								<td class="columnData regNo">&nbsp;</td>
 								<td class="columnData fltNo">&nbsp;</td>
 							</tr>
 						
 							<tr class="print-only">
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">7</td>
 								<td class="columnData flightDate">&nbsp;</td>
 								<td class="columnData regNo">&nbsp;</td>
 								<td class="columnData fltNo">&nbsp;</td>
@@ -440,30 +453,27 @@ function showOtherdDateCaption(){
 								<th class="columnHeader destTo">To</th>
 							</tr>
 							<tr class="print-only">
-								<td class="columnData sectorId">1</td>
-								<td class="columnData destFrom">DUB</td>
-								<td class="columnData destTo">GLA</td>
-							</tr>
-						
-								
-							<tr class="print-only">
-								<td class="columnData sectorId">2</td>
-								<td class="columnData destFrom">GLA</td>
-								<td class="columnData destTo">DUB</td>
-							</tr>
-						
-							<tr class="print-only">
-								<td class="columnData sectorId">3</td>
-								<td class="columnData destFrom">DUB</td>
-								<td class="columnData destTo">EDI</td>
+								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData destFrom">&nbsp;</td>
+								<td class="columnData destTo">&nbsp;</td>
 							</tr>
 							<tr class="print-only">
-								<td class="columnData sectorId">4</td>
-								<td class="columnData destFrom">EDI</td>
-								<td class="columnData destTo">DUB</td>
+								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData destFrom">&nbsp;</td>
+								<td class="columnData destTo">&nbsp;</td>
+							</tr>
+							<tr class="print-only">
+								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData destFrom">&nbsp;</td>
+								<td class="columnData destTo">&nbsp;</td>
+							</tr>
+							<tr class="print-only">
+								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData destFrom">&nbsp;</td>
+								<td class="columnData destTo">&nbsp;</td>
 							</tr>
 						
-						
+							
 							<tr class="print-only">
 								<td class="columnData sectorId">&nbsp;</td>
 								<td class="columnData destFrom">&nbsp;</td>
@@ -494,126 +504,41 @@ function showOtherdDateCaption(){
 								<th class="columnHeader onBlock">Block</th>
 							</tr>
 						
-								
+						
 							<tr class="print-only">
-								<td class="columnData sectorId">1</td>
-								<td class="columnData std">
-									
-										
-											05:50
-										
-										
-									
-								</td>
-								<td class="columnData sta">
-									
-										
-											06:55
-										
-										 
-									
-								</td>
-								<td class="columnData onBlock">
-									
-									
-									01:05
-								</td>
+								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData std">&nbsp;</td>
+								<td class="columnData sta">&nbsp;</td>
+								<td class="columnData onBlock">&nbsp;</td>
 							</tr>
 						
-							
-								
-								
-									
-								
-							
 							<tr class="print-only">
-								<td class="columnData sectorId">2</td>
-								<td class="columnData std">
-									
-										
-											07:20
-										
-										
-									
-								</td>
-								<td class="columnData sta">
-									
-										
-											08:30
-										
-										 
-									
-								</td>
-								<td class="columnData onBlock">
-									
-									
-									01:10
-								</td>
+								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData std">&nbsp;</td>
+								<td class="columnData sta">&nbsp;</td>
+								<td class="columnData onBlock">&nbsp;</td>
 							</tr>
 						
-							
-								
-									
-								
-								
-							
 							<tr class="print-only">
-								<td class="columnData sectorId">3</td>
-								<td class="columnData std">
-									
-										
-											08:55
-										
-										
-									
-								</td>
-								<td class="columnData sta">
-									
-										
-											10:10
-										
-										 
-									
-								</td>
-								<td class="columnData onBlock">
-									
-									
-									01:15
-								</td>
+								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData std">&nbsp;</td>
+								<td class="columnData sta">&nbsp;</td>
+								<td class="columnData onBlock">&nbsp;</td>
 							</tr>
 						
-							
-								
-								
-									
-								
-							
 							<tr class="print-only">
-								<td class="columnData sectorId">4</td>
-								<td class="columnData std">
-									
-										
-											10:35
-										
-										
-									
-								</td>
-								<td class="columnData sta">
-									
-										
-											11:50
-										
-										 
-									
-								</td>
-								<td class="columnData onBlock">
-									
-									
-									01:15
-								</td>
+								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData std">&nbsp;</td>
+								<td class="columnData sta">&nbsp;</td>
+								<td class="columnData onBlock">&nbsp;</td>
 							</tr>
-						
-						
+					
+								
+								
+									
+								
+									
+								
 						
 							<tr class="print-only">
 								<td class="columnData sectorId">&nbsp;</td>
@@ -709,7 +634,7 @@ function showOtherdDateCaption(){
 						
 						
 							<tr class="print-only">
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">5</td>
 								<td class="columnData outOff">&nbsp;</td>
 								<td class="columnData landOnBlk">&nbsp;</td>
 								<td class="columnData onBlock">&nbsp;</td>
@@ -717,7 +642,7 @@ function showOtherdDateCaption(){
 							</tr>
 						
 							<tr class="print-only">
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">6</td>
 								<td class="columnData outOff">&nbsp;</td>
 								<td class="columnData landOnBlk">&nbsp;</td>
 								<td class="columnData onBlock">&nbsp;</td>
@@ -725,7 +650,7 @@ function showOtherdDateCaption(){
 							</tr>
 						
 							<tr class="print-only">
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">7</td>
 								<td class="columnData outOff">&nbsp;</td>
 								<td class="columnData landOnBlk">&nbsp;</td>
 								<td class="columnData onBlock">&nbsp;</td>
@@ -747,46 +672,46 @@ function showOtherdDateCaption(){
 							
 							<tr class="odd">
 								<td class="columnData sectorId">1</td>
-								<td class="columnData bookedPax">72</td>
+								<td class="columnData bookedPax">&nbsp;&nbsp;</td>
 								<td class="columnData actPax">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;</td>
 							</tr>
 							<tr class="even">
 								<td class="columnData sectorId">2</td>
-								<td class="columnData bookedPax">73</td>
-								<td class="columnData actPax">&nbsp;</td>
+								<td class="columnData bookedPax">&nbsp;&nbsp;</td>
+								<td class="columnData actPax">&nbsp;&nbsp;</td>
 							</tr>
 						
 							
 							<tr class="odd">
 								<td class="columnData sectorId">3</td>
-								<td class="columnData bookedPax">52</td>
-								<td class="columnData actPax">&nbsp;</td>
+								<td class="columnData bookedPax">&nbsp;&nbsp;</td>
+								<td class="columnData actPax">&nbsp;&nbsp;</td>
 							</tr>
 								
 							<tr class="even">
 								<td class="columnData sectorId">4</td>
-								<td class="columnData bookedPax">63</td>
-								<td class="columnData actPax">&nbsp;</td>
+								<td class="columnData bookedPax">&nbsp;&nbsp;</td>
+								<td class="columnData actPax">&nbsp;&nbsp;</td>
 							</tr>
 						
 						
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">5</td>
+								<td class="columnData bookedPax">&nbsp;</td>
+								<td class="columnData actPax">&nbsp;&nbsp;</td>
+							</tr>
+						
+							<tr>
+								<td class="columnData sectorId">6</td>
 								<td class="columnData bookedPax">&nbsp;</td>
 								<td class="columnData actPax">&nbsp;</td>
 							</tr>
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">7</td>
 								<td class="columnData bookedPax">&nbsp;</td>
-								<td class="columnData actPax">&nbsp;</td>
-							</tr>
-						
-							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
-								<td class="columnData bookedPax">&nbsp;</td>
-								<td class="columnData actPax">&nbsp;</td>
+								<td class="columnData actPax">&nbsp;&nbsp;</td>
 							</tr>
 						
 						
@@ -806,37 +731,19 @@ function showOtherdDateCaption(){
 									<td class="columnData sectorId">1</td>
 									<td class="columnData sectorComments">
 									
-									
-									CX:  41 IB; 
-													
-													
-													
-													Catering:  CATER;&nbsp;
-										
-								
+							
 								<tr class="print-only">
 									<td class="columnData sectorId">2</td>
 									<td class="columnData sectorComments">
-									
-										
-									CX:  57 OB;&nbsp;
-							
 									
 								<tr class="print-only">
 									<td class="columnData sectorId">3</td>
 									<td class="columnData sectorComments">
 									
-										
-									
-									CX:  22 IB;&nbsp;
-							
-									
 								<tr class="print-only">
 									<td class="columnData sectorId">4</td>
 									<td class="columnData sectorComments">
-									CX:  40 OB; 
-									Cleaning:  CLEAN;&nbsp;
-							
+								
 						</table>
 					</td>
 				</tr>
@@ -846,10 +753,10 @@ function showOtherdDateCaption(){
 			
 			
 			<!-- SECTION 2 -->
-			<table id="section2" border="1">
+			<table id="section2" border="1" >
 				<tr>
 					<td id="fuelData-wrapper" align="center">
-						<table id="fuelData" class="subSection">
+						<table id="fuelData" class="subSection" >
 							
 							<caption> 
 							   FUEL DATA
@@ -863,12 +770,6 @@ function showOtherdDateCaption(){
 								<th class="columnHeader arriveWt">Arrive Kg.</th>
 								<th class="columnHeader fuelBurn">Burn Kg.</th>
 							</tr>
-						
-							
-								
-									
-								
-								
 							
 							<tr class="odd">
 								<td class="columnData sectorId">1</td>
@@ -879,10 +780,6 @@ function showOtherdDateCaption(){
 								<td class="columnData fuelBurn">&nbsp;</td>
 							</tr>
 						
-							
-								
-								
-									
 								
 							
 							<tr class="even">
@@ -895,11 +792,6 @@ function showOtherdDateCaption(){
 							</tr>
 						
 							
-								
-									
-								
-								
-							
 							<tr class="odd">
 								<td class="columnData sectorId">3</td>
 								<td class="columnData initWt">&nbsp;</td>
@@ -908,12 +800,7 @@ function showOtherdDateCaption(){
 								<td class="columnData arriveWt">&nbsp;</td>
 								<td class="columnData fuelBurn">&nbsp;</td>
 							</tr>
-						
 							
-								
-								
-									
-								
 							
 							<tr class="even">
 								<td class="columnData sectorId">4</td>
@@ -927,7 +814,7 @@ function showOtherdDateCaption(){
 						
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">5</td>
 								<td class="columnData initWt">&nbsp;</td>
 								<td class="columnData fuelUplift">&nbsp;</td>
 								<td class="columnData departureWt">&nbsp;</td>
@@ -936,7 +823,7 @@ function showOtherdDateCaption(){
 							</tr>
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">6</td>
 								<td class="columnData initWt">&nbsp;</td>
 								<td class="columnData fuelUplift">&nbsp;</td>
 								<td class="columnData departureWt">&nbsp;</td>
@@ -945,7 +832,7 @@ function showOtherdDateCaption(){
 							</tr>
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">7</td>
 								<td class="columnData initWt">&nbsp;</td>
 								<td class="columnData fuelUplift">&nbsp;</td>
 								<td class="columnData departureWt">&nbsp;</td>
@@ -984,17 +871,17 @@ function showOtherdDateCaption(){
 								<td class="columnData">&nbsp;</td>
 							</tr>
 								<tr>
-								<td class="columnData sectorId"></td>
+								<td class="columnData sectorId">5</td>
 								<td class="columnData">&nbsp;</td>
 							</tr>
 						
 							<tr>
-								<td class="columnData sectorId"></td>
+								<td class="columnData sectorId">6</td>
 								<td class="columnData">&nbsp;</td>
 							</tr>
 						
 							<tr>
-								<td class="columnData sectorId"></td>
+								<td class="columnData sectorId">7</td>
 								<td class="columnData">&nbsp;</td>
 							</tr>
 						
@@ -1053,7 +940,7 @@ function showOtherdDateCaption(){
 						
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">5</td>
 								<td class="columnData col_time">&nbsp;</td>
 								<td class="columnData col_code">&nbsp;</td>
 								<td class="columnData col_time">&nbsp;</td>
@@ -1061,7 +948,7 @@ function showOtherdDateCaption(){
 							</tr>
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">6</td>
 								<td class="columnData col_time">&nbsp;</td>
 								<td class="columnData col_code">&nbsp;</td>
 								<td class="columnData col_time">&nbsp;</td>
@@ -1069,7 +956,7 @@ function showOtherdDateCaption(){
 							</tr>
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">7</td>
 								<td class="columnData col_time">&nbsp;</td>
 								<td class="columnData col_code">&nbsp;</td>
 								<td class="columnData col_time">&nbsp;</td>
@@ -1144,21 +1031,21 @@ function showOtherdDateCaption(){
 						
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">5</td>
 								<td class="columnData">&nbsp;</td>
 								<td class="columnData">&nbsp;</td>
 								<td class="columnData">&nbsp;</td>
 							</tr>
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">6</td>
 								<td class="columnData">&nbsp;</td>
 								<td class="columnData">&nbsp;</td>
 								<td class="columnData">&nbsp;</td>
 							</tr>
 						
 							<tr>
-								<td class="columnData sectorId">&nbsp;</td>
+								<td class="columnData sectorId">7</td>
 								<td class="columnData">&nbsp;</td>
 								<td class="columnData">&nbsp;</td>
 								<td class="columnData">&nbsp;</td>
@@ -1175,10 +1062,10 @@ function showOtherdDateCaption(){
 			<table id="section3" border="1">
 				<tr>
 					<td id="crewData-wrapper" align="center">					
-						<table id="crewData" class="subSection" width="90%">
+						<table id="crewData" class="subSection" width="100%">
 							<thead>
 								<tr>
-									<th class="columnHeader sectorsOperated" rowspan="2" width="20%">CREW NAMES</th>
+									<th class="columnHeader sectorsOperated" rowspan="2" width="30%">CREW NAMES</th>
 									<th class="columnHeader sectorsOperated" colspan="7">Sectors Operated</th>
 									<th class="columnHeader dutyTimes" colspan="2">DUTY TIMES</th>
 								</tr>
@@ -1214,7 +1101,7 @@ function showOtherdDateCaption(){
 								
 								<tr class="odd">
 									    
-									    <td class="columnData sectorsOperated" >FRANCK ALAUX</td>
+									    <td class="columnData sectorsOperated" >&nbsp;&nbsp;</td>
 									
 									<td class="columnData sectorsOperated">&nbsp;&nbsp;&nbsp;&nbsp;</td>
 									
@@ -1242,7 +1129,7 @@ function showOtherdDateCaption(){
 			
 								<tr class="odd">
 									    
-									    <td class="columnData sectorsOperated" >JOHN SERDER</td>
+									    <td class="columnData sectorsOperated" >&nbsp;&nbsp;</td>
 									
 									<td class="columnData sectorsOperated">&nbsp;&nbsp;&nbsp;&nbsp;</td>
 									
@@ -1265,7 +1152,7 @@ function showOtherdDateCaption(){
 								
 									<tr class="odd">
 									    
-									    <td class="columnData sectorsOperated" >ANDREA DA</td>
+									    <td class="columnData sectorsOperated" >&nbsp;&nbsp;</td>
 									
 										<td class="columnData sectorsOperated">&nbsp;&nbsp;&nbsp;&nbsp;</td>
 									
@@ -1292,7 +1179,7 @@ function showOtherdDateCaption(){
 			
 								<tr class="odd">
 									    
-									    <td class="columnData sectorsOperated" >CAROLINE POWER</td>
+									    <td class="columnData sectorsOperated" >&nbsp;&nbsp;</td>
 									
 									<td class="columnData sectorsOperated">&nbsp;&nbsp;&nbsp;&nbsp;</td>
 									
@@ -1409,48 +1296,68 @@ function showOtherdDateCaption(){
 								<th class="columnHeader comments" width="73%">Comments</th>
 							</tr>
 							
-										<tr>
+								  <tr>
 										<td class="columnData sectorId"></td>
-										<td class="columnData fltNo">EI3220</td>
-										<td class="columnData acReg">EI-FAS</td>
-										<td class="columnData comments">CX:  41 IB; 
-											
-											
-											
-											Catering:  CATER;</td>
+										<td class="columnData fltNo">&nbsp;</td>
+										<td class="columnData acReg">&nbsp;</td>
+										<td class="columnData comments">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</td>
 									</tr>
 								
 									
-									<tr>
+								  <tr>
 										<td class="columnData sectorId"></td>
-										<td class="columnData fltNo">EI3221</td>
-										<td class="columnData acReg">EI-FAS</td>
-										<td class="columnData comments">CX:  57 OB;</td>
+										<td class="columnData fltNo">&nbsp;</td>
+										<td class="columnData acReg">&nbsp;</td>
+										<td class="columnData comments">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</td>
 									</tr>
 								
-							
-								
-								
-								
-								
-								
-								
-									<tr>
+								  <tr>
 										<td class="columnData sectorId"></td>
-										<td class="columnData fltNo">EI3252</td>
-										<td class="columnData acReg">EI-FAS</td>
-										<td class="columnData comments">CX:  22 IB;</td>
+										<td class="columnData fltNo">&nbsp;</td>
+										<td class="columnData acReg">&nbsp;</td>
+										<td class="columnData comments">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</td>
 									</tr>
 								
-									
-								
-									<tr>
+									  <tr>
 										<td class="columnData sectorId"></td>
-										<td class="columnData fltNo">EI3253</td>
-										<td class="columnData acReg">EI-FAS</td>
-										<td class="columnData comments">CX:  40 OB; 
-												
-											Cleaning:  CLEAN;</td>
+										<td class="columnData fltNo">&nbsp;</td>
+										<td class="columnData acReg">&nbsp;</td>
+										<td class="columnData comments">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</td>
+									</tr>
+								
+								  <tr>
+										<td class="columnData sectorId"></td>
+										<td class="columnData fltNo">&nbsp;</td>
+										<td class="columnData acReg">&nbsp;</td>
+										<td class="columnData comments">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</td>
+									</tr>
+								
+								  <tr>
+										<td class="columnData sectorId"></td>
+										<td class="columnData fltNo">&nbsp;</td>
+										<td class="columnData acReg">&nbsp;</td>
+										<td class="columnData comments">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</td>
+									</tr>
+								
+								  <tr>
+										<td class="columnData sectorId"></td>
+										<td class="columnData fltNo">&nbsp;</td>
+										<td class="columnData acReg">&nbsp;</td>
+										<td class="columnData comments">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</td>
 									</tr>
 								
 							

@@ -1,0 +1,77 @@
+HOME=All Latest Documents
+
+UKGCI=UK Reg Ground Crew Instruction
+IEGCI=IE Reg Ground Crew Instruction
+
+UKGCI=UK Reg Ground Crew Instruction
+IEGCI=IE Reg Ground Crew Instruction
+
+
+UKGCM=UK Reg Ground Crew Memo
+IEGCM=IE Reg Ground Crew Memo
+
+UKGCR=UK Reg Ground Crew Reminder
+IEGCR=IE Reg Ground Crew Reminder
+
+UKMAND=UK De-Icing Manuals
+IEMAND=IE De-Icing Manuals
+
+UKMANG=UK Ground Ops Manual
+IEMANG=IE Ground Ops Manual
+
+
+UKMANS=UK Safety Manual
+IEMANS=IE Safety Manual
+
+
+UKSCM=UK Safety Compliance Monitoring
+IESCM=IE Safety Compliance Monitoring
+
+
+UKSGO=UK Ground Ops Statistics
+IESGO=IE Ground Ops Statistics
+
+UKSSB=UK Safety Bulletins
+IESSB=IE Safety Bulletins
+
+
+UKSSM=UK Safety Manual
+IESSM=IE Safety Manual
+
+
+
+
+SAF=Safety Compliance
+TRD=Dispatch and Load Control
+TRBG=Baggage Tracing General
+TRAS=Aer Lingus Airport Service Guide
+TRAC=Aer Lingus Check-in and Boarding
+TRAR=Aer Lingus Reservations
+TRS=Stobart Air Trianing Modules
+SCM=Safety Compliance Monitoring
+SGO=Ground Ops Statistics
+DCEL=Cleaning
+DCOM=Compliance Monitoring
+FORMSEI=Aer Lingus Forms
+FORMBE=Fly Be Forms
+FORMSRE=Stobart Air Forms
+FORMDNOTICES=Disruption Notices
+LOGO=Company Logo
+DCLE=Cleaning
+DERP=Emergency Response Plan
+
+
+
+
+#--------- For All Alfresco Documents ---------
+DCHM=Catering HAACP Manual
+PATHDCHM=alfresco/FlightOperations/CCM/HACCPMANUAL/
+
+
+
+
+
+
+
+#--------- For Home Page Image ---------
+TOUCHPOINTOVERVIEW=Touchpoint Overview Image

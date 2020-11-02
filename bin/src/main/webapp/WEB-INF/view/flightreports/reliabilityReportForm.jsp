@@ -212,15 +212,15 @@ function search_progress() {
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-hand-stop-o"></i></span>
 								<select id="delayCodeGroupCode" name="delayCodeGroupCode" class="form-control">
-									<option value="ALL">All Delay Codes</option>
-									
-										<option value="A1" >Ground Ops</option>
-									
-										<option value="AX" >Stobart Attributable Delays</option>
-									
-										<option value="AY" >Non Stobart Delays</option>
+								<option value="ALL" selected="">------All-------</option>									
+										<option value="GOPS">Ground Ops </option>									
+										<option value="SAD">Stobart Attributable Delays</option>									
+										<option value="NSAD">Non Stobart Delays</option>
+	
 									
 								</select>
+								
+								
 							</div>
 		                    
 		                  </td>

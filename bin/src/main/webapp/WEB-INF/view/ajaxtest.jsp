@@ -35,6 +35,7 @@
 
 		
 		$('#buttonDemo1').click(function() {
+
 			$.ajax({
 				type : 'GET',
 				url : 'ajaxrest/demo1',
@@ -42,6 +43,7 @@
 					$('#result1').text(result);
 				}
 			});
+			
 		});
 
 

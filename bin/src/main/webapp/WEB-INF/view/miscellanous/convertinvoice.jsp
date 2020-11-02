@@ -183,7 +183,7 @@ function Convert_Invoice() {
 				     			
 					 <c:if test="${fn:length(status) > 1}">
 					      <tr align="left">				     					
-							<td  bgcolor="white" colspan="2"> <span style="color:red">${status} </td>
+							<td  bgcolor="white" colspan="2"> <span style="color:red">${status}</td>
 						  </tr>	
 					 
 					 </c:if>

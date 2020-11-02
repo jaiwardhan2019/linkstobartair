@@ -1,0 +1,537 @@
+#set ($maxSectorCount = 7)
+#if ($flightReport)
+	#set ($paddingSectorRowsCount = ($maxSectorCount - $flightReport.flightSectorList.size()))
+#else
+	#set ($paddingSectorRowsCount = $maxSectorCount) 
+#end
+
+#set ($maxCrewCount = 6)
+#if ($flightReport)
+	#set ($paddingCrewRowsCount = ($maxCrewCount - $flightReport.combinedCrewList.size()))
+#else
+	#set ($paddingCrewRowsCount = $maxCrewCount)
+#end	
+
+#set ($maxSectorCommentCount = 14)
+
+#set ($reportNumber = 1)
+
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+
+<table id="report-wrapper">
+	
+	<tr>
+		<td>
+			<table id="flightReportHeader">
+				<tr>
+					<th id="flightReportHeaderLeft">
+						<img src="/logo.png"/>
+					</th>
+					<th id="flightReportHeaderCenter">Flight Report
+						
+						
+					</th>
+					<th id="flightReportHeaderRight">
+						
+						#set ($headerPlaneReg = "")
+						#set ($headerInitialFuel = "")
+						
+						#set ($headerPlaneReg = $flightReport.tailReg)
+							
+						#if (($flightReport.initialFuelOnBoard) && ($flightReport.initialFuelOnBoard > 0))
+							#set ($headerInitialFuel = $flightReport.initialFuelOnBoard)		
+						#else	
+							#set ($headerInitialFuel = "N/A")
+						#end
+						
+						<table id="initialData">
+							<tr>
+								<td>Tail Reg:</td>
+								<td>
+									$headerPlaneReg
+								</td>
+							</tr>
+							<tr>
+								<td>Fuel On Board:</td>
+								<td>
+									$headerInitialFuel
+								</td>
+							</tr>
+						</table>
+					</th>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<!-- End of Flight Report Header -->
+	<tr>
+		<td>
+			<table id="flightReportBody">
+				<tr>
+					<td>
+						<!-- SECTION 1 -->
+						<table id="section1">
+							<tr>
+								<td id="flightData-wrapper">
+									<table id="flightData" class="subSection">
+										<caption>FLIGHT DATA</caption>
+										<tr>
+											<th class="columnHeader sectorId">Sec.</th>
+											<th class="columnHeader flightDate">Date</th>
+											<th class="columnHeader regNo">Reg</th>
+											<th class="columnHeader fltNo">Flt. No.</th>
+										</tr>
+									
+									#foreach( $flightLeg in $flightReport.flightSectorList )	
+										<tr>
+											<td class="columnData sectorId">$foreach.count</td>
+											<td class="columnData flightDate">$dateTool.format('dd-MM-yy', $flightLeg.flightDate)</td>
+											<td class="columnData regNo">${flightLeg.tail}</td>
+											<td class="columnData fltNo">${flightLeg.flightNo}</td>
+										</tr>
+									#end
+									
+									#foreach( $i in [1..$paddingSectorRowsCount] )
+										<tr>
+											<td class="columnData sectorId">&nbsp;</td>
+											<td class="columnData flightDate">&nbsp;</td>
+											<td class="columnData regNo">&nbsp;</td>
+											<td class="columnData fltNo">&nbsp;</td>
+										</tr>
+									#end
+									</table>
+								</td>
+								<td id="sectorData-wrapper">
+								
+									<table id="sectorData" class="subSection">
+										<caption>SECTOR</caption>
+										<tr>
+											<th class="columnHeader destFrom">From</th>
+											<th class="columnHeader destTo">To</th>
+										</tr>
+									#foreach( $flightLeg in $flightReport.flightSectorList )	
+										<tr>
+											<td class="columnData destFrom">${flightLeg.dep}</td>
+											<td class="columnData destTo">${flightLeg.arr}</td>
+										</tr>
+									#end
+									
+									#if ($paddingSectorRowsCount > 0)
+										#foreach( $i in [1..$paddingSectorRowsCount] )
+											<tr>
+												<td class="columnData destFrom">&nbsp;</td>
+												<td class="columnData destTo">&nbsp;</td>
+											</tr>
+										#end
+									#end	
+									</table>
+								</td>
+								<td id="scheduleData-wrapper">
+									<table id="scheduleData" class="subSection">
+										<caption>SCHEDULE</caption>
+										<tr>
+											<th class="columnHeader std">STD</th>
+											<th class="columnHeader sta">STA</th>
+											<th class="columnHeader onBlock">Block</th>
+										</tr>
+									#foreach( $flightLeg in $flightReport.flightSectorList )	
+										<tr>
+											<td class="columnData std">
+												#if (($flightLeg.std) && ($flightLeg.std.length() == 4))
+													$flightLeg.std.substring(0,2):$flightLeg.std.substring(2,4)
+												#else
+													$flightLeg.std
+												#end
+											</td>
+											<td class="columnData sta">
+												#if (($flightLeg.sta) && ($flightLeg.sta.length() == 4))
+													$flightLeg.sta.substring(0,2):$flightLeg.sta.substring(2,4)
+												#else
+													$flightLeg.sta
+												#end
+											</td>
+											<td class="columnData onBlock">
+												&nbsp;
+											</td>
+										</tr>
+									#end
+									#if ($paddingSectorRowsCount > 0)
+										#foreach( $i in [1..$paddingSectorRowsCount] )
+											<tr>
+												<td class="columnData std">&nbsp;</td>
+												<td class="columnData sta">&nbsp;</td>
+												<td class="columnData onBlock">&nbsp;</td>
+											</tr>
+										#end
+									#end	
+									</table>
+								</td>
+								<td id="timeData-wrapper">
+									<table id="timeData" class="subSection">
+										<caption>ACTUAL TIME</caption>
+										<tr>
+											<th class="columnHeader outOff">Out/Off</th>
+											<th class="columnHeader landOnBlk">Land/On Blk</th>
+											<th class="columnHeader onBlock">Block</th>
+											<th class="columnHeader airTime">Air Time</th>
+										</tr>
+									#foreach( $flightLeg in $flightReport.flightSectorList )	
+										<tr>
+											<td class="columnData outOff">&nbsp;</td>
+											<td class="columnData landOnBlk">&nbsp;</td>
+											<td class="columnData onBlock">&nbsp;</td>
+											<td class="columnData airTime">&nbsp;</td>
+										</tr>
+									#end
+									#if ($paddingSectorRowsCount > 0)
+										#foreach( $i in [1..$paddingSectorRowsCount] )
+											<tr>
+												<td class="columnData outOff">&nbsp;</td>
+												<td class="columnData landOnBlk">&nbsp;</td>
+												<td class="columnData onBlock">&nbsp;</td>
+												<td class="columnData airTime">&nbsp;</td>
+											</tr>
+										#end
+									#end	
+									</table>
+								</td>
+								<td id="paxData-wrapper">
+									<table id="paxData" class="subSection">
+										<caption>Pax</caption>
+										<tr>
+											<th class="columnHeader bookedPax">Book</th>
+											<th class="columnHeader actPax">Act</th>
+										</tr>
+									#foreach( $flightLeg in $flightReport.flightSectorList )	
+										<tr>
+											<td class="columnData bookedPax">$flightLeg.bookedPax</td>
+											<td class="columnData actPax">&nbsp;</td>
+										</tr>
+									#end
+									#if ($paddingSectorRowsCount > 0)
+										#foreach( $i in [1..$paddingSectorRowsCount] )
+											<tr>
+												<td class="columnData bookedPax">&nbsp;</td>
+												<td class="columnData actPax">&nbsp;</td>
+											</tr>
+										#end
+									#end	
+									</table>
+								</td>
+							</tr>
+						</table>
+						<!--  END OF SECTION 1 -->
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<!-- SECTION 2 -->
+						<table id="section2">
+							<tr>
+								<td id="fuelData-wrapper">
+									<table id="fuelData" class="subSection">
+										<caption>FUEL DATA</caption>
+										<tr>
+											<th class="columnHeader sectorId">Sec.</th>
+											<th class="columnHeader initWt">Initial Kg.</th>
+											<th class="columnHeader fuelUplift">Uplift Ltrs.</th>
+											<th class="columnHeader departureWt">Depart Kg.</th>
+											<th class="columnHeader arriveWt">Arrive Kg.</th>
+											<th class="columnHeader fuelBurn">Burn Kg.</th>
+										</tr>
+									#foreach( $flightLeg in $flightReport.flightSectorList )	
+										<tr>
+											<td class="columnData sectorId">$foreach.count</td>
+											<td class="columnData initWt">&nbsp;</td>
+											<td class="columnData fuelUplift">&nbsp;</td>
+											<td class="columnData departureWt">&nbsp;</td>
+											<td class="columnData arriveWt">&nbsp;</td>
+											<td class="columnData fuelBurn">&nbsp;</td>
+										</tr>
+									#end
+									#if ($paddingSectorRowsCount > 0)
+										#foreach( $i in [1..$paddingSectorRowsCount] )
+										<tr>
+											<td class="columnData sectorId">&nbsp;</td>
+											<td class="columnData initWt">&nbsp;</td>
+											<td class="columnData fuelUplift">&nbsp;</td>
+											<td class="columnData departureWt">&nbsp;</td>
+											<td class="columnData arriveWt">&nbsp;</td>
+											<td class="columnData fuelBurn">&nbsp;</td>
+										</tr>
+										#end
+									#end	
+									</table>
+								</td>
+								<td id="deIceData-wrapper">
+									<table id="deIceData" class="subSection">
+										<caption>De-Ice</caption>
+										<tr>
+											<th class="columnHeader deIceLitres">Litres</th>
+										</tr>
+									#foreach( $flightLeg in $flightReport.flightSectorList )
+										<tr>
+											<td class="columnData">&nbsp;</td>
+										</tr>
+									#end
+									#if ($paddingSectorRowsCount > 0)
+										#foreach( $i in [1..$paddingSectorRowsCount] )
+											<tr>
+												<td class="columnData">&nbsp;</td>
+											</tr>
+										#end
+									#end
+									</table>
+								</td>
+								<td id="delayData-wrapper">
+									<table id="delayData" class="subSection">
+										<caption>DELAY</caption>
+										<tr>
+											<th class="columnHeader" colspan="2">Time / Code</th>
+											<th class="columnHeader" colspan="2">Time / Code</th>
+										</tr>
+									#foreach( $flightLeg in $flightReport.flightSectorList )
+										<tr>
+											<td class="columnData col_time">&nbsp;</td>
+											<td class="columnData col_code">&nbsp;</td>
+											<td class="columnData col_time">&nbsp;</td>
+											<td class="columnData col_code">&nbsp;</td>
+										</tr>
+										#end
+										#if ($paddingSectorRowsCount > 0)
+											#foreach( $i in [1..$paddingSectorRowsCount] )
+											<tr>
+												<td class="columnData col_time">&nbsp;</td>
+												<td class="columnData col_code">&nbsp;</td>
+												<td class="columnData col_time">&nbsp;</td>
+												<td class="columnData col_code">&nbsp;</td>
+											</tr>
+											#end
+										#end	
+									</table>
+								</td>
+								<td id="catiiData-wrapper">	
+									<table id="catiiData" class="subSection">
+										<caption>CAT II</caption>
+										<tr>
+											<th class="columnHeader rwy">Rwy</th>
+											<th class="columnHeader satis">Satis</th>
+											<th class="columnHeader unsatis">Unsatis</th>
+										</tr>
+									#foreach( $flightLeg in $flightReport.flightSectorList )
+										<tr>
+											<td class="columnData">&nbsp;</td>
+											<td class="columnData">&nbsp;</td>
+											<td class="columnData">&nbsp;</td>
+										</tr>
+									#end
+									#if ($paddingSectorRowsCount > 0)
+										#foreach( $i in [1..$paddingSectorRowsCount] )
+											<tr>
+												<td class="columnData">&nbsp;</td>
+												<td class="columnData">&nbsp;</td>
+												<td class="columnData">&nbsp;</td>
+											</tr>
+										#end
+									#end		
+									</table>
+								</td>
+							</tr>
+						</table>
+						<!--  END OF SECTION 2 -->
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<!-- SECTION 3 -->
+						<table id="section3">
+							<tr>
+								<td id="crewData-wrapper">
+									<table id="crewData" class="subSection">
+										<thead>
+											<tr>
+												<th class="columnHeader crewName" rowspan="2" width="20%">CREW NAMES</th>
+												<th class="columnHeader sectorsOperated" colspan="$maxSectorCount">Sectors Operated</th>
+												<th class="columnHeader dutyTimes" colspan="2">DUTY TIMES</th>
+											</tr>
+											<tr>
+												#foreach ($i in [1..$maxSectorCount])
+													<td class="columnHeader sectorsOperated">$foreach.count</td>
+												#end
+												<td class="columnHeader onDuty">On Duty</td>
+												<td class="columnHeader offDuty">Off Duty</td>
+											</tr>
+										</thead>
+										<tbody>
+										<!-- Loop through each crew members -->	
+										#foreach( $crewMember in $flightReport.combinedCrewList )
+											<tr>
+												<td class="columnData crewName">$crewMember.surname</td>
+												#foreach ($i in [1..$maxSectorCount])
+													<td class="columnData sectorsOperated">&nbsp;</td>
+												#end
+												<td class="columnData onDuty">&nbsp;</td>
+												<td class="columnData offDuty">&nbsp;</td>
+											</tr>
+										#end
+										
+										#if ($paddingCrewRowsCount > 0)
+											#foreach( $i in [1..$paddingCrewRowsCount] )
+												<tr>
+													<td class="columnData crewName">&nbsp;</td>
+													#foreach ($i in [1..$maxSectorCount])
+													<td class="columnData sectorsOperated">&nbsp;</td>
+													#end
+													<td class="columnData onDuty">&nbsp;</td>
+													<td class="columnData offDuty">&nbsp;</td>
+												</tr>
+											#end
+										#end
+										</tbody>
+									</table>
+								</td>
+								<td id="catiiReasonData-wrapper">
+									<table id="catiiReasonData" class="subSection">
+										<thead>
+											<tr>
+												<th class="columnHeader" colspan="2">Reason for Unsatisfactory CAT II<br/>Approach</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="columnData reason">Airborne Equipment</td><td class="columnData check-box">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="columnData reason">Ground Facilities</td><td class="columnData check-box">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="columnData reason">Air Traffic Control</td><td class="columnData check-box">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="columnData reason">Other</td><td class="columnData check-box">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="columnData reason">Details</td><td class="columnData check-box">&nbsp;</td>
+											</tr>
+											<tr>
+												<td colspan="2" class="columnData">&nbsp;</td>
+											</tr>
+											<tr>
+												<td colspan="2" class="columnData">&nbsp;</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>	
+						<!--  END OF SECTION 3 -->
+					</td>
+				</tr>
+				<tr>
+					<td>	
+						<!-- SECTION 4 -->
+						<table id="section4">
+							<tr>
+								<td>
+									<table id="miscData" class="subSection">
+										<caption>SECTOR COMMENTS</caption>
+										<tr>
+											<th class="columnHeader sectorId">Sec.</th>
+											<th class="columnHeader fltNo">Flt. No</th>
+											<th class="columnHeader acReg">A/C Reg.</th>
+											<th class="columnHeader comments">Comments</th>
+										</tr>
+										#set ($sectorCommentCount = 0)
+										#foreach ($flightLeg in $flightReport.flightSectorList)
+											
+											#set ($comments = "")
+											#foreach ($sectorComment in $flightLeg.sectorComments)
+											
+												#if ($messages)
+													
+													#set ($sectorCommentEdited = "") 
+													#set ($commentPrefix = "")
+													
+													#if ($sectorComment.startsWith('NOTE1:'))
+														#set ($commentPrefix = ${messages.getMessage('sectorComments.note1', $noArgs, $locale)})
+														#set ($sectorCommentEdited = ($sectorComment.replaceFirst('NOTE1:', "")))
+														
+													#elseif ($sectorComment.startsWith('NOTE2:')) 
+														#set ($commentPrefix = ${messages.getMessage('sectorComments.note2', $noArgs, $locale)})
+														#set ($sectorCommentEdited = ($sectorComment.replaceFirst('NOTE2:', "")))
+														
+													#elseif ($sectorComment.startsWith('NOTE3:'))
+														#set ($commentPrefix = ${messages.getMessage('sectorComments.note3', $noArgs, $locale)})
+														#set ($sectorCommentEdited = ($sectorComment.replaceFirst('NOTE3:', "")))
+														
+													#elseif ($sectorComment.startsWith('NOTE4:'))
+														#set ($commentPrefix = ${messages.getMessage('sectorComments.note4', $noArgs, $locale)})
+														#set ($sectorCommentEdited = ($sectorComment.replaceFirst('NOTE4:', "")))
+														
+													#else
+														#set ($sectorCommentEdited = $sectorComment) 
+													#end
+													
+													#set($comments = ($comments + $commentPrefix + $sectorCommentEdited + ",&nbsp;"))
+													
+												#else 
+													#set($comments = ($comments + $sectorComment + ",&nbsp;"))
+												#end	
+											#end
+											
+											#if ($flightLeg.totalTransferPaxInbound > 0)
+												#if ($comments.length()>0)
+													#set ($comments = ($comments + ",&nbsp;"))
+												#end
+												#set ($comments = ($comments + $flightLeg.totalTransferPaxInbound + " cx Inbound"))
+											#end
+											#if ($flightLeg.totalTransferPaxOutbound > 0)
+												#if ($comments.length()>0)
+													#set ($comments = ($comments + ",&nbsp;"))
+												#end
+												#set ($comments = ($comments + $flightLeg.totalTransferPaxOutbound + " cx Outbound"))
+											#end
+											
+											#if ($comments.length() >0)
+												<tr>
+													<td class="columnData sectorId">$foreach.count</td>
+													<td class="columnData fltNo">$flightLeg.flightNo</td>
+													<td class="columnData acReg">$flightLeg.tail</td>
+													<td class="columnData comments">$comments</td>
+												</tr>
+											#end
+										#end
+										<tr class="freespace">
+											<td class="columnData" colspan="4">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<table id="signatureAndFooterData" class="subSection">
+										<tr id="signatureRow">
+											<td class="columnData signatureHeader">Captains' Signature:</td>
+										</tr>
+										<tr>
+											<td class="columnData footerNotice">Please Ensure Flight Report is transmitted to Operations via FAX, SCAN, or EMAIL. This copy to remain with flight envelope.</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						<!--  END OF SECTION 4 -->
+					</td>
+				</tr>
+			</table>
+			<!-- End of flightReportBody -->
+		</td>
+	</tr>
+</table><!-- End of flightReportWrapper -->
+</body>
+</html>

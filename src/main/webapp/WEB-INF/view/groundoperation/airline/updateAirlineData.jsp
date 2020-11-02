@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <!DOCTYPE html>
 <html>
@@ -91,8 +91,9 @@ function update_user(){
 
 <form method="post" name="smsreportuser" id="smsreportuser"  onSubmit="return searchUser()";>
 
-  <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
-  <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
+ <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+
+ 
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" name="operation" id="operation" value="">
   <input type="hidden" name="userinsubject" id="userinsubject"  value="${airlineEntity.id}">
@@ -215,7 +216,7 @@ function update_user(){
 	            
 	             <td align="left" bgcolor="white" colspan="2">
 					<div class="col-xs-10">
-							<label>Any Comment</label>  
+							<label>Comment</label>  
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></span>
 										<textarea rows="02"   name="comment" id="comment" class="form-control"  value="${airlineEntity.comment}">${airlineEntity.comment} </textarea>										

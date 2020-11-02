@@ -1,16 +1,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="include/header.jsp" >
-    <jsp:param name="emailid" value="${emailid}" />
-    <jsp:param name="password" value="${password}" />
-</jsp:include>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<jsp:include page="include/header.jsp"></jsp:include>
 <% 
 //----------- Reading Data From Previous Controller Page-----------------
 
-String fullemail            = request.getAttribute("emailid").toString();
-String user_password        = request.getAttribute("password").toString();
-String[] FirstName_LastName = fullemail.split("@");
-String user_login_id        = FirstName_LastName[0];
+String[] userProfileList   =  request.getAttribute("profilelist").toString().split("#");
+String userFullEmailid     =  userProfileList[0];
+String userPassword        =  userProfileList[1];
+if(userFullEmailid.length() < 2){response.sendRedirect("index");}
+
+String[] userFirstLastName  = userFullEmailid.split("@");
+String userLoginId          = userFirstLastName[0];
+//https://stackoverflow.com/questions/5053975/how-to-encode-a-string-representing-url-path-with-jstl
+
 %>
 
 
@@ -36,43 +38,6 @@ http://googlechart.blogspot.com/  <<--- JSP / AJAX
 
 <!-- https://canvasjs.com/jsp-charts/  -->
 
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
- 
-<script type="text/javascript">
-window.onload = function() { 
- 
-var chart = new CanvasJS.Chart("top_x_div", {
-	theme: "light1",
-	subtitles: [{
-		text: "December 2017"
-	}],
-	axisY: {
-		title: "Number of Users",
-		labelFormatter: addSymbols
-	},
-	data: [{
-		type: "bar",
-		indexLabel: "{y}",
-		indexLabelFontColor: "#444",
-		indexLabelPlacement: "inside",
-		dataPoints: ${dataPoints}
-	}]
-});
-chart.render();
- 
-function addSymbols(e) {
-	var suffixes = ["", "K", "M", "B"];
- 
-	var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
-	if(order > suffixes.length - 1)
-	order = suffixes.length - 1;
- 
-	var suffix = suffixes[order];
-	return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
-}
- 
-}
-</script>
 
 
 
@@ -100,7 +65,7 @@ function CalAerodocsLogin(){
 	  var xhr = new XMLHttpRequest();	  
 	  xhr.open("POST", "https://aerodocs.stobartair.com/accounts/api/auth/token", true);
 	  xhr.setRequestHeader('Content-Type','application/vnd.arconics.acs.v1.0+json');
-	  xhr.send('{"email":"<%=FirstName_LastName[0]%>","password":"<%=user_password%>","oneTimePassword":"","captchaResponse":null}');
+	  xhr.send('{"email":"<%=userFirstLastName[0]%>","password":"<%=userPassword%>","oneTimePassword":"","captchaResponse":null}');
 	  xhr.onloadend = function () {		
 	  window.open('https://aerodocs.stobartair.com','_blank');		  
 	  };	
@@ -129,17 +94,6 @@ function CalHrManagement(){
 	
 }
 
-
-
-
-function CalAlfresco(){
-	
-	document.alfresco.action="logonalfresco.jsp";
-	document.alfresco.method="POST"
-	document.alfresco.target="_blank"
-    document.alfresco.submit();
-	return true;
-}
 
 
 function CalFuelreport(){
@@ -233,8 +187,9 @@ function callive_well(){
 
 
 
-function cal_refis(){
+function calNewRefis(){
 	document.refis.action="groundopsHomePage?usertype=I&cat=home";
+	document.refis.method="POST";
 	//document.callive_well1.target="_blank"
     document.refis.submit();
 	return true;
@@ -253,12 +208,7 @@ function cal_manage_contract(){
 
 
 
-
-
 setTimeout(function(){window.location.href="index"},60000000);	
-
-
-
   
   
   
@@ -278,7 +228,8 @@ setTimeout(function(){window.location.href="index"},60000000);
 
 
 <!-- Body Banner -->
-<div class="container-fluid" style="margin-top:80px;">		
+<div class="container-fluid" style="margin-top:80px;">	
+	
  <div class="row" style="margin-bottom:40px;">
 
 
@@ -292,14 +243,15 @@ setTimeout(function(){window.location.href="index"},60000000);
 		</div>
 	</a>	
 		
-    <c:if test="${profilelist.Cascade  == 'Y'}">  
+
+   <c:if test = "${fn:contains(profilelist, 'Cascade')}"> 
 							
 			 
 			 <form name="loginFormHR"  id="loginFormHR" >
 			 
 			    <input style="display: none;" name="COMPANY" id="COMPANY" tabindex="1" value="STOBART">
-			 	<input type="hidden" name="USERID" id="USERID" tabindex="2" value="<%=user_login_id%>">
-			 	<input type="hidden" name="PWD" id="PWD" tabindex="3" value="<%=user_password%>">
+			 	<input type="hidden" name="USERID" id="USERID" tabindex="2" value="<%=userLoginId%>">
+			 	<input type="hidden" name="PWD" id="PWD" tabindex="3" value="<%=userPassword%>">
 			 	
 			  <a  title="HR Management System." onClick="CalHrManagement();" >
 			 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
@@ -317,8 +269,8 @@ setTimeout(function(){window.location.href="index"},60000000);
 			
 
 	<form name="logonForm" id="logonForm">	
-	 <input id="username" type="hidden" name="username" value="<%=FirstName_LastName[0]%>">
-     <input id="password" type="hidden"  name="password" value="<%=user_password%>">		
+	 <input id="username" type="hidden" name="username" value="<%=userFirstLastName[0]%>">
+     <input id="password" type="hidden"  name="password" value="<%=userPassword%>">		
 		<a onClick="CalCrewebsite();">	
 			<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 				<div class="panel panel-info btn-default panel-shadow">
@@ -335,8 +287,9 @@ setTimeout(function(){window.location.href="index"},60000000);
 		
 
 	<form name="crewconnex" id="crewconnex">
-	   <input type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
-	    <input  type="hidden" name="password" id="password" value="<%=user_password%>">
+	   <input type="hidden" name="emailid" id="emailid" value="<%=userFullEmailid%>" >
+	    <input  type="hidden" name="password" id="password" value="<%=userPassword%>">
+	    <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
 		<a onclick="CalCrewconexx()">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
@@ -350,8 +303,11 @@ setTimeout(function(){window.location.href="index"},60000000);
 
 
 	<form name="qpulse" id="qpulse">
-	 <input id="username" type="hidden" name="username" value="<%=FirstName_LastName[0]%>">
-     <input id="password" type="hidden"  name="password" value="<%=user_password%>">
+	 <input id="username" type="hidden" name="username" value="<%=userFirstLastName[0]%>">
+     <input id="password" type="hidden"  name="password" value="<%=userPassword%>">
+     <input type="hidden" name="emailid" id="emailid" value="<%=userFullEmailid%>" >
+       <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+     
 	 <a onclick="Calqpulse()" title="Safety Reporting System.">
 	
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
@@ -366,7 +322,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 	
 	
 	    
-	<a href="https://stobartair.pelesys.com/SSO.aspx?userid=<%=fullemail%>" target="_new">
+	<a href="https://stobartair.pelesys.com/SSO.aspx?userid=<%=userFullEmailid%>" target="_new">
  		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
 				<div class="panel-body" style="color:#0071BA;">
@@ -380,9 +336,10 @@ setTimeout(function(){window.location.href="index"},60000000);
     
  	<form name="staff" id="staff">
 	 
-	 <input id="j_username" type="hidden" name="j_username" value="<%=FirstName_LastName[0]%>">
-     <input id="j_password" type="hidden"  name="j_password" value="<%=user_password%>">   
-     <input id="emailid" type="hidden"  name="emailid" value="<%=fullemail%>"> 
+	 <input id="j_username" type="hidden" name="j_username" value="<%=userFirstLastName[0]%>">
+     <input id="j_password" type="hidden"  name="j_password" value="<%=userPassword%>">   
+     <input id="emailid" type="hidden"  name="emailid" value="<%=userFullEmailid%>"> 
+      <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
      <a onClick="CalStaffTravel();" title="Staff Travel Booking.">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
@@ -395,117 +352,118 @@ setTimeout(function(){window.location.href="index"},60000000);
    
    </form>
    
-	<!-- 	
-     <form name="logonForm4" id="logonForm4">	
-     
-     <a href="crewbriefinglogin.jsp" target="_new">
-    	<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
-			<div class="panel panel-info btn-default panel-shadow">
-				<div class="panel-body" style="color:#0071BA;">
-					<i class="fa fa-users fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">Crew Briefing</span>
+			<!-- 	
+		     <form name="logonForm4" id="logonForm4">	
+		     
+		     <a href="crewbriefinglogin.jsp" target="_new">
+		    	<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+					<div class="panel panel-info btn-default panel-shadow">
+						<div class="panel-body" style="color:#0071BA;">
+							<i class="fa fa-users fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">Crew Briefing</span>
+						</div>
+					</div>
+				</div>
+			</a>
+			</form>
+			
+		<a href="https://norwincrew.aerarann.com/flightboard" target="_new">
+			<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+				<div class="panel panel-info btn-default panel-shadow">
+					<div class="panel-body" style="color:#0071BA;">
+						<i class="fa fa-dashboard fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;"> Flight Board-PDC </span>
+					</div>
 				</div>
 			</div>
-		</div>
-	</a>
-	</form>
+		 </a>
+			
+		
+			
+			
+		<form name="loginForm" id="loginForm">	
+		 <input id="username" type="hidden" name="username" value="<%=userFirstLastName[0]%>">
+	     <input id="password" type="hidden"  name="password" value="<%=userPassword %>">
+		  <input type="hidden"  name="j_username" id="username" value="<%=userFirstLastName[0]%>"> 
+	      <input type="hidden"  name="j_password" id="password" value="<%=userPassword%>">	
+		<a onClick="CalGroundops();">
+			<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+				<div class="panel panel-info btn-default panel-shadow">
+					<div class="panel-body" style="color:#0071BA;">
+						<i class="fa fa-road fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">Ground Operations</span>
+					</div>
+				</div>
+			</div>
+		 </a>	
+		</form>
+	       
+	    -->
+		
+		
+		
+		<!-- <a title="Document Management System." target="_new" href="https://aerodocs.stobartair.com/"> -->
+		
+		<a onClick="CalAerodocsLogin();">	
+		
+				<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+					<div class="panel panel-info btn-default panel-shadow">
+						<div class="panel-body" style="color:#0071BA;">
+							<i class="fa fa-book fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">Aerodocs Mgmt</span>
+						</div>
+					</div>
+				</div>
+		</a>		
+
+
+			
+		<!-- 	
+		
+				<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+					<div class="panel panel-info btn-default panel-shadow">
+						<div class="panel-body" style="color:#0071BA;">
+							<i class="fa fa-users fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;"><a href="https://stobartair.providentcrm.com" target="_blank">Customer Relation</a></span>
+						</div>
+					</div>
+				</div>
+		   -->
+				
+			<form name="alfresco" id="alfresco" method="POST">
+				 
+				 <input  type="hidden" name="loginid_a" value="<%=userFirstLastName[0]%>">
+			     <input  type="hidden"  name="pass_a" value="<%=userPassword%>">  
+			     
+			     	
+				<a title="Document Managment System." onClick="CalAlfresco();">
+					<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+						<div class="panel panel-info btn-default panel-shadow">
+							<div class="panel-body" style="color:#0071BA;">
+								<i class="fa fa-book fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-size:10pt;font-weight:600;color:#0071BA;">Alfresco Document</span>
+							</div>
+						</div>
+					</div>
+				</a>	
+			</form>	
 	
-<a href="https://norwincrew.aerarann.com/flightboard" target="_new">
-	<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
-		<div class="panel panel-info btn-default panel-shadow">
-			<div class="panel-body" style="color:#0071BA;">
-				<i class="fa fa-dashboard fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;"> Flight Board-PDC </span>
-			</div>
-		</div>
-	</div>
- </a>
-	 -->	
-		
-		
-		
-	<form name="loginForm" id="loginForm">	
-	 <input id="username" type="hidden" name="username" value="<%=FirstName_LastName[0]%>">
-     <input id="password" type="hidden"  name="password" value="<%=user_password %>">
-	  <input type="hidden"  name="j_username" id="username" value="<%=FirstName_LastName[0]%>"> 
-      <input type="hidden"  name="j_password" id="password" value="<%=user_password%>">	
-	<a onClick="CalGroundops();">
-		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
-			<div class="panel panel-info btn-default panel-shadow">
-				<div class="panel-body" style="color:#0071BA;">
-					<i class="fa fa-road fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">Ground Operations</span>
+	 <form name="businessupdate" id="businessupdate" method="POST" >
+	       <input  type="hidden" name="user" value="<%=userFirstLastName[0]%>">
+	       <input  type="hidden" name="cat" value="00">
+	       <input  type="hidden" name="emailid" id="emailid" value="<%=userFullEmailid%>" >
+	       <input  type="hidden" name="password" id="password" value="<%=userPassword%>" >
+	       <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+	       
+	   <a title="View Org Charts and Department Information." onClick="calBusinessArea();">
+	   	<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
+				<div class="panel panel-info btn-default panel-shadow">
+					<div class="panel-body" style="color:#0071BA;">
+					   <i class="fa fa-sitemap fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">Business Areas </span>
+					</div>
 				</div>
-			</div>
-		</div>
-	 </a>	
-	</form>
-       
-		
-		
-
-
-<!-- <a title="Document Management System." target="_new" href="https://aerodocs.stobartair.com/"> -->
-
-<a onClick="CalAerodocsLogin();">	
-
-		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
-			<div class="panel panel-info btn-default panel-shadow">
-				<div class="panel-body" style="color:#0071BA;">
-					<i class="fa fa-book fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">Aerodocs Mgmt</span>
-				</div>
-			</div>
-		</div>
-</a>		
-
-
-	
-<!-- 	
-
-		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
-			<div class="panel panel-info btn-default panel-shadow">
-				<div class="panel-body" style="color:#0071BA;">
-					<i class="fa fa-users fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;"><a href="https://stobartair.providentcrm.com" target="_blank">Customer Relation</a></span>
-				</div>
-			</div>
-		</div>
-   -->
-		
-<form name="alfresco" id="alfresco" method="POST">
-	 
-	 <input  type="hidden" name="loginid_a" value="<%=FirstName_LastName[0]%>">
-     <input  type="hidden"  name="pass_a" value="<%=user_password%>">  
-     
-     	
-	<a title="Document Managment System." onClick="CalAlfresco();">
-		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
-			<div class="panel panel-info btn-default panel-shadow">
-				<div class="panel-body" style="color:#0071BA;">
-					<i class="fa fa-book fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-size:10pt;font-weight:600;color:#0071BA;">Alfresco Document</span>
-				</div>
-			</div>
-		</div>
-	</a>	
-</form>	
-	
- <form name="businessupdate" id="businessupdate" method="POST" >
-       <input  type="hidden" name="user" value="<%=FirstName_LastName[0]%>">
-       <input  type="hidden" name="cat" value="00">
-       <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
-       <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
-       
-   <a title="View Org Charts and Department Information." onClick="calBusinessArea();">
-   	<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
-			<div class="panel panel-info btn-default panel-shadow">
-				<div class="panel-body" style="color:#0071BA;">
-				   <i class="fa fa-sitemap fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;">Business Areas </span>
-				</div>
-			</div>
-		</div>	
-   </a>
- </form>	 
+			</div>	
+	   </a>
+	 </form>	 
 
 	<!--	 
  <form name="connectair" method="POST">
-     <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
-     <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
+     <input  type="hidden" name="emailid" id="emailid" value="<%=userFullEmailid%>" >
+     <input  type="hidden" name="password" id="password" value="<%=userPassword%>" >
    <a title="View Org Charts and Department Information."  onClick="calBusinessUpdates();">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
@@ -530,8 +488,9 @@ setTimeout(function(){window.location.href="index"},60000000);
 	-->	
 		
  <form name="employee_discount" method="POST">  
-        <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >	
-         <input  type="hidden" name="password" id="password" value="<%=user_password%>" >	
+        <input  type="hidden" name="emailid" id="emailid" value="<%=userFullEmailid%>" >	
+         <input  type="hidden" name="password" id="password" value="<%=userPassword%>" >
+         <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">	
 		<a title="Employee Benifit Programme."  onClick="calEmployee_discount();">
 		<div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
@@ -544,8 +503,9 @@ setTimeout(function(){window.location.href="index"},60000000);
 </form>	
 
  <form name="callive_well1" method="POST">  	
-       <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
-        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
+       <input  type="hidden" name="emailid" id="emailid" value="<%=userFullEmailid%>" >
+        <input  type="hidden" name="password" id="password" value="<%=userPassword%>" >
+        <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
        <a title="Employee Assistance Programme." onClick="callive_well();">
         <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
@@ -557,29 +517,33 @@ setTimeout(function(){window.location.href="index"},60000000);
          </a>
 </form>	
 
-<c:if test="${profilelist.Refis  == 'Y'}">  		
+
+<c:if test = "${fn:contains(profilelist, 'Refis')}"> </c:if>	
+ 
 	
  <form name="refis" method="POST">  	
-       <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
-        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
-       <a title="New Ground Operation" onClick="cal_refis();">
+       <input  type="hidden" name="emailid" id="emailid" value="<%=userFullEmailid%>" >
+        <input  type="hidden" name="password" id="password" value="<%=userPassword%>" >
+          <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+       <a title="New Ground Operations" onClick="calNewRefis();">
         <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 			<div class="panel panel-info btn-default panel-shadow">
 				<div class="panel-body" style="color:green">
-				 	<i class="fa fa-road fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">New Ground Ops.</span> 
+				 	<i class="fa fa-road fa-2x pull-left"></i> <span class="pull-right" style="font-size:11pt;font-weight:600;color:#0071BA;">Ground Ops Website.</span> 
 				</div>
 			</div>
 	    </div>	
          </a>
 </form>	
 
-</c:if>
+
 	
-	
-<c:if test="${profilelist.Contract  == 'Y'}">  			
+<c:if test = "${fn:contains(profilelist, 'Contract')}"> 
+		
 	 <form name="contract"  id="contract" method="POST">  	
-	       <input  type="hidden" name="emailid" id="emailid" value="<%=fullemail%>" >
-	        <input  type="hidden" name="password" id="password" value="<%=user_password%>" >
+	       <input  type="hidden" name="emailid" id="emailid" value="<%=userFullEmailid%>" >
+	        <input  type="hidden" name="password" id="password" value="<%=userPassword%>" >
+	        <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
 	       <a title="Manage Contract." onClick="cal_manage_contract();">
 	        <div class="col-md-2 col-sm-3 col-xs-6" style="cursor:pointer;">
 				<div class="panel panel-info btn-default panel-shadow">
@@ -625,9 +589,6 @@ setTimeout(function(){window.location.href="index"},60000000);
          </a>
 
 	-->			
-	</div>		
-</div>
-
 
 
 
@@ -732,7 +693,43 @@ setTimeout(function(){window.location.href="index"},60000000);
   --> 
  
  
-<br>
+
+
+				<!--Full Width text
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">		
+						     <marquee>
+									<span class="label label-warning"  style="font-weight:600;font-size:22pt;color:black;">
+									    
+									       <b> Hi this is Test message please confirm if this is OK ??  </b>					        
+									</span>
+								</marquee>
+				    
+				</div>
+			-->
+
+
+
+			<div class="panel-body">
+
+                  <marquee>
+						<span class="label label-warning"  style="font-weight:600;font-size:22pt;color:black;">
+						    
+						    Hi this is Test please ignore 
+						      
+						</span>
+				
+					</marquee>
+             </div>
+     
+     
+		
+		
+     
+           
+
+	</div>		
+</div>
+
 
 
 <!--END OF  Updated Area  For the Video Display -->
@@ -908,9 +905,7 @@ setTimeout(function(){window.location.href="index"},60000000);
 </script>
 
 
-<jsp:include page="include/footer.jsp" flush="true">
-    <jsp:param name="user" value='${user.emailid }'/>
-</jsp:include>
+<jsp:include page="include/footer.jsp" flush="true"></jsp:include>
 
 
 

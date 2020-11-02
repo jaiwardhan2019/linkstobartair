@@ -18,24 +18,10 @@
 
 function searchUser(){
 
-
-	  var userid = document.getElementById("user").value.trim();
-      if(userid == ''){
-	      alert("Please Enter User First Name , Last Name or Anything you remember.");
-	      document.getElementById("user").focus();
-	      return false;
-	  }
-      else
-      {
-
     	  document.linkuser.method="POST"
 		  document.linkuser.action="profilemanager?emailid=${emailid}";
 	      document.linkuser.submit();
 		  return true;
-
-       }
-          
-             
 
 }
 
@@ -45,9 +31,7 @@ function show_contract_user_Profile(useremail){
 		  document.linkuser.method="POST";
 		  document.linkuser.action="showcontractaccessprofile";
 		  document.linkuser.submit();
-		  return true;
-
-	
+		  return true;	
 }
 
 
@@ -64,6 +48,15 @@ function show_groundops_user_Profile(useremail){
 	
 }
 
+
+function viewUserLinkProfile(userInsubject){
+
+    	  document.linkuser.method="POST"
+		  document.linkuser.action="updatelinkuserprofile?id="+userInsubject;
+	      document.linkuser.submit();
+		  return true;
+
+}
 
 
 
@@ -98,7 +91,7 @@ function show_groundops_user_Profile(useremail){
 
 <form method="post" name="linkuser" onSubmit="return searchUser()";>
 
-  <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
   <input type="hidden" name="userid" id="userid" value="">
    
     <table  border="0" style="width: 50%;" align="center"> 
@@ -196,8 +189,8 @@ function show_groundops_user_Profile(useremail){
 		          
 		          <td><%=ctr%></td>
 		          
-		          <td><i class="fa fa-user-circle-o" aria-hidden="true"></i> &nbsp; <a href="updatelinkuserprofile?emailid=${emailid}&id=${linkusers.emailId}"> ${linkusers.firstName}&nbsp;${linkusers.lastName} </a></td>
-		          <td><a href="updatelinkuserprofile?emailid=${emailid}&id=${linkusers.emailId}">${linkusers.emailId}</a></td>
+		          <td><i class="fa fa-user-circle-o" aria-hidden="true"></i> &nbsp; <a href="javascript:void();" onClick="viewUserLinkProfile('${linkusers.emailId}');"> ${linkusers.firstName}&nbsp;${linkusers.lastName} </a></td>
+		          <td><a href="javascript:void();" onClick="viewUserLinkProfile('${linkusers.emailId}');"  >${linkusers.emailId}</a></td>
 		          <td align="center"> 
 		          
 		             
@@ -212,6 +205,8 @@ function show_groundops_user_Profile(useremail){
 		          
 		          
 		          </td>
+		          
+		          
 		          <td align="center"> 
 		          
 		           
@@ -244,14 +239,11 @@ function show_groundops_user_Profile(useremail){
 		           %>
            
            </c:forEach>
-          
-       
-          <tr>
-            <td colspan="6"> <p id="result1"></p>	 </td>
-          </tr>
-          
-          
-         </table> 
+
+
+
+
+			</table> 
 
         </div>
         

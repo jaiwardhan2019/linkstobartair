@@ -33,6 +33,7 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.maven.model.building.FileModelSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -64,6 +65,19 @@ public class DocumentService {
 		List<DocumentEntity> result = repository.showAllDocumentsFromFolder(req, department);
 		return result;
 	}
+	
+	
+	
+	public String getVoiceOfGuestImage(String department)  {
+		return repository.showVoiceOfGuestImage(department);
+	}
+	
+	
+	public String getEmergencyResponsPlanDocument(String department)  {
+		return repository.showEmergencyResponsPlanDocument(department);
+	}
+	
+	
 
 	public boolean deleteDocumentById(int id) throws IOException, SQLException {
 		return repository.removeDocumentFromFolder(id);

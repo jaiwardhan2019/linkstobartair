@@ -9,8 +9,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -32,24 +35,31 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.google.common.base.Strings;
+import com.linkportal.datamodel.flightDelayComment;
+import com.linkportal.datamodel.flightDelayCommentRowmapper;
 import com.linkportal.datamodel.flightSectorLogRowmapper;
 import com.linkportal.datamodel.fligthSectorLog;
+import com.linkportal.sql.GroundOpsSqlBuilder;
 import com.linkportal.sql.linkPortalSqlBuilder;
 
 
 
 
 @Repository
-public class ReportMasterImp implements ReportMaster {
+public class ReportMasterImp extends excelReportCommonUtil implements ReportMaster {
 
 
     @Autowired
     DataSource dataSourcesqlserver;
     
-
-    
+    @Autowired
+    DataSource dataSourcesqlservercp;
       
 	JdbcTemplate jdbcTemplate;	
+	JdbcTemplate jdbcTemplateCorp;	
+	
+	
 	
 	
 	@Value("${spring.operations.excel.reportsfileurl}") String filepath;	
@@ -63,10 +73,12 @@ public class ReportMasterImp implements ReportMaster {
 	
 	
 	
-	ReportMasterImp(DataSource dataSourcesqlserver){ 
-		jdbcTemplate = new JdbcTemplate(dataSourcesqlserver);
+	ReportMasterImp(DataSource dataSourcesqlserver,DataSource dataSourcesqlservercp){ 
+		jdbcTemplate     = new JdbcTemplate(dataSourcesqlserver);
+		jdbcTemplateCorp = new JdbcTemplate(dataSourcesqlservercp);
 	}
 
+	
 	
 	
 	//-------------- First Sheet Header and Column width -------------------------------------
@@ -110,7 +122,7 @@ public class ReportMasterImp implements ReportMaster {
 	private static final String[] sortedByDelayCodesTitlesList = {"Flight Date", "Flight No.", "A/C Type", "A/C Reg.",
 															"STD", "STA",  "SCH DEP", "SCH ARR",
 															"ATD", "ATA", "ACT DEP", "ACT ARR", 
-															"AB", "TOB", "Iata Delay Code Groups",
+															"AB", "TOB", "Iata Delay Code Groups", 
 															"Delay Code", "Delay Time", "Total Delay", "ATA - ATD", "Delay Remarks" };
 	
 	
@@ -118,7 +130,7 @@ public class ReportMasterImp implements ReportMaster {
 															2000, 2000, 2500, 2500,
 															2500, 2500, 2500, 2500,
 															2500, 3000, 10000,
-															3000, 3000, 2500, 2500, 20000};
+															3000, 3000, 2800, 2500, 20000};
 		
 	
 	
@@ -137,7 +149,7 @@ public class ReportMasterImp implements ReportMaster {
 		 Properties p            = new Properties(); 
 		 p.load(reader);
 	
-		
+
 		
 		String delaycodegroup="";
 	   	
@@ -157,6 +169,8 @@ public class ReportMasterImp implements ReportMaster {
 		
 		
 		
+		
+		
 		// Create a new font and alter it.
 	    HSSFFont font = workbook.createFont();
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
@@ -166,7 +180,24 @@ public class ReportMasterImp implements ReportMaster {
 		style.setFillBackgroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
 		style.setFillPattern(CellStyle.LESS_DOTS);
 	    style.setFont(font);
-		
+	    
+
+	    // Create Header Label with the parameter Detail 	
+	    row = sheet.createRow( rowNumber++ );
+	    createCell_Header(style, row, 0,"Reliablity Report For the Flights  Between : "+startDate+" And : "+endDate );
+	    row = sheet.createRow( rowNumber++ );
+	    row = sheet.createRow( rowNumber++ );
+	    if(delayCodeGroupCode.equalsIgnoreCase("ALL")) 
+	    {
+	    	 createCell_Header(style, row, 0,"Delay Code : ALL ");
+	    }
+	    else
+	    {
+	       createCell_Header(style, row, 0,"For delay Code : "+delayCodeGroupCode);
+	    }
+	    row = sheet.createRow( rowNumber++ );
+	    row = sheet.createRow( rowNumber++ );
+	    
 		
 		
 		
@@ -181,7 +212,7 @@ public class ReportMasterImp implements ReportMaster {
 		//------------- Here Writing Body of the Report -------------------
 		row = sheet.createRow( rowNumber++ ) ;
         linkPortalSqlBuilder sqlb = new linkPortalSqlBuilder();
-        String firstsheetsql=sqlb.builtExcelReliabilityReportSQL(airline.toUpperCase(), airport, startDate, endDate);        
+        String firstsheetsql=sqlb.builtExcelReliabilityReportSQL(airline.toUpperCase(), airport, startDate, endDate,delayCodeGroupCode);        
 	    List<fligthSectorLog>  flightsec = jdbcTemplate.query(firstsheetsql,new flightSectorLogRowmapper());	
 		
 	    for(fligthSectorLog flt:flightsec){  
@@ -274,7 +305,7 @@ public class ReportMasterImp implements ReportMaster {
 	    linkPortalSqlBuilder sqlb5 = new linkPortalSqlBuilder(); 
 	    String delayflightsql=sqlb5.builtExcelReliabilityReportSQL_AllflightWithDelayCode(airline, airport, startDate, endDate);	    
 	    rowNumber=0;
-		createDelayFlightSheet(style,workbook,rowNumber,delayflightsql,p);
+		createDelayFlightSheet(style,workbook,rowNumber,delayflightsql,p,startDate, endDate , null);
 	    logger.info("Delay Flight List is Created :");
 	    
 	    
@@ -440,7 +471,7 @@ private void createCancleFlightSheet(CellStyle style,HSSFWorkbook workbook, int 
 
 
 //----------------- This Will Create Sheet With the Delay Code only ------------------------------- 
-private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int rowNumber, String sql,Properties p )throws Exception {
+private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int rowNumber, String sqlForDelay,Properties p , String StartDate , String endDate,String delayCodeList)throws Exception {
 
 	HSSFSheet sheet =  workbook.createSheet( "Report - All Delayed Flights");
 	setPrintSetup(sheet);
@@ -448,13 +479,22 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 	
 	HSSFRow row = sheet.createRow(rowNumber++);
 	
+	
+	   // Create Header Label with the parameter Detail 	
+    row = sheet.createRow( rowNumber++ );
+    createCell_Header(style, row, 0,"Delay Flight Report  Between : "+StartDate+" And : "+endDate );
+
+    row = sheet.createRow( rowNumber++ );
+    if(delayCodeList == null) {delayCodeList= " All ";}
+    row = sheet.createRow( rowNumber++ );
+	
 	//------------ Creating Header of The Excel Sheet ---------------
 	for (int c = 0; c < sortedByDelayCodesTitlesList.length; c++) {
 		createCell_Header( style, row, c, sortedByDelayCodesTitlesList[c]);
 		sheet.setColumnWidth( c, sortedByDelayCodesWidthsList[c] );
 	}
 	
-	List<fligthSectorLog>  flightthird = jdbcTemplate.query(sql,new flightSectorLogRowmapper());	
+	List<fligthSectorLog>  flightthird = jdbcTemplate.query(sqlForDelay,new flightSectorLogRowmapper());	
     
 	
 	
@@ -479,7 +519,7 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
     	
     	createCell(row, 12, flt.getAirborn());
     	createCell(row, 13, flt.getTouchdown());
-    	createCell(row, 14, flt.IATA_DelCodeGroup());
+    	createCell(row, 14, flt.IATA_DelCodeGroup());     	
     	createCell(row, 15, flt.getDelayCode1());
      	createCell(row, 16, flt.getDelayCode1_time());
      	createCell(row, 17, flt.getTotalDelayTime());
@@ -499,80 +539,8 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 
 
 
-	
-		
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * Creates a cell
-	 * Design Cell
-	 * https://poi.apache.org/components/spreadsheet/quick-guide.html#FillsAndFrills
-	 */
-	protected HSSFCell createCell_Header(CellStyle style,HSSFRow row,  int column, String value ) {
-		
-			  HSSFCell cell  = row.createCell( column );
-		      cell.setCellValue( value );
-		      cell.setCellStyle(style);
-		      return cell;
-	}
-	
-
-	
-	
-	
-	protected HSSFCell createCell(HSSFRow row,  int column, String value ) {
-		
-		  HSSFCell cell  = row.createCell( column );
-	      cell.setCellValue( value );
-	      
-	      return cell;
-}
-	
-	
-	
-	
-	protected HSSFCell createCell( HSSFRow row,  int column, Long value ) {
-		
-		HSSFCell cell  = row.createCell( column );
-		cell.setCellValue( value ) ;
-		return cell;
-	}
-	
-	protected HSSFCell createCell( HSSFRow row,  int column, Integer value ) {
-		
-		HSSFCell cell  = row.createCell( column );
-		cell.setCellValue( value ) ;
-		return cell;
-	}
-	
-	
-	
-
-	protected void setPrintSetup(HSSFSheet sheet) {
-		HSSFPrintSetup ps = sheet.getPrintSetup();
-		ps.setFitWidth((short)1);   //1 page by blank pages wide.
-		ps.setFitHeight((short)0);
-		sheet.setAutobreaks(true);   
-		ps.setLandscape(true);		//set landscape
-		
-	}
-
-
-
-
-	
-	
-	
-
-
-
 	@Override
-	public int Populate_Delay_Report_ExcelFormat(String airline, String airport, String flightdate , String useremail)
+	public int Populate_Delay_Report_ExcelFormat(String airline, String airport, String fromdate , String todate ,String useremail)
 			throws Exception {
 
 		
@@ -603,14 +571,7 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 		HSSFRow row = null;
 		int rowNumber = 0;
 	
-		
-		//HSSFSheet sheet =  workbook.createSheet( "Delay Flight Report -  All Flights" );
-		//setPrintSetup(sheet);
-		
-		//row = sheet.createRow(rowNumber++);
-		//row=sheet.getRow(0);
-		
-		
+	
 		
 		// Create a new font and alter it.
 	    HSSFFont font = workbook.createFont();
@@ -627,9 +588,12 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 	    
 	    //------------------ This Will Create Report Sheet for All Delay Flight  ---------------
 	    linkPortalSqlBuilder sqlb5 = new linkPortalSqlBuilder(); 
-	    String delayflightsql      = sqlb5.builtExcelReliabilityReportSQL_AllflightWithDelayCode(airline, airport, flightdate,flightdate);	
-	    rowNumber = 0;
-		createDelayFlightSheet(style,workbook,rowNumber,delayflightsql,p);
+	    String delayflightsql      = sqlb5.builtExcelReliabilityReportSQL_AllflightWithDelayCode(airline, airport, fromdate, todate);	
+	    rowNumber = 0;                
+	    
+	    //System.out.println(delayflightsql);
+	    
+		createDelayFlightSheet(style,workbook,rowNumber,delayflightsql,p,fromdate,todate,null);
 	    logger.info("Delay Flight List is Created :");
 	    
 	    
@@ -638,16 +602,12 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 	    
 	    //------------------ This Will Create Report Sheet for All Flight Which is Cancel  ---------------
 	    linkPortalSqlBuilder sqlb4 = new linkPortalSqlBuilder(); 
-	    String cancleflightsql=sqlb4.builtExcelReliabilityReportSQL_AllCancel(airline, airport, flightdate, flightdate);	    
+	    String cancleflightsql=sqlb4.builtExcelReliabilityReportSQL_AllCancel(airline, airport, fromdate , todate);	    
 	    rowNumber=0;
 	    createCancleFlightSheet(style,workbook,rowNumber,cancleflightsql,p);
 	    logger.info("Cancle Flight List is Created :");
 	   
 	    
-	    
-	    
-	    
-	   
 	    
 	    //------ CREATE FOLDER FOR THE SPECIFIC USER 
 	    File file = new File(filepath+useremail);
@@ -670,22 +630,185 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 		    workbook.write(outputStream);			    
 		} catch (IOException ioe){logger.error(ioe);}
 		
+				logger.info("EXCEL Format Delay Flight Report Creation Finished at:"+ new Date());	
 		
 		
+		return 0;
+	}
+
+
+
+
+    //  For the On Time Performance Report ......... 
+	@Override
+	public int Populate_On_Time_Performance_Report_ExcelFormat(String airline, String airport, String Startflightdate,
+			String Endflightdate, String emailid , String delaycodegroup) throws Exception {
 		
 		
+	    logger.info("On Time Performance Flight Report  Creation Started at:"+ new Date());	
+        
+		HSSFWorkbook workbook = new HSSFWorkbook();	
+		HSSFRow row = null;
+		int rowNumber = 0;
+	
+	
 		
+		// Create a new font and alter it.
+	    HSSFFont font = workbook.createFont();
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setFontName("Arial");
+	    //  Create Style sheet with the above font 	
+		CellStyle style = workbook.createCellStyle();
+		style.setFillBackgroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+		style.setFillPattern(CellStyle.LESS_DOTS);
+	    style.setFont(font);
 		
-		
-		
-		
-		logger.info("EXCEL Format Delay Flight Report Creation Finished at:"+ new Date());	
-		
+
+	    //------------------ This Will Create Report Sheet for All OTP Flight  ---------------
+	    GroundOpsSqlBuilder sqlb = new GroundOpsSqlBuilder(); 
+	    String delayflightsql      = sqlb.builtOnTimePerformanceReportSql(airline, airport, Startflightdate,Endflightdate,delaycodegroup);	
+	    rowNumber = 0;                
+	    
+	    //System.out.println(delayflightsql);
+	    
+	    createOntimePerformanceFlightSheet(style,workbook,rowNumber,delayflightsql,Startflightdate,Endflightdate,delaycodegroup);
+	    logger.info("Delay Flight List is Created :");
+	    
+	    
+	    //------ CREATE FOLDER FOR THE SPECIFIC USER 
+	    File file = new File(filepath+emailid);
+        if (!file.exists()) {
+            if (file.mkdir()) {
+                
+                logger.info(filepath+emailid+" Directory  Created for the Report Files");
+            } else {
+                
+                logger.error("Failed to create directory name :"+filepath+emailid+"# Please Check Folder permissions");
+            }
+        }
+	    
+	    
+	    
+        
+    		//--------------- Creating File And Writing into it ----------------------
+    		try (FileOutputStream outputStream = new FileOutputStream(filepath+emailid+"/onTimePerformanceFlightReport.xls")) {
+    		    
+    			workbook.write(outputStream);			    
+    		    
+    		} catch (IOException ioe){logger.error(ioe);}
+    		
+    		logger.info("EXCEL Format Ontime Flight Performance Report Creation Finished at:"+ new Date());	
+    	
 		
 		return 0;
 	}
 	
 	
+
+
+
+
+
+	//----------------- This Will Create Sheet With OTP Report ------------------------------- 
+	private void createOntimePerformanceFlightSheet(CellStyle style,HSSFWorkbook workbook, int rowNumber, String sqlForOtp , String StartDate , String endDate, String delayCodeList)throws Exception {
+
+		HSSFSheet sheet =  workbook.createSheet( "OTP - Report");
+		setPrintSetup(sheet);
+		String delaycodelist="";
+		String delayDesclist="";
+		
+		HSSFRow row = sheet.createRow(rowNumber++);
+		
+	    String[] otpFlightReportTitlesList = {"Flight Date", "Flight No.","AC Typ","Ac Reg ", "From", "To", "Delay Code","Duration",
+	    		"Attributable Delay","Delay Description", " Note "};
+
+	    short[] otpFlightReportTitlesWidthsList = {3000, 3000, 3000, 3000,3000, 3000, 3000, 3000,6000,10000,30000};
+
+		
+	    // Create Header Label with the parameter Detail 	
+	    row = sheet.createRow( rowNumber++ );
+	    createCell_Header(style, row, 0,"One Time Performance Between : "+StartDate+" And : "+endDate );
+
+	    row = sheet.createRow( rowNumber++ );
+	    if(delayCodeList.equalsIgnoreCase("ALL")) {delayCodeList= " All ";}	
+	    createCell_Header(style, row, 0,"For delay Code : "+delayCodeList);
+	    row = sheet.createRow( rowNumber++ );
+	    row = sheet.createRow( rowNumber++ );
+	    
+		
+		//------------ Creating Header of The Excel Sheet ---------------
+		for (int c = 0; c < otpFlightReportTitlesList.length; c++) {
+			createCell_Header( style, row, c, otpFlightReportTitlesList[c]);
+			sheet.setColumnWidth( c, otpFlightReportTitlesWidthsList[c] );
+		}
+		
+		List<fligthSectorLog>  flightthird = jdbcTemplate.query(sqlForOtp,new flightSectorLogRowmapper());
+		List<flightDelayComment>  flightcomment = jdbcTemplateCorp.query("Select * from Gops_Flight_Delay_Comment_Master WHERE Flight_Date between '"+StartDate+"' and '"+endDate+"'  order by Entry_Date_Time desc ",new flightDelayCommentRowmapper());
+		
+		
+		  
+	    for(fligthSectorLog flt:flightthird){  
+	    	
+	    	row = sheet.createRow( rowNumber++ );
+	     	createCell(row, 0, flt.getFlightDate());
+	    	createCell(row, 1, flt.getFlightNo());
+	    	createCell(row, 2, flt.getAircraftType());
+	    	createCell(row, 3, flt.getAircraftReg());	
+	     	createCell(row, 4, flt.getFrom());
+	     	createCell(row, 5, flt.getTo());
+	     	
+	     	delaycodelist = flt.getDelayCode1(); 
+	     	if(flt.getDelayCode2() != null) {delaycodelist = delaycodelist + ", "+flt.getDelayCode2();}
+	     	if(flt.getDelayCode3() != null) {delaycodelist = delaycodelist + ", "+flt.getDelayCode3();}
+	     	if(flt.getDelayCode4() != null) {delaycodelist = delaycodelist + ", "+flt.getDelayCode4();}	     	
+	     	
+	     	createCell(row, 6,delaycodelist);
+	       	createCell(row, 7, flt.getTotalDelayTime());	       	
+	       	
+	       	
+	       	delayDesclist = flt.getDelayCode1_desc();
+	       	if(!Strings.isNullOrEmpty(flt.getDelayCode2_desc())) {delayDesclist = delayDesclist + ", "+flt.getDelayCode2_desc();}
+	       	if(!Strings.isNullOrEmpty(flt.getDelayCode3_desc())) {delayDesclist = delayDesclist + ", "+flt.getDelayCode3_desc();}
+	     	if(!Strings.isNullOrEmpty(flt.getDelayCode4_desc())) {delayDesclist = delayDesclist + ", "+flt.getDelayCode4_desc();}
+	     	
+	     	createCell(row, 8, getStobartAttributableDelayForThisFlightandDate(flt.getFlightNo(), flt.getFlightDate(),flightcomment)); 
+	       	createCell(row, 9, delayDesclist);
+	    	createCell(row, 10, flt.getFlightNoteRemarks_For_Excel());
+	       	
+	    	
+	    }// ---------- End Of Loop 
+		
+	  
+			
+		
+	}//------------ End Of 
+
+
+
+
+
+
+	   /* This method will take Parameter as flightno and flightDate and FlightSectorList
+	    * check for the flight and date   return StobartAttributableDelay  YES / NO 
+	   */	  
+	   private String getStobartAttributableDelayForThisFlightandDate(String flightNo, String flightDate,List<flightDelayComment> flightcomment) {
+		       String StobartAttributableDelay=null;
+			   for(flightDelayComment flightDComment : flightcomment) {
+				   if(flightNo.equalsIgnoreCase(flightDComment.getFlightNumber()) && flightDate.equalsIgnoreCase(flightDComment.getFlightDate()))
+				   {
+					 StobartAttributableDelay = flightDComment.getStobartdelay();					 
+				   }
+				   
+		       }		 
+				   
+		   return StobartAttributableDelay;
+	   }	   
+		   
+		   
+		   
+		   
+
+
 
 
 	

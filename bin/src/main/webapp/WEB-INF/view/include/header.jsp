@@ -137,7 +137,7 @@ function calStaffTravelUsers(){
  <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     
-		<ul class="nav navbar-nav navbar-right">
+  <ul class="nav navbar-nav navbar-right">
 		
 			
 		 <li class="dropdown">
@@ -149,11 +149,11 @@ function calStaffTravelUsers(){
 
 
 		
-         <!-- REPORT  MENU -->
+      <!-- REPORT  MENU -->
          
-    <c:if test="${profilelist.Reports  == 'Y'}">   
+      <c:if test="${profilelist.Reports  == 'Y'}">   
          		
-	     <li class="dropdown">
+	       <li class="dropdown">
 		 
 			  <a href="adminhome" onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;&nbsp;Reports <span class="caret"></span></a>
 			  
@@ -178,11 +178,15 @@ function calStaffTravelUsers(){
 					     <c:if test="${profilelist.Voyager  == 'Y'}">  
 					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('voyagerReport?airlineCode=ALL');" style="font-size:09pt;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Voyager Report</a></li>
 				         </c:if> 
-	<!-- 			         
+	                    <!-- 			         
 					     <c:if test="${profilelist.Flybe_Today  == 'Y'}">  
 							  <li style="margin-top:3px;margin-bottom:3px;"><a href="http://www.stobartair.com/flight-status/" target="_new"  style="font-size:09pt;"><i class="fa fa-database" ></i> &nbsp;Flybe Today Flight Status &nbsp;&nbsp;</a></li>
 			    		 </c:if> 
-     -->						 
+                          -->						 
+     
+     
+     	 	   
+	
 			   		  
 			     </ul>	 
 			     
@@ -208,12 +212,19 @@ function calStaffTravelUsers(){
 				        <c:if test="${profilelist.Finance == 'Y'}">   
 				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('invoiceconversiontool');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Invoice-Conversion-Tool</a></li>
 					    </c:if>		
-					    
+					    <!-- 
 					    <c:if test="${profilelist.Finance == 'Y'}">   
 				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:09pt;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Download Fuel Report</a></li>
 					    </c:if>					 
-					    
-					    			 
+					         -->
+				      <c:if test="${profilelist.RemoveStaffTravelUser  == 'Y'}">  
+											
+							<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calStaffTravelUsers();"  style="font-size:09pt;"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp;Remove Staff Travel Account</a></li>
+						  
+				      </c:if> 
+					
+		
+					 
 			   		  
 			     </ul>	 
 			      
@@ -224,18 +235,7 @@ function calStaffTravelUsers(){
     
   	
  
- 	    
-      <c:if test="${profilelist.StaffTravel  == 'Y'}">   
-
-		 <li class="dropdown">
-	 
-	  	    <a  href="javascript:void();" onClick="calStaffTravelUsers();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Staff Travel"><i class="fa fa-tripadvisor" aria-hidden="true"></i>&nbsp;&nbsp;Staff Travel </a>
-					  
-		</li>
-      
-      </c:if> 
-			
-
+ 	
   		
 		
 	 		

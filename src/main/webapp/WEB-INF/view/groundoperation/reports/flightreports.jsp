@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <head>
     <title> Dashboard | Flight Report </title>    
@@ -33,7 +33,8 @@ var chart = new CanvasJS.Chart("chartContainer",{
 		//type: "doughnut",
 		type: "column",
 		yValueFormatString: "#,##0",
-		indexLabel: "{label}: {y}",
+		//indexLabel: "{label}: {y}",
+		indexLabel: "{y}",
 		toolTipContent: "{y} Flights",
 		dataPoints : ${dataPoints}
 	}]
@@ -73,160 +74,183 @@ function showFlightReport(){
 
 <body>
 
- 
- <form name="FlightReport" id="FlightReport">   
   
-  <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
-  <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
-  <input type="hidden" name="usertype" value="${usertype}">
-    
-    
  <div class="container" align="center">
- 
- 
- 
- <div class="col-md-7 col-sm-7 col-xs-7" align="left" >
- 
- 
-       
-  <table class="table table-striped table-bordered" border="1" style="width:80%;background:rgba(255,255,255);" align="left">	
-   			<tbody>				     
-				 <tr align="center">
-					 <td  bgcolor="#0070BA" colspan="2">
-					   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
-					    Flight Report Parameter &nbsp;&nbsp;
-					   </b></span>					 
-					 </td>
-				 </tr>
-		            
-			    <tr>
-					<td align="left" >
-					 
-							<div class="col-xs-12">
-									<label for="airlineCode">Operating Airline:</label>
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-plane"></i></span>
-												<select id="airlinecode" name="airlinecode" class="form-control">
-								                            	 ${airlinelist}
-												</select>
-									</div>
-								</div>
-							
-						</td>
-						
-		
-				     					
-						<td>
-								<div class="col-xs-12">
-										<label for="airlineCode">Departure Airport:</label>
-										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-plane"></i></span>							
-												
-												<select id="airportcode" name="airportcode" class="form-control">												
-													     ${airportlist}
-							                    </select>   
-									
-									</div>
-								</div>
-					
-					       </td>
-					 </tr>
-					 
-					 
-				  <tr align="left"> 
-				     					
-					<td  >
-				             
-		               <div class="col-xs-12">
-							<label for="startDate">Date:</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="datop" name="datop" class="form-control datepicker" maxlength="12"
-								    value="${datop}" placeholder="(DD/MM/YYYY)"/>
-							</div>	
-						</div>
-								
-								
-				       </td>
-				       				
-					<td>
-							             
-							<div class="col-xs-12">
-										<label> Flight No </label>
-										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
-													<input type="text"  name="flightno" id="flightno" class="form-control" value="">					
-															
-										</div>
-							    </div>
-				    
-	    
-							
-				       </td>
-				       
-				       
-				       
-				     </tr>					 
-				     
-				  <tr align="left"> 
-				     					
-					<td >
-				             
-				             
-				         <div class="col-xs-12">
-							<label for="sortBy">Sort By:</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></span>
-								<select id="sortby" name="sortby" class="form-control">
-									
-									   <option value="ETD_DATE_TIME">Exp.Time Of Depart.</option>
-									   <option value="LONG_REG">Aircraft Reg</option>
-									
-								</select>
-							</div>
-						</div>
-								
-								
-								
-				       </td>
-	
-				     					
-						<td align="center">
-						    <br>
-					       
-				          	    <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
-					  
-					     </td>
-					     </tr>
-				     
-						<tr>
-							<td colspan="2">
-								<span style="display:none" id="searchbutton1">
-									<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-									   . 
-									</div>   
-								</span>
-							</td>
-						</tr>		     
-					     
-							    
-				    </tbody>
-			</table>
-	  </div>
-	
-</form>
- 
-		<div class="col-md-5 col-sm-5 col-xs-5" align="left" >
-		      
-		      <div id="chartContainer" style="height: 260px; width: 100%;"></div>
-		      <br>
-		       <p align="center">    <img  src="images/${airlinecode}1.png"> </p>
-		      
-		 
-		</div>
-		 
 
-</div>	
+  <div class="row">
+	
+	   <!-- First Part  -->
+		<div class="col-sm-6 col-md-6 col-xs-12"> 
+			
+			<div class="panel panel-primary panel-shadow" style="overflow-x:auto;">
+			
+				<div class="panel-body">  
+						 
+						 <form name="FlightReport" id="FlightReport">   
+						  
+						  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+						  <input type="hidden" name="usertype" value="${usertype}">
+						       
+						    <table class="table" style="width:100%;background:white;" align="left">	
+						   			<tbody>				     
+										 <tr align="center">
+											 <td  bgcolor="#0070BA" colspan="2">
+											   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
+											    Flight Report Parameter &nbsp;&nbsp;
+											   </b></span>					 
+											 </td>
+										 </tr>
+								            
+									    <tr>
+											<td align="left" >
+											 
+													<div class="col-xs-12">
+														  <label for="airlineCode">Operating Airline:</label>
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-plane"></i></span>
+																		<select id="airlinecode" name="airlinecode" class="form-control">
+														                            	 ${airlinelist}
+																		</select>
+															</div>
+														</div>
+													
+												</td>
+												
+								
+										     					
+												<td>
+														<div class="col-xs-12">
+																<label for="airlineCode">Departure Airport:</label>
+																<div class="input-group">
+																	<span class="input-group-addon"><i class="fa fa-plane"></i></span>							
+																		
+																		<select id="airportcode" name="airportcode" class="form-control">												
+																			     ${airportlist}
+													                    </select>   
+															
+															</div>
+														</div>
+											
+											       </td>
+											 </tr>
+											 
+											 
+										  <tr align="left"> 
+										     					
+											<td  >
+										             
+								               <div class="col-xs-12">
+													<label for="startDate">Date:</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
+														<input type="date" id="datop" name="datop" class="form-control datepicker" maxlength="12"
+														    value="${datop}" placeholder="(DD/MM/YYYY)"/>
+													</div>	
+												</div>
+														
+														
+										    </td>
+										       				
+											<td>
+												             
+												<div class="col-xs-12">
+												  	  <label> Flight No </label>
+															<div class="input-group">
+																	<span class="input-group-addon"><i class="fa fa-text-height fa-lg" aria-hidden="true"></i></i></span>	
+																			<input type="text"  name="flightno" id="flightno" class="form-control" value="">					
+															 </div>
+												 </div>
+														
+										     </td>
+										       
+										       
+										  </tr>					 
+										  
+										  
+										     
+										  <tr align="left"> 
+											     					
+												<td>     
+											         <div class="col-xs-12">
+														<label for="sortBy">Sort By:</label>
+														<div class="input-group">
+														   <span class="input-group-addon"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></span>
+															<select id="sortby" name="sortby" class="form-control">
+																
+																   <option value="ETD_DATE_TIME">Exp.Time Of Depart.</option>
+																   <option value="LONG_REG">Aircraft Reg</option>
+															 </select>
+														  </div>
+													  </div>
+															
+											       </td>
+								
+											     					
+													<td align="center">
+													    <br>
+											          	    <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
+												  
+												     </td>
+											     
+											     </tr>
+										     
+												<tr>
+													<td colspan="2">
+														<span style="display:none" id="searchbutton1">
+															<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+															   . 
+															</div>   
+														</span>
+													</td>
+												</tr>		     
+											     
+													    
+										    </tbody>
+									</table>
+							 
+							
+						</form>
+ 
+                   </div>
+
+             </div>
+
+         </div> 
+        
+	
+                
+        <!-- SECOND PART  -->
+		<div class="col-sm-6 col-md-6 col-xs-12"> 
+			
+			 
+				<div class="panel-body">  
+				        
+				         	   
+					    <table  class="table"   style="width:100%;" align="center">					   
+					             
+					           <div id="chartContainer" style="height:320px; width:100%;"></div>
+					   
+					    
+					    </table>
+					   <br>
+		              <!--  <p align="center">    <img  src="images/${airlinecode}1.png"> </p> -->  
+
+                   </div>
+
+
+         </div> 
+
+
+ 
+   </div> <!-- END OF ROW  -->
+ 
+</div>  <!-- END OF CONTAINER -->
+
+
+
+
+
+	
 <br>
 <br>
  
@@ -263,7 +287,7 @@ function showFlightReport(){
 
 <!-- TODAY BODY  -->		
 <div id="today" class="tab-pane fade in active" >
-    <table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255);" align="center">	  
+    <table class="table table-bordered" border="1"  style="width:100%;background:white;" align="center">	  
    
 		<tbody>
 	     <tr align="center">

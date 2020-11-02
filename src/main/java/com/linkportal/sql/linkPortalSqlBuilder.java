@@ -8,6 +8,8 @@ import java.util.Date;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.google.common.base.Strings;
+
 /*
  * This Class File Contain all SQL required for this entire project
  * 
@@ -78,9 +80,8 @@ public class linkPortalSqlBuilder implements Serializable{
 
 	//-------------- This Will Generate Sql For Reliablity Report Report FOR JSP VIEW  -------------------------------
 	public String builtReliabilityReportSQL(String airline,String airport,
-			String startDate,String endDate,String tolerance ,String delayCodeGroupCode) {
-
-
+			String startDate,String endDate,String tolerance ,String delayCodeGroupCode) {		
+		
 		if((startDate != null) && (endDate != null)) {
 			sql += " WHERE LEGS.STATUS IN ('ATA') AND legs.datop  between '"+startDate+"' and '"+endDate+"'";	
 		}
@@ -90,7 +91,11 @@ public class linkPortalSqlBuilder implements Serializable{
 		}
 		if((airline != null) && (!airline.equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
 		if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
+		
 		sql +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) >= "+tolerance+")";
+		
+		if((delayCodeGroupCode != null)) {sql +="\n AND legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 in ("+delayCodeGroupCode+")";}
+		
 		sql +=  " order by  FLIGHT_DATE ,ETD_DATE_TIME";
 		//System.out.println(sql);
 		return sql;
@@ -121,11 +126,11 @@ public class linkPortalSqlBuilder implements Serializable{
 
 	//-------------- This Will Generate Sql For EXCEL  Reliablity Report For ALL Flights -------------------------------
 	public String builtExcelReliabilityReportSQL(String airline,String airport,
-			String startDate,String endDate) {
-
+			String startDate,String endDate , String delayCodeGroupCode) {
 		sql += " WHERE LEGS.STATUS IN ('ATA','CNL') AND legs.datop  between '"+startDate+"' and '"+endDate+"'";
 		if((airline != null) && (!airline.toUpperCase().equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
 		if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
+		if(!delayCodeGroupCode.equalsIgnoreCase("ALL")) {sql +="\n AND legs.DELAY1+legs.DELAY2+legs.DELAY3+legs.DELAY4 in("+delayCodeGroupCode+")";}		
 		sql +=  " order by  FLIGHT_DATE ,ETD_DATE_TIME";
 		return sql;
 	}//------------- End Of builtDailySummaryFlightReport Report SQL --------------------------------
@@ -154,12 +159,9 @@ public class linkPortalSqlBuilder implements Serializable{
 	//-------------- This Will Generate Sql For Cancle Flights Reliablity Report -------------------------------
 	public String builtExcelReliabilityReportSQL_AllCancel(String airline,String airport,
 			String startDate,String endDate) {
-
 		sql += " WHERE LEGS.STATUS='CNL' AND legs.datop  between '"+startDate+"' and '"+endDate+"'";				
 		if((airline != null) && (!airline.toUpperCase().equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
 		if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
-
-
 		return sql;
 	}//------------- End Of builtDailySummaryFlightReport Report SQL --------------------------------
 
@@ -174,7 +176,25 @@ public class linkPortalSqlBuilder implements Serializable{
 	public String builtExcelReliabilityReportSQL_AllflightWithDelayCode(String airline,String airport,
 			String startDate,String endDate) {
 
-		sql += " WHERE LEGS.STATUS='ATA' AND legs.datop  between '"+startDate+"' and '"+endDate+"'";				
+		sql += " WHERE  legs.datop  between '"+startDate+"' and '"+endDate+"'";				
+		if((airline != null) && (!airline.toUpperCase().equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
+		if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
+		sql +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) > 0)";
+
+		sql +=  " order by ETD_DATE_TIME ,  LEGS.FLTID";
+
+		return sql;
+	}//------------- End Of builtDailySummaryFlightReport Report SQL --------------------------------
+
+
+
+	
+
+
+	//-------------- This Will Generate Sql For EXCEL  Reliablity Report As Per Delay Code  -------------------------------
+	public String builtExcelOtpReportSQLFlightWithDelayCode(String airline,String airport,String startDate,String endDate) {
+
+		sql += " WHERE  legs.datop  between '"+startDate+"' and '"+endDate+"' and ";				
 		if((airline != null) && (!airline.toUpperCase().equals("ALL"))){ sql += "AND SUBSTRING(LEGS.FLTID,1,3)='"+airline+"'"; }
 		if((airport != null) && (!airport.equals("ALL"))){ sql += "AND LEGS.DEPSTN='"+airport+"'"; }
 		sql +="\n AND (datediff(minute, convert(datetime, REPLACE(Legs.std, '.', ':'), 120), convert(datetime, REPLACE(Legs.atd, '.', ':'), 120)) > 0)";

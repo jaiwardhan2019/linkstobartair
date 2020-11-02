@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <!DOCTYPE html>
 <html>
@@ -107,8 +107,7 @@ $(".chosen").chosen({
 
 <form method="post" name="refieUser" id="refieUser"  onSubmit="return searchUser()";>
 
-  <input type="hidden" id="emailid" name="emailid" value="<%=request.getAttribute("emailid")%>">
-  <input type="hidden" id="password" name="password" value="<%=request.getAttribute("password")%>">
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" name="operation" id="operation" value="">
   <input type="hidden" name="userinsubject" id="userinsubject"  value="${gopsuserdetail.username}">

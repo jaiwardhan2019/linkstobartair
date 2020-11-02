@@ -1,8 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="sun.util.calendar.LocalGregorianCalendar.Date"%>
 
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <head>
     <title> Dashboard |Delay Flight Report </title>    
@@ -47,10 +48,10 @@ function Download_ExcelReport(){
 
 	document.getElementById("downloading").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Downloading..&nbsp;&nbsp;";
 	search_progress();
-    var urldetail ="CreateExcelReliabilityReport?delay=yes&airlinecode="+document.getElementById("airlinecode").value; 
+    var urldetail ="CreateExcelReport?delay=yes&airlinecode="+document.getElementById("airlinecode").value; 
     urldetail = urldetail +"&airportcode="+document.getElementById("airportcode").value;
     urldetail = urldetail +"&startdate="+document.getElementById("startdate").value;		
-    urldetail = urldetail +"&enddate="+document.getElementById("startdate").value;	
+    urldetail = urldetail +"&enddate="+document.getElementById("enddate").value;	
     urldetail = urldetail +"&emailid="+document.getElementById("emailid").value;  
 	
     $.ajax({
@@ -284,7 +285,20 @@ function Download_ExcelReport(){
 	   
  <div class="container" align="center">
  
- <div class="col-md-12 col-sm-12 col-xs-12" align="left" >
+ 
+ 
+    <c:if test="${fn:length(reportbody) < 1}">
+	      <table align="center">    
+	       <tr align="center"> 
+	       <td colspan="16" align="center"> <b>Sorry there is No flight on your above Selected Search Criteria. </b></td>
+	       </tr>
+	      </table>
+	</c:if>		
+	
+		
+   <c:if test="${fn:length(reportbody) > 0}">  	
+      
+      <div class="col-md-12 col-sm-12 col-xs-12" align="left" >
  
    		<ul class="nav nav-pills">
             <li class="active"><a data-toggle="pill" href="#menu1"><b>${reportbody.stream().distinct().count()}</b> - Flights</a></li>
@@ -295,7 +309,13 @@ function Download_ExcelReport(){
 
 <div class="tab-content">
    
-   <div id="menu1" class="tab-pane fade in active">					
+   <div id="menu1" class="tab-pane fade in active">		
+   
+   
+   
+  	
+
+		
 
   	<table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255);" align="left">	
 		      
@@ -344,7 +364,7 @@ function Download_ExcelReport(){
 					 
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					    IATA Delay Code Group	
+					    IATA Delay Code 
 					     </b></span>					 
 					 </td>
 					 
@@ -361,7 +381,7 @@ function Download_ExcelReport(){
 
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					     Remark 
+					     Rem.
 					     </b></span>					 
 					 </td>
 					 
@@ -376,13 +396,7 @@ function Download_ExcelReport(){
 					     Status 
 					     </b></span>					 
 					 </td>
-	
-					 <td bgcolor="#0070BA">
-					   <span style="color:white;"> <b> 
-					     Comment  
-					     </b></span>					 
-					 </td>
-					 <td bgcolor="#0070BA">
+       			   <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
 					     Days Open 
 					     </b></span>					 
@@ -397,10 +411,15 @@ function Download_ExcelReport(){
 					 
 					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					     Feed Back<i class="fa fa-commenting-o" aria-hidden="true"></i>
+					     Comment
 					     </b></span>					 
 					 </td>
 					 
+					 <td bgcolor="#0070BA">
+					   <span style="color:white;"> <b> 
+					     Stobart Attri. Delay.
+					     </b></span>					 
+					 </td>
 					 
 	
 					 
@@ -410,9 +429,7 @@ function Download_ExcelReport(){
 		 <% 
 		  int ctr=0;
 		%>  
-		
-		
-	
+			
 				 
 		<!-- Write DB Loops to display Data --> 
 		 <c:forEach var="fltleg" items="${reportbody}"> 
@@ -534,7 +551,7 @@ function Download_ExcelReport(){
 					 
 					 <td>
 					    
-					       ${fltleg.sect.getTotalDelayTime()}
+					       ${fltleg.sect.getTotalDelayTime()} 
 					      					 
 					 </td>
 					 
@@ -564,35 +581,24 @@ function Download_ExcelReport(){
 					 </td>
 					 
 					 <td>
-					        ${fltleg.comment.action} 
+					      <b>  ${fltleg.comment.action} </b> 
 					      					 
 					 </td>
 					 
 					 <td align="left">
-					 
-					    ${fltleg.comment.status} 
-					      					 
+					  <c:if test="${fltleg.comment.status == 'open'}"> <span class="label label-info"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp;<b> OPEN  </b>  </span> </c:if>
+					  <c:if test="${fltleg.comment.status == 'close'}"> <span class="label label-danger"><i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;<b> CLOSED </b>  </span> </c:if>
+				         					 
 					 </td>
-					 
-					 
-					 
-					 
-	 
-					 <td align="left">
-				       ???
-				    </td>
-				  
 					 
 					 <td>
-					     
-					     ??
-					      					 
+					     <b>
+					          ${fltleg.comment.noofDaysOpened()}   
+					      	</b>				 
 					 </td>
 					 
 					 
-					 <td width="7%">		
-						      
-		                  
+					 <td >
 		                     ${fltleg.comment.dateTimeClosed} 
 					 </td>
 				 
@@ -602,30 +608,33 @@ function Download_ExcelReport(){
 	               				          
 				     </td>
 				  
-				  
+				     <td> 
+				   
+				       
+				       	<c:if test="${fltleg.comment.stobartdelay == 'YES'}">
+		                     <i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp;<span style="color:green;font-weight:bold;">Yes</span>
+		                </c:if>
+		          
+		          
+		            	 <c:if test="${fltleg.comment.stobartdelay == 'NO'}">
+		                    <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;<span style="color:red;font-weight:bold;">No</span>
+		                </c:if>
+		           
+				       
+				       
+				       
+				         
+				     
+				     </td> 
 				  
 				  </tr>
 				     				
 		    </c:forEach>		
 
-	
-		    
-		    	    
-		    <tr>
-		    
-		      <td colspan="16" align="center">
-	              <c:set var = "rowcount"  value = "${fn:length(reportbody)}"/>
-	              <c:if test = "${rowcount == 0}">
-		              <b> Sorry There is no flight found based on your search criteria..!!!</b>
-		          </c:if>		          
-               </td> 
-               
-               
-               
-		    </tr>
-		    		
 				    
-    </table>	
+       </table>	
+  
+	
   
    </div>
    
@@ -735,7 +744,7 @@ function Download_ExcelReport(){
 					  	<a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover" 
 					    title="  CAPTION       |   ${fltleg.flightCaption} " 
 					    data-content="FIR. OFFI | ${fltleg.flightFirstOfficer}">  
-					      <span style="color:red;"> <b>${fltleg.sect.flightNo} </b></span>			
+					      <span style="color:red;"> <b>${fltleg.flightNo} </b></span>			
 					    </a>
 					      		 
 					 </td>
@@ -895,15 +904,9 @@ function Download_ExcelReport(){
 	</div>
 	
 	
-	
-	
-	
-	
-		
-   
-  
  </div> 
-    	                     
+ 
+   </c:if>	   	                     
  
  </div>
 			
@@ -931,14 +934,20 @@ input.addEventListener("keyup", function(event) {
 
 <br>
 <br>
-
+<br>
+<br>
+<br>
+<br>
 <%@include file="../../include/gopsfooter.jsp" %>
 
 
 <script>
 
 
-//-------- This will Open Model Where Feedback will be Entered ----------------
+/*
+ * -------- This will Open Model Where Feedback will be Entered 
+ *          On CLICK ON THE COMMENT Button 
+ */
 function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 
           //- Display of the  Model  
@@ -946,21 +955,17 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 	      document.getElementById("datopdisplay").innerHTML = " Date: "+datop;
 
           //-- Add value to the hidden form         
-	       document.getElementById("flightno").value = flightid;
+	       document.getElementById("cBoxflightno").value = flightid;
 	       document.getElementById("datop").value    = datop;
 	       document.getElementById("fromstn").value  = fromstn;
 	       document.getElementById("tostn").value    = tostn;
 	       document.getElementById("addedby").value  = emailid;
 
 
-
+           // Builting Table for the previousely entered comment
 	   	   var tableheader ="<table id='displaydata' class='table table-striped table-bordered' border='1' style='width:100%;background:rgba(255,255,255);' align='left'><tr><td bgcolor='#0070BA' width='14%'> <span style='font-size: 12px;color:white;'> <b> Comment On</b></span></td> <td bgcolor='#0070BA'  ><span style='font-size: 12px;color:white;'> <b>Feedback </b></span></td> <td bgcolor='#0070BA' width='15%'><span style='font-size: 12px;color:white;'> <b> Added By</b></span></td></tr>";
-	       //var tablebody   ="<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+datop+"</td><td style='font-size: 12px;'>"+feedback+"</td><td style='font-size: 12px;'>"+addedby+"</td></tr>";
 	       var footervar   ="</table>"; 
 	               
-
-
-
 	       
          //--- Fetch Datafrom DB 
          
@@ -972,54 +977,55 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 				dataType : 'json',
 				contentType : 'application/json',				
 				success : function(result) {
-					var s = tableheader;
-					var status ="";
+					var tablebody = tableheader;
+					var status ="new";
 					var astatus ="ongoing";
+					var stobartad ="NO";
 					var i = 0;
 					for (i = 0; i < result.length; i++) {
-						s += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].dateTimeEntered+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
-						
-						/*
-						s += '<br/>Id: ' + result[i].flightNumber;
-						s += '<br/>Name: ' + result[i].flightNumber;
-						s += '<br/>Price: ' + result[i].flightNumber;
-						s += '<br/>___________________________';
-						*/
-						status = result[i].status;
-						astatus =result[i].action;
-						
-						
+						tablebody += "<tr bgcolor='#FDEBD0'> <td  style='font-size: 12px;'>"+result[i].dateTimeEntered+"</td><td style='font-size: 12px;'>"+result[i].comments+"</td><td style='font-size: 12px;'>"+result[i].enteredBy+"</td></tr>"; 
+						status    = result[i].status;
+						astatus   = result[i].action;	
+						stobartad = result[i].stobartdelay;
 					}	
-					s += "</table>";			 
-					$('#displaydata').html(s);
+					tablebody += "</table>";			 
+					$('#displaydata').html(tablebody);
 
 					
-					if(status == 'close'){
+					if(status == 'close'){						
 					  document.getElementById("status_close").checked=true;
-					  document.getElementById("feedback").value    ="   Issue is Resolved..   ";
-					  document.getElementById("feedback").readOnly = true;
-					  document.getElementById("updatebutton").disabled = true;
-					  
+					  document.getElementById("feedback").value        ="   Issue is Resolved..   ";
+					  document.getElementById("feedback").readOnly     = true;
+					  document.getElementById("updatebutton").disabled = true;					  
+					}
+					if(status == 'open'){
+						  document.getElementById("feedback").readOnly     = false;
+						  document.getElementById("updatebutton").disabled = false;
+						  document.getElementById("astatus").selectedIndex = "0";
+						  document.getElementById("feedback").value    ="";
+						  document.getElementById("status_open").checked=true;
+						
+					}
+					if(status == 'new'){
+						  document.getElementById("feedback").readOnly     = false;
+						  document.getElementById("updatebutton").disabled = false;
+						  document.getElementById("astatus").selectedIndex = "0";
+						  document.getElementById("feedback").value    ="";
+						  document.getElementById("status_open").checked=true;
+						  $('#displaydata').html("");
+						
 					}
 					
+					//--- This will update Status  && Action Field 
 					if(astatus == 'ongoing'){document.getElementById("astatus").selectedIndex = "2";}
 					if(astatus == 'taken')  {document.getElementById("astatus").selectedIndex = "1";}
+					if(stobartad == 'NO'){document.getElementById("stobartad").selectedIndex = "0";}
+					if(stobartad == 'YES'){document.getElementById("stobartad").selectedIndex = "1";}
 
-					// For First time view of this form and there is no comment been entered 
-					if(i == 0){
-					  document.getElementById("feedback").readOnly     = false;
-					  document.getElementById("updatebutton").disabled = false;
-					  document.getElementById("astatus").selectedIndex = "0";
-					  document.getElementById("feedback").value    ="";
-					  document.getElementById("status_open").checked=true;
-					  $('#displaydata').html("");
-					}
-					
+										
 				}
 			      
-			});  
-
-          
+			});            
 
 
            //-- Click and Open Model
@@ -1039,7 +1045,7 @@ function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid
 	      document.getElementById("datopdisplay").innerHTML = " Date: "+datop;
 
           //-- Add value to the hidden form         
-	       document.getElementById("flightno").value = flightid;
+	       document.getElementById("cBoxflightno").value = flightid;
 	       document.getElementById("datop").value    = datop;
 	       document.getElementById("fromstn").value  = fromstn;
 	       document.getElementById("tostn").value    = tostn;
@@ -1063,7 +1069,7 @@ function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid
 				contentType : 'application/json',				
 				success : function(result) {
 					var s = tableheader;
-					var status ="";
+					var status ="new";
 					var astatus ="ongoing";
 
 					for (var i = 0; i < result.length; i++) {
@@ -1075,17 +1081,34 @@ function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid
 					$('#displaydata').html(s);
 
 					
-					if(status == 'close'){
-					  document.getElementById("status_close").checked=true;
-					  document.getElementById("feedback").value    ="   Issue is Resolved..   ";
-					  document.getElementById("feedback").readOnly = true;
-					  document.getElementById("updatebutton").disabled = true;
-					  
+					if(status == 'close'){						
+						  document.getElementById("status_close").checked=true;
+						  document.getElementById("feedback").value        ="   Issue is Resolved..   ";
+						  document.getElementById("feedback").readOnly     = true;
+						  document.getElementById("updatebutton").disabled = true;					  
 					}
-					
+					if(status == 'open'){
+							  document.getElementById("feedback").readOnly     = false;
+							  document.getElementById("updatebutton").disabled = false;
+							  document.getElementById("astatus").selectedIndex = "0";
+							  document.getElementById("feedback").value    ="";
+							  document.getElementById("status_open").checked=true;
+							 
+					}
+					if(status == 'new'){
+						  document.getElementById("feedback").readOnly     = false;
+						  document.getElementById("updatebutton").disabled = false;
+						  document.getElementById("astatus").selectedIndex = "0";
+						  document.getElementById("feedback").value    ="";
+						  document.getElementById("status_open").checked=true;
+						  $('#displaydata').html("");
+						
+					}
+	
+						
+					//--- This will update Status  && Action Field 
 					if(astatus == 'ongoing'){document.getElementById("astatus").selectedIndex = "2";}
-					if(astatus == 'taken'){document.getElementById("astatus").selectedIndex = "1";}
-					//JAI
+					if(astatus == 'taken')  {document.getElementById("astatus").selectedIndex = "1";}
 	
 				}
 		
@@ -1101,17 +1124,16 @@ function open_model_toAdd_Comment_After_Add(flightid,datop,fromstn,tostn,emailid
 
 //*** Here this function will update data in to database and write back to the DIV 
 function ajaxUpdate(){
-
-
 	 
 	var feedback  = document.getElementById("feedback").value;
-	var flightno  = document.getElementById("flightno").value;
+	var flightno  = document.getElementById("cBoxflightno").value;
 	var datop     = document.getElementById("datop").value;
 	var fromstn   = document.getElementById("fromstn").value;
 	var tostn     = document.getElementById("tostn").value;
-	var addedby   = document.getElementById("addedby").value;
-	
+	var addedby   = document.getElementById("addedby").value;	
 	var astatus   = document.getElementById("astatus").value;
+	var stobartad = document.getElementById("stobartad").value;
+	
 	var status;
 
    if(document.getElementById('status_open').checked) { 
@@ -1163,6 +1185,7 @@ function ajaxUpdate(){
 				  tostn   :tostn,
 				  addedby :addedby,
 				  status  :status,
+				  stobartad:stobartad,
 				  astatus :astatus,
 				  
 			   },
@@ -1206,7 +1229,7 @@ function ajaxUpdate(){
 <form id="modelform">
 
 
-<input type="hidden" id="flightno" value="">
+<input type="hidden" id="cBoxflightno" value="">
 <input type="hidden" id="datop"    value="">
 <input type="hidden" id="fromstn"  value="">
 <input type="hidden" id="tostn"    value="">
@@ -1247,7 +1270,7 @@ function ajaxUpdate(){
 
   <div class="form-row">
   
-    <div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="col-md-4 col-sm-4 col-xs-12">
       <label >Status:</label>
       			<div>
 				  <input class="form-check-input" type="radio" name="status" id="status_open" value="open" checked>				
@@ -1257,8 +1280,21 @@ function ajaxUpdate(){
 	        </div>    
     </div>
     
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <label >Stobart Attributable Delay</label>
+      			<div >
+				    <select id="stobartad" class="form-control">
+			           <option value="NO"> NO </option>
+			           <option value="YES"> YES</option>
+			         </select>
+			   </div>
+   
+    </div>
     
-    <div class="col-md-6 col-sm-6 col-xs-12">
+    
+    
+    
+    <div class="col-md-4 col-sm-4 col-xs-12">
     
           <label for="recipient-name" class="col-form-label">Action:</label>
 				<div >

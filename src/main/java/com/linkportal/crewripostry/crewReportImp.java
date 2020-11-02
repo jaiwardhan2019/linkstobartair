@@ -1,11 +1,14 @@
 package com.linkportal.crewripostry;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
@@ -14,17 +17,28 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.linkportal.controller.HomeController;
-import com.linkportal.datamodel.UsersRowmapper;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 import com.linkportal.datamodel.crewDetail;
 import com.linkportal.datamodel.crewDetailRowmapper;
 import com.linkportal.datamodel.crewFlightRoster;
@@ -163,10 +177,10 @@ public class crewReportImp implements crewReport{
 		@Override
 		public Integer getTokenBalance() {			
 			String sqlFortoken = "select count(flight_Planing_Token) as TotalNo  FROM Gops_Crew_Planning_Token";
-			Integer tokenNum = jdbcTemplateCorPortal.queryForObject( sqlFortoken, new Object[0],Integer.class);
-			return tokenNum;
+			return jdbcTemplateCorPortal.queryForObject( sqlFortoken, new Object[0],Integer.class);
 		}
 
+		
 		
 		//------ This method will read token from the File and insert into the table in a Batch process
 		@Override
@@ -211,7 +225,9 @@ public class crewReportImp implements crewReport{
 						
 						if((tokenCounter % batchSize == 0) || (tokenCounter == st.countTokens()) || (!st.hasMoreTokens())) {							
 					        ps.executeBatch();
-					        ps.clearBatch();	        
+					        ps.clearBatch();
+					        connection.commit();
+					        //System.out.println(tokenCounter+"#Updates");
 					    }
 
 
@@ -225,10 +241,11 @@ public class crewReportImp implements crewReport{
 				ps.close();
 				connection.setAutoCommit(true);
 				connection.close();
-				
+				fis.close();
+				isr.close();
 				
 			
-			}catch(Exception e) {logger.error("Error While Reading Token File :"+e.toString());}		
+			}catch(Exception e) {logger.error("Error While Uploading &&  Reading Token File :"+e.toString());}		
 			
 			
 			
@@ -236,4 +253,100 @@ public class crewReportImp implements crewReport{
 		}
 
 
+		@Override
+		public HttpEntity<byte[]> createPdf(String fileName) throws IOException {
+
+			/* first, get and initialize an engine */
+
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+
+			Properties p = new java.util.Properties();
+			p.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
+			ve.init(p);
+
+			Template t = ve.getTemplate("templates/helloworld.vm");
+
+			/* create a context and add data */
+			VelocityContext context = new VelocityContext();
+			context.put("name", "World");
+			context.put("genDateTime", LocalDateTime.now().toString());
+			context.put("addedByName", "Jai WArdhan");
+
+			/* now render the template into a StringWriter */
+			StringWriter writer = new StringWriter();
+			t.merge(context, writer);
+
+			/* show the World */
+			System.out.println(writer.toString());
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			baos = generatePdf(writer.toString());
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(MediaType.APPLICATION_PDF);
+			//header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName.replace(" ", "_")); // Download 
+			header.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + fileName.replace(" ", "_")); // Veiw in webpage 
+			header.setContentLength(baos.toByteArray().length);
+
+			return new HttpEntity<byte[]>(baos.toByteArray(), header);
+
+		}		
+		
+		
+		
+		
+		public ByteArrayOutputStream generatePdf(String html) {
+
+			String pdfFilePath = "";
+			PdfWriter pdfWriter = null;
+
+			// create a new document
+			Document document = new Document();
+			try {
+
+				document = new Document();
+				// document header attributes
+				document.addAuthor("Kinns");
+				document.addAuthor("Kinns123");
+				document.addCreationDate();
+				document.addProducer();
+				document.addCreator("kinns123.github.io");
+				document.addTitle("HTML to PDF using itext");
+				document.setPageSize(PageSize.LETTER);
+
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				PdfWriter.getInstance(document, baos);
+
+				// open document
+				document.open();
+
+				XMLWorkerHelper xmlWorkerHelper = XMLWorkerHelper.getInstance();
+				xmlWorkerHelper.getDefaultCssResolver(true);
+				xmlWorkerHelper.parseXHtml(pdfWriter, document, new StringReader(
+						html));
+				// close the document
+				document.close();
+				System.out.println("PDF generated successfully");
+
+				return baos;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+
+		}
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }

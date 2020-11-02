@@ -2,10 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../include/groundopsheader.jsp" />
+<jsp:include page="../include/gopsheader.jsp" />
 
 <head>
-    <title> Dashboard | Show All Documents. </title>    
+    <title> Dashboard | Update  Documents. </title>    
 </head>
 
 
@@ -104,114 +104,122 @@ function addDocument(category){
  
  <form name="documentmaster" id="documentmaster" enctype="multipart/form-data">   
   
-  <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
-  <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
+ <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" name="cat" id="cat" value="<%=request.getParameter("cat")%>">
- 
- <br>
- <br>		
+  
+  
 
+<div class="container-fluid" style="margin-top:80px;">	
 		
 	<div class="row" align="center">
-	
-
-		<div  align="center" style="width:65%;">
 			
-			<div class="panel panel-primary" style="background:rgba(255,255,255);">
-		
-				
-				
-			   <c:if test="${profilelist.docmanager  == 'Y'}">
-					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title">
-						${foldername}	&nbsp; &nbsp; &nbsp;			
-						<a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=view');"><span class="label label-success">View Mode &nbsp;<i class="fa fa-eye" aria-hidden="true"></i></span></a>
-						    ${status}
-						</h3>
-					</div>
-				</c:if>
-				
-				
-				<div class="panel-body">	
+	    <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">		     
+			
+		 	<div class="panel panel-primary" style="overflow-x:auto;">
+			
+							<div class="panel-heading" >  
+			                    <c:if test = "${fn:contains(profilelist, 'docmanager')}"> 	
 	
-					<table class="table" align="center" style="background:rgba(255,255,255);">	    
-					
-					   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
-				       <c:if test = "${rowcount == 0}">
-				          
-				             <tr>
-				             
-				               <td colspan="5" align="center">
-				                    <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!!&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
-				                    
-				              </td>
-				             
-				             </tr>
-				       
-				       </c:if>
-				    
-    
-    <tbody>  
-    
-    
-    
-     <% 
-      int ctr=1;
-     %>
-	 <c:if test = "${rowcount > 0}">
-						
-						
-					<thead>
-							<tr>
-								<th>Sr.</th>
-								<th>Description</th>
-								<th >Dated </th>
-								<th>Category</th>
-								<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Del</th>
-							</tr>
-						</thead>
-	
-						
-			<c:forEach var="contract" items="${gopsfilelist}">    
-							<tr>
-								<td ><%=ctr++%>.</td>
-								<td width="70%">
-								    <img src="${contract.docType}.png"> &nbsp; 
-								    									
-										 <c:if test = "${fn:contains(contract.docCategory, 'FORM')}">
-										    <a href="forms/${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
-									     </c:if>
-										
-										 <c:if test = "${!fn:contains(contract.docCategory, 'FORM')}">
-										    <a href="${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
-									     </c:if>
-	
-								    
-								</td>								
-								<td width="11%">${contract.docAddedDate}</td>
-								  <td align="left">
-										       
-										 		<c:set var="string1" value="${contract.docCategory}"/>
-                                                <c:set var="string2" value="${fn:substring(string1, 0,4)}" />
-			                                      &nbsp;&nbsp;${string2}
-							     </td>
+							  	    ${foldername}	&nbsp; &nbsp; &nbsp;			
+								    <a href="javascript:void();" onClick="calDocumentUpdate('listdocuments?cat=<%=request.getParameter("cat")%>&operation=view');"><span class="label label-success">View Mode &nbsp;<i class="fa fa-eye" aria-hidden="true"></i></span></a>
+								    ${status}
 								
-								<td>&nbsp;&nbsp;&nbsp;
-								  <i  class="fa fa-trash" aria-hidden="true"></i>
-							  		  <span style="font-size:9pt;">
-							   				 <a style="color:red;" href="javascript:void();" onClick="calDocumentUpdate('listdocuments?docid=${contract.docId}&operation=remove');">Rem </a>
-							   		 </span>
-							    </td>
-							</tr>
-			</c:forEach>
-							
-       </c:if>
-       
-       
-   <c:if test="${param.cat != 'home'}">    
-	 
-		<tr>
+						         </c:if>
+				             </div>
+		
+			<div class="panel-body" style="overflow-x:auto;">
+						
+				     	<table class="table table-responsive"  style="background:rgba(255,255,255);">	
+						      
+						      <tbody>
+
+								   <c:set var = "rowcount"  value = "${fn:length(gopsfilelist)}"/>
+			
+							       <c:if test = "${rowcount == 0}">
+							          
+							             <tr>
+							             
+							               <td colspan="5" align="center">
+							                    <span style="color:blue;font-size:10pt;"> Sorry No Document found&nbsp;!! </span>&nbsp;&nbsp;<i class="fa fa-frown-o  fa-lg"> </i>
+							                    
+							              </td>
+							             
+							             </tr>
+							       
+							       </c:if>
+							    
+    
+  
+							     <% 
+							      int ctr=1;
+							     %>
+								 <c:if test = "${rowcount > 0}">
+													
+													
+										<thead>
+												<tr>
+													<th>Sr.</th>
+													<th>Description</th>
+													<th >Dated </th>
+													<th>Category</th>
+													<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Del</th>
+												</tr>
+											</thead>
+						
+													
+										<c:forEach var="contract" items="${gopsfilelist}">    
+												<tr>
+															<td ><%=ctr++%>.</td>
+															<td width="65%">
+															    <img src="${contract.docType}.png"> &nbsp; 
+																	<c:choose>
+																	  <c:when test = "${fn:contains(contract.docCategory, 'FORM')}">
+																	    <a href="FORMS/${contract.docCategory}/${contract.docName}" target="_new">
+																	    
+																	     <c:set var="string1" value=" ${contract.docName}"/>
+							                                                    <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
+										                                            ${string2}
+																	    </a>
+																		  </c:when>
+																	  <c:when test = "${fn:contains(contract.docPath, 'WEIGHTSTATEMENT')}">
+																	    <a href="WEIGHTSTATEMENT/${contract.docCategory}/${contract.docName}" target="_new">
+																	    
+																	        <c:set var="string1" value=" ${contract.docName}"/>
+							                                                    <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
+										                                            ${string2}
+																	       </a>
+																	  </c:when>
+																	  <c:otherwise>
+																	     <a href="${contract.docCategory}/${contract.docName}" target="_new">										    
+																	        <c:set var="string1" value=" ${contract.docName}"/>
+							                                                    <c:set var="string2" value="${fn:substring(string1, 0,60)}" />
+										                                              ${string2}
+																	       </a>
+																	  </c:otherwise>
+																	</c:choose>										
+																	    
+															</td>								
+															<td width="11%">${contract.docAddedDate}</td>
+															  <td align="left">
+																	       
+																	 		<c:set var="string1" value="${contract.docCategory}"/>
+							                                                <c:set var="string2" value="${fn:substring(string1, 0,6)}" />
+										                                      ${string2}
+														     </td>
+															
+															<td align="center">
+															  <i  class="fa fa-trash" aria-hidden="true"></i>
+														  		  <span style="font-size:9pt;">
+														   				 <a style="color:red;" href="javascript:void();" onClick="calDocumentUpdate('listdocuments?docid=${contract.docId}&operation=remove');">Rem </a>
+														   		 </span>
+														    </td>
+														</tr>
+										</c:forEach>
+														
+							       </c:if>
+		
+		       <tr>
 					<td align="right" colspan="4">
 					    <br>
 						<div class="col-xs-05">
@@ -245,7 +253,7 @@ function addDocument(category){
 		   </td>
 		</tr>	     	
 	     	
-	    </c:if> 	
+
 	     	
 	     	
 	     	
@@ -257,8 +265,12 @@ function addDocument(category){
 				</div>
 			</div>
 			
+			</div>
+			
 		</div>
  </div>
+ 
+
  
  </form>
 </body>

@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../include/groundopsheader.jsp" />
+<jsp:include page="../include/gopsheader.jsp" />
 
 <head>
     <title> Dashboard | Show  Documents. </title>    
@@ -62,46 +62,37 @@ function calDocumentUpdate(reportname){
  
  <form name="documentmaster" id="documentmaster">   
   
-  <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
-  <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" id="cat" value="<%=request.getParameter("cat")%>">
  
- <br>
- <br>		
 
+<div class="container-fluid" style="margin-top:80px;">	
 		
 	<div class="row" align="center">
-	
-
-		<div  align="center" style="width:65%;">
 			
-			<div class="panel panel-primary" style="background:rgba(255,255,255);">
+	    <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">		     
+			
+		 	<div class="panel panel-primary" style="overflow-x:auto;">
+			
+				<div class="panel-heading" style="background:#0070BA;">  
+					
+					   <c:if test = "${fn:contains(profilelist,'docmanager')}">
+					              
+					        
+								  
+								     <h3 class="panel-title">
+								               ${foldername} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										       <a href="javascript:void();" onClick="CalAlfresco();">
+										           <span class="label label-success">Open Alfresco&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+										       </a>
+								     </h3>
+						</c:if>
 		
+	          </div>
+	          
 				
-				
-			   <c:if test="${profilelist.docmanager  == 'Y'}">
-			              
-			          
-			              
-						  <div class="panel-heading" style="background:#0070BA;">
-						  
-						     <h3 class="panel-title">
-						       
-						               ${foldername} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								       <a href="javascript:void();" onClick="calDocumentUpdate('');">
-								           <span class="label label-success">Open Alfresco&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-								       </a>
-						     
-						     </h3>
-					      
-					      </div>
-					  
-				</c:if>
-				
-				
-				
-			   <c:if test="${profilelist.docmanager  != 'Y'}">
+			    <c:if test="${fn:indexOf(profilelist,'docmanager') == -1}">  
 					<div class="panel-heading" style="background:#0070BA;">
 						<h3 class="panel-title">${foldername}
 						 		    
@@ -110,7 +101,7 @@ function calDocumentUpdate(reportname){
 				</c:if>
 				
 				
-				<div class="panel-body">
+				<div class="panel-body" style="overflow-x:auto;">
 				
 				<table class="table" align="center" style="background:rgba(255,255,255);">	   
 				
@@ -175,11 +166,17 @@ function calDocumentUpdate(reportname){
 	
 							</tbody>
 					</table>
-				</div>
-			</div>
+					
+		            </div> <!-- End of  <div class="panel-body"> -->
+					
+			    </div>  <!-- Primary end   -->
 			
-		</div>
- </div>
+			
+			  </div> <!-- Row   -->
+			
+			</div> <!-- Column   -->
+			
+		</div><!-- Container Flued   -->
  
  </form>
 </body>

@@ -153,8 +153,7 @@ function Load_Subdepartment(){
  
  <form name="addcontract" id="addcontract" method="post" enctype="multipart/form-data">
   
-      <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
-      <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
+       <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
        <input type="hidden" name="departmentselected" id="departmentselected" value="">
        <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="">    
        <input type="hidden" name="event" id="event" value="">    

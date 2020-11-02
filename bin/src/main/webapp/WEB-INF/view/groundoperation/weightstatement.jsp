@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../include/groundopsheader.jsp" />
+<jsp:include page="../include/gopsheader.jsp" />
 
 <head>
     <title> Aircraft Weight Statements </title>    
@@ -126,6 +126,7 @@ function showAddingFile(){
   <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" name="cat" id="cat" value="">
+
     <input type="hidden" name="wtstm" id="wtstm" value="YES">
   
     
@@ -242,7 +243,7 @@ function showAddingFile(){
          	     		
 	       <tr style="font-size:09pt">									
 				<td width="74%" ><img src="pdf.png"> &nbsp; 
-				     <a href="weightstatement/${contract.docCategory}/${contract.docName}" target="_new" ><b>									     
+				     <a href="WEIGHTSTATEMENT/${contract.docCategory}/${contract.docName}" target="_new" ><b>									     
              	            <c:set var="string1" value=" ${contract.docName}"/>
                                 <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
                                 ${string2}</b>

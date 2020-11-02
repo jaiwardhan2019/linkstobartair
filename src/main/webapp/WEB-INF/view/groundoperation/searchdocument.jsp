@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../include/groundopsheader.jsp" />
+<jsp:include page="../include/gopsheader.jsp" />
 
 <head>
     <title> Dashboard | Show  Documents. </title>    
@@ -62,8 +62,7 @@ function calDocumentUpdate(reportname){
  
  <form name="documentmaster" id="documentmaster">   
   
-  <input type="hidden" name="emailid" value="<%=request.getParameter("emailid")%>">
-  <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
+  <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
   <input type="hidden" name="usertype" value="${usertype}">
   <input type="hidden" id="cat" value="<%=request.getParameter("cat")%>">
  
@@ -81,7 +80,7 @@ function calDocumentUpdate(reportname){
 				
 			
 					<div class="panel-heading" style="background:#0070BA;">
-						<h3 class="panel-title"> Documents with name :->  &nbsp; ${docname} 
+						<h3 class="panel-title"> Documents with name #  &nbsp; ${docname} 
 						 		    
 						</h3>
 					</div>
@@ -129,21 +128,22 @@ function calDocumentUpdate(reportname){
 										<td width="4%"><%=ctr++%>.</td>
 										<td width="70%"><img src="${contract.docType}.png"> &nbsp;
 										
-																
 										
-										 <c:if test = "${fn:contains(contract.docCategory, '-')}">
+								   <c:choose>		
+										  <c:when test = "${fn:contains(contract.docCategory, '-')}">
 										    <a href="weightstatement/${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
-									     </c:if>
+									     </c:when>
 										
 				
-										 <c:if test = "${fn:contains(contract.docCategory, 'FORM')}">
-										    <a href="forms/${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
-									     </c:if>
+										  <c:when test = "${fn:contains(contract.docCategory, 'FORM')}">
+										    <a href="FORMS/${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
+									     </c:when>
 								
 								
-									    <c:if test = "${fn:contains(contract.docCategory, 'G')}">
+									    <c:otherwise> 
 										    <a href="${contract.docCategory}/${contract.docName}" target="_new">${contract.docName}</a>
-									     </c:if>
+									     </c:otherwise> 
+								   </c:choose>		
 										
 									
 										
@@ -151,7 +151,14 @@ function calDocumentUpdate(reportname){
 										
 										</td>
 										<td >${contract.docAddedDate}</td>
-										<td align="center">${contract.docCategory}</td>
+										<td align="center">
+										
+											<c:set var="string1" value="${contract.docCategory}"/>
+                                               <c:set var="string2" value="${fn:substring(string1, 0,7)}" />
+			                                            ${string2}
+										
+										
+										</td>
 									    
 									</tr>
 					</c:forEach>

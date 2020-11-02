@@ -13,9 +13,11 @@
 </head>
 
 
+
+
 <script type="text/javascript">
 
-
+//https://stackoverflow.com/questions/33966181/how-to-pass-parameters-to-jasperreport-with-java-to-use-later-in-sql-query
 
 
 function showmyVoygerReport(){

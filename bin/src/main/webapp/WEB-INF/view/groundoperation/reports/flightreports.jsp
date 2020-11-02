@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <head>
     <title> Dashboard | Flight Report </title>    
@@ -33,7 +33,8 @@ var chart = new CanvasJS.Chart("chartContainer",{
 		//type: "doughnut",
 		type: "column",
 		yValueFormatString: "#,##0",
-		indexLabel: "{label}: {y}",
+		//indexLabel: "{label}: {y}",
+		indexLabel: "{y}",
 		toolTipContent: "{y} Flights",
 		dataPoints : ${dataPoints}
 	}]

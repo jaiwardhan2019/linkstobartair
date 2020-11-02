@@ -49,9 +49,8 @@ public class ajaxRestControllerFinance {
 	//-------THis Will be Called when link is clicked form the Header ----------------- 
 	@RequestMapping(value = "/invoiceconversiontool",method = {RequestMethod.POST,RequestMethod.GET}, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
 	public ModelAndView invoiceConversionTool(HttpServletRequest req,ModelMap model) throws Exception{	
-		model.addAttribute("emailid",req.getParameter("emailid"));
-		model.addAttribute("password",req.getParameter("password"));
-		model.put("profilelist",req.getSession().getAttribute("profilelist"));
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
 		model.put("status", displayAllConvertedFile(req));
 		logger.info("User id:"+req.getParameter("emailid")+" Called Invoice Conversion Tool");		
 		ModelAndView modelAndView = new ModelAndView();
@@ -68,9 +67,8 @@ public class ajaxRestControllerFinance {
 	public ModelAndView convert_Xml_Excel_Download(@RequestParam("cfile") MultipartFile[] files, HttpServletRequest req,
 			ModelMap model) throws Exception {
 
-		model.put("profilelist", req.getSession().getAttribute("profilelist"));
-		model.addAttribute("emailid", req.getParameter("emailid"));
-		model.addAttribute("password", req.getParameter("password"));
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
 
 		if (docserv.convertXmltoExcelFormat(req, files)) {		
 			model.put("status", displayAllConvertedFile(req));
@@ -78,7 +76,7 @@ public class ajaxRestControllerFinance {
 			model.put("status", "<ul><li><i class='fa fa-exclamation-triangle' aria-hidden='true'></i>&nbsp;&nbsp; Error !!! </li> <li> Please make sure file type is .XML </li> <li>Please make sure the XML File Belongs to the Relevant Supplier.</li></ul>");
 		}	
 	
-		logger.info("User id:" + req.getParameter("emailid") + " File Updated to the Folder :" + req.getParameter("cat"));
+		logger.info("User id:" + userEmailId[0] + " File Updated to the Folder :" + req.getParameter("cat"));
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("miscellanous/convertinvoice");

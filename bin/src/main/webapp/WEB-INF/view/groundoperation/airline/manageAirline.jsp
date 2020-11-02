@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <!DOCTYPE html>
 <html>
@@ -29,7 +29,7 @@ function searchUser(){
       {
 
     	  document.airlineAcount.method="POST";
-		  document.airlineAcount.action="managegopssuser";
+		  document.airlineAcount.action="manageairlinedata";
 	      document.airlineAcount.submit();
 		  return true;
 
@@ -42,13 +42,13 @@ function searchUser(){
 
 
 
-function remove_user_Profile(accountid){
+function remove_airline_data(accountid){
 			
 		if(confirm("Are you sure about Removing This User ??")){
 			   document.airlineAcount.method="POST";
 			   document.airlineAcount.operation.value="remove";
 			   document.airlineAcount.userinsubject.value=accountid;
-			   document.airlineAcount.action="managesmscontacts";
+			   document.airlineAcount.action="manageairlinedata";
 			   document.airlineAcount.submit();
 			   return true;		
 		 }
@@ -59,12 +59,12 @@ function remove_user_Profile(accountid){
 
 
 
-function update_user(accountid){
+function update_airline(accountid){
 	
 	   document.airlineAcount.method="POST"
 	   document.airlineAcount.operation.value="updateexisting";
 	   document.airlineAcount.userinsubject.value=accountid;
-	   document.airlineAcount.action="managesmscontacts";
+	   document.airlineAcount.action="manageairlinedata";
 	   document.airlineAcount.submit();
 	   return true;		
 
@@ -76,11 +76,11 @@ function update_user(accountid){
 
 
 
-function add_new_user(){
+function add_new_airline(){
 	
 	   document.airlineAcount.method="POST"
 	   document.airlineAcount.operation.value="addnew";
-	   document.airlineAcount.action="managesmscontacts";
+	   document.airlineAcount.action="manageairlinedata";
 	   document.airlineAcount.submit();
 	   return true;		
 
@@ -113,14 +113,15 @@ function add_new_user(){
   <input type="hidden" name="operation" id="operation" value="">
   <input type="hidden" name="userinsubject" id="userinsubject"  value="">
   
-
+ 	<br>
+ 	
 	 		 
-  <table  style="width: 80%;" align="center">
+  <table  style="width: 100%;" align="center">
 	  <tr>
 			  <td> <font size="4">Manage Airline  Static Data and SLA</font></td>
 		  <td align="right"> 
 		      ${operationStatus} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        		<span onClick="add_new_user();" id="addnew" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Add New</span> 
+        		<span onClick="add_new_airline();" id="addnew" class="btn btn-primary" ><i class="fa fa-plane" aria-hidden="true"></i>&nbsp;&nbsp;Add New</span> 
 		 
 		  </td>
 
@@ -137,7 +138,7 @@ function add_new_user(){
  	
  	
  		 
-  <table class="table table-striped table-bordered" border="1" style="width: 80%;background:rgba(255,255,255,0.5);" align="center">	
+  <table class="table table-striped table-bordered" border="1" style="width:100%;background:rgba(255,255,255,0.5);" align="center">	
 	
 	
 		
@@ -149,26 +150,39 @@ function add_new_user(){
 					     </b></span>					 
 					 </td>
 					  
-					 <td bgcolor="#0070BA" width="20%">
+					 <td bgcolor="#0070BA" >
 					   <span style="color:white;"> <b> 
 					      ICAO Code
 					     </b></span>					 
 					 </td>
 	
-					 <td bgcolor="#0070BA" width="20%">
+					 <td bgcolor="#0070BA" width="15%">
 					   <span style="color:white;"> <b> 
 					      Name		     
 					      </b></span>					 
 					 </td>
-	
-					 <td bgcolor="#0070BA" width="18%">
+				     
+				     <td bgcolor="#0070BA" width="15%">
+					   <span style="color:white;"> <b> 
+					      SLA 1 
+					      </b></span>					 
+					 </td>
+					 
+					 <td bgcolor="#0070BA" width="15%">
+					   <span style="color:white;"> <b> 
+					      SLA 2     
+					      </b></span>					 
+					 </td>
+					 
+					 
+					 <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
 					    Operational 
 					     </b></span>					 
 					 </td>
 					
 					     
-				     <td bgcolor="#0070BA" width="20%">
+				     <td bgcolor="#0070BA" >
 					   <span style="color:white;"> <b> 
 					       Update /  Remove 
 					     </b></span>					 
@@ -181,29 +195,63 @@ function add_new_user(){
 
        
            <%int ctr=1;%>
-           <c:forEach var="smsAccount" items="${listSmsUser}">          
+           <c:forEach var="airLineData" items="${listAirline}">          
 		     
           
       	  <tr>
 		          
-		          <td><i class="fa fa-user-circle-o  fa-lg" aria-hidden="true"></i> &nbsp;${smsAccount.mgmtGroup}</td>
+		          <td> &nbsp;${airLineData.iata_code}</td>
 		          
-		          <td>${smsAccount.firstName} </td>
+		          <td>${airLineData.icao_code}</td>
 		         
 		          <td>
-		            &nbsp;  ${smsAccount.lastName}	     		                    
+		          
+		  		    <a href="#" onclick="return false;" data-toggle="popover" data-trigger="hover"   data-content="${airLineData.comment}"> 
+					          
+		           
+		                            <c:set var="string1" value="${airLineData.airline_name} "/>
+                            <c:set var="string2" value="${fn:substring(string1, 0,25)}" />
+			                   ${string2}
+		
+		             
+		             </a>    		                    
+		          
+		          </td>
+		          <td>
+		
+		                <c:set var="string1" value="${airLineData.sla_one} "/>
+                            <c:set var="string2" value="${fn:substring(string1, 0,22)}" />
+			                   ${string2}
+		          
+		                                
+		          
+		          </td>
+		          <td>
+		 
+		                   <c:set var="string1" value="${airLineData.sla_two} "/>
+                            <c:set var="string2" value="${fn:substring(string1, 0,22)}" />
+		            ${string2}
 		          
 		          </td>
 	
 		          <td > &nbsp;&nbsp; 
-		           ${smsAccount.phoneNo}	  
+		           
+		              	<c:if test="${airLineData.status == 'Enable'}">
+		                     <i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i>&nbsp; <span style="color:green;font-weight:bold;"> Enable</span>
+		                </c:if>
+		          
+		          
+		            	 <c:if test="${airLineData.status == 'Disable'}">
+		                    <i class="fa fa-times  fa-lg" aria-hidden="true"></i>&nbsp;  <span style="color:red;font-weight:bold;"> Disable  </span>
+		                </c:if>
+		           
 		          </td>
 		           
 		           <td align="center"> 
-		                <span style="font-weight:bold;" onClick="update_user('${smsAccount.userId}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp;Update</span>
+		                <span style="font-weight:bold;" onClick="update_airline('${airLineData.id}');"  class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp;View / Update</span>
 		          
 		                &nbsp;
-		                <span style="font-weight:bold;" onClick="remove_user_Profile('${smsAccount.userId}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw  fa-lg"></i>Remove</span>
+		                <span style="font-weight:bold;" onClick="remove_airline_data('${airLineData.id}');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw  fa-lg"></i>Remove</span>
 		           
 		           </td>
 		          
@@ -213,11 +261,11 @@ function add_new_user(){
            </c:forEach>  
           
 		           
-			      <c:set var = "rowcount"  value = "${fn:length(listSmsUser)}"/>
+			      <c:set var = "rowcount"  value = "${fn:length(listAirline)}"/>
 			      <c:if test = "${rowcount == 0}">
 			      <tr>
 		            <td colspan="6" align="center">
-			                Sorry There is no User Found Please add new User.
+			                Sorry There is no Airline Found Please add new .
 		             </td>
 		          </tr>
 		       

@@ -196,9 +196,7 @@ function view_contract(){
  
  
  <form name="updatecontract" id="updatecontract" method="post" enctype="multipart/form-data">
-  
-      <input type="hidden" name="emailid" id="emailid" value="<%=request.getParameter("emailid")%>">
-      <input type="hidden" name="password" id="password" value="<%=request.getParameter("password")%>">
+      <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">  
       <input type="hidden" name="departmentselected" id="departmentselected" value="">
       <input type="hidden" name="subdepartmentselected" id="subdepartmentselected" value="">
       <input type="hidden" name="event" id="event" value="">
@@ -448,15 +446,12 @@ function view_contract(){
 				     					
 						<td  bgcolor="white" colspan="2">	
 					
-						     <%
-						     if(request.getParameter("emailid").equals("jai.wardhan@stobartair.com") || request.getParameter("emailid").equals("julie.connolly@stobartair.com")){
-						     %>
-			                   <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
+				              <c:if test = "${fn:contains(profilelist, 'jai.wardhan@stobartair.com') || fn:contains(profilelist, 'julie.connolly@stobartair.com')}"> 
+                                        <span onClick="remove_contract();" id="addnew" class="btn btn-danger" >&nbsp;Remove &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i> </span>
 								 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-
-                             <%
-						     }
-                             %>
+                              
+                              </c:if>
+                             
 
 			                   <span onClick="contract_home();" id="addnew" class="btn btn-primary" > &nbsp;Contract &nbsp;<i class="fa fa-home" aria-hidden="true"></i>  </span>  
 

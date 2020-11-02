@@ -15,6 +15,7 @@ import java.sql.Connection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import javax.sql.RowSet;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
@@ -24,12 +25,14 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.apache.tomcat.jni.FileInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
+import com.google.common.base.Strings;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -79,7 +82,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 
 		String sqlListDocs = "  SELECT  doc_id , doc_name  , doc_description , doc_type , doc_path ,  doc_department "
 				+ " , doc_category  , convert(varchar, cast(doc_added_date as date), 106) as doc_added_date "
-				+ " , doc_addedby_name  from Gops_Document_Master  where len(doc_category) < 5 order by doc_id desc";
+				+ " , doc_addedby_name  from Gops_Document_Master where doc_category != 'TOUCHPOINTOVERVIEW' order by doc_id desc";
 
 		if (req.getParameter("cat") != null) {
 			// -- When calling from any other folder
@@ -129,7 +132,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 
 		}
 
-		//System.out.println("SQL here :"+sqlListDocs);
+		//System.out.println(sqlListDocs);
 
 		List documentList = jdbcTemplate.query(sqlListDocs, new DocumentEntityRowmapper());
 		return documentList;
@@ -137,6 +140,24 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 	}
 	
 	
+	//--------- This will return the Ground Ops Home Page Image Voice Of Guest -------
+	@Override
+	public String showVoiceOfGuestImage(String cat){
+		String sqlStrForVoiceofGuest="select doc_description from Gops_Document_Master where doc_category in ('TOUCHPOINTOVERVIEW')";
+		SqlRowSet imageName = jdbcTemplate.queryForRowSet(sqlStrForVoiceofGuest);					
+		if(imageName.next()) {return imageName.getString("doc_description"); } else {return "vog.png";}
+	}
+	
+	
+	
+    //--------- This will return Emergency Respons PlanDocument name  -------
+	@Override
+	public String showEmergencyResponsPlanDocument(String cat){
+		String showEmergencyResponsPlanDocument="select doc_description from Gops_Document_Master where doc_category in ('DERP')";
+		SqlRowSet imageName = jdbcTemplate.queryForRowSet(showEmergencyResponsPlanDocument);					
+		if(imageName.next()) {return imageName.getString("doc_description"); } else {return "";}
+	}
+
 	
 
 	
@@ -160,34 +181,41 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		File fileuploaddirectory = null;
 
 		if (req.getParameter("cat").contains("-")) {
-			fileuploaddirectory = new File(groundopsRootFolder + "/weightstatement/");
+			fileuploaddirectory = new File(groundopsRootFolder + "/WEIGHTSTATEMENT/");
 			if (!fileuploaddirectory.exists()) {
 				fileuploaddirectory.mkdir();
+				logger.info(fileuploaddirectory + ":Folder is Created ");
 			}
-			fileuploaddirectory = new File(
-					groundopsRootFolder + "/weightstatement/" + req.getParameter("cat").toUpperCase() + "/");
+			fileuploaddirectory = new File(groundopsRootFolder + "/WEIGHTSTATEMENT/" + req.getParameter("cat").toUpperCase() + "/");
 			if (!fileuploaddirectory.exists()) {
 				fileuploaddirectory.mkdir();
+				logger.info(fileuploaddirectory + ":Folder is Created ");
 			}
+			fileuploaddirectory = new File(groundopsRootFolder + "/WEIGHTSTATEMENT/" + req.getParameter("cat").toUpperCase() + "/");
+		
 		}
 
+		
+		
 		// --If Form Folder content is added
 		if (req.getParameter("cat").contains("form")) {
-			fileuploaddirectory = new File(groundopsRootFolder + "/forms/");
+			fileuploaddirectory = new File(groundopsRootFolder + "/FORMS/");
 			if (!fileuploaddirectory.exists()) {
 				fileuploaddirectory.mkdir();
+				logger.info(fileuploaddirectory + ":Folder is Created ");
 			}
 			fileuploaddirectory = new File(
-					groundopsRootFolder + "/forms/" + req.getParameter("cat").toUpperCase() + "/");
+					groundopsRootFolder + "/FORMS/" + req.getParameter("cat").toUpperCase() + "/");
 			if (!fileuploaddirectory.exists()) {
 				fileuploaddirectory.mkdir();
+				logger.info(fileuploaddirectory + ":Folder is Created ");
 			}
+			fileuploaddirectory = new File(groundopsRootFolder + "/FORMS/" + req.getParameter("cat").toUpperCase() + "/");
+		}		
 
-		}
-
-		// This Part of Code Will Create Only Folder like GCI / GCM / GCR if not exist
-		// then create one
-		if (req.getParameter("cat").length() < 5) {
+		
+		// This Part of Code Will Create all other Folder like GCI / GCM / GCR if not exist and all other category 
+		if((!req.getParameter("cat").contains("-")) && (!req.getParameter("cat").contains("form"))) {	
 			File uploadDir = new File(groundopsRootFolder + req.getParameter("cat").toUpperCase() + "/");
 			if (!uploadDir.exists()) {
 				uploadDir.mkdir();
@@ -195,13 +223,16 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 			}
 			fileuploaddirectory = new File(groundopsRootFolder + "/" + req.getParameter("cat").toUpperCase() + "/");
 		}
+				
 
-		// This Part will Upload File to into the folder
+		//--- This part of code will do file upload 
 		byte[] bytes = file.getBytes();
-		Path path = Paths
-				.get(fileuploaddirectory + "/" + file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
+		Path path = Paths.get(fileuploaddirectory + "/" + file.getOriginalFilename().replaceAll("['()\\\\/:*&?\"<>|]", ""));
 		Files.write(path, bytes);
 
+
+		
+		
 		// Get File related Info into varriable
 		String filefullname = file.getOriginalFilename();
 		String extension = "";
@@ -220,12 +251,12 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 			SqlRowSet result = jdbcTemplate
 					.queryForRowSet("Select doc_name from Gops_Document_Master where doc_category='"
 							+ req.getParameter("cat").toUpperCase() + "' and  doc_name='"
-							+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", "") + "'");
+							+ file.getOriginalFilename().replaceAll("['()\\\\/:*&?\"<>|]", "") + "'");
 			if (result.next()) {
 				jdbcTemplate.execute("Update Gops_Document_Master set doc_addedby_name='" + addbyname
 						+ "' , doc_added_date='" + currentdateandtime.toString() + "' where doc_category='"
 						+ req.getParameter("cat").toUpperCase() + "'  and  doc_name='"
-						+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", "") + "'");
+						+ file.getOriginalFilename().replaceAll("['()\\\\/:*&?\"<>|]", "") + "'");
 			} else {
 
 				java.sql.Connection con1 = dataSourcesqlservercp.getConnection();
@@ -234,8 +265,8 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 
 				PreparedStatement pstm = con1.prepareStatement(SQL_ADD);
 
-				pstm.setString(1, file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
-				pstm.setString(2, file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
+				pstm.setString(1, file.getOriginalFilename().replaceAll("['()\\\\/:*&?\"<>|]", ""));
+				pstm.setString(2, file.getOriginalFilename().replaceAll("['()\\\\/:*&?\"<>|]", ""));
 				pstm.setString(3, extension);
 				pstm.setString(4, path.toString());
 				pstm.setString(5, "GOPS");
@@ -267,8 +298,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		try {
 
 			// 1.Fetch File detail from table
-			SqlRowSet result = jdbcTemplate.queryForRowSet(
-					"Select doc_name , doc_path ,  doc_category from Gops_Document_Master where doc_id=" + docId);
+			SqlRowSet result = jdbcTemplate.queryForRowSet("Select doc_name , doc_path ,  doc_category from Gops_Document_Master where doc_id=" + docId);
 			if (result.next()) {
 				File ff = new File(result.getString("doc_path"));
 				// 2 Once file is removed from folder remove entry from table
@@ -443,7 +473,6 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		
 		return convertAndUploadStatus;
 	}
-
 
 	
 }// ------- END OF Class -----------

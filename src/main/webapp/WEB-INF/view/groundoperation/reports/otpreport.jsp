@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../../include/groundopsheader.jsp" />
+<jsp:include page="../../include/gopsheader.jsp" />
 
 <head>
     <title> Dashboard |On Time Performance Report </title>    
@@ -16,6 +16,33 @@
 <script type="text/javascript">
 
 
+//------------- FOR THE GRAPH DISPLAY ------------------ 
+window.onload = function() { 
+
+var chart = new CanvasJS.Chart("chartContainer",{
+	animationEnabled: true,
+	theme: "light2",   // "light1", "dark1", "dark2"
+	title: {
+		text: ""
+	},
+	subtitles: [{
+		text: ""
+	}],
+			data: [{
+				//type: "pie",
+				//type: "doughnut",
+				type: "column",
+				yValueFormatString: "#,##0",
+				//indexLabel: "{label}: {x}",
+				indexLabel: "{y}",
+				toolTipContent: "{y} Flights",
+				dataPoints : ${dataPoints}
+			}]
+		});
+		//alert(dataPoints);
+		chart.render();
+
+	}
 
 
 function search_progress() {
@@ -45,23 +72,27 @@ function showFlightReport(){
 //*** Here this function will update data in the form to database and write back to the DIV 
 function Download_ExcelReport(){
 
-	document.getElementById("downloading").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;&nbsp;Downloading..&nbsp;&nbsp;";
+	  var emailId = document.getElementById("profilelist").value;
+	  emailId    = emailId.split("#",1);
+
+	document.getElementById("downloading").innerHTML ="<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'></i>&nbsp;Downloading.";
 	search_progress();
-    var urldetail ="CreateExcelReliabilityReport?delay=yes&airlinecode="+document.getElementById("airlinecode").value; 
+    var urldetail ="CreateExcelReport?delay=otp&airlinecode="+document.getElementById("airlinecode").value; 
     urldetail = urldetail +"&airportcode="+document.getElementById("airportcode").value;
     urldetail = urldetail +"&startdate="+document.getElementById("startdate").value;		
-    urldetail = urldetail +"&enddate="+document.getElementById("startdate").value;	
-    urldetail = urldetail +"&emailid="+document.getElementById("emailid").value;  
-	
+    urldetail = urldetail +"&enddate="+document.getElementById("enddate").value;	
+    urldetail = urldetail +"&emailid="+emailId;        
+    urldetail = urldetail +"&delayCodeGroupCode="+document.getElementById("delayCodeGroupCode").value;
+    urldetail = urldetail +"&profilelist="+document.getElementById("profilelist").value;	
+    
     $.ajax({
-        
 		  url : urldetail,
 		  type:"GET",
 		  success : function(result)
 		  {
 				document.getElementById("searchbutton1").style.display = "none";
-        	    document.getElementById("downloading").innerHTML = "<i class='fa fa-file-excel-o' aria-hidden='true'></i>&nbsp;&nbsp;Excel Report&nbsp;&nbsp;";
-        	    window.location = document.getElementById("emailid").value+"/delayFlightReport.xls";	           
+        	    document.getElementById("downloading").innerHTML = "<i class='fa fa-file-excel-o' aria-hidden='true'></i>&nbsp;Excel Report&nbsp;";
+        	    window.location = emailId+"/onTimePerformanceFlightReport.xls";	           
                         
 			}// ------ END OF SUCCESS ----  
 
@@ -88,228 +119,170 @@ function Download_ExcelReport(){
 
 
 <body>
-
- 
- <form name="OtpFlighReport" id="OtpFlighReport">   
-  
-  <input type="hidden" id="emailid" name="emailid" value="<%=request.getParameter("emailid")%>">
-  <input type="hidden" name="password" value="<%=request.getParameter("password")%>">
-  <input type="hidden" name="usertype" value="${usertype}">
-
-    
-    
  <div class="container" align="center">
- 
- 
- 
- <div class="col-md-7 col-sm-7 col-xs-7" align="left" >
- 
- 
-       
-  <table class="table table-striped table-bordered" border="1" style="width:80%;background:rgba(255,255,255);" align="left">	
-   			<tbody>				     
-				 <tr align="center">
-					 <td  bgcolor="#0070BA" colspan="2">
-					   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
-					    On Time Performance Report &nbsp;&nbsp;
-					   </b></span>					 
-					 </td>
-				 </tr>
-		            
-			    <tr>
-					<td align="left" >
-					 
-							<div class="col-xs-12">
-									<label for="airlineCode">Operating Airline:</label>
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-plane"></i></span>
-												<select id="airlinecode" name="airlinecode" class="form-control">
-								                            	 ${airlinelist}
-												</select>
-									</div>
-								</div>
-							
-						</td>
-						
-		
-				     					
-						<td>
-								<div class="col-xs-12">
-										<label for="airlineCode">Departure Station:</label>
-										<div class="input-group">
-											<span class="input-group-addon"><i class="fa fa-plane"></i></span>							
-											<select  data-placeholder="Type Station Code or Name.." class="chosen-select form-control" multiple id="airportcode" name="airportcode">
-									            <option value=""></option>
-									                   ${airportlist}	
-										</select>						
-															
-									
-									</div>
-								</div>
-					
-					       </td>
-					 </tr>
-					 
-					 
-				  <tr align="left"> 
-				     					
-					<td>
-				             
-		               <div class="col-xs-12">
-							<label for="startDate">From Date:</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="startdate" name="startdate" class="form-control datepicker" maxlength="12"
-								    value="${startdate}" placeholder="(DD/MM/YYYY)"/>
-							</div>	
-						</div>
-								
-								
-				       </td>
-	       				
-					<td>
-					
-					
-				    <div class="col-xs-12">
-							<label for="startDate">To Date:</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-								<input type="date" id="enddate" name="enddate" class="form-control datepicker" maxlength="12"
-								    value="${enddate}" placeholder="(DD/MM/YYYY)"/>
-							</div>	
-						</div>
-								
-							
-				       </td>
-				       
-				       
-				       
-				     </tr>
-				
-				<!--      					 
-				    <tr>
-				    <td colspan="2" align="left">		             
-				    
-		               <div class="checkbox disabled">		               
-  				              <label><input type="checkbox" id="Active" name="Active"  value="Active" ${Active}> <span class="label label-info"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i><b> All Delay Code.</b></span></label>&nbsp; 
-						      <label><input type="checkbox" id="Dactive" name="Dactive" value="Dactive" ${Dactive}><span class="label label-danger"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i><b> Ground Ops Delay.</b></span></label>&nbsp;  						      
-						      <label><input type="checkbox" id="Archived" name="Archived"  value="Archived" ${Archived}> <span class="label label-warning"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i><b> Stobart Delay.</b></span></label>&nbsp;
-						      <label><input type="checkbox" id="Archived" name="Archived"  value="Archived" ${Archived}> <span class="label label-success"><i class="fa fa-check-circle  fa-lg" aria-hidden="true"></i><b> Non-Stobart Delay.</b></span></label>
-						      
-					    </div>
-					    
-				    </td>
-				    
-				    </tr>
-				    -->
-				    
-				    <tr>
-				     				     					
-					<td >
-				             
-				             
-				         <div class="col-xs-12">
-							<label for="sortBy">Delay Code Group:</label> 
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-text-height" aria-hidden="true"></i></span>
-								<select id="delayCodeGroupCode" name="delayCodeGroupCode" class="form-control">
-								<option value="ALL">All Delay Codes</option>
-										<option value="GOPSDELAYCODE" <c:if test="${delaycode == 'GOPSDELAYCODE'}"> selected </c:if> >Ground Ops</option>
-										<option value="STOBARTDELYCODE" <c:if test="${delaycode == 'STOBARTDELYCODE'}"> selected </c:if> >Stobart Attributable Delays</option>
-										<option value="NONSTOBARTDELAYCODE" <c:if test="${delaycode == 'NONSTOBARTDELAYCODE'}"> selected </c:if>  >Non Stobart Delays</option>	
-									
-								</select>
-							</div>
-						</div>
-				       </td>
-				       
-		
-				       
-				    
-	   			     <td  align="center">
-	   			          <br>
-				          <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
-		                     <!-- &nbsp;&nbsp;<button type="button"  class="btn btn-success" onClick="Download_ExcelReport();"  id="downloading">Excel Report&nbsp;&nbsp;<i class="fa fa-file-excel-o" aria-hidden="true"></i></button> -->	
-		 			     
-				     </td>
-	
-				    </tr>
-				     
-	
-				     
-		  <tr>
-		  <td colspan="2">
-				    <span style="display:none" id="searchbutton1">
-					              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							         . 
-							      </div>   
-					        </span>
-					        
-				
-		  </td>
-		  </tr>		     
-				     
-				     
-							    
-				    </tbody>
-			</table>
-	  </div>
-	
-</form>
 
-		<div class="col-md-5 col-sm-5 col-xs-5" align="left" >
-		      
-		      <!-- <div id="chartContainer" style="height: 260px; width: 90%;"></div>-->
-		      				
-		    <table  class="table table-striped table-bordered"  border="0" style="width: 100%;" align="center">	
-				    
-				
-				   <tr align="center">
-					 <td  bgcolor="#0070BA">
-					     <span style="color:white;"> <b>Useful Phone Numbers </b></span>					 
-					 </td>
-				     </tr>
-		          
-				    <tr>
-				        <td bgcolor="white"> 
-				           <br>
-				          <ul>
-				             <li> 
-				                <i class="fa fa-phone" aria-hidden="true"></i>  <span style="color:black;"> Ops. Controller :  +353-1-8447617 </span>
-				             </li>
-				             
-				             <li> 
-				                <i class="fa fa-phone" aria-hidden="true"></i> <span style="color:black;"> Ops. Supervisor :  +353-1-8447602 </span>
-				             </li>
-				            
-				             <li> 
-				                <i class="fa fa-phone" aria-hidden="true"></i> <span style="color:black;">Customer & Handling Co-ordinator +353-1-8447618 </span>
-				             </li>
-				             
-				                    
-				             <li> 
-				                  <i class="fa fa-clock-o" aria-hidden="true"></i> <b> <span style="color:black;">Please note that the below are Zulu times. </span> </b>
-				             </li>
-				   
-				             
-				          </ul>             
-                              
-		
-							   <p align="center">    <img  src="images/${airlinecode}1.png"> </p> 
-				        
-				        </td>
-				    </tr>
-		
+  <div class="row">
+	
+	   <!-- First Part  -->
+		<div class="col-sm-6 col-md-6 col-xs-12"> 
 			
-			</table>
+			<div class="panel panel-primary panel-shadow" style="overflow-x:auto;">
+			
+				<div class="panel-body"> 
+ 
+					 <form name="OtpFlighReport" id="OtpFlighReport">  
+					 <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
+					  <input type="hidden" name="usertype" value="${usertype}">
+					       
+					  <table class="table" style="width:100%;background:white;" align="left">	
+					   			<tbody>				     
+									 <tr align="center">
+										 <td  bgcolor="#0070BA" colspan="2">
+										   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
+										    On Time Performance Report &nbsp;&nbsp;
+										   </b></span>					 
+										 </td>
+									 </tr>
+							            
+								    <tr>
+										<td align="left" >
+										 
+												<div class="col-xs-12">
+														<label for="airlineCode">Operating Airline:</label>
+														<div class="input-group">
+															<span class="input-group-addon"><i class="fa fa-plane"></i></span>
+																	<select id="airlinecode" name="airlinecode" class="form-control">
+													                            	 ${airlinelist}
+																	</select>
+														</div>
+													</div>
+												
+											</td>
+											
+							
+									     					
+											<td>
+													<div class="col-xs-12">
+															<label for="airlineCode">Departure Station:</label>
+															<div class="input-group">
+																<span class="input-group-addon"><i class="fa fa-plane"></i></span>							
+																<select  data-placeholder="Type Station Code or Name.." class="chosen-select form-control" multiple id="airportcode" name="airportcode">
+														            <option value=""></option>
+														                   ${airportlist}	
+															</select>						
+																				
+														
+														</div>
+													</div>
+										
+										       </td>
+										 </tr>
+										 
+										 
+									  <tr align="left"> 
+									     					
+										<td>
+									             
+							               <div class="col-xs-12">
+												<label for="startDate">From Date:</label>
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
+													<input type="date" id="startdate" name="startdate" class="form-control datepicker" maxlength="12"
+													    value="${startdate}" placeholder="(DD/MM/YYYY)"/>
+												</div>	
+											</div>
+													
+													
+									       </td>
+						       				
+										<td>
+										
+										
+									    <div class="col-xs-12">
+												<label for="startDate">To Date:</label>
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
+													<input type="date" id="enddate" name="enddate" class="form-control datepicker" maxlength="12"
+													    value="${enddate}" placeholder="(DD/MM/YYYY)"/>
+												</div>	
+											</div>
+													
+												
+									       </td>
+									       
+									       
+									       
+									     </tr>
+									
+									    <tr>
+									     				     					
+										<td >
+									             
+									             
+									         <div class="col-xs-12">
+												<label for="sortBy">Delay Code Group:</label> 
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-text-height" aria-hidden="true"></i></span>
+															<select id="delayCodeGroupCode" name="delayCodeGroupCode" class="form-control">
+													<option value="ALL" <c:if test="${delaycode == 'ALL'}"> selected </c:if> >------All-------</option>									
+															<option value="GOPS" <c:if test = "${delaycode == 'GOPS'}"> selected </c:if>  >Ground Ops </option>									
+															<option value="SAD" <c:if test = "${delaycode == 'SAD'}"> selected </c:if> >Stobart Attributable Delays</option>									
+															<option value="NSAD" <c:if test = "${delaycode == 'NSAD'}"> selected </c:if> >Non Stobart Delays</option>
+													</select>
+										</div>
+											</div>
+									       </td>
+									       
+							
+									       
+									    
+						   			     <td  align="center">
+						   			          <br>
+									          <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
+							                   &nbsp;&nbsp;<button type="button"  class="btn btn-success" onClick="Download_ExcelReport();"  id="downloading"> Excel Report <i class="fa fa-file-excel-o" aria-hidden="true"></i></button> 	
+							 			     
+									     </td>
+						
+									    </tr>
+									     
+						
+									     
+							  <tr>
+							  <td colspan="2">
+									    <span style="display:none" id="searchbutton1">
+										              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+												         . 
+												      </div>   
+										        </span>
+										        
+									
+							  </td>
+							  </tr>		     
+												    
+									    </tbody>
+								</table>
+						
+					       </form>
+
+                 </div>
+               </div>
+         </div>        
+
+		<div class="col-sm-6 col-md-6 col-xs-12"> 
 		      
-		     
-		 
+		      <div id="chartContainer" style="height:330px; width:90%;">
+		      
+		      </div>
+		      	
+			 
 		</div>
 
 
 
-</div>	
+     </div>
+     
+ </div>
+
 <br>
 <br>
  
@@ -320,83 +293,131 @@ function Download_ExcelReport(){
  <div class="container" align="center">
  
  <div class="col-md-12 col-sm-12 col-xs-12" align="left" >
- <!-- 
-   		<ul class="nav nav-pills">
-						<li class="active">
-						 <a data-toggle="pill" href="#menu1"><b>${reportbody.stream().distinct().count()}</b> - All Delay</a>
-						</li>
-						<li>
-						   <a data-toggle="pill" href="#menu2"><b>${reportbody_C.stream().distinct().count()}</b> - Stobart Delay </a>
-						</li>   
-	                        
-	    </ul>		
- -->
  
-<div class="tab-content">
+ 
+ <div class="tab-content">
    
-   <div id="menu1" class="tab-pane fade in active">					
+   <div id="menu1" class="tab-pane fade in active">	
+   
+   
+    <c:if test="${fn:length(flightnotes) < 1}">
+	      <table align="center">    
+	       <tr align="center"> 
+	       <td colspan="10" align="center"> <b>Sorry there is No flight on your above Selected Search Criteria. </b></td>
+	       </tr>
+	      </table>
+	</c:if>				
 
-  	<table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255);" align="left">	
+   				
+  <c:if test="${fn:length(flightnotes) >= 1}">
+
+	  <table align="center">
+	  <tr align="center"> 
+	   <td align="center"> 
+	      <button  class="btn btn-secondary btn-small btn-block"> <b> ${fn:length(flightnotes)}  - Flights </b></button>
+	   </td>
+	  </tr>	
+	  </table>
+	  <br>
+	    
+	
+  	<table class="table table-bordered" border="1" style="width: 100%;background:white;" align="left">	
 		 		<tr>
-						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Flight Date</th>
+						<th  style="color: white;text-align: left;" bgcolor="#0070BA" width="7%">Flt. Date</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Flight No</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Ac - Reg</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >From.</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >To.</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Del Code.</th>
 						<th  style="color: white;text-align: left;" bgcolor="#0070BA" >Time.</th>
-						<th  style="color: white;text-align: left;" bgcolor="#0070BA" width="15%">Description</th>
-						<th  style="color: white;text-align: left;" bgcolor="#0070BA" width="40%">Note</th>
+						<th  style="color: white;text-align: left;" bgcolor="#0070BA" width="25%">Description</th>
+						<th  style="color: white;text-align: left;" bgcolor="#0070BA" width="30%">Note</th>
 				</tr>
-							  <tr>
-									  <td>  ${flightnotes.flightNo} </td>
-									  <td>  ${flightnotes.aircraftReg} -  ${flightnotes.aircraftType}</td>
-									  <td> ${flightnotes.std} </td>
-									  <td>  ${flightnotes.from}&nbsp; - &nbsp; ${flightnotes.to} </td>
+				
+					 
+		<!-- Write DB Loops to display Data -->
+		 <c:forEach var="flightnotes" items="${flightnotes}"> 
+				
+				<tr>
+									  <td>  ${flightnotes.flightDate} </td>
+									  <td>  ${flightnotes.flightNo}  </td>
+									  <td> ${flightnotes.aircraftReg} -  ${flightnotes.aircraftType}  </td>
+									  <td>  ${flightnotes.from} </td>
 									  <td>  
-									  
-										<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode1)}"/>   
+									        ${flightnotes.to}
+									
+								       </td>
+								       
+								       
+								         <td>  
+									 
+									 
+									 		<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode1)}"/>   
 										
 												<c:if test = "${delaycode >= 2}">
 											
 													<b> <c:out value = "${flightnotes.delayCode1}"/></b>-${flightnotes.delayCode1_time}
 												
-										</c:if>
-
-
-								       </td>
-								         <td>  
-									  
-										<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode2)}"/>   
-										
-												<c:if test = "${delaycode >= 2}">
-												<b> <c:out value = "${flightnotes.delayCode2}"/></b>-${flightnotes.delayCode2_time} 
-												
-										</c:if>
+										   </c:if>
+									 
+									     
+											<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode2)}"/>   
+											
+													<c:if test = "${delaycode >= 2}">
+													<b> , <c:out value = "${flightnotes.delayCode2}"/></b>-${flightnotes.delayCode2_time} 
+													
+											</c:if>
+											
+											<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode3)}"/>   
+											
+													<c:if test = "${delaycode >= 2}">
+													<b> , <c:out value = "${flightnotes.delayCode3}"/></b>-${flightnotes.delayCode3_time} 
+													
+											</c:if>					
+											<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode4)}"/>   
+											
+													<c:if test = "${delaycode >= 2}">
+													  <b> ,<c:out value = "${flightnotes.delayCode4}"/></b>-${flightnotes.delayCode4_time} 
+													
+											        </c:if>					
+																		
 
 
 								       </td>
 								  <td>  
 									  
-										<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode3)}"/>   
-										
-												<c:if test = "${delaycode >= 2}">
-												<b> <c:out value = "${flightnotes.delayCode3}"/></b>-${flightnotes.delayCode3_time}
-												
-										</c:if>
+									<b> ${flightnotes.getTotalDelayTime()} </b>
+								
 
-
-								       </td>
+								  </td>
+								       
+								  
 								  <td>  
-									  
-										<c:set var = "delaycode"  value = "${fn:length(flightnotes.delayCode4)}"/>   										
-												<c:if test = "${delaycode >= 2}">
-												<b> <c:out value = "${flightnotes.delayCode4}"/></b>-${flightnotes.delayCode4_time}
-												
+										  
+										
+										
+										<c:set var = "delaycodedesc"  value = "${fn:length(flightnotes.delayCode1_desc)}"/>  
+										<c:if test = "${delaycodedesc > 0}">
+										   ${flightnotes.delayCode1_desc} <br>
 										</c:if>
+												
+										<c:set var = "delaycodedesc"  value = "${fn:length(flightnotes.delayCode2_desc)}"/>  
+										<c:if test = "${delaycodedesc > 0}">
+										   ${flightnotes.delayCode2_desc} <br>
+										</c:if>
+							    			
+										<c:set var = "delaycodedesc"  value = "${fn:length(flightnotes.delayCode3_desc)}"/>  
+										<c:if test = "${delaycodedesc > 0}">
+										   ${flightnotes.delayCode3_desc} <br>
+										</c:if>
+											
+										<c:set var = "delaycodedesc"  value = "${fn:length(flightnotes.delayCode4_desc)}"/>  
+										<c:if test = "${delaycodedesc > 0}">
+										   ${flightnotes.delayCode1_desc}
+										</c:if>
+									  
 
-
-								       </td>
+							       </td>
 								 
 	
 									  <td>
@@ -408,70 +429,41 @@ function Download_ExcelReport(){
 								  </tr>	
 								  		
 			
+	          </c:forEach>	
 
-		
-			     <c:if test="${fn:length(flightnotes) < 1}">
-			    
-			       <tr> 
-			       <td colspan="10" align="center"> <b>No flight delays. </b></td>
-			       </tr>
-			    
-			     </c:if>				
-				
-			     
-  	    		
-				    
-    </table>	
-  
+       </table>	
+ 	
+ 	</c:if>	 
+
    </div>
    
    
-   
-   
-   
-   <!-- SECOND TAB FOR THE CANCLE FLIGHTS  -->
-   	<div id="menu2" class="tab-pane fade"> 
-   	
- 	<table class="table table-striped table-bordered" border="1" style="width: 100%;background:rgba(255,255,255);" align="left">	
-		
-		    		
-				    
-    </table>   		
-						
-						
-						
-			
-			
-	</div>
 	
   
  </div> 
     	                     
  
  </div>
-			
 
-</div>
+</div>			
+
+
  
 <br>
 <br>
  
 
-<script>
-var input = document.getElementById("flightno");
-input.addEventListener("keyup", function(event) {
-  if (event.keyCode == 13) {
-   event.preventDefault();
-   showFlightReport();
-  }
-});
-</script>
   <script src="js/chosen.jquery.js" type="text/javascript"></script>
   <script src="js/prism.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/init.js" type="text/javascript" charset="utf-8"></script> 
 
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 

@@ -18,12 +18,7 @@
 					e.preventDefault();
 				});
 			});
-		});
-
-
-	
-	 
-		
+		});	
 	</script>				
    
 	<footer class="text-center" style="padding-top:0px;">
@@ -47,6 +42,29 @@
     </footer>
        
         	
+	
+<script>
+
+ // https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_ref_js_dropdown_multilevel_css&stacked=h
+ // For Multilevel Menu		 
+ $(document).ready(function(){	   
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+   
+});
+
+
+ 
+</script>
+	
+	
+
+
+
+
 
 	
 
