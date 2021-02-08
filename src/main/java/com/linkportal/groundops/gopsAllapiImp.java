@@ -652,11 +652,11 @@ public class gopsAllapiImp implements gopsAllapi  {
 		 p.load(reader); 		 
 		 String flightInfostr = req.getParameter("flightno")+ " ("+req.getParameter("fromstn")+" - "+req.getParameter("tostn")+") Dated: "+req.getParameter("datop");		 
 		 //if(req.getParameter("astatus").equalsIgnoreCase("taken")) {flightInfostr=flightInfostr+" Issue Resolved ";}		 
-		 String emailBody     = emailBodyContent.replaceAll("FLIGHT", flightInfostr);
-		 emailBody            = emailBody.replaceFirst("CONTENT", req.getParameter("feedback")); 		 
-		 emaiObj.sendTextHtmlEmail(p.getProperty(req.getParameter("fromstn")),"Update on Flight No: "+flightInfostr ,emailBody);
+		 //String emailBody     = emailBodyContent.replaceAll("FLIGHT", flightInfostr);
+		 // emailBody            = emailBody.replaceFirst("CONTENT", req.getParameter("feedback")); 		 
+		 //emaiObj.sendTextHtmlEmail(p.getProperty(req.getParameter("fromstn")),"Update on Flight No: "+flightInfostr ,emailBody);
 		 //emaiObj.sendTextHtmlEmailWithAttachment(p.getProperty(req.getParameter("fromstn")),"Update on Flight No: "+flightInfostr ,emailBody,"c://data//groundops//alfresco//Company Policies//Email Policy.pdf");
-		 //emaiObj.sendHtmlEmailOnTemplate(p.getProperty(req.getParameter("fromstn")),"Update on Flight No: "+flightInfostr ,emailBody);
+		  emaiObj.sendHtmlEmailOnTemplate(p.getProperty(req.getParameter("fromstn")),flightInfostr ,req.getParameter("feedback"));
 		 
 		 
 	} //  End of method 	

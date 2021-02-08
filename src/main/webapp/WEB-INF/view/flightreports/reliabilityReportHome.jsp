@@ -251,9 +251,10 @@ function Download_ExcelReport(){
 			</div>	
 					
  
-		<div class="col-md-5 col-sm-5 col-xs-5" align="left" >
-		      
-		      <!-- <div id="chartContainer" style="height: 260px; width: 90%;"></div>-->
+		<div class="col-md-5 col-sm-5 col-xs-5" align="right" >
+
+		    <div class="panel panel-primary panel-shadow" style="overflow-x:auto;"> 
+		    
 		      				
 		    <table  class="table table-bordered"  border="0" style="width: 100%;" align="center">	
 				    
@@ -297,7 +298,7 @@ function Download_ExcelReport(){
 		</div>
 
 
-
+        </div> <!-- END OF PANNEL SHADOW  -->
 
     </div> <!-- END OF ROW  -->
 

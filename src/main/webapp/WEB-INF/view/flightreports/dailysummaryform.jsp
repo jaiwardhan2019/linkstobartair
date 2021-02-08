@@ -87,14 +87,23 @@ function showReport(){
    <br>
   <br>
    
- <div class="container" align="left" > 
+
  
  <form name="dailySummaryForm" id="dailySummaryForm">  
- 
-      
    <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
 
-	 <table class="table table-striped table-bordered" border="1" style="width: 30%;" align="left">	 
+
+ <div class="container" align="center">
+
+  <div class="row">
+	
+	   <!-- First Part  -->
+		<div class="col-sm-4 col-md-4 col-xs-12"> 
+			
+			<div class="panel panel-primary panel-shadow" style="overflow-x:auto;">
+
+
+	          <table class="table table-striped table-bordered" border="1" style="width:100%;">	 
 	 			
 				<tbody>	
 		                       				     
@@ -151,9 +160,19 @@ function showReport(){
 							    
 				    </tbody>
 			</table>
-			
+	      
+	      </div>
+	    </div>
+
+	
+	
+	   <div class="col-md-5 col-sm-5 col-xs-5" align="right" >
+		     
+		     
+		    <div class="panel panel-primary panel-shadow" style="overflow-x:auto;"> 
+		
 					
-		    <table  class="table table-striped table-bordered"  border="0" style="width: 40%;" align="center">	
+		    <table  class="table table-striped table-bordered"  border="0"  align="center">	
 				    
 				
 				   <tr align="center">
@@ -193,7 +212,13 @@ function showReport(){
 			
 			</table>
 
-</div>		
+
+			  </div>
+			</div>	
+
+
+	  </div>
+	</div>	
  		<br>
 		<br>	
 		<br>

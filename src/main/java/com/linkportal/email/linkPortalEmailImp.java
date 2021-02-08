@@ -76,18 +76,19 @@ public class linkPortalEmailImp extends emailServiceUtility implements linkPorta
 	}
 
 	@Override
-	public void sendHtmlEmailOnTemplate(String EmailTo, String Subject, String emailbody) {
+	public void sendHtmlEmailOnTemplate(String EmailTo, String flightInfostr, String emailbody) {
 		try {
 
 			Mail mail = new Mail();
 			mail.setFrom(emailFrom);
 			mail.setTo(EmailTo);
-			mail.setSubject("Sending Email with Freemarker HTML Template Example");
+			mail.setSubject("Update on Flight No: "+flightInfostr);
+	
 
 			Map model = new HashMap();
-			model.put("name", "Stobart Air");
-			model.put("location", "Ireland");
-			model.put("signature", "www.stobartair.com");
+			model.put("flightDetail", flightInfostr);
+			model.put("flightComment", emailbody);
+			
 			mail.setModel(model);
 			sendSimpleMessageWithHtmlTemplet(mail);
 

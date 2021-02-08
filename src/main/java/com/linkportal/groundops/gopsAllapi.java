@@ -35,12 +35,14 @@ public interface gopsAllapi {
 	List<flightDelayComment> showAllComment(HttpServletRequest req);
 
 	String getPuncStaticforGroundOpsHomePage();
+	
 
 	void notifyGroundHandlersForDelayComment(HttpServletRequest req) throws Exception;
 	
 	
 	//-------- This function will update Ground Ops Home Page Flashing message on the home page.
 	void updateGroudopsHomePageFlashingMessage(String Message , String addedBy);
+	
 	
 	String getGroudopsHomePageFlashingMessage();
 

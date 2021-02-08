@@ -24,7 +24,7 @@ public interface linkPortalEmail {
 	 * This one is will send email based on the templet stored in the resources/templets/email-templet.ftl
 	 * this is also going to add Image file as per defined in the templet file. 
 	 * */
-	void sendHtmlEmailOnTemplate(String to, String Subject, String emailbody);
+	void sendHtmlEmailOnTemplate(String to, String flightInfo, String emailbody);
 	
 	
 	

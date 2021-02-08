@@ -1032,6 +1032,7 @@ function open_model_toAdd_Comment(flightid,datop,fromstn,tostn,emailid){
 					//---- For the external user disable this option  
 					if(!isStobartUser(emailid)){
 						document.getElementById("stobartad").disabled = true;	
+						document.getElementById("status_close").disabled = true; 	
 					}
 				    
 

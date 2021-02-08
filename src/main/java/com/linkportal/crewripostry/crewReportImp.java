@@ -266,13 +266,13 @@ public class crewReportImp implements crewReport{
 			p.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
 			ve.init(p);
 
-			Template t = ve.getTemplate("templates/helloworld.vm");
+			Template t = ve.getTemplate("templates/flightReportTemplate.vm");
 
 			/* create a context and add data */
 			VelocityContext context = new VelocityContext();
 			context.put("name", "World");
 			context.put("genDateTime", LocalDateTime.now().toString());
-			context.put("addedByName", "Jai WArdhan");
+			context.put("addedByName", "Jai Wardhan");
 
 			/* now render the template into a StringWriter */
 			StringWriter writer = new StringWriter();
@@ -311,9 +311,9 @@ public class crewReportImp implements crewReport{
 				document.addAuthor("Kinns123");
 				document.addCreationDate();
 				document.addProducer();
-				document.addCreator("kinns123.github.io");
-				document.addTitle("HTML to PDF using itext");
-				document.setPageSize(PageSize.LETTER);
+				document.addCreator("Jai Wardhan");
+				document.addTitle("Voyager Report");
+				document.setPageSize(PageSize.A4);
 
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				PdfWriter.getInstance(document, baos);
@@ -323,17 +323,13 @@ public class crewReportImp implements crewReport{
 
 				XMLWorkerHelper xmlWorkerHelper = XMLWorkerHelper.getInstance();
 				xmlWorkerHelper.getDefaultCssResolver(true);
-				xmlWorkerHelper.parseXHtml(pdfWriter, document, new StringReader(
-						html));
+				xmlWorkerHelper.parseXHtml(pdfWriter, document, new StringReader(html));
 				// close the document
 				document.close();
 				System.out.println("PDF generated successfully");
 
 				return baos;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
+			} catch (Exception e) {logger.error(e);	e.printStackTrace();return null;}
 
 		}
 

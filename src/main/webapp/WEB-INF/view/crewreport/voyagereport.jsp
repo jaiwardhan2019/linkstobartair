@@ -76,95 +76,99 @@ function showOtherdDateCaption(){
  
    
  <div class="container" align="center">
- 
- <div class="col-md-12 col-sm-12 col-xs-12" align="center" id="printButton">
- 
- <form name="voygerReport" id="voygerReport">  
-  
-   <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
 
-
-          <table class="table table-striped table-bordered" border="1" style="width: 30%;" align="center">	    
-    			<tbody>				     
-				     <tr align="center">
-					 <td  bgcolor="#0070BA">
-					   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
-					    Voyager  Report  &nbsp;&nbsp;
-					   </b></span>					 
-					 </td>
-				     </tr>
+  <div class="row">
+	
+	   <!-- First Part  -->
+		   <div class="col-md-4 col-md-offset-4 col-sm-12 col-xs-12">		
+			
+			<div class="panel panel-primary panel-shadow" style="overflow-x:auto;">
+			 
+			 <form name="voygerReport" id="voygerReport">  
+			  
+			   <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
 			
 			
-			   <tr>
-					<td align="left" bgcolor="white" >
-					 
-					
-				     <div class="form-group">
-							<label for="startDate">Flight Date:</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
-										<select id="flightdate" name="flightdate" class="form-control" onchange="showOtherdDateCaption()" >
-										             ${selectoption}						
-										</select>
-							</div>	
-						</div>
-				
-				
-					<div class="form-group">
-							<label  >Flight Captain:</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>							
-									
-										<select  id="crewcode" name="crewcode" class="form-control" >
-										
-											<option value="ALL"> All  -   CAPTAINS</option>
-											 <c:forEach var="caplst" items="${captionlist}"> 
-												     <c:if test = "${caplst.getCrewid() == selectedcaption}">
-											         <option value="${caplst.getCrewid()}" selected>CAP -  ${caplst.getCrewName()}- (${caplst.getCrewid()})</option>
-									              </c:if> 
-											      
-											      <c:if test = "${caplst.getCrewid() != selectedcaption}">
-											         <option value="${caplst.getCrewid()}">CAP -  ${caplst.getCrewName()}- (${caplst.getCrewid()})</option>
-									              </c:if> 
-									
-											
-												      
-											 </c:forEach>
-											 
-						                   
-											
-										</select>
-							</div>
-						</div>
+			          <table class="table table-striped table-bordered" border="1"  align="center">	    
+			    			<tbody>				     
+							     <tr align="center">
+								 <td  bgcolor="#0070BA">
+								   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
+								    Voyager  Report  &nbsp;&nbsp;
+								   </b></span>					 
+								 </td>
+							     </tr>
 						
-					
-				
-				
-				
-					
-						</td>
 						
-				  </tr>	
-						 
-				     
-				    <tr align="center"> 
-				     					
-						<td  bgcolor="white">
-					       <!-- 
-					       <input id="Show Report"  class="ibutton" type="button" onclick="showmyVoygerReport();" value="Show Report" />
-					       <a onclick="showmyVoygerReport();" class="btn btn-success"><i class="fa fa-plane fa-fw"></i> Click Me</a>
-					        -->
-					       <input type="button" class="btn btn-primary" value="Show Report" onclick="showmyVoygerReport();" /> 
-					       
-					     </td>
-					     </tr>
-				     
-							    
-				    </tbody>
-			</table>
-   </div>
+						   <tr>
+								<td align="left" bgcolor="white" >
+								 
+								
+							     <div class="form-group">
+										<label for="startDate">Flight Date:</label>
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
+													<select id="flightdate" name="flightdate" class="form-control" onchange="showOtherdDateCaption()" >
+													             ${selectoption}						
+													</select>
+										</div>	
+									</div>
+							
+							
+								<div class="form-group">
+										<label  >Flight Captain:</label>
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>							
+												
+													<select  id="crewcode" name="crewcode" class="form-control" >
+													
+														<option value="ALL"> All  -   CAPTAINS</option>
+														 <c:forEach var="caplst" items="${captionlist}"> 
+															     <c:if test = "${caplst.getCrewid() == selectedcaption}">
+														         <option value="${caplst.getCrewid()}" selected>CAP -  ${caplst.getCrewName()}- (${caplst.getCrewid()})</option>
+												              </c:if> 
+														      
+														      <c:if test = "${caplst.getCrewid() != selectedcaption}">
+														         <option value="${caplst.getCrewid()}">CAP -  ${caplst.getCrewName()}- (${caplst.getCrewid()})</option>
+												              </c:if> 
+												
+														 </c:forEach>
+														 
+													</select>
+										</div>
+									</div>
+									
+								
+							
+							
+							
+								
+									</td>
+									
+							  </tr>	
+									 
+							     
+							    <tr align="center"> 
+							     					
+									<td  bgcolor="white">
+								       <!-- 
+								       <input id="Show Report"  class="ibutton" type="button" onclick="showmyVoygerReport();" value="Show Report" />
+								       <a onclick="showmyVoygerReport();" class="btn btn-success"><i class="fa fa-plane fa-fw"></i> Click Me</a>
+								        -->
+								       <input type="button" class="btn btn-primary" value="Show Report" onclick="showmyVoygerReport();" /> 
+								       
+								     </td>
+								     </tr>
+							     
+										    
+							    </tbody>
+						</table>
+						</form>
+             </div>
+           </div>		
+
+      </div>
   </div>		
-</form>
  
 
 <!--  END of UPPER FORM PART   -->

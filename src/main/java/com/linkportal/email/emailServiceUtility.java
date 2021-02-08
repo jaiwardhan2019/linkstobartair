@@ -52,12 +52,12 @@ public abstract class emailServiceUtility {
 		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 				StandardCharsets.UTF_8.name());
 
-		helper.addAttachment("logo.png", new ClassPathResource("static/images/emaillogo.png"));
+		//helper.addAttachment("logo.png", new ClassPathResource("static/images/emaillogo.png"));
 
-		Template t = freemarkerConfig.getTemplate("email-template.ftl");
+		Template t = freemarkerConfig.getTemplate("delayflightreportnotification.ftl");
 		String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, mail.getModel());
 
-		helper.setTo(mail.getTo());
+		helper.setBcc(builtEmailIdArray(mail.getTo()));		
 		helper.setText(html, true);
 		helper.setSubject(mail.getSubject());
 		helper.setFrom(mail.getFrom());
@@ -77,7 +77,7 @@ public abstract class emailServiceUtility {
 		// properties.put("mail.smtp.auth", "true");
 		// properties.put("mail.smtp.starttls.enable", "true");
 		session = Session.getInstance(properties);
-		// session.setDebug(true);
+		session.setDebug(true);
 		return session;
 	}
 
@@ -107,6 +107,12 @@ public abstract class emailServiceUtility {
 	} // End of Method
     
 	
+	
+	
+	public String[] builtEmailIdArray(String emailListWithComma) {
+		String[] emailIds = emailListWithComma.split(",");
+		return emailIds;
+	}
 	
 
 }
