@@ -161,7 +161,7 @@ function addDocument(category){
 												<tr>
 													<th>Sr.</th>
 													<th>Description</th>
-													<th >Dated </th>
+													<th >Added Date.</th>
 													<th>Category</th>
 													<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Del</th>
 												</tr>

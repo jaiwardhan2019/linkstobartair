@@ -14,7 +14,8 @@ public class crewDetailRowmapper implements  RowMapper<crewDetail> {
 		   		   
 		crewDetail crew = new crewDetail(
 				   rs.getString("CREW_NO"),
-				   rs.getString("CREW_NAME"),
+				   rs.getString("CREW_FIRSTNAME"),
+				   rs.getString("CREW_LASTNAME"),
 				   rs.getString("POSITION"));		   
 	       return crew;
 	}

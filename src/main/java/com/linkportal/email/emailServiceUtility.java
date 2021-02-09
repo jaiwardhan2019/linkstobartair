@@ -53,7 +53,7 @@ public abstract class emailServiceUtility {
 				StandardCharsets.UTF_8.name());
 
 		//helper.addAttachment("logo.png", new ClassPathResource("static/images/emaillogo.png"));
-
+	
 		Template t = freemarkerConfig.getTemplate("delayflightreportnotification.ftl");
 		String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, mail.getModel());
 

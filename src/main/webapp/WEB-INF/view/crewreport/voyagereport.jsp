@@ -20,7 +20,7 @@
 //https://stackoverflow.com/questions/33966181/how-to-pass-parameters-to-jasperreport-with-java-to-use-later-in-sql-query
 
 
-function showmyVoygerReport(){
+function showmyCrewFlightSchedule(){
 	   
 	  	  document.voygerReport.method="POST";
 		  document.voygerReport.action="voyagerReport";
@@ -31,23 +31,15 @@ function showmyVoygerReport(){
 }//---------- End Of Function  ------------------
 
 
+function printVoygerReport(category){
 
-function printVoygerReport() {
-	//print();
-	alert("Under Construction.. Please Use the Blank report By the time");	
-} 
-
-function printVoygerReport_Blank(){
-	
+	  var sel = document.getElementById('crewcode');
+	  if(category == 'BLANK'){sel.value="BLANK";}		
 	  document.voygerReport.method="POST";
-      document.voygerReport.target="_new";
-	  document.voygerReport.action="voyagerReportblankpdf";
+	  document.voygerReport.target="_new";
+	  document.voygerReport.action="voyagerReportblankpdfWithFLTTemplet";
       document.voygerReport.submit();
 	  return true;
-
-	 
-	
-	
 }
 
 
@@ -63,8 +55,16 @@ function showOtherdDateCaption(){
 
 
 
-	
+
 </script>
+
+<style>
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style>
 
 
  <br>
@@ -125,14 +125,16 @@ function showOtherdDateCaption(){
 														<option value="ALL"> All  -   CAPTAINS</option>
 														 <c:forEach var="caplst" items="${captionlist}"> 
 															     <c:if test = "${caplst.getCrewid() == selectedcaption}">
-														         <option value="${caplst.getCrewid()}" selected>CAP -  ${caplst.getCrewName()}- (${caplst.getCrewid()})</option>
+														         <option value="${caplst.getCrewid()}" selected>CAP -  ${caplst.getCrewFullName()} - (${caplst.getCrewid()})</option>
+														         
 												              </c:if> 
 														      
 														      <c:if test = "${caplst.getCrewid() != selectedcaption}">
-														         <option value="${caplst.getCrewid()}">CAP -  ${caplst.getCrewName()}- (${caplst.getCrewid()})</option>
+														         <option value="${caplst.getCrewid()}">CAP - ${caplst.getCrewFullName()}- (${caplst.getCrewid()})</option>
 												              </c:if> 
 												
 														 </c:forEach>
+														 <option value="BLANK">-- BLANK --</option>
 														 
 													</select>
 										</div>
@@ -152,10 +154,10 @@ function showOtherdDateCaption(){
 							     					
 									<td  bgcolor="white">
 								       <!-- 
-								       <input id="Show Report"  class="ibutton" type="button" onclick="showmyVoygerReport();" value="Show Report" />
-								       <a onclick="showmyVoygerReport();" class="btn btn-success"><i class="fa fa-plane fa-fw"></i> Click Me</a>
+								       <input id="Show Report"  class="ibutton" type="button" onclick="showmyCrewFlightSchedule();" value="Show Report" />
+								       <a onclick="showmyCrewFlightSchedule();" class="btn btn-success"><i class="fa fa-plane fa-fw"></i> Click Me</a>
 								        -->
-								       <input type="button" class="btn btn-primary" value="Show Report" onclick="showmyVoygerReport();" /> 
+								       <input type="button" class="btn btn-primary" value="Show Report" onclick="showmyCrewFlightSchedule();" /> 
 								       
 								     </td>
 								     </tr>
@@ -167,10 +169,17 @@ function showOtherdDateCaption(){
              </div>
            </div>		
 
-      </div>
-  </div>		
+   
+				 <div class="col-md-2 col-md-offset-10 col-sm-12 col-xs-12">		
+				   
+				  <button  onclick="printVoygerReport('BLANK');"  type="button" class="btn btn-info btn-sm"> <b>Print Blank Sheet  </b> &nbsp;<i class="fa fa-print fa-lg" aria-hidden="true"></i></button>
+				
+				    
+				 </div>
+				 
  
-
+   </div>	
+ </div>
 <!--  END of UPPER FORM PART   -->
 
 
@@ -180,35 +189,8 @@ function showOtherdDateCaption(){
 
 <!--  START OF REPORT  PART   -->
 
-<div class="container" style="font-size:90%" id="printButton">
+<div class="container" style="font-size:90%" >
 
-<table class="table table-striped table-bordered" border="1" style="width:20%;" align="left">
-	<tr>
-	    <td colspan="2" align="center" bgcolor="#0070BA">
-	          <span style="color:white;" > <b> 
-					    Crew Detail 
-		 </b></span>	
-	   </td>
-	   
-	</tr>
-	
-	<tr>
-   
-	   <td width="80%" bgcolor="#FCF3CF">
-	       <b>Crew Name </b>  
-	   </td>
-	   
-	</tr>
-	
-	<tr>
-	   
-	   <td width="80%" bgcolor="#FCF3CF">
-	       <b>Crew Name </b>   
-	   </td>
-	   
-   </tr>
-   
-</table>
 
 
 <p align="center">
@@ -216,11 +198,7 @@ function showOtherdDateCaption(){
   <input type="button" class="btn btn-primary" value=" Print Report With Data" onclick="printVoygerReport();" /> 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    -->
-
-   
-  <span onClick="printVoygerReport_Blank();"  class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i> Print Blank Report </span>
-  		            
-	  
+ 	  
  
 </p>
 </div>
@@ -293,7 +271,7 @@ function showOtherdDateCaption(){
 					 
           </tr>  
        	
-	     <tr align="center" bgcolor="#FCF3CF">
+	     <tr align="center" >
 				    
 				    <td>
 					    <b> 
@@ -335,6 +313,58 @@ function showOtherdDateCaption(){
 					<td>
 			
 					      Add Profile  
+			      	    <button onclick="printVoygerReport('CREW');"  type="button" class="btn btn-success btn-sm"> <b> Print </b> &nbsp;<i class="fa fa-print fa-lg" aria-hidden="true"></i></button>
+			
+					 
+					 </td>
+					 
+	      </tr>     
+         
+             	
+	     <tr align="center" >
+				    
+				    <td>
+					    <b> 
+					       1. 
+					     </b>				 
+					 </td>
+					  
+				    <td>
+					      Add Profile  
+					 		 
+					 </td>
+					<td>
+					      Add Profile  
+					 </td>
+					<td>
+					      Add Profile  
+					 </td>
+					<td>
+					      Add Profile  
+					 </td>
+					<td>
+					      Add Profile  
+					 </td>
+					<td>
+					  
+					      Add Profile  
+					    			 
+					 </td>
+					<td>
+					  
+					      Add Profile  
+							 
+					 </td>
+					<td>
+				
+					      Add Profile  
+						 
+					 </td>
+					<td>
+			
+					      Add Profile  
+			      	    <button onclick="printVoygerReport('CREW');"  type="button" class="btn btn-success btn-sm"> <b> Print </b> &nbsp;<i class="fa fa-print fa-lg" aria-hidden="true"></i></button>
+			
 					 
 					 </td>
 					 

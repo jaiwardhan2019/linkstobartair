@@ -7,21 +7,29 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -33,8 +41,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+
+import com.google.common.base.Strings;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -55,8 +66,21 @@ public class crewReportImp implements crewReport{
 				+ " and LATEST_EMPLOYMENT.validFrom=CREW_employment.ValidFrom and LATEST_EMPLOYMENT.CrewSeqno=CREW_employment.CrewSeqno) as BASE_RANK, CrewMember left join Crew_Email\n" 
 				+ "on CrewMember.CrewSeqno=Crew_Email.crewSeqno and Crew_Email.type='BUIS' where BASE_RANK.CrewSeqno=CrewMember.CrewSeqno and CrewMember.EmploymentEndDate < today() order by CrewMember.Namefirst";
 	
+	public static final SimpleDateFormat dateFormat_yyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");
 	
-	
+	//-- Todate Date
+	private String getTodaysDateString() {
+		return dateFormat_yyy_MM_dd.format(new Date());
+	}
+
+	//-- Tomorrow Date
+	private String getTomorrowDateString() {
+		Calendar c = Calendar.getInstance();  
+		String todaydate = dateFormat_yyy_MM_dd.format(c.getTime());
+		c.add(Calendar.DATE, 1);  // number of days to add      
+		return formattedDate.format(c.getTime());
+	}
+
 	
 	//------ getAllFlightCrewForDateRangeInRankList -  for the date range 
 	String querySearch = "Select DISTINCT BASE_RANK.Rank, CrewMember.Namefirst, CREWMember.Namelast, CREWMember.Initials, BASE_RANK.stn, Crew_Email.Addr, CrewMember.EmploymentEndDate, CrewMember.Gender, CrewMember.DateOfBirth"
@@ -69,6 +93,8 @@ public class crewReportImp implements crewReport{
 	
 			//+ "and ((CREWINFO.DATOP >= :START_DATE) AND (CREWINFO.DATOP <= :END_DATE))";
 	
+	
+	//--------- Will show flight Sector detail with all others 
 	String sqlstr1="select  (select top 1 CREW_NO from crewinfo where legs.fltid = crewinfo.fltid and legs.datop = crewinfo.datop and legs.legno = crewinfo.legno and position = 'CAPT') as Captain ,(select top 1 CREW_NO from crewinfo where legs.fltid = crewinfo.fltid and legs.datop = crewinfo.datop and legs.legno = crewinfo.legno and position = 'FO') as FirstOfficer,AIRCRAFT_V.SHORT_REG, STUFF(AIRCRAFT_V.LONG_REG,3,0,'-') as 'LONG_REG', AIRCRAFT_V.DESCRIPTION, LEGS.ACTYP, AIRCRAFT_V.SCR_SEATS, AIRCRAFT_V.AIRCRAFT_OWNER_CODE,\r\n" + 
 			" LEGS.DEPSTN, LEGS.ARRSTN, SUBSTRING(LEGS.DATOP,0,12) as \"FLIGHT_DATE\", LEGS.AC, REPLACE(LEGS.FLTID, ' ', '') as FLTID, LEGS.LEGNO, LEGS.DEPSTN, LEGS.ARRSTN,\r\n" + 
 			" REPLACE(SUBSTRING(LEGS.ETD,11,6),'.', ':')  as \"ETD_DATE_TIME\",  REPLACE(SUBSTRING(LEGS.ETA,11,6),'.', ':')  as \"ETA_DATE_TIME\",\r\n" + 
@@ -125,24 +151,41 @@ public class crewReportImp implements crewReport{
 		  }
 
 		
-	
-		@Override
-		public List<crewDetail> showCrewList(String datop) {
-			   String sqlstr="select DISTINCT CREW_NO , CREW_NAME , POSITION from crewinfo where DATOP='"+datop+"' and POSITION='CAPT' order by CREW_NAME";
-			   //System.out.println(sqlstr);
-			   List  linkusers = jdbcTemplatePdc.query(sqlstr,new crewDetailRowmapper());
-			  return linkusers;
-		}
+			@Override
+			public List<crewDetail> showCrewList(String startDate, String endDate, List<String> rankList) {
+				String query = "Select DISTINCT BASE_RANK.Rank as POSITION, CrewMember.Namefirst as CREW_FIRSTNAME , CREWMember.Namelast as CREW_LASTNAME, CREWMember.Initials as CREW_NO, BASE_RANK.stn, Crew_Email.Addr, CrewMember.EmploymentEndDate, CrewMember.Gender, CrewMember.DateOfBirth"
+						+ " from "
+						+ "(select CREW_employment.CrewSeqno, BASE.stn, CrewPos_Rank.Rank from CREW_employment,BASE,CrewPos_Rank,\n"
+						+ "(select max(validFrom) as validFrom, CrewSeqno from CREW_employment where CREW_employment.validFrom<=:TODAYS_DATE group by CrewSeqno) as \"LATEST_EMPLOYMENT\"\n"
+						+ "where CREW_employment.BaseSeqno=BASE.Seqno and CREW_employment.RankSeqno=CrewPos_Rank.RankSeqno\n"
+						+ " and LATEST_EMPLOYMENT.validFrom=CREW_employment.ValidFrom and LATEST_EMPLOYMENT.CrewSeqno=CREW_employment.CrewSeqno) as BASE_RANK, CrewMember left join Crew_Email\n"
+						+ "on CrewMember.CrewSeqno=Crew_Email.crewSeqno and Crew_Email.type='BUIS', CREWINFO \n"
+						+ "where BASE_RANK.CrewSeqno=CrewMember.CrewSeqno";
+				query += " and CREWINFO.CREW_NO=CrewMember.Initials";
+				query += " and ((CREWINFO.DATOP >= :START_DATE) AND (CREWINFO.DATOP <= :END_DATE))";
+
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("START_DATE", startDate);
+				parameters.put("END_DATE", endDate);
+				parameters.put("TODAYS_DATE", getTodaysDateString());
+
+				if (CollectionUtils.isNotEmpty(rankList)) {
+					parameters.put("RANK_LIST", rankList);
+					query += " and BASE_RANK.Rank in (:RANK_LIST)";
+				}
+				NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSourcesqlserver);
+				logger.debug("Running Crewing Query Parameters(" + parameters + ") " + query);
+
+				return template.query(query, parameters, new crewDetailRowmapper());
+
+			}
 
 
-
-		@Override
-		public List<crewFlightRoster> showCrewFlightSchedule(String crewid, String datop) {
-			   List crewflightrost =  jdbcTemplatePdc.query("",new crewDetailRowmapper());
-			return null;
-		}
-
-
+			@Override
+			public List<crewFlightRoster> showCrewFlightSchedule(String crewid, String datop) {
+				List crewflightrost = jdbcTemplatePdc.query("", new crewDetailRowmapper());
+				return null;
+			}
 	
 	
 		@Override
@@ -155,15 +198,22 @@ public class crewReportImp implements crewReport{
 			cFrom.add(Calendar.DATE, -30);
 			String fromData = formattedDate.format(cFrom.getTime());
 			Calendar cTo = Calendar.getInstance();
-			cTo.add(Calendar.DATE, 30); // number of days to add
+			cTo.add(Calendar.DATE, 3); // number of days to add
 			String toDate = formattedDate.format(cTo.getTime());
 			String sqlstr = "select DISTINCT CREW_NO , CREW_NAME , POSITION from crewinfo where  POSITION in('CAPT','FO') and DATOP between '"
 					+ fromData + "' and  '" + toDate + "' order by CREW_NAME , POSITION ";
+			System.out.println(sqlstr);
 			List linkusers = jdbcTemplatePdc.query(sqlstr, new crewDetailRowmapper());
 			return linkusers;	
 		}
 		
 			
+		
+		
+		
+		
+		
+		
 		@Override
 		public String getLoginToken() {
 			String sql = "  select TOP(1) Flight_Planing_Token from Gops_Crew_Planning_Token";
@@ -254,7 +304,7 @@ public class crewReportImp implements crewReport{
 
 
 		@Override
-		public HttpEntity<byte[]> createPdf(String fileName) throws IOException {
+		public HttpEntity<byte[]> createPdfWithVelocityTemplet(String fileName) throws IOException {
 
 			/* first, get and initialize an engine */
 
@@ -336,12 +386,102 @@ public class crewReportImp implements crewReport{
 
 		
 		
+
+		@Override
+		public void createVoyagerReportWithFreeMakerTemplet(HttpServletRequest request,HttpServletResponse response) throws Exception {
+			
+			//---Input Parameter Validation 
+			if(Strings.isNullOrEmpty(request.getParameter("crewcode"))) {throw new Exception("Missing Crew Code");}
+			
+			if(Strings.isNullOrEmpty(request.getParameter("flightdate"))) {throw new Exception("Missing Flight Date");}
+			
+			
+			
+			ByteArrayOutputStream baos = null;
+			OutputStream out = null;
+			String fileName = null;
+			
+			
+			Map<String,Object> data = new HashMap<>();
+			
+			/*
+			Map<String,Object> data = new HashMap<>();
+			data.put("curr", 1);
+			data.put("one", 2);
+			data.put("two", 1);
+			data.put("three", 6);
+			
+			List<PDFDataTest> detailList = new ArrayList<>();
+			detailList.add(new PDFDataTest(123456,"test","test","test","test"));
+			detailList.add(new PDFDataTest(111111,"test","test","test","test"));
+			detailList.add(new PDFDataTest(222222,"test","test","test","test"));
+			data.put("detailList", detailList);	
+            */
+			
+		
+			
+						
+			//---Cal Blank Report  
+			if(request.getParameter("crewcode").equalsIgnoreCase("BLANK")) {
+				baos = PDFTemplateUtil.createPDF(data, "blankVoyagerReportTemplet.ftl");
+				fileName = URLEncoder.encode("BlankVaoygerReport.pdf", "UTF-8"); 
+				System.out.println("Cal Blank Templet / Report");
+			}
+			
+			
+			//---Cal All Crew Members Report 
+			if(request.getParameter("crewcode").equalsIgnoreCase("ALL")) {				
+				fileName = URLEncoder.encode(request.getParameter("flightdate")+"-VaoygerReport.pdf", "UTF-8"); 
+				baos = PDFTemplateUtil.createPDF(data, "blankVoyagerReportTemplet.ftl");
+				System.out.println("Cal All Schedule Templet / Report");
+			}
+			
+			
+			//---Cal Indivisual Crew Members Report 
+			if((!request.getParameter("crewcode").equalsIgnoreCase("ALL")) && (!request.getParameter("crewcode").equalsIgnoreCase("BLANK"))) {
+				fileName = URLEncoder.encode(request.getParameter("crewcode")+"-"+request.getParameter("flightdate")+"-VaoygerReport.pdf", "UTF-8"); 
+				baos = PDFTemplateUtil.createPDF(data, "crewVoyagerReportTemplet.ftl");
+				System.out.println("Cal Single Crew Templet / Report");
+			}
+			
+			
+			
+
+			//------- This Part will Download The File --------
+			try {
+				
+				// Set the response message header to tell the browser that the current respo
+				response.setContentType( "application/pdf");
+				// Tell the browser that the current response data requires user intervention to save to the file, and what the file name is. If the file name has Chinese, it must be URL encoded. 
+				
+				//response.setHeader( "Content-Disposition", "attachment;filename=" + fileName);    <<-- For Download
+				response.setHeader( "Content-Disposition", "inline; filename=" + fileName);       //<<-- For View   
+				out = response.getOutputStream();
+				baos.writeTo(out);
+				baos.close();
+				
+			} catch (Exception e) {logger.error(e); throw new Exception("Export failed:" + e.getMessage());} 
+			    finally{if(baos != null){ baos.close();}if(out != null){ out.close();}}//End of finally 
+			
+			
+			
+		}
+
+
 		
 		
 		
+
+		
+		
+
+		//------ BUILTING TODAY AND TOMORROW VARRIABLE ------------
+	    Date today = new Date();               
+		SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 		
 		
 		
+	
 		
 		
 		

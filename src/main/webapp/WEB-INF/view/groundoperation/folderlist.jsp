@@ -137,7 +137,7 @@ function calDocumentUpdate(reportname){
 							<tr>
 								<th>Sr.</th>
 								<th>Description</th>
-								<th>Dated</th>
+								<th>Added Date</th>
 								<th align="center">Category</th>							
 							</tr>
           

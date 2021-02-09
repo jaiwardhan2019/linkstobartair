@@ -3,13 +3,15 @@ package com.linkportal.datamodel;
 public class crewDetail {
 	
 	private String  crewid;
-	private String  crewName;
+	private String  crewFirstName;
+	private String  crewLastName;
 	private String  position;
 	
-	public crewDetail(String crewid, String crewName, String position) {
+	public crewDetail(String crewid, String crewFirstName, String crewLastName, String position) {
 		super();
 		this.crewid = crewid;
-		this.crewName = crewName;
+		this.crewFirstName = crewFirstName;
+		this.crewLastName = crewLastName;
 		this.position = position;
 	}
 
@@ -21,12 +23,20 @@ public class crewDetail {
 		this.crewid = crewid;
 	}
 
-	public String getCrewName() {
-		return crewName;
+	public String getCrewFirstName() {
+		return crewFirstName;
 	}
 
-	public void setCrewName(String crewName) {
-		this.crewName = crewName;
+	public void setCrewFirstName(String crewFirstName) {
+		this.crewFirstName = crewFirstName;
+	}
+
+	public String getCrewLastName() {
+		return crewLastName;
+	}
+
+	public void setCrewLastName(String crewLastName) {
+		this.crewLastName = crewLastName;
 	}
 
 	public String getPosition() {
@@ -37,17 +47,18 @@ public class crewDetail {
 		this.position = position;
 	}
 
+	public String getCrewFullName() {		
+		return this.crewFirstName+ " " +this.crewLastName;
+	}
 	
 	
 	@Override
 	public String toString() {
-		return "crewDetail [crewid=" + crewid + ", crewName=" + crewName + ", position=" + position + "]";
+		return "crewDetail [crewid=" + crewid + ", crewFirstName=" + crewFirstName + ", crewLastName=" + crewLastName
+				+ ", position=" + position + "]";
 	}
 	
-    
 	
-
-
 	
 	
 	

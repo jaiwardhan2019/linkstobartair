@@ -695,7 +695,7 @@ setTimeout(function(){window.location.href="index"},60000000);
  
 
 
-				<!--Full Width text
+				<!--Full Width text  		
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">		
 						     <marquee>
 									<span class="label label-warning"  style="font-weight:600;font-size:22pt;color:black;">
@@ -705,22 +705,9 @@ setTimeout(function(){window.location.href="index"},60000000);
 								</marquee>
 				    
 				</div>
-			-->
+	
+              -->
 
-
-
-			<div class="panel-body">
-
-                  <marquee>
-						<span class="label label-warning"  style="font-weight:600;font-size:22pt;color:black;">
-						    
-						    Hi this is Test please ignore 
-						      
-						</span>
-				
-					</marquee>
-             </div>
-     
      
 		
 		

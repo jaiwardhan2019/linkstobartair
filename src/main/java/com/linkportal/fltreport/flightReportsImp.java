@@ -188,7 +188,7 @@ public class flightReportsImp implements flightReports{
 	public String Populate_Operational_AirlineReg(String aircraftreg, String useremail) throws Exception {
 		
 		   boolean isStobartUser = useremail.indexOf("@stobartair.com") != -1;
-		   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		   DateFormat dateFormat = new SimpleDateFormat("yyyy");
 		   Date date             = new Date();
 		   String curent_year    = dateFormat.format(date);		   
 		   	
@@ -203,9 +203,9 @@ public class flightReportsImp implements flightReports{
 		   		"      and acreg_unit_map.actyp = actype_versions_misc.actype\r\n" + 
 		   		"      and actype_versions_misc.version = ac_Versions.version \r\n" + 
 		   		"	   and ac_versions.ac    =  ac_misc.ac\r\n" + 
-		   		"      and acreg_unit_map.acown in(select ACOWN from LEGS where  DATOP='"+curent_year+"')  \r\n" + 
-		   		"	   and ac_Versions.version in(select VERSION from LEGS where DATOP='"+curent_year+"') \r\n" + 
-		   		"      and acreg_unit_map.actyp in(select ACTYPE from LEGS where DATOP='"+curent_year+"') ";
+		   		"      and acreg_unit_map.acown in(select ACOWN from LEGS where  DATOP like '"+curent_year+"%')  \r\n" + 
+		   		"	   and ac_Versions.version in(select VERSION from LEGS where DATOP like '"+curent_year+"%') \r\n" + 
+		   		"      and acreg_unit_map.actyp in(select ACTYPE from LEGS where DATOP like '"+curent_year+"%') ";
 
 		   if(!isStobartUser){
 			   
@@ -232,13 +232,12 @@ public class flightReportsImp implements flightReports{
 				   		"      and acreg_unit_map.actyp = actype_versions_misc.actype\r\n" + 
 				   		"      and actype_versions_misc.version = ac_Versions.version \r\n" + 
 				   		"	   and ac_versions.ac    =  ac_misc.ac\r\n" + 
-				   		"      and acreg_unit_map.acown in(select ACOWN from LEGS where  DATOP='"+curent_year+"' and LEGS.DEPSTN in("+eligibleairportlist+"))  " + 
-				   		"	   and ac_Versions.version in(select VERSION from LEGS where DATOP='"+curent_year+"' and LEGS.DEPSTN in("+eligibleairportlist+")) " + 
-				   		"      and acreg_unit_map.actyp in(select ACTYPE from LEGS where DATOP='"+curent_year+"' and LEGS.DEPSTN in("+eligibleairportlist+"))";
+				   		"      and acreg_unit_map.acown in(select ACOWN from LEGS where  DATOP like '"+curent_year+"%' and LEGS.DEPSTN in("+eligibleairportlist+"))  " + 
+				   		"	   and ac_Versions.version in(select VERSION from LEGS where DATOP like '"+curent_year+"%' and LEGS.DEPSTN in("+eligibleairportlist+")) " + 
+				   		"      and acreg_unit_map.actyp in(select ACTYPE from LEGS where DATOP like '"+curent_year+"%' and LEGS.DEPSTN in("+eligibleairportlist+"))";
 			
 		   }	   
 		   
-		  
 		   String stationlistwithcode ="<option value='ALL' selected> Select Aircraft REG </option>"; 
 		   SqlRowSet rowst =  jdbcTemplateSqlServer.queryForRowSet(sqlforoperationalaircraftreg);
 		   while(rowst.next()){

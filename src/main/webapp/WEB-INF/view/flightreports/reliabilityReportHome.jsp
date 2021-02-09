@@ -79,6 +79,13 @@ function Download_ExcelReport(){
 </script>
 
 
+<style>
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style>
 
 <body>
 
@@ -106,9 +113,9 @@ function Download_ExcelReport(){
 					  
 					 <input type="hidden" id="profilelist" name="profilelist" value="${profilelist}">
 					  <input type="hidden" name="usertype" value="${usertype}">       
-					    <table class="table"  style="width:100%;background:white;align:center;">	
+					    <table class="table table-striped" border="0" style="width:100%;align=:left">	  
 					   			<tbody>				     
-									 <tr align="center">
+									 <tr align="center"  bgcolor="white">
 										 <td  bgcolor="#0070BA" colspan="2">
 										   <span style="color:white;">  <i class="fa fa-database fa-lx" aria-hidden="true"></i> &nbsp;<b>
 										    Reliablity Report  &nbsp;&nbsp;
@@ -116,8 +123,8 @@ function Download_ExcelReport(){
 										 </td>
 									 </tr>
 							            
-								    <tr>
-										<td align="left" >
+								    <tr  bgcolor="white">
+										<td align="left"  bgcolor="white">
 										 
 												<div class="col-xs-12">
 														<label for="airlineCode">Operating Airline:</label>
@@ -133,7 +140,7 @@ function Download_ExcelReport(){
 											
 							
 									     					
-											<td>
+											<td  bgcolor="white">
 													<div class="col-xs-12">
 															<label for="airlineCode">Departure Airport:</label>
 															<div class="input-group">
@@ -150,9 +157,9 @@ function Download_ExcelReport(){
 										 </tr>
 										 
 										 
-									  <tr align="left"> 
+									  <tr align="left"  bgcolor="white"> 
 									     					
-										<td>
+										<td  bgcolor="white">
 									             
 							               <div class="col-xs-12">
 												<label for="startDate">Start Date:</label>
@@ -165,7 +172,7 @@ function Download_ExcelReport(){
 													
 													
 									       </td>
-										<td>
+										<td  bgcolor="white">
 									             
 							               <div class="col-xs-12">
 												<label for="startDate">End Date:</label>
@@ -183,12 +190,12 @@ function Download_ExcelReport(){
 									       
 									     </tr>					 
 									     
-									  <tr align="left"> 
+									  <tr align="left"  bgcolor="white"> 
 									  
 									     
 									  
 									     					
-										<td >
+										<td  bgcolor="white">
 									             
 									             
 									         <div class="col-xs-12">
@@ -220,9 +227,9 @@ function Download_ExcelReport(){
 						
 						 </tr>
 						 
-						 <tr >
+						 <tr  bgcolor="white">
 									     					
-								<td align="center" colspan="2">
+								<td align="center" colspan="2"  bgcolor="white">
 											   
 									 <span id="searchbutton" onClick="showFlightReport();"  class="btn btn-primary" ><i  class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Show Report </span> 
 							         &nbsp;
@@ -230,8 +237,8 @@ function Download_ExcelReport(){
 											  
 									 </td>
 								</tr>		    
-										<tr>
-												<td colspan="2">
+										<tr  bgcolor="white">
+												<td colspan="2"  bgcolor="white">
 													<span style="display:none" id="searchbutton1">
 														<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
 														   Please have some patience as this might take a while ... 

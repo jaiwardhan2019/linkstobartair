@@ -92,10 +92,8 @@ public class linkPortalEmailImp extends emailServiceUtility implements linkPorta
 			mail.setModel(model);
 			sendSimpleMessageWithHtmlTemplet(mail);
 
-		} catch (Exception e) {
-			System.out.println(e);
-			LOGGER.error("Error in sendTextEmail function:" + e.toString());
-			LOGGER.info(e.toString());
+		} catch (Exception e) {			
+			LOGGER.error("Error in sendTextEmail function:" + e.toString());		
 		}
 
 	}

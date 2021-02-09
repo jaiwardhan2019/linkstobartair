@@ -40,7 +40,7 @@ import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 //@ComponentScan(basePackages = { "com.linkportal.docmanager","com.linkportal.security.UserSecurityLdapDatabase","com.flightreports.dbripostry.flightReports"})
 //@ComponentScan(basePackages = { "org.springframework.mail.javamail.JavaMailSender" })
-//@ComponentScan(basePackages = "com.linkportal")
+//@ComponentScan(basePackages = { "org.apache.velocity.app.VelocityEngine")
 
 
 @Configuration
