@@ -28,8 +28,8 @@ UKSCM=UK Safety Compliance Monitoring
 IESCM=IE Safety Compliance Monitoring
 
 
-UKSGO=UK Ground Ops Statistics
-IESGO=IE Ground Ops Statistics
+UKSGO=UK Ground Ops Safety Statistics
+IESGO=IE Ground Ops Safety Statistics
 
 UKSSB=UK Safety Bulletins
 IESSB=IE Safety Bulletins
@@ -49,7 +49,7 @@ TRAC=Aer Lingus Check-in and Boarding
 TRAR=Aer Lingus Reservations
 TRS=Stobart Air Trianing Modules
 SCM=Safety Compliance Monitoring
-SGO=Ground Ops Statistics
+SGO=Ground Ops Safety Statistics
 DCEL=Cleaning
 DCOM=Compliance Monitoring
 FORMSEI=Aer Lingus Forms
@@ -62,13 +62,18 @@ DERP=Emergency Response Plan
 
 
 
-
 #--------- For All Alfresco Documents ---------
 DCHM=Catering HAACP Manual
 PATHDCHM=alfresco/FlightOperations/CCM/HACCPMANUAL/
 
+DIAM=De-icing & Anti-Icing Manual
+PATHDIAM=alfresco/groundoperations/gdam/deicingantiicingmanual/
 
+DGOPM=Ground Ops Manual
+PATHDGOPM=alfresco/groundoperations/gom/groundoperationsmanual/
 
+SSEP=Security Programme
+PATHSSEP=alfresco/Security/Security Programme/
 
 
 

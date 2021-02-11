@@ -49,6 +49,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import com.linkportal.crewripostry.PDFTemplateUtil;
 import com.linkportal.crewripostry.crewReport;
+import com.linkportal.datamodel.fligthSectorLog;
 import com.linkportal.dbripostry.linkUsers;
 
 
@@ -91,6 +92,9 @@ public class crewReportsControler{
 	
 	boolean Inline = false;
 	
+	
+	
+	
 
 	
 	//-------THis Will be Called When Daily Summary REPORT link Is Called ---------------- 
@@ -103,56 +107,89 @@ public class crewReportsControler{
 
 
 		
-		   String selectoptionString ="";
-		   String todayselection     ="";
-		   String tomorrowselection  ="";
+		   String selectoptionString =null;
+		   String todayselection     =null;
+		   String tomorrowselection  =null;
 		   ArrayList<String> rankList =new ArrayList<String>();
 		   rankList.add("CAPT");
 		   //rankList.add("FO");
 		   //rankList.add("CC");
+
+		   
 		   
 		   
 			
 			
 			//************ THIS PART WILL TAKE CARE OF DATE SELECTION AND CAPTION LIST POPULATION *************
 			if(req.getParameter("flightdate") != null) {
-				 
-				 if(req.getParameter("flightdate").equalsIgnoreCase(getTodaysDateString()))
-				 {todayselection="selected";}else{tomorrowselection="selected";}
-				 //------ ONCE DATE IS SELECTED -----------------------------------------------
-				 model.put("captionlist", crewInfo.showCrewList(req.getParameter("flightdate"),req.getParameter("flightdate"),rankList));
-				 selectoptionString="<option value='"+getTodaysDateString()+"'"+todayselection+">TODAY&nbsp;&nbsp;("+getTodaysDateString()+")</option>\r\n"+ 
-		 		                    "<option value='"+getTomorrowDateString()+"'"+tomorrowselection+">TOMORROW&nbsp;&nbsp;( "+getTomorrowDateString()+")</option>";
-		 
-			 }
-			 else
-			 {
-				//------  DATE IS NOT SELECTED -----------------------------------------------
-				 model.put("captionlist", crewInfo.showCrewList(getTodaysDateString(),getTodaysDateString(),rankList));
-				 selectoptionString="<option value="+getTodaysDateString()+">TODAY&nbsp;&nbsp;("+getTodaysDateString()+")</option>\r\n"+ 
-		 		                    "<option value="+getTomorrowDateString()+">TOMORROW&nbsp;&nbsp;( "+getTomorrowDateString()+")</option>";
-		 
-			 }
-			 model.put("selectoption", selectoptionString);
+
+				   List<fligthSectorLog>  fltSectorList = crewInfo.getFlightSectorListForDateCrew(req.getParameter("flightdate"),req.getParameter("crewcode"));				
+		 		   model.put("flightSectorList",fltSectorList);
+
 
 				 
-			 /** THIS PART WILL TAKE CARE OF CAPTION SCHEDULE REPORT**/
-			 if((req.getParameter("flightdate") != null) && (req.getParameter("crewcode") != null)) {				 
-				 model.put("selectedcaption", req.getParameter("crewcode")); 
+				 if(req.getParameter("flightdate").equalsIgnoreCase(getTodaysDateString())){todayselection="selected";}
+				 if(req.getParameter("flightdate").equalsIgnoreCase(getTomorrowDateString())){tomorrowselection="selected";}
+				 model.put("selectedcaption", req.getParameter("crewcode"));
+				 model.put("selecteddate", req.getParameter("flightdate"));
+				 model.put("captionlist", crewInfo.showCrewList("ALL",req.getParameter("flightdate"),req.getParameter("flightdate"),rankList));			 
 				 
-				 System.out.println("Crew Date;"+req.getParameter("flightdate"));
-				 System.out.println("Crew Code;"+req.getParameter("crewcode"));
-					 
-			 }
-			 
+				 //------ When date is selected  -----------------------------------------------
+				 selectoptionString="<option value='"+getTodaysDateString()+"'"+todayselection+">TODAY&nbsp;&nbsp;("+getTodaysDateString()+")</option>\r\n"+ 
+		 		                    "<option value='"+getTomorrowDateString()+"'"+tomorrowselection+">TOMORROW&nbsp;&nbsp;( "+getTomorrowDateString()+")</option>";
+				
+				 
+				 
+				 
+				 // ----- When All Crew  is selected 
+				 if(req.getParameter("crewcode").equalsIgnoreCase("ALL")) {					 
+					 // -- If Date and Flight Caption is selected 
+					 model.put("flightReport", crewInfo.showCrewList("ALL",req.getParameter("flightdate"),req.getParameter("flightdate"),rankList));
+				 }
+				 else
+				 {
+					 //-- When Once Crew is Selected 
+					 model.put("flightReport", crewInfo.showCrewList(req.getParameter("crewcode"),req.getParameter("flightdate"),req.getParameter("flightdate"),rankList));			 
+						 
+				 }// End of inner if
+				 
+			
+			}
+			else
+			{
+				
+				
+				
+				//------If Date and Crew is not selected--------------------
+				selectoptionString="<option value="+getTodaysDateString()+">TODAY&nbsp;&nbsp;("+getTodaysDateString()+")</option>\r\n"+ 
+		 		                    "<option value="+getTomorrowDateString()+">TOMORROW&nbsp;&nbsp;( "+getTomorrowDateString()+")</option>";
+				//Populate Crew List for Selection
+				model.put("captionlist", crewInfo.showCrewList("ALL",getTodaysDateString(),getTodaysDateString(),rankList));				 
+			    
+				//Populate Flight Sector for the today and  all Crew  
+				List<fligthSectorLog>  fltSectorList = crewInfo.getFlightSectorListForDateCrew(getTodaysDateString(),"ALL");				
+		 		model.put("flightSectorList",fltSectorList);
+		
+				model.put("flightReport", crewInfo.showCrewList("ALL",getTodaysDateString(),getTodaysDateString(),rankList));
+				model.put("selecteddate", getTodaysDateString());	
+				model.put("selectedcaption","ALL");
+			
+			}
+			
+			
+			 model.put("selectoption", selectoptionString);
+  			 
 		 return "crewreport/voyagereport";
 	}
 	
 	
 	
 	
+	
+	
+	
 
-     //--- Using Velocity Engien 
+     //--- Using Velocity Engine 
 	@RequestMapping(value = "/voyagerReportblankpdfWithVelocityTemplet",method = {RequestMethod.POST,RequestMethod.GET})
 	public HttpEntity<byte[]> voyagerReportblankpdfWithVelocityTemplet( HttpServletRequest request, HttpServletResponse response ) throws Exception {		        
 		        return crewInfo.createPdfWithVelocityTemplet("testjai.pdf");		
@@ -171,6 +208,9 @@ public class crewReportsControler{
 	} // End of Method	
 	
 	
-		
+	
+	
+	
+	
 	
 }//----------- End Of Main Controller --------------------

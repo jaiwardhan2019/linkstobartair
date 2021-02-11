@@ -132,6 +132,13 @@ adminemail.list.forppstoken=jai.wardhan@stobartair.com,jai.wardhan@stobartair.co
 
 
 
+#-------- For flightops2 box Connection -------
+flightops.hostname=192.168.0.10
+flightops.hostusername=root
+flightops.hostpassword=restr1ctedarea
+flightops.portnumber=22
+flightops.knownhost=/home/jai.wardhan.local/ssh/known_hosts
+
 
 
 

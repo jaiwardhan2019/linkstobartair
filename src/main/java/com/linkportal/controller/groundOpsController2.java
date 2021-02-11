@@ -64,6 +64,15 @@ public class groundOpsController2 {
 	 @Autowired
 	 crewReport crewInfo;
 	
+	 
+
+	   public static final SimpleDateFormat dateFormat_yyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");
+		
+		//-- Todate Date
+		private String getTodaysDateString() {
+			return dateFormat_yyy_MM_dd.format(new Date());
+		}
+
 	
     //---------- Logger Initializer------------------------------- 
 	private final Logger logger = Logger.getLogger(HomeController.class);
@@ -98,7 +107,10 @@ public class groundOpsController2 {
 		        
 	        if(req.getParameter("operation") != null){	      
 	        	if(req.getParameter("operation").equals("remove")){	        		
-	        		if(docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))){System.out.println("Document Removed");}
+	        		if(docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))){
+	        			//-- Will remove W Statement from the remote box 
+	        			docserv.deleteDocumentFromReoteServer(req, Integer.parseInt(req.getParameter("docid")));
+	        		}
 	        		model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
 	        	}
 	        	
@@ -115,28 +127,37 @@ public class groundOpsController2 {
 	
 	
 	//-------THis Will be Called When MayFly  Report link is called from the Home Page ----------------- 
-		@RequestMapping(value = "/addwtstatement",method = {RequestMethod.POST,RequestMethod.GET}) 
-		public String addGroundOpsWeightstatement(@RequestParam("gfile") MultipartFile[] files,HttpServletRequest req,ModelMap model) throws Exception{
+	@RequestMapping(value = "/addwtstatement",method = {RequestMethod.POST,RequestMethod.GET}) 
+	public String addGroundOpsWeightstatement(@RequestParam("gfile") MultipartFile[] files,HttpServletRequest req,ModelMap model) throws Exception{
 		   
-			  String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
-		      model.addAttribute("profilelist",req.getParameter("profilelist"));
-
-        
-	   	       model.put("airlinecode",req.getParameter("airlinecode").toLowerCase());
-	 	    
+		   String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+		   model.addAttribute("profilelist",req.getParameter("profilelist"));
+		
+		
+		   model.put("airlinecode",req.getParameter("airlinecode").toLowerCase());
+		
 	   	       
-	            model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinereg"),userEmailId[0]));		
-		        model.put("airlinelist",fltobj.Populate_Operational_Airline(req.getParameter("airlinecode"),userEmailId[0]));		
+	       model.put("airlinereg",fltobj.Populate_Operational_AirlineReg(req.getParameter("airlinereg"),userEmailId[0]));		
+		   model.put("airlinelist",fltobj.Populate_Operational_Airline(req.getParameter("airlinecode"),userEmailId[0]));		
 		   	
                		
 	       		 int status=0;
 	    		 Arrays.asList(files).stream().forEach(file ->{
 	    		 try{
-	    			 if(docserv.addUploadFiletoDatabaseAndFolder(req,file)) { model.put("status","Successfully Added"); }else{ model.put("status","Error while uploading !!!");}
-	    	       }catch (IOException | SQLException e) {e.printStackTrace();logger.error("While Uploading file :"+e.toString());}
+	    			 
+	    			 if(docserv.addUploadFiletoDatabaseAndFolder(req,file)) { 
+	    				 model.put("status","Successfully Added"); 
+	    			 }
+	    			 else
+	    			 { 
+	    				 model.put("status","Error while uploading !!!");
+	    			 }
+	    	       
+	    		 }catch (IOException | SQLException e) {e.printStackTrace();logger.error("While Uploading file :"+e.toString());}
 	    		
 	    		 });
     		 
+	    		 
 	    		//******* Pupulate List of File *******************
 	  		    model.put("gopsfilelist",docserv.getAllDocuments(req,"GOPS"));
 	  		

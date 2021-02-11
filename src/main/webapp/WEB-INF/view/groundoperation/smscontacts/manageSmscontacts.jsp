@@ -218,7 +218,7 @@ function add_new_user(){
 		             </td>
 		          </tr>
 		       
-      </c:if>
+                 </c:if>
       
           
          </table> 

@@ -77,7 +77,7 @@ public abstract class emailServiceUtility {
 		// properties.put("mail.smtp.auth", "true");
 		// properties.put("mail.smtp.starttls.enable", "true");
 		session = Session.getInstance(properties);
-		session.setDebug(true);
+		//session.setDebug(true);
 		return session;
 	}
 

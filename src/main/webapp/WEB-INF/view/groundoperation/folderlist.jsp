@@ -103,7 +103,7 @@ function calDocumentUpdate(reportname){
 							</div> <!-- End of class="panel-heading"> -->
 						
 						
-			<div class="panel-body" style="overflow-x:auto;">
+			<div class="panel-body" style="overflow-x:auto;" width="80%">
 				
 		     	<table class="table table-responsive"  style="background:rgba(255,255,255);">	
 				      
@@ -137,8 +137,9 @@ function calDocumentUpdate(reportname){
 							<tr>
 								<th>Sr.</th>
 								<th>Description</th>
-								<th>Added Date</th>
-								<th align="center">Category</th>							
+								<!-- <th>Added Date</th>
+								<th align="center">Category</th>	
+								 -->						
 							</tr>
           
 								
@@ -153,7 +154,7 @@ function calDocumentUpdate(reportname){
 										    <a href="FORMS/${contract.docCategory}/${contract.docName}" target="_new">
 										    
 										     <c:set var="string1" value=" ${contract.docName}"/>
-                                                    <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
+                                                    <c:set var="string2" value="${fn:substring(string1, 0,120)}" />
 			                                            ${string2}
 										    </a>
 											  </c:when>
@@ -161,14 +162,14 @@ function calDocumentUpdate(reportname){
 										    <a href="WEIGHTSTATEMENT/${contract.docCategory}/${contract.docName}" target="_new">
 										    
 										        <c:set var="string1" value=" ${contract.docName}"/>
-                                                    <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
+                                                    <c:set var="string2" value="${fn:substring(string1, 0,120)}" />
 			                                            ${string2}
 										       </a>
 										  </c:when>
 										  <c:otherwise>
 										     <a href="${contract.docCategory}/${contract.docName}" target="_new">										    
 										        <c:set var="string1" value=" ${contract.docName}"/>
-                                                    <c:set var="string2" value="${fn:substring(string1, 0,62)}" />
+                                                    <c:set var="string2" value="${fn:substring(string1, 0,120)}" />
 			                                              ${string2}
 										       </a>
 										  </c:otherwise>
@@ -176,12 +177,15 @@ function calDocumentUpdate(reportname){
 										
 										
 										</td>
+										<!-- 
 										<td >${contract.docAddedDate}</td>
+										
 										<td align="left">										 
 										 		<c:set var="string1" value="${contract.docCategory}"/>
                                                 <c:set var="string2" value="${fn:substring(string1, 0,6)}" />
 			                                      ${string2}
 										 </td>
+										  -->
 									    
 									</tr>
 					</c:forEach>

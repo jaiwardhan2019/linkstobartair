@@ -323,11 +323,20 @@ function CalAlfresco(){
 		  	   	   <ul class="dropdown-menu" style="left:0;width:227px;">	  	   	   
 		  	   	   
 				   	      <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SCM&operation=view');"  style="font-size:09pt;color:black;"><img src="images/folder.png"> &nbsp;&nbsp;Compliance Monitoring &nbsp; </a></li>		    	
-				   	      <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SGO&operation=view');"  style="font-size:09pt;color:black;"><img src="images/folder.png"> &nbsp;&nbsp;Ground Ops Statistics &nbsp; </a></li>		    	
+				   	      <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SGO&operation=view');"  style="font-size:09pt;color:black;"><img src="images/folder.png"> &nbsp;&nbsp;Ground Ops Safety Statistics &nbsp; </a></li>		    	
 		 	   	         <!--  <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=dgopm&operation=view&alfresco=YES');"  style="font-size:09pt;color:black;"><img src="images/folder.png"> &nbsp;Ground Ops Manual </a></li> -->	 
 				   	      <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSB&operation=view');"  style="font-size:09pt;color:black;"><img src="images/folder.png"> &nbsp;&nbsp;Safety Bulletins &nbsp; </a></li>		    	
 				   	      <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSM&operation=view');"  style="font-size:09pt;color:black;"><img src="images/folder.png"> &nbsp;&nbsp;Safety Manual &nbsp; </a></li>	
-				   	      <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSEC&operation=view');"  style="font-size:09pt;color:black;"><img src="images/folder.png"> &nbsp;&nbsp;Security &nbsp; </a></li>	
+						  <li class="dropdown-submenu" style="margin-top:3px;margin-bottom:3px;">
+								<a class="test" tabindex="-1"  style="font-size:09pt;"><img src="images/folder.png"> &nbsp;&nbsp;Security &nbsp;&nbsp;<i class="fa fa-caret-right" style="font-size:14px"></i>&nbsp;</a>
+									<ul class="dropdown-menu" style="width:200px;">
+									        <li><a class="navclass"  href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSEP&operation=view&alfresco=YES');" style="font-size:09pt;"><img src="images/folder.png">&nbsp;Security Programme  </a></li>
+									         <li><a class="navclass"  href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSEN&operation=view&alfresco=YES');" style="font-size:09pt;"><img src="images/folder.png">&nbsp;Security Notice</a></li>
+									         <li><a class="navclass"  href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSEI&operation=view&alfresco=YES');" style="font-size:09pt;"><img src="images/folder.png">&nbsp;Security Instructions</a></li>
+									</ul>
+									 
+						  </li>
+								    	
 				  
 				     </ul>		  	   
 			</li>

@@ -3,24 +3,12 @@ package com.linkportal.docmanager;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
@@ -28,12 +16,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.maven.model.building.FileModelSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -44,7 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import com.linkportal.exception.xmlToExcelInvoiceConversionException;
 import com.google.common.base.Strings;
-import com.linkportal.docmanager.xmlFileConverterToExcel;
+
 
 @Service
 public class DocumentService {
@@ -58,9 +43,37 @@ public class DocumentService {
 
 	public boolean addUploadFiletoDatabaseAndFolder(HttpServletRequest req, MultipartFile file)
 			throws IOException, SQLException {
-		return repository.addDocumentToFolder(req, file);
+		boolean uploadStatus = false;
+		uploadStatus = repository.addDocumentToFolder(req, file);
+		// -- Once Successfully uploaded then send copy of this to the flightops2 box
+		if (uploadStatus) {	repository.transFileFromlocalHostToFlightOps(req, file);}
+		return uploadStatus;
+	}
+	
+	
+
+	public boolean deleteDocumentById(int id) throws IOException, SQLException {
+		return repository.removeDocumentFromFolder(id);
 	}
 
+	
+
+	public boolean deleteDocumentFromReoteServer(HttpServletRequest req ,int id) throws IOException, SQLException {
+		boolean removeStatus = false;
+		MultipartFile file= null;
+		removeStatus = repository.removeDocumentFromFolder(id);
+		//--- Passing null value here will make the target folder empty 
+		if (removeStatus) {	repository.transFileFromlocalHostToFlightOps(req,file);}
+		
+		return removeStatus;
+	}
+
+	
+	
+	
+	
+	
+	
 	public List<DocumentEntity> getAllDocuments(HttpServletRequest req, String department) {
 		List<DocumentEntity> result = repository.showAllDocumentsFromFolder(req, department);
 		return result;
@@ -78,10 +91,6 @@ public class DocumentService {
 	}
 	
 	
-
-	public boolean deleteDocumentById(int id) throws IOException, SQLException {
-		return repository.removeDocumentFromFolder(id);
-	}
 
 	public List<DocumentEntity> seachDocuments(String documentname) {
 		List<DocumentEntity> result = repository.searchDocumentsFromFolder(documentname);

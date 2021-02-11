@@ -46,7 +46,7 @@ public class linkPortalEmailImp extends emailServiceUtility implements linkPorta
 			Transport.send(msg);
 
 		} catch (Exception e) {
-			System.out.println(e);
+		
 			LOGGER.error("Error in sendTextEmail function:" + e.toString());
 			LOGGER.info(e.toString());
 		}
@@ -75,6 +75,10 @@ public class linkPortalEmailImp extends emailServiceUtility implements linkPorta
 
 	}
 
+	
+	
+	
+	
 	@Override
 	public void sendHtmlEmailOnTemplate(String EmailTo, String flightInfostr, String emailbody) {
 		try {

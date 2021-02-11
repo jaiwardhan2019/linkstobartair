@@ -197,7 +197,7 @@ function Upload_PPS_Token_File() {
 														<select id="crewid" name="crewid" class="form-control"  >
 														 <option value="">----------- Select Crew Member ---------</option>
 															 <c:forEach var="caplst" items="${captionlist}"> 
-											                    <option value="${caplst.getCrewid()}"> ${caplst.getPosition()} - (${caplst.getCrewid()}) - ${caplst.getCrewName()}</option>
+											                    <option value="${caplst.getCrewid()}"> ${caplst.getPosition()} - (${caplst.getCrewid()}) - ${caplst.getCrewFullName()}</option>
 											                </c:forEach>
 									
 													    

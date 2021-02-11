@@ -22,6 +22,7 @@
 	document.onmousedown = mousehandler;
 	document.onmouseup = mousehandler;
 	
+	
 </script>
 
 
@@ -62,8 +63,31 @@
 
 
 <script>
+
+
+function search_progress() {
+    var e = document.getElementById("searchbutton");
+    if(e.style.display == 'block')
+       e.style.display = 'none';
+    else
+       e.style.display = 'block';
+
+    var e1 = document.getElementById("searchbutton1");
+    if(e1.style.display == 'block')
+        e1.style.display = 'none';
+     else
+        e1.style.display = 'block';    
+ }
+
+
+
+
+
+
+
 function myFunction(){
-   
+	
+	
     var emailid = document.getElementById("emailid").value.trim();
     var password = document.getElementById("password").value.trim();
     if(emailid == ''){
@@ -77,8 +101,9 @@ function myFunction(){
         document.getElementById("password").focus();
         return false;
     }
-    
+   
     if(emailid != '' && password != ''){
+    	search_progress();
        	document.login.method = "post"
     	document.login.action = "verifyuser";
         document.login.submit();
@@ -143,7 +168,20 @@ function myFunction(){
 									<div class="row">
 										<div class="col-md-12 col-sm-12 col-xs-12 text-right">
 											
-											<span class="btn btn-primary" id="login_button" style="font-weight:600;font-size:9pt;" onClick="myFunction();"><i class="fa fa-lock fa-fw"></i>Login Securely</span><br/>
+											<span  class="btn btn-primary" id="searchbutton" style="display:block;font-weight:600;font-size:9pt;" onClick="myFunction();"><i class="fa fa-lock fa-fw"></i>Login Securely</span>
+											
+											
+									        <span style="display:none" id="searchbutton1">
+								                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+											         <b> &nbsp; Login in progress ....</b>&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse fa-2x"></i>
+											      </div>   
+									        </span>
+								
+											
+											
+											
+											
+											<br/>
 											
 											<input type="submit" value="submit" style="display:none;" /> <br>
 											<a href="https://password.stobartair.com" target="_new" style="font-size:9pt;" >Forgot your password?</a>

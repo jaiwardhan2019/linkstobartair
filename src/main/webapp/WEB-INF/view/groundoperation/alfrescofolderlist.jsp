@@ -133,8 +133,10 @@ function calDocumentUpdate(reportname){
 							<tr>
 								<th>Sr.</th>
 								<th>Description</th>
+								<!-- 
 								<th>Dated</th>
-								<th align="center">Category</th>							
+								<th align="center">Category</th>
+								 -->							
 							</tr>
                  <tbody>
 								
@@ -147,6 +149,7 @@ function calDocumentUpdate(reportname){
 											
 										
 										</td>
+										<!-- 
 										<td >${contract.docAddedDate}</td>
 										<td align="left">
 										 
@@ -156,6 +159,7 @@ function calDocumentUpdate(reportname){
 										 
 										 
 										 </td>
+										  -->
 									    
 									</tr>
 					</c:forEach>

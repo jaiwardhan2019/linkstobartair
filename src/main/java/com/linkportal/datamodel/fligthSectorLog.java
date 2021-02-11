@@ -49,6 +49,7 @@ public class fligthSectorLog implements Serializable{
 	private String ata;
 	private String touchdown;
 	private String AtaAtd;
+	private String StaStd;
 	
 	
 	
@@ -107,11 +108,15 @@ public class fligthSectorLog implements Serializable{
 	//-------- CAPTION FIRST OFFICER DETAIL-------------
 	private String flightCaption;
 	private String flightFirstOfficer;
-	
-	
-	
+	private List<String> allCrewOfThisFlight;
+
+
+
+
+
+
 	public fligthSectorLog(String flightDate,String aircraftReg, String aircraftType, String flightNo, String from,
-			String to, String std, String etd, String atd, String eta, String sta, String ata,  String airborn,String touchdown,String AtaAtd,String noOfSeats,
+			String to, String std, String etd, String atd, String eta, String sta, String ata,  String airborn,String touchdown,String AtaAtd,String StaStd,String noOfSeats,
 			String bookedPax, String totalOnBoard,String sectorComments1,String sectorComments2,String sectorComments3,String sectorComments4,
 			  String delayCode1, String delayCode1_time,String delayCode1_desc,String delayCode2, String delayCode2_time,String delayCode2_desc,
 			  String delayCode3, String delayCode3_time, String delayCode3_desc, String delayCode4,String delayCode4_time, String delayCode4_desc,
@@ -134,6 +139,7 @@ public class fligthSectorLog implements Serializable{
 		this.sta = sta;
 		this.ata = ata;		
 		this.AtaAtd=AtaAtd;
+		this.StaStd=StaStd;
 		
 		this.airborn=airborn;
 		this.touchdown=touchdown;
@@ -188,10 +194,15 @@ public class fligthSectorLog implements Serializable{
 
 
 
-	
+	public List<String> getAllCrewOfThisFlight() {
+		return allCrewOfThisFlight;
+	}
 
 
-	
+	public void setAllCrewOfThisFlight(List<String> allCrewOfThisFlight) {
+		this.allCrewOfThisFlight = allCrewOfThisFlight;
+	}
+
 
 
 
@@ -370,6 +381,18 @@ public class fligthSectorLog implements Serializable{
 	public String getAtaMinusAtd() throws ParseException {		
 		SimpleDateFormat sdf = new SimpleDateFormat("mm");
 			Date dt = sdf.parse(this.getAtaAtd());
+		    sdf = new SimpleDateFormat("HH:mm");
+		    return sdf.format(dt);
+	 	
+	}
+	
+	
+	
+
+	//-------- This will take Minutes and Convert into HH:MM  format like  70 -> 01:10 Minutes  
+	public String getStaMinusStd() throws ParseException {		
+		SimpleDateFormat sdf = new SimpleDateFormat("mm");
+			Date dt = sdf.parse(this.getStaStd());
 		    sdf = new SimpleDateFormat("HH:mm");
 		    return sdf.format(dt);
 	 	
@@ -789,6 +812,22 @@ public class fligthSectorLog implements Serializable{
 
 	public String getAtaAtd() {
 		return AtaAtd;
+	}
+
+
+	
+
+	
+	
+	
+	public String getStaStd() {
+		return StaStd;
+	}
+
+
+
+	public void setStaStd(String staStd) {
+		StaStd = staStd;
 	}
 
 

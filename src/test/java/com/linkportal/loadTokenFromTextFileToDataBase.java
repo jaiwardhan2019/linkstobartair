@@ -11,12 +11,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +30,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.linkportal.crewripostry.crewReport;
 
 public class loadTokenFromTextFileToDataBase {
+	
+	@Autowired
+	static DataSource dataSourcestafftravel;
 
-	public static void main(String[] args) throws IOException {
+	@Autowired
+	static DataSource dataSourcesqlservercp;
+	
+	
+	
+	
+	public static void main(String[] args) throws IOException,NullPointerException,SQLException,ClassNotFoundException  {
 		
 
 			String addedByemailid ="jai.wardhan@stobartair.com";
@@ -37,7 +50,8 @@ public class loadTokenFromTextFileToDataBase {
 			String addedDate               = formattedDate.format(c.getTime());
 	
 			
-		
+		    /*  Load from Text File 
+		     
 		    File file = new File("src/main/resources/ppstoken.txt");			
 			// Creating Streaming Pipe line
 			FileInputStream fis = new FileInputStream(file);
@@ -72,9 +86,33 @@ public class loadTokenFromTextFileToDataBase {
 				TempStr = br.readLine(); // read the next line of the File
 
 			}	
+  
+			*/ 
+			
+			//System.out.println("Total no of record:"+counter);
+			
 
-			System.out.println("Total no of record:"+counter);
-			 
+
+			JdbcTemplate jdbcTemplateMysql = new JdbcTemplate(dataSourcestafftravel);
+			JdbcTemplate  jdbcTemplateCorPortal = new JdbcTemplate(dataSourcesqlservercp);
+
+
+			
+			
+			
+			
+			
+			
+			
+			
+
+			SqlRowSet rw = jdbcTemplateMysql.queryForRowSet("SELECT count(*) as noOfRow FROM flightops_crewing.flight_planning_token");
+		    if(rw.next()) {System.out.println(rw.getInt("noOfRow"));}
+			
+			
+			String sql = "insert into Gops_Crew_Planning_Token (Flight_Planing_Token ,Created_By_Email ,Created_Date) values (?, ?, ?)";
+	
+			
 
 	
 		

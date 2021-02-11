@@ -411,6 +411,10 @@ String[] user  = userName.split("@");
 							</ul>
 			 		  
 			 		    </li>
+		    	        
+		    	        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSEP&operation=view&alfresco=YES');"  style="font-size:09pt;color:black;"><img src="images/folder.png"> &nbsp;Security Programme</a></li>
+		
+		
 	
 		             </ul>		  	   
 		</li>

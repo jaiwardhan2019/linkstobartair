@@ -202,9 +202,9 @@ function calAdminHomePage(){
 					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('flight_daily_summary_report_form?airlineCode=ALL');"   style="font-size:09pt;color:black;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Daily Summary Report</a></li>
 					     </c:if> 
 					     
-						 <c:if test = "${fn:contains(profilelist, 'Voyager')}"> 	    
-					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('voyagerReport?airlineCode=ALL');" style="font-size:09pt;color:black;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;Voyager Report</a></li>
-				         </c:if> 
+						 <c:if test = "${fn:contains(profilelist, 'Voyager')}">  </c:if>  	    
+					        <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('voyagerReport?airlineCode=ALL');" style="font-size:09pt;color:black;"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp; My Flight / Voyager  Report</a></li>
+				         
 	   
 	
 			   		  

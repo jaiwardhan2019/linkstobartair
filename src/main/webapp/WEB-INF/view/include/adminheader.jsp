@@ -46,6 +46,8 @@ String userPassword        =  userProfileList[1];
 if(userFullEmailid.length() < 2){response.sendRedirect("index");}
 String[] userFirstLastName  = userFullEmailid.split("@");
 String userLoginId          = userFirstLastName[0];
+
+
 // Url Encoding 
 //https://stackoverflow.com/questions/5053975/how-to-encode-a-string-representing-url-path-with-jstl
 %>

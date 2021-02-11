@@ -300,9 +300,9 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 			// 1.Fetch File detail from table
 			SqlRowSet result = jdbcTemplate.queryForRowSet("Select doc_name , doc_path ,  doc_category from Gops_Document_Master where doc_id=" + docId);
 			if (result.next()) {
-				File ff = new File(result.getString("doc_path"));
+				File fileObj = new File(result.getString("doc_path"));
 				// 2 Once file is removed from folder remove entry from table
-				if (ff.delete()) {
+				if (fileObj.delete()) {
 					jdbcTemplate.execute("delete from Gops_Document_Master where doc_id=" + docId);
 				}
 			}
@@ -474,5 +474,60 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		return convertAndUploadStatus;
 	}
 
+	
+	
+	
+	
+	
+	//-------- Connection 
+    @Value("${flightops.hostname}")
+    private  String REMOTE_HOST;
+    
+    @Value("${flightops.hostusername}")
+    private String USERNAME;
+    
+    @Value("${flightops.hostpassword}")
+    private String PASSWORD;
+    
+	@Value("${flightops.portnumber}")
+	private int REMOTE_PORT;
+	
+    
+	@Value("${flightops.knownhost}")
+	private String KNOWN_HOST;
+	
+	
+	
+	
+	@Override
+	public void transFileFromlocalHostToFlightOps(HttpServletRequest req, MultipartFile file) {		
+		
+		String originalFileName;
+		
+		if(file != null) {originalFileName=file.getOriginalFilename();}else{originalFileName=null;}
+		
+		String sourceFileWithFullPath = groundopsRootFolder + "WEIGHTSTATEMENT/" + req.getParameter("cat").toUpperCase() + "/"+originalFileName;
+		
+		String targetFolderFullPath = "/data/docs/REFIS/Aircraft Weight Statements/"+req.getParameter("airlinereg")+"/"+req.getParameter("airlinecode")+"/";
+	
+		SFTPFileTransfer objSFTP = new SFTPFileTransfer(REMOTE_HOST, USERNAME, PASSWORD, REMOTE_PORT,KNOWN_HOST);
+		
+		objSFTP.transferFileFromLocalToRemote(sourceFileWithFullPath,targetFolderFullPath,originalFileName);
+		
+		if(originalFileName == null) {
+			logger.info(originalFileName+ " Is Removed from the flightops2 box :"+targetFolderFullPath + ": By :"+req.getParameter("emailid"));			
+		}
+		else
+		{
+			logger.info(originalFileName+ " Is Moved from local Box to the flightops2 box on :"+targetFolderFullPath + ": By :"+req.getParameter("emailid"));
+		}
+			
+		
+	}
+
+	
+	
+	
+	
 	
 }// ------- END OF Class -----------

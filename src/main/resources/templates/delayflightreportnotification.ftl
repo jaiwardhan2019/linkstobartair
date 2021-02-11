@@ -43,7 +43,7 @@
         <tr>
             <td align="left">
                     <br><br><br> 
-                    To view this update please logon to the <a href="https://link.stobartair.com"> Link Portal. </a> >> Report >> Delay Report. >> Comment 
+                    To view full update please logon to the <a href="https://link.stobartair.com"> Link Portal. </a> >> Report >> Delay Report. >> Comment 
 		    </td>
         </tr>
         

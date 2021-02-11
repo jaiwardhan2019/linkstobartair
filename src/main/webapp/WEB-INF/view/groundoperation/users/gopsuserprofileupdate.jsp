@@ -164,6 +164,12 @@ function updateProfiletoDataBase(checkboxElem) {
 									 <td  align="center" width="20%"><input type="checkbox"  id="gopsprofile" value="15" onchange="updateProfiletoDataBase(this)" <c:if test = "${fn:contains(userinsubjectgopsprofile,'weightstatement')}">  checked  </c:if>></td>								 
 								</tr>
 								
+								<tr>
+									 <td  align="left" width="80%">Voyager / Flight  Report </td>
+									 <td  align="center" width="20%"><input type="checkbox"  id="gopsprofile" value="5" onchange="updateProfiletoDataBase(this)" <c:if test = "${fn:contains(userinsubjectgopsprofile,'Voyager')}">  checked  </c:if>></td>								 
+								</tr>
+								
+								
 							</table>
 											
 				  </td>

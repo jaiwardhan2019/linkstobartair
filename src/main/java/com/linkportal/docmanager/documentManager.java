@@ -32,8 +32,13 @@ public interface documentManager {
 	  
 	 List<String> listFolder(String foldername);
 	 
-
 	 
+	 /****
+	  * Transfer From local box to the flightops2 for the weight statement
+	  * these files will be used by the crew website for the Weight Statement
+	  * Note :  Passing null as a file will only empty folder content  
+	 ****/
+	 void transFileFromlocalHostToFlightOps(HttpServletRequest req, MultipartFile file);
 	 
 	 
 	  

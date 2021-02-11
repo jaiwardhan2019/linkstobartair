@@ -28,6 +28,7 @@ public class flightSectorLogRowmapper implements  RowMapper<fligthSectorLog> {
 				   rs.getString("TOFF_DATE_TIME"),
 				   rs.getString("TDWN_DATE_TIME"),
 				   rs.getString("ATA_ATD"),				   
+				   rs.getString("STA_STD"),				   
 				   rs.getString("SCR_SEATS"),
 				   rs.getString("BOOKED"),
 				   rs.getString("PAX"),
