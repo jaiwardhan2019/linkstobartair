@@ -503,6 +503,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 	public void transFileFromlocalHostToFlightOps(HttpServletRequest req, MultipartFile file) {		
 		
 		String originalFileName;
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
 		
 		if(file != null) {originalFileName=file.getOriginalFilename();}else{originalFileName=null;}
 		
@@ -515,11 +516,11 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		objSFTP.transferFileFromLocalToRemote(sourceFileWithFullPath,targetFolderFullPath,originalFileName);
 		
 		if(originalFileName == null) {
-			logger.info(originalFileName+ " Is Removed from the flightops2 box :"+targetFolderFullPath + ": By :"+req.getParameter("emailid"));			
+			logger.info(originalFileName+ " Is Removed from the flightops2 box :"+targetFolderFullPath + ": By :"+userEmailId[0]);			
 		}
 		else
 		{
-			logger.info(originalFileName+ " Is Moved from local Box to the flightops2 box on :"+targetFolderFullPath + ": By :"+req.getParameter("emailid"));
+			logger.info(originalFileName+ " Is Moved from local Box to the flightops2 box on :"+targetFolderFullPath + ": By :"+userEmailId[0]);
 		}
 			
 		

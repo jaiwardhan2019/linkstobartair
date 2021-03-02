@@ -238,11 +238,8 @@ public class AdminHomeController {
 			String[] userEmailId = req.getParameter("profilelist").toString().split("#");
 			model.addAttribute("profilelist", req.getParameter("profilelist"));
 			model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
-			String[] userprofile_linkprofile = new String[2];
-			userprofile_linkprofile = lkuser.getUserpProfileAndLinkProfile(req.getParameter("id"));
-			model.put("userprofilelist", userprofile_linkprofile[0]);
-			model.put("linkprofilelist", userprofile_linkprofile[1]);
 			model.put("emailid", userEmailId[0]);
+			model.put("userinsubjectgopsprofile",dbusr.getUser_Profile_List_From_DataBase(req.getParameter("id"),null)); // Fetch User Profile  
 			return "admin/userprofile/updateuserprofile";
 			
     }
@@ -256,7 +253,7 @@ public class AdminHomeController {
 		model.addAttribute("profilelist", req.getParameter("profilelist"));
 
     	
-        lkuser.UpdateUserpProfileAndActiveStatustoDataBase(req.getParameter("id"), req.getParameter("activestatus"), req.getParameter("adminstatus"));
+        lkuser.UpdateUserpProfileAndActiveStatustoDataBase(req.getParameter("userinsubject"), req.getParameter("activestatus"), req.getParameter("adminstatus"));
         if (req.getParameterValues("linkprofile") != null) {
             String[] selectedlikprofile = req.getParameterValues("linkprofile");
             List profilelist = Arrays.asList(selectedlikprofile);
@@ -267,13 +264,11 @@ public class AdminHomeController {
 
         //----------- This Part is to Built -  Next Page with the User Detail and Profile detail
         String[] userprofile_linkprofile = new String[2];
-        userprofile_linkprofile = lkuser.getUserpProfileAndLinkProfile(req.getParameter("id"));
-        model.put("userprofilelist", userprofile_linkprofile[0]);
-        model.put("linkprofilelist", userprofile_linkprofile[1]);
-        model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("id")));
+        userprofile_linkprofile = lkuser.getUserpProfileAndLinkProfile(req.getParameter("userinsubject"));
+        //model.put("userprofilelist", userprofile_linkprofile[0]);
+        model.put("linkuserdetail", lkuser.getLinkUserDetails(req.getParameter("userinsubject")));
+    	model.put("userinsubjectgopsprofile",dbusr.getUser_Profile_List_From_DataBase(req.getParameter("userinsubject"),null)); 
         model.put("emailid",userEmailId[0]);
-
-
         return "admin/userprofile/updateuserprofile";
     }
 

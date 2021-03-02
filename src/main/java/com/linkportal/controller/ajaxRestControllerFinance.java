@@ -1,15 +1,21 @@
 package com.linkportal.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
 import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+
+import java.io.OutputStream;
+
+import java.util.Date;
+
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,12 +32,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.linkportal.datamodel.flightDelayComment;
+import com.linkportal.dbripostry.codusSageFuelReport;
 import com.linkportal.docmanager.DocumentService;
 import com.linkportal.exception.xmlToExcelInvoiceConversionException;
 import com.linkportal.groundops.gopsAllapi;
+import com.linkportal.reports.excel.ReportMaster;
 import com.linkportal.security.UserSecurityLdap;
 import com.google.common.base.Strings;
-
+import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -40,6 +52,19 @@ public class ajaxRestControllerFinance {
 
 	@Autowired
 	DocumentService  docserv;
+	
+	@Autowired
+	codusSageFuelReport fuelInvObject;
+	
+	
+	@Autowired
+	ReportMaster excel;
+
+	
+	
+	@Value("${spring.operations.excel.reportsfileurl}") String filepath;	
+	
+
 
 
     //---------- Logger Initializer------------------------------- 
@@ -52,13 +77,92 @@ public class ajaxRestControllerFinance {
 		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
 	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
 		model.put("status", displayAllConvertedFile(req));
-		logger.info("User id:"+req.getParameter("emailid")+" Called Invoice Conversion Tool");		
+		logger.info("User id:"+userEmailId[0]+" Called Invoice Conversion Tool");		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("miscellanous/convertinvoice");
 		return modelAndView;	
 	}//--------------- End Of Function -------------
 
 
+	
+
+	//-------THis Will be Called when link is clicked form the Header ----------------- 
+	@RequestMapping(value = "/fuelreportdownload",method = {RequestMethod.POST,RequestMethod.GET}, produces = { MimeTypeUtils.TEXT_PLAIN_VALUE })
+	public ModelAndView fuelreportdownload(HttpServletRequest req,ModelMap model) throws Exception{	
+		
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));	
+	
+	    
+	    
+	    if(req.getParameter("batch") != null)         { model.put("batch",req.getParameter("batch"));}
+	    if(req.getParameter("invoiceno") != null)     { model.put("invoiceno",req.getParameter("invoiceno"));}
+	    if(req.getParameter("financialyear") != null) { model.put("financialyear",req.getParameter("financialyear"));}
+	    //-- Service Cal Pull and Populate data from database 
+	    
+	    model.put("invoicelist",fuelInvObject.populateFuelInvoices(req));
+	    
+	    
+		logger.info("User id:"+userEmailId[0]+" Called Fuel Report");		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("miscellanous/fuelreportdownload");
+		return modelAndView;	
+	}//--------------- End Of Function -------------
+
+
+      //https://34codefactory.medium.com/spring-boot-file-download-using-ajax-example-code-factory-95e33ab0934c
+	  // JAITODO
+	
+	// --------- THIS PART WILL DO DB UPDATE FROM THE AJAX
+	@RequestMapping(value = "/downloadfuleinvoiceinexcelfile", method = { RequestMethod.POST, RequestMethod.GET })
+	public void CreateExcelReport(ModelMap model, HttpServletRequest req, HttpServletResponse res)
+			throws Exception {
+		
+		if (Strings.isNullOrEmpty(req.getParameter("financialyear"))) {
+			
+			logger.error("Financial Year not selected for the fuel invoice Excel Report");
+			throw new Exception("Finanacial Year not selected");
+			
+		} else{
+			
+			logger.info(req.getParameter("emailid") + " : Have Started Downloading  Fuel Invoice Excel Report  on:" + new Date());
+			excel.populateFuelInvoiceFromCodusSage(req.getParameter("financialyear"), req.getParameter("batch"), req.getParameter("invoiceno"),req.getParameter("emailid"));
+			
+		}
+	}
+
+	
+	
+
+	//--- Download File on new browser 
+	private void downLoadFile(HttpServletResponse response , ByteArrayOutputStream baos , String fileName) throws Exception {
+		
+		OutputStream out = null;
+		//------- This Part will Download The File --------
+		try {
+			
+			// Set the response message header to tell the browser that the current respo
+			response.setContentType( "application/pdf");
+			// Tell the browser that the current response data requires user intervention to save to the file, and what the file name is. If the file name has Chinese, it must be URL encoded. 
+			System.out.println("Inside Download  Methid ");
+		
+			//response.setHeader( "Content-Disposition", "attachment;filename=" + fileName);    //<<-- For Download
+			response.setHeader( "Content-Disposition", "inline;filename=" + fileName);       //<<-- For View   
+			out = response.getOutputStream();			
+			baos.writeTo(out);			
+			out.flush();
+			baos.close();
+			
+		} catch (Exception e) {logger.error(e); System.out.println(e.getMessage());} 
+		    //finally{if(baos != null){ baos.close();}if(out != null){ out.close();}}//End of finally 
+		
+
+		
+	}
+	
+	
+	
+	
 
 
 	

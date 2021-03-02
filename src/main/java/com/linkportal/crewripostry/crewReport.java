@@ -31,9 +31,6 @@ public interface crewReport {
 	
 	
 	
-		
-	public HttpEntity<byte[]> createPdfWithVelocityTemplet(String fileName) throws IOException;
-	
 	public void createVoyagerReportWithFreeMakerTemplet(HttpServletRequest request,HttpServletResponse response ) throws Exception;
 
 

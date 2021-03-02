@@ -16,10 +16,6 @@ import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 
 
-
-
-
-
 /**
  * @author Jai.Wardhan 
  * 
@@ -77,6 +73,13 @@ public class InfrastructureConfig{
 	  @Bean(name = "dataSourceopswebsys")	  
 	  @ConfigurationProperties(prefix = "opswebsys.datasource") 
 	  public DataSource dataSource_opswebsys() {
+		  return DataSourceBuilder.create().build(); 
+	  }
+
+	  //--- Aalive 
+	  @Bean(name = "datasourceaalive")	  
+	  @ConfigurationProperties(prefix = "aalive.sqlserver.datasource") 
+	  public DataSource dataSource_Aalive() {
 		     return DataSourceBuilder.create().build(); 
 	  }
 

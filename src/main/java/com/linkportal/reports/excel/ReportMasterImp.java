@@ -1,10 +1,13 @@
 package com.linkportal.reports.excel;
 
 import java.awt.Font;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,12 +15,15 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
@@ -40,6 +46,8 @@ import com.linkportal.datamodel.flightDelayComment;
 import com.linkportal.datamodel.flightDelayCommentRowmapper;
 import com.linkportal.datamodel.flightSectorLogRowmapper;
 import com.linkportal.datamodel.fligthSectorLog;
+import com.linkportal.dbripostry.codusSageFuelInvoice;
+import com.linkportal.dbripostry.codusSageFuelInvoiceRowmapper;
 import com.linkportal.sql.GroundOpsSqlBuilder;
 import com.linkportal.sql.linkPortalSqlBuilder;
 
@@ -49,16 +57,37 @@ import com.linkportal.sql.linkPortalSqlBuilder;
 @Repository
 public class ReportMasterImp extends excelReportCommonUtil implements ReportMaster {
 
+	
+	private static final String MasterSqlForallFuelInvoice = "SELECT scheme.Codisplinvdm.item As Invoice_No,\r\n"
+			+ "scheme.Codisplinvdm.date_1 As DATE1 , scheme.Codisplinvhm.batch as Batch,\r\n"
+			+ "scheme.Codisplinvhm.analysis_codes2 as Financial_Year , scheme.Codisplinvhm.period ,\r\n"
+			+ "scheme.Codisplinvhm.supplier as Supplier_Code, scheme.Codisplinvhm.name as Supplier_Name, \r\n"
+			+ "scheme.Codisplinvhm.analysis_codes3 As Franchise, scheme.Codisplinvdm.nominal_code As Nominal_Code,\r\n"
+			+ "scheme.Codisplinvdm.vat_code, scheme.Codisplinvdm.local_value AS Amount_From_Line_Item_Table,\r\n"
+			+ "scheme.Codisplinvdm.analysis_1 AS IATA_CODE , scheme.Codisplinvdm.analysis_2 AS Ticket_No,\r\n"
+			+ "scheme.Codisplinvdm.analysis_3 AS Flight_No, scheme.Codisplinvdm.analysis_4 AS Aircraft_Reg,\r\n"
+			+ "scheme.Codisplinvdm.name_1 AS TYPE_FUEL_AIRPORT_FEE, scheme.Codisplinvdm.value_1\r\n"
+			+ "FROM scheme.Codisplinvhm  JOIN scheme.Codisplinvdm  ON scheme.Codisplinvhm.item = scheme.Codisplinvdm.item \r\n"
+			+ "and scheme.Codisplinvhm.supplier = scheme.Codisplinvdm.supplier\r\n"
+			+ "where scheme.Codisplinvdm.nominal_code in ('R026-3-20-10-010','R026-3-20-10-005') ";
+	
+	
+	private static final String CurrentYearLasttwoDigit = Year.now().toString().substring(2);
+	
 
     @Autowired
     DataSource dataSourcesqlserver;
     
     @Autowired
     DataSource dataSourcesqlservercp;
+    
+	@Autowired
+	DataSource datasourceaalive;
+	
       
 	JdbcTemplate jdbcTemplate;	
 	JdbcTemplate jdbcTemplateCorp;	
-	
+	JdbcTemplate jdbcTemplateForInvoice;	
 	
 	
 	
@@ -73,9 +102,10 @@ public class ReportMasterImp extends excelReportCommonUtil implements ReportMast
 	
 	
 	
-	ReportMasterImp(DataSource dataSourcesqlserver,DataSource dataSourcesqlservercp){ 
+	ReportMasterImp(DataSource dataSourcesqlserver,DataSource dataSourcesqlservercp,DataSource datasourceaalive){ 
 		jdbcTemplate     = new JdbcTemplate(dataSourcesqlserver);
 		jdbcTemplateCorp = new JdbcTemplate(dataSourcesqlservercp);
+		jdbcTemplateForInvoice  = new JdbcTemplate(datasourceaalive);
 	}
 
 	
@@ -781,7 +811,7 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 	  
 			
 		
-	}//------------ End Of 
+	}//------------ End Of Method 
 
 
 
@@ -802,17 +832,141 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 		       }		 
 				   
 		   return StobartAttributableDelay;
-	   }	   
-		   
-		   
-		   
-		   
+	   }
 
 
 
 
-	
-	
+
+
+
+
+
+
+
+	    // For Fuel Invoice.. JAITODO
+		@Override
+		public int  populateFuelInvoiceFromCodusSage(String financialYear, String invBatch, String invoiceNo , String userEmail)
+				throws Exception {
+			
+			System.out.println("Detail"+financialYear+invBatch+invoiceNo);
+	        
+			HSSFWorkbook workbook = new HSSFWorkbook();	
+			HSSFRow row = null;
+			int rowNumber = 0;
+		
+		
+			
+			// Create a new font and alter it.
+		    HSSFFont font = workbook.createFont();
+			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+			font.setFontName("Arial");
+		    //  Create Style sheet with the above font 	
+			CellStyle style = workbook.createCellStyle();
+			style.setFillBackgroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+			//style.setFillPattern(CellStyle.LESS_DOTS);
+		    style.setFont(font);
+			
+
+		    //------------------ This Will Create Report Sheet for All OTP Flight  ---------------
+		    
+		    String sqlForInvoiceList      = MasterSqlForallFuelInvoice;	
+		    
+		    
+			if (!Strings.isNullOrEmpty(invBatch)) {
+				sqlForInvoiceList = sqlForInvoiceList + "and scheme.Codisplinvhm.batch like '%" + invBatch+"%'";
+			}
+			
+			if (!Strings.isNullOrEmpty(invoiceNo)) {
+				sqlForInvoiceList = sqlForInvoiceList + "and scheme.Codisplinvdm.item like '%"+ invoiceNo+ "%'";
+			}
+
+			if (!Strings.isNullOrEmpty(financialYear)) {
+				sqlForInvoiceList = sqlForInvoiceList + "and scheme.Codisplinvhm.analysis_codes2 like '%"+financialYear+ "'";
+			} 
+			else 
+			{
+				sqlForInvoiceList = sqlForInvoiceList + "and scheme.Codisplinvhm.analysis_codes2 like '%"+CurrentYearLasttwoDigit+"'";
+
+			}
+		    
+			
+		    rowNumber = 0;                
+		    
+		    
+		    //--- Create Sheet and Fill Data in there from database 
+		    createFuelReportSheet(style,workbook,rowNumber,financialYear,invoiceNo,invBatch,sqlForInvoiceList);
+		   
+		    
+			// --------------- Creating File And Save to Disk ----------------------
+			try (FileOutputStream outputStream = new FileOutputStream(filepath +userEmail+"/fuelInvoiceReport.xls")) {
+
+				workbook.write(outputStream);
+				logger.info("Fuel Invoice is created on:" + new Date());
+
+			} catch (IOException ioe) {logger.error(ioe);}
+	    	
+			return 1;
+
+		}	   
+			   
+			   
+
+		
+		//----------------- This Will Create Sheet With OTP Report ------------------------------- 
+		private void createFuelReportSheet(CellStyle style,HSSFWorkbook workbook, int rowNumber, String finYear , String inVoiceNo , String batchNo, String sqlForInvoiceList)throws Exception {
+
+			HSSFSheet sheet =  workbook.createSheet( "Fuel - Report");
+			setPrintSetup(sheet);
+			String delaycodelist="";
+			String delayDesclist="";
+			
+			HSSFRow row = sheet.createRow(rowNumber++);
+			
+		    String[] otpFlightReportTitlesList = {"Invoice No ", "DATE1","Batch","Financial_Year", "period", "Supplier_Name", "Franchise","Nominal Code",
+		    		"VAT Code","Amount", " IATA Code " , "Ticket No" ,"Flight_No" ,"Aircraft_Reg" , "TYPE_FUEL_AIRPORT_FEE" , "value_1"};
+
+		    short[] otpFlightReportTitlesWidthsList = {3000, 3000, 3000, 3000,3000, 12000, 3000, 3000,6000,10000,10000,3000,3000,3000,3000,5000};
+
+			
+		    // Create Header Label with the parameter Detail 	
+		    row = sheet.createRow( rowNumber++ );
+		    
+		    createCell_Header(style, row, 0,"Invoice list of Year  : "+finYear);
+
+		    row = sheet.createRow( rowNumber++ );
+		    row = sheet.createRow( rowNumber++ );
+		    
+			
+			//------------ Creating Header of The Excel Sheet ---------------
+			for (int c = 0; c < otpFlightReportTitlesList.length; c++) {
+				createCell_Header( style, row, c, otpFlightReportTitlesList[c]);
+				sheet.setColumnWidth( c, otpFlightReportTitlesWidthsList[c] );
+			}
+			
+			int rowCtr = 0;
+			List<codusSageFuelInvoice> invoiceList = jdbcTemplateForInvoice.query(sqlForInvoiceList,new codusSageFuelInvoiceRowmapper());		
+			  
+		    for(codusSageFuelInvoice invObj:invoiceList){  
+		    	
+		    	row = sheet.createRow( rowNumber++ );
+		    	createCell(row, 0, rowCtr++);
+		     	createCell(row, 1, invObj.getInvoiceNo());
+		     	createCell(row, 2, invObj.getInvoiceDate());
+		     	createCell(row, 3, invObj.getInvoiceBatch());
+		     	createCell(row, 4, invObj.getInvoiceFinYear());
+		    	createCell(row, 5, invObj.getInvoiceFinYear());
+		    	
+		    }// ---------- End Of Loop 
+			
+		  
+				
+			
+		}//------------ End Of Method 
+
+
+
+			
 	
 	
 	

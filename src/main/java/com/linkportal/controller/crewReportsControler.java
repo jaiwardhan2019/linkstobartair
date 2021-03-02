@@ -107,12 +107,12 @@ public class crewReportsControler{
 
 
 		
-		   String selectoptionString =null;
-		   String todayselection     =null;
-		   String tomorrowselection  =null;
-		   ArrayList<String> rankList =new ArrayList<String>();
+		   String selectoptionString  = null;
+		   String todayselection      = null;
+		   String tomorrowselection   = null;
+		   ArrayList<String> rankList = new ArrayList<String>();
 		   rankList.add("CAPT");
-		   //rankList.add("FO");
+		   rankList.add("FO");
 		   //rankList.add("CC");
 
 		   
@@ -183,22 +183,6 @@ public class crewReportsControler{
 	}
 	
 	
-	
-	
-	
-	
-	
-
-     //--- Using Velocity Engine 
-	@RequestMapping(value = "/voyagerReportblankpdfWithVelocityTemplet",method = {RequestMethod.POST,RequestMethod.GET})
-	public HttpEntity<byte[]> voyagerReportblankpdfWithVelocityTemplet( HttpServletRequest request, HttpServletResponse response ) throws Exception {		        
-		        return crewInfo.createPdfWithVelocityTemplet("testjai.pdf");		
-
-	}
-	
-	
-	
-
 	// --- Using FreeMaker FTL Templet 
 	@RequestMapping(value = "/voyagerReportblankpdfWithFLTTemplet", method = { RequestMethod.POST, RequestMethod.GET })
 	public void voyagerReportblankpdfWithFLTTemplet(HttpServletRequest reqObj, HttpServletResponse resObj)

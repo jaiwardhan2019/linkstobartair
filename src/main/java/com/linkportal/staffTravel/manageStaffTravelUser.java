@@ -11,6 +11,8 @@ public interface manageStaffTravelUser {
 	List<staffTravelUsers> searchStaffTravelUsers(String name);
 	
 	int removeStaff_FromDb(int accountid, String name);
+	
+	void updateUserGdprConsent(String emailid);
 
 	
 }

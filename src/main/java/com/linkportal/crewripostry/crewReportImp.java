@@ -16,19 +16,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -458,46 +454,7 @@ public class crewReportImp implements crewReport{
 		
 		
 
-		@Override
-		public HttpEntity<byte[]> createPdfWithVelocityTemplet(String fileName) throws IOException {
 
-			/* first, get and initialize an engine */
-
-			VelocityEngine ve = new VelocityEngine();
-			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-
-			Properties p = new java.util.Properties();
-			p.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
-			ve.init(p);
-
-			Template t = ve.getTemplate("templates/flightReportTemplate.vm");
-
-			/* create a context and add data */
-			VelocityContext context = new VelocityContext();
-			context.put("name", "World");
-			context.put("genDateTime", LocalDateTime.now().toString());
-			context.put("addedByName", "Jai Wardhan");
-
-			/* now render the template into a StringWriter */
-			StringWriter writer = new StringWriter();
-			t.merge(context, writer);
-
-			/* show the World */
-			System.out.println(writer.toString());
-
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			baos = generatePdf(writer.toString());
-			HttpHeaders header = new HttpHeaders();
-			header.setContentType(MediaType.APPLICATION_PDF);
-			//header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName.replace(" ", "_")); // Download 
-			header.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + fileName.replace(" ", "_")); // Veiw in webpage 
-			header.setContentLength(baos.toByteArray().length);
-
-			return new HttpEntity<byte[]>(baos.toByteArray(), header);
-
-		}		
-		
 		
 		
 		
@@ -552,6 +509,7 @@ public class crewReportImp implements crewReport{
 			if(Strings.isNullOrEmpty(request.getParameter("flightdate"))) {throw new Exception("Missing Flight Date");}
 			
 			
+			String[] userEmailid=request.getParameter("profilelist").split("#");	
 			
 			ByteArrayOutputStream baos = null;
 			
@@ -564,8 +522,8 @@ public class crewReportImp implements crewReport{
 				baos = PDFTemplateUtil.createSinglePagePDF(data, "blankVoyagerReportTemplet.ftl");
 				fileName = URLEncoder.encode("BlankVaoygerReport.pdf", "UTF-8"); 
 				System.out.println("Cal Blank Templet / Report");
-				downLoadFile(request,response,baos,fileName);
-				logger.info("Blank Voyager Report Downloaded by : "+request.getParameter("emailid"));
+				downLoadFile(request,response,baos,fileName);			
+				logger.info("Blank Voyager Report Downloaded by : "+userEmailid[0]);
 			}
 			
 			
@@ -599,7 +557,7 @@ public class crewReportImp implements crewReport{
 								
 				baos = PDFTemplateUtil.createMultiplePagePDF(mapArray , "crewVoyagerReportTemplet.ftl");	
 				downLoadFile(request,response,baos,fileName);
-				logger.info("Voyager Report Downloaded by : "+request.getParameter("emailid"));
+				logger.info("Voyager Report Downloaded by : "+userEmailid[0]);
 	
 			}
 			
@@ -614,7 +572,7 @@ public class crewReportImp implements crewReport{
 				baos = PDFTemplateUtil.createSinglePagePDF(data, "crewVoyagerReportTemplet.ftl");
 				System.out.println("Cal Single Crew Templet / Report");
 				downLoadFile(request,response,baos,fileName);
-				logger.info("Voyager Report Downloaded by : "+request.getParameter("emailid"));
+				logger.info("Voyager Report Downloaded by : "+userEmailid[0]);
 			}
 			
 			
@@ -661,10 +619,6 @@ public class crewReportImp implements crewReport{
 	    Date today = new Date();               
 		SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 
-
-		
-		
-		
-		
+	
 		
 }

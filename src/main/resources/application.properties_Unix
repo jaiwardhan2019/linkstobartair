@@ -52,6 +52,8 @@ qpulse.service.user.password=jrTi9mpTT9stclwIBZVY
 groundops.documentroot.folder=/data/groundops/
 
 
+#linkhome.documentroot.folder=C:/data/linkhome/
+linkhome.documentroot.folder=/data/linkhome/
 
 
 #fuelinvoices.documentroot.folder=C:/data/fuelinvoices/

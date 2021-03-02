@@ -269,7 +269,16 @@ tr:nth-child(even) {
  <c:forEach var="flightReport" items="${flightReport}">          
 
 
- <table class="table table-bordered" border="1" style="font-size:11px;font-weight:bold;width:70%;background:white;box-shadow: 4px 2px 6px 2px #888888;" align="center">	
+
+		
+	
+
+<div class="row">
+   <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">	
+
+<div class="panel-shadow"> 
+
+ <table class="table table-bordered" border="1" style="font-size:11px;font-weight:bold;width:100%;background:white;" align="center">	
  	     
  	     <tr>
  	        <td bgcolor="#0070BA">
@@ -286,30 +295,24 @@ tr:nth-child(even) {
 		<tr>
  	        <td bgcolor="#0070BA">
 			   <span style="color:white;"> <b> 
-					    Capt:	
+					    Position :	
 			     </b>	
 			     </span>				 
 			</td>
 			<td colspan="9" bgcolor="white">
 			  <b>
 			    
-			       
 			    <c:if test = "${fn:containsIgnoreCase(flightReport.position,'CAPT')}">
-			       Capt.&nbsp;
+			       Capt.
 			    </c:if>  
 			    
-			    <c:if test = "${lightReport.position == 'FO'}">
-			       FO.&nbsp;
+			    <c:if test = "${fn:containsIgnoreCase(flightReport.position,'FO')}">
+			       FO.
 			    </c:if>  
-			    
-			    
-			    <c:if test = "${lightReport.position == 'CC'}">
-			       C. Crew.&nbsp;
+			    <c:if test = "${fn:containsIgnoreCase(flightReport.position,'CC')}">
+			       C.Crew.&nbsp;
 			    </c:if>  
-			  
-			    ${flightReport.crewFirstName}&nbsp;${flightReport.crewLastName}
-			    
-			    
+			    &nbsp;${flightReport.crewFirstName}&nbsp;${flightReport.crewLastName}
 			  </b>
 			
 			</td>
@@ -401,7 +404,7 @@ tr:nth-child(even) {
         
             
              
-            <c:if test = "${(flightReport.crewid == flightSectorLog.flightCaption)}">
+            <c:if test = "${(flightReport.crewid == flightSectorLog.flightCaption) || (flightReport.crewid == flightSectorLog.flightFirstOfficer)}">
 
     
 				     <tr align="center" bgcolor="#ffffcc">
@@ -514,8 +517,9 @@ tr:nth-child(even) {
 
             
 	 </table>  
-	 
-	   
+	</div>	 
+</div>
+</div>	   
    <%rowCtr++;%>
    
    </c:forEach>  
