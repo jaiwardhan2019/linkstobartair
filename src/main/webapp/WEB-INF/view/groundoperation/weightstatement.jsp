@@ -138,7 +138,7 @@ function showAddingFile(){
  
  
        
-  <table class="table table-striped table-bordered" border="1" style="width:50%;background:rgba(255,255,255);align:center;">	
+  <table class="table table-striped table-bordered" border="1" style="width:50%;background:white;align:center;">	
    			<tbody>				     
 				 <tr align="center">
 					 <td  bgcolor="#0070BA" colspan="2">
