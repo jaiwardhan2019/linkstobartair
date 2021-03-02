@@ -1,26 +1,16 @@
 package com.linkportal.controller;
 
-import java.io.File;
+
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,29 +18,19 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.Gson;
-
-import com.linkportal.datamodel.Product;
-import com.linkportal.dbripostry.LinkUsersImp;
 import com.linkportal.dbripostry.businessAreaContent;
 import com.linkportal.dbripostry.crewConnexUser;
 import com.linkportal.dbripostry.linkUsers;
-import com.linkportal.dbripostry.staffTravelUser;
 import com.linkportal.fltreport.flightReports;
 import com.linkportal.graphreport.piechart;
 import com.linkportal.groundops.gopsAllapi;
 import com.linkportal.reports.excel.ReportMaster;
 import com.linkportal.security.UserSecurityLdap;
+import com.linkportal.staffTravel.manageStaffTravelUser;
 import com.linkportal.docmanager.DocumentService;
-import com.linkportal.docmanager.documentManager;
-
-import com.thoughtworks.xstream.io.path.Path;
 
 /**
  * @author Jai.Wardhan
@@ -71,7 +51,7 @@ public class HomeController {
 	linkUsers dbusr;
 	
 	@Autowired
-	staffTravelUser staff;
+	manageStaffTravelUser staff;
 	
 	@Autowired
 	businessAreaContent bac;
@@ -489,7 +469,7 @@ public class HomeController {
 		
 		
 		
-		logger.info("User id:"+req.getParameter("emailid")+" Login to MayFly Report");
+		logger.info("User id:"+userEmailId[0]+" Login to MayFly Report");
 		return "flightreports/mayflyreport";
 	}
 	
@@ -514,7 +494,7 @@ public class HomeController {
 		
 		
 		
-		logger.info("User id:"+req.getParameter("emailid")+" Run Reliablity Report");
+		logger.info("User id:"+userEmailId[0]+" Run Reliablity Report");
 		return "flightreports/reliabilityReportForm";
 	}
 	
@@ -604,7 +584,7 @@ public class HomeController {
  	      model.put("startDate",todaydate);
 		  model.put("endDate",todaydate);	
 	
-		  logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Action");
+		  logger.info("User id:"+userEmailId[0]+" Run Reliability Action");
 		  return "flightreports/reliabilityAction";
 	}//--------------- End Of Function -------------
 	
@@ -634,7 +614,7 @@ public class HomeController {
 		         req.getParameter("tolerance"),req.getParameter("delayCodeGroupCode")));
   
 			   
-		   logger.info("User id:"+req.getParameter("emailid")+" Run Reliability Report");
+		   logger.info("User id:"+userEmailId[0]+" Run Reliability Report");
 		   return "flightreports/reliabilityActionReport";
 		   
 		   
@@ -690,7 +670,7 @@ public class HomeController {
 		   Calendar c = Calendar.getInstance();  
 		   String todaydate = formattedDate.format(c.getTime());
 		   model.put("todaydate",todaydate);
-		   logger.info("User id:"+req.getParameter("emailid")+" Run Daily Summary Report");
+		   logger.info("User id:"+userEmailId[0]+" Run Daily Summary Report");
 		   return "flightreports/dailysummaryform";
 		   
 	}

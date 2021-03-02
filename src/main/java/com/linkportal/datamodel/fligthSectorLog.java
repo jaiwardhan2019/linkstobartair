@@ -319,7 +319,7 @@ public class fligthSectorLog implements Serializable{
 			 ResultSet rs1 =  sta.executeQuery("Select NOTE FROM DELAY_NOTES WHERE REPLACE(FLTID, ' ', '')='" +this.flightNo+"' and DATOP='"+this.flightDate+"'"); 
 			 boolean recordnotexist=true;			
 			 while(rs1.next()){			  
-			     NoteRemark1=NoteRemark1+rs1.getString("NOTE");
+			     NoteRemark1=NoteRemark1+","+rs1.getString("NOTE");
 				 recordnotexist=false;	 
 			 }			 
 			 if(recordnotexist) {NoteRemark1="";}

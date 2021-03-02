@@ -1,5 +1,7 @@
 package com.linkportal.reports.excel;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -22,5 +24,11 @@ public interface ReportMaster {
 	// ------- This will Generate On Time Performance Report for Flights
 	int Populate_On_Time_Performance_Report_ExcelFormat(String airline, String airport, String Startflightdate,
 			String Endflightdate, String emailid, String DelayCodeList) throws Exception;
+	
+	
+	//------ Will Create Fuel Invoice From AAlive Database --------
+	public int   populateFuelInvoiceFromCodusSage(String financialYear , String invBatch , String invoiceNo, String userEmail)throws Exception;
+	
+	
 
 }

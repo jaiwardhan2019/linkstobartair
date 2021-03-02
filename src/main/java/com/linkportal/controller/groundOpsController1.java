@@ -409,7 +409,7 @@ public class groundOpsController1 {
 		model.addAttribute("airlinecode", req.getParameter("airlinecode").toLowerCase());
 		model.addAttribute("delaycode", req.getParameter("delayCodeGroupCode"));
 		model.put("usertype", req.getParameter("usertype"));
-		logger.info("User id:" + req.getParameter("emailid") + " Login to OTP Flight Report");
+		logger.info("User id:" + userEmailId[0] + " Login to OTP Flight Report");
 		return "groundoperation/reports/otpreport";
 
 	}
@@ -452,6 +452,75 @@ public class groundOpsController1 {
 		model.put("docname", req.getParameter("myInput"));
 		return "groundoperation/searchdocument";
 	}
+	
+	
+	
+
+	// ****************** GROUND OPS DOCUMENT REPORT AND MANAGMENT GCI GCM
+	@RequestMapping(value = "/listlinkdocuments", method = { RequestMethod.POST, RequestMethod.GET })
+	public String linkdocumentlist(HttpServletRequest req, ModelMap model) throws Exception {
+
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));
+		model.put("usertype", req.getParameter("usertype"));
+
+		int status = 0;
+		String readviewstring   = "linkfolderlist";
+		String updateviewstring = "linkfolderupdate";
+
+		String alfrescoFolder = null;
+		model.put("foldername", Build_Folder_Label(req.getParameter("cat")));
+	
+	 
+		if (req.getParameter("operation") != null) {
+
+			// --- If the data is comming from alfreso then this value will be passed to
+			// View
+			if (req.getParameter("alfresco") != null) {
+				if (req.getParameter("alfresco").equals("YES")) {
+					//----- This will create path of alfresco folder
+					alfrescoFolder = Build_Folder_Label("PATH"+req.getParameter("cat").trim());
+					model.put("alfresco", "YES");
+					model.put("gopsfilelist", docserv.listAlfrescoDocumets(alfrescoFolder, req.getParameter("cat")));
+					return "linkalfrescofolderlist";
+				}
+			}
+			// -- END of Alfresco
+
+			
+			if (req.getParameter("operation").equals("update")) {
+				model.put("gopsfilelist", docserv.getAllDocuments(req, "LINK"));
+				return updateviewstring;
+			}
+
+			if (req.getParameter("operation").equals("view")) {
+				model.put("gopsfilelist", docserv.getAllDocuments(req, "LINK"));
+				return readviewstring;
+			}
+
+			
+			if (req.getParameter("operation").equals("remove")) {
+				if (docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))) {
+					model.put("status", "Successfully Removed");
+					logger.info("User id:" +userEmailId[0] + " Removed Document ID:"
+							+ req.getParameter("docid") + " From Folder :"+Build_Folder_Label(req.getParameter("cat")));
+				} else {
+					model.put("status", "File not Removed please check with IT.");
+					logger.error("User id:" + req.getParameter("emailid") + "Couldnt Removed Document ID:"
+							+ userEmailId[0] + " From Folder :"+Build_Folder_Label(req.getParameter("cat")));
+				}
+				model.put("gopsfilelist", docserv.getAllDocuments(req, "GOPS"));
+				return updateviewstring;
+
+			} // End of Remove
+
+		} // End of Operation
+
+		return readviewstring;
+
+	}// End of Ground Ops Document List Function
+
+	
 	
 	
 	

@@ -168,16 +168,10 @@ function viewUserLinkProfile(userInsubject){
 					      Active Status 	
 					     </b></span>					 
 					 </td>
-					
-					 <td bgcolor="#0070BA">
-					   <span style="color:white;"> <b> 
-					      Ground Ops Profile. 	
-					     </b></span>					 
-					 </td>
-				     
+					     
 				     <td bgcolor="#0070BA">
 					   <span style="color:white;"> <b> 
-					      Contract &nbsp; 	<i class="fa fa-suitcase fa-lg" aria-hidden="true"></i>
+					     Manage Contract Profile &nbsp; 	<i class="fa fa-suitcase fa-lg" aria-hidden="true"></i>
 					     </b></span>					 
 					 </td>
           </tr>
@@ -206,26 +200,7 @@ function viewUserLinkProfile(userInsubject){
 		          
 		          </td>
 		          
-		          
-		          <td align="center"> 
-		          
-		           
-		           <button type="button" onClick="show_groundops_user_Profile('${linkusers.emailId}');" class="btn btn-info btn-sm"> <span style="font-weight:bold;"> Manage Profile</span>&nbsp;&nbsp;<i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i></button> 
-		            
-		            <!-- 
-					<c:choose>
-					    <c:when test="${linkusers.stobart_external_user == 'I'}">
-					             <span style="color:black;"> <c:out value = "Stobart User "/></span>
-					        <br />
-					    </c:when>    
-					    <c:otherwise>
-					           <b> <span style="color:blue;"> <c:out value = "External User "/></span></b>
-					        <br />
-					    </c:otherwise>
-					</c:choose> 
-	                 -->
-		          </td>
-		           
+		         
 		           <td align="center">  
 		               
 		               <button type="button" onClick="show_contract_user_Profile('${linkusers.emailId}');" class="btn btn-success btn-sm"> <span style="font-weight:bold;"> Manage Profile</span>&nbsp;&nbsp;<i class="fa fa-pencil-square-o  fa-lg" aria-hidden="true"></i></button> 

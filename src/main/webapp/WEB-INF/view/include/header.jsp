@@ -28,12 +28,6 @@
 	*/
 	
 
-	function calCrewBreafingReport(reportname,category){
-		document.stobart_home_page.method="POST";
-		document.stobart_home_page.action=reportname+"?cat="+category;
-	    document.stobart_home_page.submit();
-		return true;
-	}
 	
 
 </script>
@@ -126,6 +120,35 @@ function calAdminHomePage(){
 }
 
 
+function calCrewBreafingReport(reportname,category){
+	document.stobart_home_page.method="POST";
+	document.stobart_home_page.action=reportname+"?cat="+category;
+    document.stobart_home_page.submit();
+	return true;
+}
+
+
+
+
+
+function calFuelReport(){
+
+	document.stobart_home_page.method="POST";
+	document.stobart_home_page.action="populatefuelinvoice";
+    document.stobart_home_page.submit();
+	return true;
+	
+}
+
+
+//--------- Will show content of the  Folder --------
+function showDocumentFromFolder(reportname){
+		 document.stobart_home_page.method="POST";
+		 document.stobart_home_page.action=reportname;
+	     document.stobart_home_page.submit();
+		 return true;
+}
+
 
 
 </script>
@@ -165,12 +188,26 @@ function calAdminHomePage(){
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
       		
+      		
+      		
 			 <li class="dropdown">
 	 
-	  	    <a  href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Link Home Page"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Link Home </a>
-		  
-					  
-		</li>
+	  	            <a  href="javascript:void();" onClick="calHomePage();" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Link Home Page"><i class="fa fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Link Home </a>
+		  				  
+		     </li>
+		     
+		     
+		     <!-- 
+		      <li class="dropdown">	 
+		  	    <a onmouseover="this.click()" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Pandemic Manual&nbsp;<span class="caret"></span></a>
+		  	   	   <ul class="dropdown-menu" style="left:0;width:220px;">
+	 		    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="showDocumentFromFolder('listlinkdocuments?cat=PMOGG&operation=view&alfresco=YES');"  style="font-size:09pt;color:black;"><img src="images/folder.png">&nbsp;&nbsp;Pandemic Oganisational Guide</a></li>
+			    	       <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="showDocumentFromFolder('listlinkdocuments?cat=PMOG&operation=view&alfresco=YES');"  style="font-size:09pt;color:black;"><img src="images/folder.png">&nbsp;&nbsp;Pandemic Operational Guide</a></li>
+		             </ul>		  	   
+			  </li> 
+		      -->
+		     
+		     
 
 
 		
@@ -227,14 +264,16 @@ function calAdminHomePage(){
 			  
 				  <ul class="dropdown-menu" style="left:0;width:200px;">
 				        
-				        <c:if test = "${fn:contains(profilelist, 'Finance')}">    
+				        <c:if test = "${fn:contains(profilelist, 'Invoice-Conversion-Tool')}">    
 				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFlightReport('invoiceconversiontool');"  style="font-size:09pt;color:black;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Invoice-Conversion-Tool</a></li>
 					    </c:if>		
-					    <!-- 
-					     <c:if test = "${fn:contains(profilelist, 'Finance')}">   
-				            <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="alert('Under Construction');"  style="font-size:09pt;color:black;"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Download Fuel Report</a></li>
-					    </c:if>					 
-					         -->
+	                    
+	                     <c:if test = "${fn:contains(profilelist, 'Fuel Report')}">
+		              
+		              	    <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calFuelReport();" style="font-size:9pt;color:black;color:black;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> &nbsp;Download Fuel Report </a></li>
+						 
+				        </c:if> 
+		
 				    
 				      <c:if test = "${fn:contains(profilelist, 'RemoveStaffTravelUser')}">   
 											
@@ -246,11 +285,12 @@ function calAdminHomePage(){
 				     
 				      <c:if test = "${fn:contains(profilelist, 'CrewBrifingManager')}">
 		              
-		              	    <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calCrewBreafingReport('managecrewbriefing','PPS Crew Briefing Integration');" style="font-size:9pt;"><i class="fa fa-hashtag" aria-hidden="true"></i> &nbsp;Crew Briefing Manager </a></li>
+		              	    <li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calCrewBreafingReport('managecrewbriefing','PPS Crew Briefing Integration');" style="font-size:9pt;color:black;"><i class="fa fa-hashtag" aria-hidden="true"></i> &nbsp;Crew Briefing Manager </a></li>
 						  
 				      </c:if> 
 					
-					    
+			     
+						    
 				    	 
 			   		  
 			     </ul>	 

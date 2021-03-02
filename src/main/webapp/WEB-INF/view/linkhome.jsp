@@ -708,14 +708,37 @@ setTimeout(function(){window.location.href="index"},60000000);
 	
               -->
 
-     
-		
-		
-     
-           
+        <div class="col-md-6 col-sm-3 col-xs-6" style="cursor:pointer;">
+			<div class="panel">
+				<div class="panel-body" style="color:#0071BA;">
+	              	  <img src="pdf.png">&nbsp;&nbsp;<a href="Pandemic Guide/Organisational Pandemic Guidance Manual Revision 1.1.0.pdf" target="_new"> 
+		  	              <b>Organisational Pandemic Guide - OPG.</b>
+		  	          </a>
+		  	          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  	          <img src="pdf.png">&nbsp;&nbsp; <a href="Pandemic Guide/OperationalGuidance.pdf" target="_new"> <b> Pandemic Operational Guide - POG. </b>  </a>
+				</div>
+			</div>
+	    </div>	
 
+
+
+	
 	</div>		
 </div>
+
+
+		
+
+			
+	    <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">		     
+
+			          			
+		</div>
+
+
+		 	
+
+
 
 
 

@@ -195,7 +195,7 @@ public class LinkUsersImp implements linkUsers{
 					   		  + "and  LINK_USER_MASTER.EMAIL_ID= LINK_USER_PROFILE_LIST.USER_EMAIL  \r\n" + 
 					   		  "AND  LINK_USER_PROFILE_LIST.USER_EMAIL='"+useremail+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y'  order by LINK_PROFILE_MASTER.MAIN_PROFILE";
 	
-		  // System.out.println(userProfileListSql);
+		  //System.out.println(userProfileListSql);
 		   
 		   //---------- THIS PART WILL COLLECT ALL USER PROFILE INTO A MAP WITH THE KEY AND VALUE----------
 	       String  profileList  = useremail+"#"+PassWord;
@@ -275,16 +275,8 @@ public class LinkUsersImp implements linkUsers{
 			   		"FROM  LINK_PROFILE_MASTER,  LINK_USER_PROFILE_LIST\r\n" + 
 			   		"WHERE  LINK_PROFILE_MASTER.PROFILE_ID =   LINK_USER_PROFILE_LIST.PROFILE_ID \r\n" + 
 			   		"AND LINK_PROFILE_MASTER.application='link'  AND LINK_USER_PROFILE_LIST.USER_EMAIL='"+emailid+"' AND  LINK_USER_PROFILE_LIST.ACTIVE_STATUS='Y' order by LINK_PROFILE_MASTER.MAIN_PROFILE, LINK_PROFILE_MASTER.SUB_PROFILE";
-				
-	
-		   
-		   String sqlforlinkprofile="SELECT * FROM  LINK_PROFILE_MASTER where application='link' order by MAIN_PROFILE,SUB_PROFILE";
-			 
-		   
-		   
+				   
 		   String stringuserprofile="";
-		   String stringAllLinkProfile="";
-		   
 		   
 		   try {
 				
@@ -297,28 +289,16 @@ public class LinkUsersImp implements linkUsers{
 		            			+ " <input type='checkbox'  id='userprofile' name='userprofile' Value='"+rs.getString("PROFILE_ID")+"'>  </td></tr>";	            	
 	                }//------- End Of While Loop
 		            
-		            
-		            ps=null;
-		            rs=null;
-		            ps = conn.prepareStatement(sqlforlinkprofile);
-		            rs = ps.executeQuery();
-		            
-		            while(rs.next()){
-		            	stringAllLinkProfile=stringAllLinkProfile+"<tr> <td width='85%' align='left'>&nbsp;&nbsp;"+rs.getString("MAIN_PROFILE")+"&nbsp;&nbsp;&nbsp;:=>&nbsp;"+rs.getString("SUB_PROFILE")+"</td> <td width='15%' align='center'>"
-		            			+ " <input type='checkbox'  id='linkprofile' name='linkprofile' Value='"+rs.getString("PROFILE_ID")+"'>  </td></tr>";	            	
-	                }//------- End Of While Loop
-		            conn.close();
+		               conn.close();
 				
 			}catch (SQLException e) {logger.error("Error in GetUserpProfileAndLinkProfile Fucntion :"+e.toString());}
 			
 		   String[] result = new String[2];
 		   result[0]=stringuserprofile;
-		   result[1]=stringAllLinkProfile;
-		   
+		 		   
 						
 		  return result;
 		
-	
 	}//---- END OF Function ---------
 
 	

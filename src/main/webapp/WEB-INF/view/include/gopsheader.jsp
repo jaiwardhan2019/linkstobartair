@@ -333,6 +333,7 @@ function CalAlfresco(){
 									        <li><a class="navclass"  href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSEP&operation=view&alfresco=YES');" style="font-size:09pt;"><img src="images/folder.png">&nbsp;Security Programme  </a></li>
 									         <li><a class="navclass"  href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSEN&operation=view&alfresco=YES');" style="font-size:09pt;"><img src="images/folder.png">&nbsp;Security Notice</a></li>
 									         <li><a class="navclass"  href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSEI&operation=view&alfresco=YES');" style="font-size:09pt;"><img src="images/folder.png">&nbsp;Security Instructions</a></li>
+									         <li><a class="navclass"  href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=SSEF&operation=view&alfresco=YES');" style="font-size:09pt;"><img src="images/folder.png">&nbsp;Security Forms</a></li>
 									</ul>
 									 
 						  </li>

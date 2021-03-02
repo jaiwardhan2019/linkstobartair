@@ -163,7 +163,7 @@ public class groundOpsController2 {
 	  		
 	  	 
 				model.put("usertype",req.getParameter("usertype"));
-				logger.info("User id:"+req.getParameter("emailid")+" Added Weight Statement.");
+				logger.info("User id:"+userEmailId[0]+" Added Weight Statement.");
 				return "groundoperation/weightstatement"; 
 		}
 

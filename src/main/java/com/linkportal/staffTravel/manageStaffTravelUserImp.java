@@ -1,5 +1,7 @@
 package com.linkportal.staffTravel;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -110,6 +112,39 @@ public class manageStaffTravelUserImp implements manageStaffTravelUser {
 			   return status;
 			   
 		}//------- End Of Method removeStaff_FromDb
+		
+		
+		
+
+		@Override
+		public void updateUserGdprConsent(String emailid) {
+			 
+			  try {
+			 
+					   DateTimeFormatter current_date_time = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					   LocalDateTime now = LocalDateTime.now();
+					   String[] FirstName_LastName=emailid.split("[@._]"); 
+					   String sql="SELECT Count(*) FROM stafftravel.account where email='"+emailid+"'";
+					   long foundstatus = jdbcTemplateStaff.queryForObject(sql,Long.class);
+					   if(foundstatus > 0) {
+						   //If found then update the current time
+						   jdbcTemplateStaff.execute("UPDATE stafftravel.account SET GDPR_CONSENT_DATE_TIME='"+now+"', GDPR_CONSENT='Y' WHERE email='"+emailid+"'");
+						   logger.info("User id:=>"+emailid+" Have Confirm Consent FOR GDPR. @:"+now);
+					   }
+					   else
+					   {
+						   logger.info("User id:=>"+emailid+" is Not Setup With the Staff Travel.");
+						   //Here you can write email to the admin Informing that User Id is not setup with the Staff Travel
+					   }
+			
+			   
+			  } catch(Exception sq){ logger.error("Error While Updating GDPR Consent to Staff Travel"+sq.toString());}
+			   
+			 		
+		       
+
+			  }// End of function 
+
 	
 
 }

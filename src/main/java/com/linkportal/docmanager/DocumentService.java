@@ -45,8 +45,13 @@ public class DocumentService {
 			throws IOException, SQLException {
 		boolean uploadStatus = false;
 		uploadStatus = repository.addDocumentToFolder(req, file);
-		// -- Once Successfully uploaded then send copy of this to the flightops2 box
-		if (uploadStatus) {	repository.transFileFromlocalHostToFlightOps(req, file);}
+		
+		//-- Once Successfully uploaded then send copy of this to the flightops2 box
+		//-- For Weighting statements Only  
+		if (uploadStatus && (req.getParameter("wtstm") != null)) {	
+			repository.transFileFromlocalHostToFlightOps(req, file);
+		}
+		
 		return uploadStatus;
 	}
 	
