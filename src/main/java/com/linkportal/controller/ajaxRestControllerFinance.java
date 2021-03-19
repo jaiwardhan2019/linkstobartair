@@ -207,20 +207,23 @@ public class ajaxRestControllerFinance {
 	@Value("${fuelinvoices.documentroot.folder}")
 	String fuelInvoiceRootDirectory;	
 	String displayAllConvertedFile(HttpServletRequest req) {
+		
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+		
 			String tableBody = "";
 			String fileName  = null;
-			File foldername = new File(fuelInvoiceRootDirectory + "/"+req.getParameter("emailid")+"/");
+			File foldername = new File(fuelInvoiceRootDirectory + "/"+userEmailId[0]+"/");
 				if (foldername.isDirectory()) {
 					String[] folderList = foldername.list();
 					for (String filename : folderList) {
-						if(new File(fuelInvoiceRootDirectory + "/"+req.getParameter("emailid")+"/"+filename).isDirectory()){
+						if(new File(fuelInvoiceRootDirectory + "/"+userEmailId[0]+"/"+filename).isDirectory()){
 							tableBody = tableBody + "<tr align='left'><td colspan='2'><img src='"+filename.toLowerCase()+".jpg'>&nbsp;&nbsp;<b>"+filename.toUpperCase()+" &nbsp;Invoices # </b></td> </tr>";	
-							String[] fileList = new File(fuelInvoiceRootDirectory + "/"+req.getParameter("emailid")+"/"+filename).list();
+							String[] fileList = new File(fuelInvoiceRootDirectory + "/"+userEmailId[0]+"/"+filename).list();
 							for (String innerfileName : fileList) {								
 								if(innerfileName.contains("xls")) {
 									tableBody = tableBody + "<tr align='left'> "
-											+ "<td width='40%' align='left'>&nbsp;&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xml' target='_new'>"+innerfileName.substring(0,innerfileName.length()-3)+"xml</a>&nbsp;&nbsp;</td>"
-											+ "<td width='60%' align='left'>&nbsp;<img src='xls.png'>&nbsp;<a href='"+req.getParameter("emailid")+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xls'>" +innerfileName.substring(0,innerfileName.length()-3)+"xls&nbsp;&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
+											+ "<td width='40%' align='left'>&nbsp;&nbsp;<a href='"+userEmailId[0]+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xml' target='_new'>"+innerfileName.substring(0,innerfileName.length()-3)+"xml</a>&nbsp;&nbsp;</td>"
+											+ "<td width='60%' align='left'>&nbsp;<img src='xls.png'>&nbsp;<a href='"+userEmailId[0]+"/"+filename+"/"+innerfileName.substring(0,innerfileName.length()-3)+"xls'>" +innerfileName.substring(0,innerfileName.length()-3)+"xls&nbsp;&nbsp;&nbsp;<i class='fa fa-download' aria-hidden='true'></i></a></td>"							
 											+ "</tr>";								
 								}
 					

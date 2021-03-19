@@ -580,7 +580,7 @@ public class gopsAllapiImp implements gopsAllapi  {
 				        	   lessthen15minutesdep  = (lessthen15minutesdep * 100)/NumFlownsofar;
 				        	   ontimearr             = (ontimearr * 100)/NumFlownsofar;
 				        	   lessthen15minutesarr  = (lessthen15minutesarr * 100)/NumFlownsofar;
-				           }catch (ArithmeticException er){logger.error("Error in Ground Ops Home Page Punctuality Calculation:"+er.toString());}
+				           }catch (ArithmeticException er){logger.info("Exception in Ground Ops Home Page Punctuality Calculation:"+er.toString());}
 						   
 						   reportbody = reportbody+"	<tr><td align='left' bgcolor='white' width='60%'><span style='font-size:09pt;font-weight:300;'> On Time Date </span></td>" + 
 						   		      "	<td align='left' bgcolor='white' width='40%'><span style='font-size:09pt;font-weight:600;'>"+ontimedep + 
