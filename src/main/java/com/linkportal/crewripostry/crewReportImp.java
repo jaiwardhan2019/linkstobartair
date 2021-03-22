@@ -243,7 +243,7 @@ public class crewReportImp implements crewReport{
 		    //sqlStr = FLIGHT_SECTOR_LIST_QUERY + " left join crewinfo on crewinfo.DATOP=LEGS.DATOP  and  crewinfo.fltid=legs.fltid  WHERE legs.status !='CNL' AND legs.datop in ('2021-02-21','2021-02-22') and crewinfo.CREW_NO='"+crewId+"' order by Captain";
 	     }
 		
-		//System.out.println(sqlStr);
+
 		
 	    /* *******************************************************************
 	     * - Create List of all Crew For the Selected Date
@@ -521,7 +521,6 @@ public class crewReportImp implements crewReport{
 			if(request.getParameter("crewcode").equalsIgnoreCase("BLANK")) {
 				baos = PDFTemplateUtil.createSinglePagePDF(data, "blankVoyagerReportTemplet.ftl");
 				fileName = URLEncoder.encode("BlankVaoygerReport.pdf", "UTF-8"); 
-				System.out.println("Cal Blank Templet / Report");
 				downLoadFile(request,response,baos,fileName);			
 				logger.info("Blank Voyager Report Downloaded by : "+userEmailid[0]);
 			}

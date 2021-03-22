@@ -343,7 +343,7 @@ public class ReportMasterImp extends excelReportCommonUtil implements ReportMast
 	    
 	   
 	    
-	    //------ CREATE FOLDER FOR THE SPECIFIC USER 
+	    //------ CREATE FOLDER FOR THE SPECIFIC USER if not Exist 
 	    File file = new File(filepath+useremail);
         if (!file.exists()) {
             if (file.mkdir()) {
@@ -900,6 +900,24 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 		    //--- Create Sheet and Fill Data in there from database 
 		    createFuelReportSheet(style,workbook,rowNumber,financialYear,invoiceNo,invBatch,sqlForInvoiceList);
 		   
+		    
+		    
+		    //------ CREATE FOLDER FOR THE SPECIFIC USER 
+		    File file = new File(filepath+userEmail);
+	        if (!file.exists()) {
+	            if (file.mkdir()) {
+	                
+	                logger.info(filepath+userEmail+" Directory  Created for the Report Files");
+	            } else {
+	                
+	                logger.error("Failed to create directory name :"+filepath+userEmail+"# Please Check Folder permissions");
+	            }
+	        }
+		    
+		    
+		 
+		    
+		    
 		    
 			// --------------- Creating File And Save to Disk ----------------------
 			try (FileOutputStream outputStream = new FileOutputStream(filepath +userEmail+"/fuelInvoiceReport.xls")) {

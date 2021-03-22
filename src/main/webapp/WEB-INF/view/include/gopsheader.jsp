@@ -253,7 +253,7 @@ function CalAlfresco(){
 				   <c:if test = "${fn:contains(profilelist, 'Reports')}"> 
 				         <li class="dropdown">
 						 
-							  <a href="adminhome" onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;Reports <span class="caret"></span></a>
+							  <a onmouseover="this.click()" style="font-size:09pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plane" aria-hidden="true"></i> &nbsp;Reports <span class="caret"></span></a>
 					
 							  
 								  <ul class="dropdown-menu" style="left:0;width:200px;">
@@ -372,7 +372,7 @@ function CalAlfresco(){
     <c:if test = "${fn:contains(profilelist, 'documentation')}">  
     		
 	    <li class="dropdown">	 
-		  <a href="adminhome"  onmouseover="this.click()" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Documentation&nbsp;<span class="caret"></span></a>
+		  <a   onmouseover="this.click()" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Documentation&nbsp;<span class="caret"></span></a>
 		  
 			   <ul class="dropdown-menu" style="left:0;width:250px;">
  		    	<li style="margin-top:3px;margin-bottom:3px;"><a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=dchm&operation=view&alfresco=YES');"  style="font-size:09pt;color:black;"><img src="images/folder.png"> &nbsp;Catering - HAACP Manual</a></li>
@@ -426,7 +426,7 @@ function CalAlfresco(){
     		
 				 <li class="dropdown">
 				 
-					  <a href="refisadmin" onmouseover="this.click()" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-md" aria-hidden="true"></i>&nbsp;&nbsp;Admin <span class="caret"></span></a>
+					  <a  onmouseover="this.click()" style="font-size:9pt;font-weight:600;color:#FDFEFE;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-md" aria-hidden="true"></i>&nbsp;&nbsp;Admin <span class="caret"></span></a>
 					  
 						  <ul class="dropdown-menu" style="left:0;width:200px;">
 					       		<c:if test = "${fn:contains(profilelist, 'ManageUsers')}">  

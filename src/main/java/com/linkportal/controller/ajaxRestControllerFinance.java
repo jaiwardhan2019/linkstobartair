@@ -134,7 +134,7 @@ public class ajaxRestControllerFinance {
     //https://34codefactory.medium.com/spring-boot-file-download-using-ajax-example-code-factory-95e33ab0934c
 	// JAITODO
 	
-	// --------- THIS PART WILL DO DB UPDATE FROM THE AJAX
+	// --------- THIS PART WILL Create Fuel Invoice in the email folder of acalling person 
 	@RequestMapping(value = "/downloadfuleinvoiceinexcelfile", method = { RequestMethod.POST, RequestMethod.GET })
 	public void CreateExcelReport(ModelMap model, HttpServletRequest req, HttpServletResponse res)
 			throws Exception {	
