@@ -248,7 +248,9 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		}
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime currentdateandtime = LocalDateTime.now();
-		String addbyname = req.getParameter("emailid");
+		
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");		
+		String addbyname = userEmailId[0];
 
 		try {
 
@@ -427,14 +429,18 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 	public boolean convertMultipleXmlfiletoExcelFile(HttpServletRequest req, MultipartFile[] files) throws IOException, ParserConfigurationException, SAXException {
 
 		File fileuploaddirectory = new File(fuelInvoiceRootFolder);
-		String supplierName=null;
+		String supplierName      = null;
 		boolean convertAndUploadStatus=true;
 	
 		if (!fileuploaddirectory.exists()) {
 			fileuploaddirectory.mkdir();
 		}
+		
+		
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+		
 
-		fileuploaddirectory = new File(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/");
+		fileuploaddirectory = new File(fuelInvoiceRootFolder + "/" + userEmailId[0] + "/");
 		if (!fileuploaddirectory.exists()) {
 			fileuploaddirectory.mkdir();
 		}
@@ -448,7 +454,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		}		
 	
 	
-		fileuploaddirectory = new File(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/" +supplierName+ "/");
+		fileuploaddirectory = new File(fuelInvoiceRootFolder + "/" + userEmailId[0] + "/" +supplierName+ "/");
 		if (!fileuploaddirectory.exists()) {
 			fileuploaddirectory.mkdir();
 		}
@@ -464,7 +470,7 @@ public class documentManagerImp extends xmlFileConverterToExcel implements docum
 		byte[] bytes;
 		try {			
 				bytes = file.getBytes();
-				Path path = Paths.get(fuelInvoiceRootFolder + "/" + req.getParameter("emailid") + "/"+req.getParameter("supplier") + "/"+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
+				Path path = Paths.get(fuelInvoiceRootFolder + "/" +  userEmailId[0]  + "/"+req.getParameter("supplier") + "/"+ file.getOriginalFilename().replaceAll("['\\\\/:*&?\"<>|]", ""));
 				String fileNameExt=file.getOriginalFilename().substring(file.getOriginalFilename().length() - 3);
 				if(fileNameExt.equalsIgnoreCase("xml")){ 
 					Files.write(path, bytes);
