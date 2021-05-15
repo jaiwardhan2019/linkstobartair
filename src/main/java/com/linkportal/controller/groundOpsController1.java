@@ -506,7 +506,7 @@ public class groundOpsController1 {
 							+ req.getParameter("docid") + " From Folder :"+Build_Folder_Label(req.getParameter("cat")));
 				} else {
 					model.put("status", "File not Removed please check with IT.");
-					logger.error("User id:" + req.getParameter("emailid") + "Couldnt Removed Document ID:"
+					logger.error("User id:" + userEmailId[0] + "Couldnt Removed Document ID:"
 							+ userEmailId[0] + " From Folder :"+Build_Folder_Label(req.getParameter("cat")));
 				}
 				model.put("gopsfilelist", docserv.getAllDocuments(req, "GOPS"));
@@ -520,6 +520,24 @@ public class groundOpsController1 {
 
 	}// End of Ground Ops Document List Function
 
+	
+	/* 
+	 * All GROUND OPS DOCUMENT SEARCH
+	 * This Will be Called from header search document TOP Right.
+	 * 
+	 */
+	@RequestMapping(value = "/displaytouchpointvideo", method = { RequestMethod.POST, RequestMethod.GET })
+	public String displayTouchPointVideo(HttpServletRequest req, ModelMap model) throws Exception {
+		
+		String[] userEmailId   =  req.getParameter("profilelist").toString().split("#");
+	    model.addAttribute("profilelist",req.getParameter("profilelist"));
+		model.put("usertype", req.getParameter("usertype"));
+		
+		//model.put("gopsfilelist", docserv.seachDocuments(req.getParameter("myInput")));		
+		//model.put("docname", req.getParameter("myInput"));
+		
+		return "groundoperation/displayTouchPointVideo";
+	}
 	
 	
 	
@@ -572,11 +590,11 @@ public class groundOpsController1 {
 			if (req.getParameter("operation").equals("remove")) {
 				if (docserv.deleteDocumentById(Integer.parseInt(req.getParameter("docid")))) {
 					model.put("status", "Successfully Removed");
-					logger.info("User id:" + req.getParameter("emailid") + " Removed Document ID:"
+					logger.info("User id:" + userEmailId[0] + " Removed Document ID:"
 							+ req.getParameter("docid") + " From Folder :"+Build_Folder_Label(req.getParameter("cat")));
 				} else {
 					model.put("status", "File not Removed please check with IT.");
-					logger.error("User id:" + req.getParameter("emailid") + "Couldnt Removed Document ID:"
+					logger.error("User id:" + userEmailId[0] + "Couldnt Removed Document ID:"
 							+ req.getParameter("docid") + " From Folder :"+Build_Folder_Label(req.getParameter("cat")));
 				}
 				model.put("gopsfilelist", docserv.getAllDocuments(req, "GOPS"));
@@ -626,10 +644,7 @@ public class groundOpsController1 {
 				} else {
 					model.put("status", "Error while uploading !!!");
 				}
-			} catch (IOException | SQLException e) {
-				e.printStackTrace();
-				logger.error("While Uploading file :" + e.toString());
-			}
+			} catch (IOException | SQLException e) { e.printStackTrace(); logger.error("While Uploading file :" + e.toString());}
 
 		});
 

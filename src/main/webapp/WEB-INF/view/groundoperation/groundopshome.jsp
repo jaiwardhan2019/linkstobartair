@@ -294,17 +294,22 @@ function open_model_toAdd_Comment(){
 					
                        <table>
 	                     <tr>
-		                     <td> 
-		                       &nbsp;&nbsp; <img src="TOUCHPOINTOVERVIEW/${voiceofguest}"  width="95%">
+		                     <td> 		                      
+		                      	   <!-- <a href="javascript:void();" onClick="calDocumentReport('displaytouchpointvideo');">  &nbsp;&nbsp; <img src="TOUCHPOINTOVERVIEW/${voiceofguest}"  width="95%">  </a>-->
+		                       	   
+							<video width="99%"   controls>
+							  <source src="TOUCHPOINTOVERVIEW/touchpoint.mp4" type="video/mp4">
+							  Your browser does not support HTML5 video.
+							</video>
 		                     </td>
 	                     </tr>
 	                    
 	                     <c:if test = "${fn:contains(profilelist,'docmanager')}"> 
 							    <tr align="center">
 								       <td  align="center">
-								       <a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=TOUCHPOINTOVERVIEW&operation=update');"><span class="label label-success">Update <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
+								       <a href="javascript:void();" onClick="calDocumentReport('listdocuments?cat=TOUCHPOINTOVERVIEW&operation=update');"><span class="label label-success">Update Image / Video <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
 								       </td>
-								   </tr>  
+     							   </tr>  
 				         </c:if> 
 
 				     </table>     						          			

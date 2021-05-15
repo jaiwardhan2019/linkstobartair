@@ -944,10 +944,10 @@ private void createDelayFlightSheet(CellStyle style,HSSFWorkbook workbook, int r
 			
 			HSSFRow row = sheet.createRow(rowNumber++);
 			
-		    String[] otpFlightReportTitlesList = {"Invoice No ", "DATE1","Batch","Financial_Year", "period","Supplier Code", "Supplier_Name", "Franchise","Nominal Code",
+		    String[] otpFlightReportTitlesList = {"Invoice No ", "Date_D1 (Delivery Date) ","Batch","Financial_Year", "period","Supplier Code", "Supplier_Name", "Franchise","Nominal Code",
 		    		"VAT Code","Amount", " IATA Code " , "Ticket No" ,"Flight_No" ,"Aircraft_Reg" , "TYPE_FUEL_AIRPORT_FEE" , "value_1"};
 
-		    short[] otpFlightReportTitlesWidthsList = {4000, 6000, 3000, 5000,3000,3000, 14000, 4000, 6000,3000,4000,4000,3000,3000,3000,3000,5000};
+		    short[] otpFlightReportTitlesWidthsList = {4000, 7000, 3000, 5000,3000,3000, 14000, 4000, 6000,3000,4000,4000,3000,3000,3000,3000,5000};
 
 			
 		    // Create Header Label with the parameter Detail 	

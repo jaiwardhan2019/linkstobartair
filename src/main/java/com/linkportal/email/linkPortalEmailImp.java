@@ -16,20 +16,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-
-
-
-
 @Repository
-public class linkPortalEmailImp extends emailServiceUtility implements linkPortalEmail{
-	
-	
-	@Value("${mail.From}") String emailFrom;
-	
-	private static final Logger LOGGER = Logger.getLogger(linkPortalEmailImp.class);	
-    
-  
-	
+public class linkPortalEmailImp extends emailServiceUtility implements linkPortalEmail {
+
+	@Value("${mail.From}")
+	String emailFrom;
+
+	private static final Logger LOGGER = Logger.getLogger(linkPortalEmailImp.class);
+
 	@Override
 	public void sendTextHtmlEmail(String mailTo, String Subject, String emailbody) {
 
@@ -46,14 +40,13 @@ public class linkPortalEmailImp extends emailServiceUtility implements linkPorta
 			Transport.send(msg);
 
 		} catch (Exception e) {
-		
+
 			LOGGER.error("Error in sendTextEmail function:" + e.toString());
 			LOGGER.info(e.toString());
 		}
 
 	}// -------- END OF METHOD -------------
-	
-	
+
 	@Override
 	public void sendTextHtmlEmailWithAttachment(String emailTo, String Subject, String emailbody, String attachment) {
 		try {
@@ -64,8 +57,7 @@ public class linkPortalEmailImp extends emailServiceUtility implements linkPorta
 			msg.setSubject(Subject);
 			msg.setSentDate(new Date());
 			msg.setContent(attachFileWithMessage(emailbody, attachment, msg));
-
-			// Sends the e-mail
+			// Sends E-Mail
 			Transport.send(msg);
 
 		} catch (Exception e) {
@@ -75,10 +67,6 @@ public class linkPortalEmailImp extends emailServiceUtility implements linkPorta
 
 	}
 
-	
-	
-	
-	
 	@Override
 	public void sendHtmlEmailOnTemplate(String EmailTo, String flightInfostr, String emailbody) {
 		try {
@@ -86,26 +74,19 @@ public class linkPortalEmailImp extends emailServiceUtility implements linkPorta
 			Mail mail = new Mail();
 			mail.setFrom(emailFrom);
 			mail.setTo(EmailTo);
-			mail.setSubject("Update on Flight No: "+flightInfostr);
-	
+			mail.setSubject("Delay update on Flight No: " + flightInfostr);
 
 			Map model = new HashMap();
 			model.put("flightDetail", flightInfostr);
 			model.put("flightComment", emailbody);
-			
+
 			mail.setModel(model);
 			sendSimpleMessageWithHtmlTemplet(mail);
 
-		} catch (Exception e) {			
-			LOGGER.error("Error in sendTextEmail function:" + e.toString());		
+		} catch (Exception e) {
+			LOGGER.error("Error in sendTextEmail function:" + e.toString());
 		}
 
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }

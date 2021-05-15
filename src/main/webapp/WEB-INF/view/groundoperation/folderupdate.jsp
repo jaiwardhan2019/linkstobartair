@@ -76,11 +76,27 @@ function calDocumentUpdate(reportname){
 function addDocument(category){
 
 	     var filename = document.getElementById("gfile");
+	     var docCate  = document.getElementById("cat");
+	     
+	     
 	     if(filename.value == ''){
            alert("Please select file to be added");
            filename.focus();
            return false;           
 	     }
+	     
+	     //-- Validate if the TOUCHPOINT Video file is getting uploaded 
+	     if(docCate.value == "TOUCHPOINTOVERVIEW"){	    	 
+	    	 if(filename.value.includes("mp4") || filename.value.includes("mp3")){
+	    		 if(!filename.value.includes("touchpoint.mp4")){  
+	    		   alert("Please Rename File to  touchpoint.mp4  \n Then try and upload again...");
+	    		   return false;
+	    		 } 
+	    	 }
+	     }
+	     
+	    
+	     
 	     search_progress();
 	     document.getElementById("addnew").innerHTML = "<i class='fa fa-refresh fa-spin fa-lx' aria-hidden='true'>&nbsp;</i>Adding.";
 	     

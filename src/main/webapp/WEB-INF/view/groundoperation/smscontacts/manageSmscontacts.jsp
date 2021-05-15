@@ -114,7 +114,8 @@ function add_new_user(){
   <input type="hidden" name="operation" id="operation" value="">
   <input type="hidden" name="userinsubject" id="userinsubject"  value="">
   
-
+<br>
+<br>
 	 		 
   <table  style="width: 80%;" align="center">
 	  <tr>
